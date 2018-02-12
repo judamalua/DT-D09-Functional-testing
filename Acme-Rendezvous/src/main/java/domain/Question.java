@@ -37,11 +37,11 @@ public class Question extends DomainEntity {
 
 	@Valid
 	@OneToMany
-	public Collection<Answer> getanswers() {
+	public Collection<Answer> getAnswers() {
 		return this.answers;
 	}
 
-	public void setanswers(final Collection<Answer> answers) {
+	public void setAnswers(final Collection<Answer> answers) {
 		this.answers = answers;
 
 	}

@@ -112,51 +112,51 @@ public class Rendezvous extends DomainEntity {
 	@Valid
 	@NotNull
 	@OneToOne(optional = false)
-	public User getuser() {
+	public User getUser() {
 		return this.user;
 	}
 
-	public void setuser(final User user) {
+	public void setUser(final User user) {
 		this.user = user;
 
 	}
 	@Valid
 	@OneToMany
-	public Collection<Question> getquestions() {
+	public Collection<Question> getQuestions() {
 		return this.questions;
 	}
 
-	public void setquestions(final Collection<Question> questions) {
+	public void setQuestions(final Collection<Question> questions) {
 		this.questions = questions;
 
 	}
 	@Valid
 	@OneToMany
-	public Collection<Rendezvous> getrendezvouss() {
+	public Collection<Rendezvous> getRendezvouss() {
 		return this.rendezvouss;
 	}
 
-	public void setrendezvouss(final Collection<Rendezvous> rendezvouss) {
+	public void setRendezvouss(final Collection<Rendezvous> rendezvouss) {
 		this.rendezvouss = rendezvouss;
 
 	}
 	@Valid
 	@OneToMany
-	public Collection<Announcement> getannouncements() {
+	public Collection<Announcement> getAnnouncements() {
 		return this.announcements;
 	}
 
-	public void setannouncements(final Collection<Announcement> announcements) {
+	public void setAnnouncements(final Collection<Announcement> announcements) {
 		this.announcements = announcements;
 
 	}
 	@Valid
 	@OneToMany
-	public Collection<Comment> getcomments() {
+	public Collection<Comment> getComments() {
 		return this.comments;
 	}
 
-	public void setcomments(final Collection<Comment> comments) {
+	public void setComments(final Collection<Comment> comments) {
 		this.comments = comments;
 
 	}

@@ -59,11 +59,11 @@ public class Comment extends DomainEntity {
 
 	@Valid
 	@OneToOne(optional = true)
-	public Comment getcomment() {
+	public Comment getComment() {
 		return this.comment;
 	}
 
-	public void setcomment(final Comment comment) {
+	public void setComment(final Comment comment) {
 		this.comment = comment;
 
 	}
