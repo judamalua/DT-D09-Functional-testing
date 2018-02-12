@@ -19,9 +19,9 @@
 
 	<!-- Artifact identification and properties -->
 
-	<groupId>Acme-Rendezvous</groupId>
+	<groupId>Design-and-Testing</groupId>
 	<artifactId>Acme-Rendezvous</artifactId>
-	<version>0.0.0-SNAPSHOT</version>
+	<version>0.0.0.SNAPSHOT</version>
 	<packaging>war</packaging>
 	
 	<properties>
