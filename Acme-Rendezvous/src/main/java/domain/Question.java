@@ -1,0 +1,48 @@
+
+package domain;
+
+import java.util.Collection;
+
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.validation.Valid;
+
+import org.hibernate.validator.constraints.NotBlank;
+
+@Entity
+@Access(AccessType.PROPERTY)
+public class Question extends DomainEntity {
+
+	// Constructors -----------------------------------------------------------
+
+	// Attributes -------------------------------------------------------------
+	private String	text;
+
+
+	@NotBlank
+	public String getText() {
+		return this.text;
+	}
+
+	public void setText(final String text) {
+		this.text = text;
+	}
+
+
+	// Relationships ----------------------------------------------------------
+	private Collection<Answer>	answers;
+
+
+	@Valid
+	@OneToMany
+	public Collection<Answer> getanswers() {
+		return this.answers;
+	}
+
+	public void setanswers(final Collection<Answer> answers) {
+		this.answers = answers;
+
+	}
+}
