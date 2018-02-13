@@ -1,5 +1,5 @@
 <%--
- * list.jsp
+ * display.jsp
  *
  * Copyright (C) 2017 Universidad de Sevilla
  * 
@@ -21,7 +21,33 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<display:table name="comments" id="row" pagesize="5" class="displaytag" requestURI="${requestURI}">
+<dl>
+	<spring:message code="comment.author" var="commentAuthor"/>
+	<dt><jstl:out value="${commentAuthor}"/></dt>
+	<dd><a href="user/display.do?userId=${user.id}"><jstl:out value="${user.name}"/></a></dd>
+	
+	<spring:message code="comment.moment" var="commentMoment"/>
+	<dt><jstl:out value="${commentMoment}"/></dt>
+	<dd><jstl:out value="${comment.moment}"/></dd>
+	
+	<spring:message code="comment.text" var="commentText"/>
+	<dt><jstl:out value="${commentText}"/></dt>
+	<dd><jstl:out value="${comment.text}"/></dd>
+	
+	<spring:message code="comment.pictureUrl" var="commentPictureUrl"/>
+	<dt><jstl:out value="${commentPictureUrl}"/></dt>
+	<dd><img src="${comment.pictureUrl}"/></dd>
+</dl>
+	
+	<security:authorize access="hasRole('USER')"> 
+		<spring:message code="comment.reply" var="commentReply"/>
+		<a href="comment/user/reply.do?commentId=${comment.id}"><jstl:out value="commentReply"/></a>
+	</security:authorize>
+	
+	<spring:message code="comment.replies" var="commentReplies"/>
+	<dt><jstl:out value="${commentReplies}"/></dt>
+	
+	<display:table name="comments" id="row" pagesize="5" class="displaytag" requestURI="${requestURI}">
 
 	<spring:message code="comment.moment.format" var = "momentFormat"/>
 	<spring:message code="comment.moment" var = "commentMoment" />
@@ -49,3 +75,4 @@
 	</display:column>
 	</security:authorize>
 </display:table>
+

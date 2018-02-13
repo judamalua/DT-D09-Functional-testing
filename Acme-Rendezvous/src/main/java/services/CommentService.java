@@ -11,6 +11,7 @@ import org.springframework.util.Assert;
 
 import repositories.CommentRepository;
 import domain.Comment;
+import domain.User;
 
 @Service
 @Transactional
@@ -78,5 +79,16 @@ public class CommentService {
 
 		this.commentRepository.delete(comment);
 
+	}
+
+	//Queries ----------------------------------------------
+	public User getUserFromComment(final Comment comment) {
+		Assert.isTrue(comment.getId() != 0);
+
+		User result;
+
+		result = this.commentRepository.getUserFromComment(comment);
+
+		return result;
 	}
 }
