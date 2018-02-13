@@ -18,6 +18,7 @@ public class Configuration extends DomainEntity {
 	private String	terms_es;
 	private String	cookies_eng;
 	private String	cookies_es;
+	private int		pageSize;
 
 
 	@NotBlank
@@ -54,6 +55,14 @@ public class Configuration extends DomainEntity {
 
 	public void setCookies_es(final String cookies_es) {
 		this.cookies_es = cookies_es;
+	}
+
+	public int getPageSize() {
+		return this.pageSize;
+	}
+
+	public void setPageSize(final int pageSize) {
+		this.pageSize = pageSize;
 	}
 
 	// Relationships ----------------------------------------------------------
