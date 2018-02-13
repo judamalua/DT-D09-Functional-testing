@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import javax.transaction.Transactional;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.QuestionRepository;
+import domain.Answer;
 import domain.Question;
 import domain.Rendezvous;
 import domain.User;
@@ -29,6 +31,8 @@ public class QuestionService {
 	private ActorService		actorService;
 	@Autowired
 	private RendezvousService	rendezvousService;
+	@Autowired
+	private AnswerService		answerService;
 
 
 	// Simple CRUD methods --------------------------------------------------
@@ -98,10 +102,19 @@ public class QuestionService {
 		Question result;
 		User user;
 		Rendezvous rendezvous;
+		Collection<Answer> answers;
 
 		user = (User) this.actorService.findActorByPrincipal();
+		if (question.getId() != 0)
+			answers = this.answerService.getAnswersByQuestionId(question.getId());
+		else
+			answers = new HashSet<Answer>();
 
 		result = this.questionRepository.save(question);
+		if (!answers.isEmpty())
+			// Updating questions of the answers the the question is saved.
+			for (final Answer a : answers)
+				a.setQuestion(result);
 
 		if (question.getId() != 0)
 			rendezvous = this.rendezvousService.getRendezvousByQuestion(question.getId());
@@ -114,7 +127,6 @@ public class QuestionService {
 		return result;
 
 	}
-
 	/**
 	 * Deletes the question in parameters
 	 * 
@@ -133,5 +145,5 @@ public class QuestionService {
 
 	}
 
-	// Other business methods --------------------------------------------------------S
+	// Other business methods --------------------------------------------------------
 }
