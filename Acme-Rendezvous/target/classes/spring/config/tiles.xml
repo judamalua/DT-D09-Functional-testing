@@ -23,6 +23,7 @@
 		<value>/views/security/tiles.xml</value>
 		<value>/views/welcome/tiles.xml</value>
 		
+		<value>/views/question/tiles.xml</value>
 		<value>/views/profile/tiles.xml</value>
 	</util:list>
 
