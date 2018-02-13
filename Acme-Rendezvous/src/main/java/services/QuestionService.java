@@ -88,7 +88,7 @@ public class QuestionService {
 
 		result = this.questionRepository.save(question);
 
-		//If the ID is == 0, we get the rendezvous by means of the result.
+		//If the question ID is == 0, we get the rendezvous by means of the result.
 		if (question.getId() == 0)
 			rendezvous = this.rendezvousService.getRendezvousByQuestion(result.getId());
 
