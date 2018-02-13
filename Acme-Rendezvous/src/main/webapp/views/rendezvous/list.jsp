@@ -33,7 +33,7 @@
 	<display:column property="description" title="${titleDescription}"/>
 	<display:column property="moment" title="${titleMoment}" format="${formatMoment}"/>
 	<display:column>
-		<a href="rendezvous/user/detailed-rendezvous.do?rendezvousId=${rendezvous.id}">
+		<a href="rendezvous/detailed-rendezvous.do?rendezvousId=${rendezvous.id}">
 			<button class="btn">
 				<spring:message code="rendevous.edit"/>
 			</button>
@@ -48,7 +48,6 @@
 			</a>
 		</jstl:if>
 	</display:column>
-	
 </display:table>
 
 <!-- Creating a new rendezvous -->
