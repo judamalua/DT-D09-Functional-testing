@@ -35,6 +35,12 @@ public class QuestionService {
 
 	// Simple CRUD methods --------------------------------------------------
 
+	/**
+	 * Creates a Question
+	 * 
+	 * @return the created Question
+	 * @author Juanmi
+	 */
 	public Question create() {
 		this.actorService.checkUserLogin();
 
@@ -49,6 +55,12 @@ public class QuestionService {
 		return result;
 	}
 
+	/**
+	 * Finds every question in the system
+	 * 
+	 * @return the collection of every Question
+	 * @author Juanmi
+	 */
 	public Collection<Question> findAll() {
 
 		Collection<Question> result;
@@ -61,6 +73,12 @@ public class QuestionService {
 
 	}
 
+	/**
+	 * Finds one question in the system
+	 * 
+	 * @param questionId
+	 * @return the question with the id given
+	 */
 	public Question findOne(final int questionId) {
 
 		Question result;
@@ -71,6 +89,13 @@ public class QuestionService {
 
 	}
 
+	/**
+	 * Saves the question in parameters
+	 * 
+	 * @param question
+	 *            to be saved
+	 * @return the question saved
+	 */
 	public Question save(final Question question) {
 		this.actorService.checkUserLogin();
 
@@ -82,13 +107,11 @@ public class QuestionService {
 
 		user = (User) this.actorService.findActorByPrincipal();
 
-		// We get the rendezvous that has a question whose ID is question.getId if the ID is != 0
 		if (question.getId() != 0)
 			rendezvous = this.rendezvousService.getRendezvousByQuestion(question.getId());
 
 		result = this.questionRepository.save(question);
 
-		//If the question ID is == 0, we get the rendezvous by means of the result.
 		if (question.getId() == 0)
 			rendezvous = this.rendezvousService.getRendezvousByQuestion(result.getId());
 
@@ -99,6 +122,13 @@ public class QuestionService {
 
 	}
 
+	/**
+	 * Deletes the question in parameters
+	 * 
+	 * @param question
+	 *            to be deleted
+	 * @author Juanmi
+	 */
 	public void delete(final Question question) {
 
 		assert question != null;
