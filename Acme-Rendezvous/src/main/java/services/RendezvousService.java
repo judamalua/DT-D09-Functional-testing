@@ -1,6 +1,8 @@
+
 package services;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import javax.transaction.Transactional;
 
@@ -9,6 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.RendezvousRepository;
+import domain.Announcement;
+import domain.Comment;
+import domain.Question;
 import domain.Rendezvous;
 
 @Service
@@ -27,12 +32,20 @@ public class RendezvousService {
 
 	public Rendezvous create() {
 		Rendezvous result;
+		final Collection<Question> questions;
+		final Collection<Rendezvous> similars;
+		final Collection<Announcement> announcements;
+		final Collection<Comment> managers;
+
+		questions = new HashSet<Question>();
+		similars = new HashSet<Rendezvous>();
+		announcements = new HashSet<Announcement>();
+		managers = new HashSet<Comment>();
 
 		result = new Rendezvous();
 
 		return result;
 	}
-
 	public Collection<Rendezvous> findAll() {
 
 		Collection<Rendezvous> result;
@@ -78,4 +91,3 @@ public class RendezvousService {
 
 	}
 }
-
