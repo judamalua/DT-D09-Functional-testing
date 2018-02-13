@@ -17,3 +17,125 @@
 	color: red;
 	font-weight: bolder;
 }
+
+.dropdown-menu > li > a:hover {
+    background-color: #525864;//FF9F33
+    background-image: none;
+}
+
+.crop {
+    width: 100%;
+    height: 250px;
+    max-height: 10%;
+    overflow: hidden;
+}
+
+.crop img {
+    width: 100%;
+    height: auto;
+    margin: -23% 0 0 0;
+}
+
+.paginacion{
+	margin-left: 1%;
+	background-color: 
+}
+
+.body{
+	position: relative;
+	margin-left: 1%;
+}
+
+summary{
+	font-weight: bold;
+    font-size: medium;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.progress .bar{
+	color: #2F0F0F;
+}
+
+.footer {
+    /* position: absolute;
+    bottom: 0;
+    width: 100%; */
+    text-align: center;
+}
+
+.element{
+	margin-left: 2%;
+}
+
+.element-name{
+	font-weight: bold;
+}
+
+/* @font-face {
+	font-family: 'Tw Cen MT';
+	font-style: normal;
+	font-weight: normal;
+	src: local('Tw Cen MT'), url('Tw Cen MT.woff') format('woff');
+} */
+
+@font-face {
+	font-family: 'Betenoira';
+	font-style: normal;
+	font-weight: normal;
+	src: local('betenoira'), url('betenoira.woff') format('woff');
+} 
+
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Raleway Light'), local('Raleway-Light'), url(https://fonts.gstatic.com/s/raleway/v12/-_Ctzj9b56b8RgXW8FArifk_vArhqVIZ0nv9q090hN8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2212, U+2215;
+}
+
+.btn{
+	font-family:'Raleway';
+}
+
+textarea{
+	font-family:'Raleway';
+}
+
+.navbar .brand{
+	color: #CECECE;
+	padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+}
+
+.ratio{
+	 max-width: 15%;
+}
+
+.progress-striped .bar{
+	background-color: #FF9F33;
+	font-family: helvetica;
+	font-weight: bold;
+}
+
+.navbar .nav>li>a{
+	color: #CECECE;
+	font-size: 14px;
+}
+
+.navbar-inner{
+	background-image: -webkit-linear-gradient(top,#525864,#525864);
+}
+
+input, select{
+	font-family:'Raleway';
+}
+
+body{
+	background-color: #fffaf0;
+	font-family:'Raleway';
+}
