@@ -9,6 +9,7 @@ import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
@@ -106,6 +107,7 @@ public class Rendezvous extends DomainEntity {
 	private Collection<Comment>			comments;
 
 
+	@NotNull
 	@Valid
 	@OneToMany
 	public Collection<Question> getQuestions() {
@@ -116,6 +118,8 @@ public class Rendezvous extends DomainEntity {
 		this.questions = questions;
 
 	}
+
+	@NotNull
 	@Valid
 	@OneToMany
 	public Collection<Rendezvous> getSimilars() {
@@ -126,6 +130,8 @@ public class Rendezvous extends DomainEntity {
 		this.similars = similars;
 
 	}
+
+	@NotNull
 	@Valid
 	@OneToMany
 	public Collection<Announcement> getAnnouncements() {
@@ -136,6 +142,8 @@ public class Rendezvous extends DomainEntity {
 		this.announcements = announcements;
 
 	}
+
+	@NotNull
 	@Valid
 	@OneToMany
 	public Collection<Comment> getComments() {
