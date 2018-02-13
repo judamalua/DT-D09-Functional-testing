@@ -8,7 +8,6 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -102,24 +101,13 @@ public class Rendezvous extends DomainEntity {
 
 
 	// Relationships ----------------------------------------------------------
-	private User						user;
 	private Collection<Question>		questions;
-	private Collection<Rendezvous>		rendezvouss;
+	private Collection<Rendezvous>		similars;
 	private Collection<Announcement>	announcements;
 	private Collection<Comment>			comments;
 
 
-	@Valid
 	@NotNull
-	@OneToOne(optional = false)
-	public User getUser() {
-		return this.user;
-	}
-
-	public void setUser(final User user) {
-		this.user = user;
-
-	}
 	@Valid
 	@OneToMany
 	public Collection<Question> getQuestions() {
@@ -130,16 +118,20 @@ public class Rendezvous extends DomainEntity {
 		this.questions = questions;
 
 	}
+
+	@NotNull
 	@Valid
 	@OneToMany
-	public Collection<Rendezvous> getRendezvouss() {
-		return this.rendezvouss;
+	public Collection<Rendezvous> getSimilars() {
+		return this.similars;
 	}
 
-	public void setRendezvouss(final Collection<Rendezvous> rendezvouss) {
-		this.rendezvouss = rendezvouss;
+	public void setSimilars(final Collection<Rendezvous> similars) {
+		this.similars = similars;
 
 	}
+
+	@NotNull
 	@Valid
 	@OneToMany
 	public Collection<Announcement> getAnnouncements() {
@@ -150,6 +142,8 @@ public class Rendezvous extends DomainEntity {
 		this.announcements = announcements;
 
 	}
+
+	@NotNull
 	@Valid
 	@OneToMany
 	public Collection<Comment> getComments() {

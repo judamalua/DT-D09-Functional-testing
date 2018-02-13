@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.ActorRepository;
+import security.LoginService;
+import security.UserAccount;
 import domain.Actor;
 
 @Service
@@ -25,7 +27,12 @@ public class ActorService {
 	// Supporting services --------------------------------------------------
 
 	// Simple CRUD methods --------------------------------------------------
-
+	/**
+	 * Get all the actors in the system
+	 * 
+	 * @return all the actors registered in the system
+	 * @author MJ
+	 */
 	public Collection<Actor> findAll() {
 
 		Collection<Actor> result;
@@ -38,6 +45,14 @@ public class ActorService {
 
 	}
 
+	/**
+	 * Get the actor with the id passed as parameter
+	 * 
+	 * @param actorId
+	 * @return an actor with id equals to actorId
+	 * 
+	 * @author MJ
+	 */
 	public Actor findOne(final int actorId) {
 
 		Actor result;
@@ -48,6 +63,12 @@ public class ActorService {
 
 	}
 
+	/**
+	 * Saves the actor passed as parameter
+	 * 
+	 * @param actor
+	 * @return The actor saved in the system
+	 */
 	public Actor save(final Actor actor) {
 
 		assert actor != null;
@@ -60,6 +81,11 @@ public class ActorService {
 
 	}
 
+	/**
+	 * Delete the actor passed as parameter
+	 * 
+	 * @param actor
+	 */
 	public void delete(final Actor actor) {
 
 		assert actor != null;
@@ -70,5 +96,48 @@ public class ActorService {
 		this.actorRepository.delete(actor);
 
 	}
-}
 
+	/**
+	 * Get the actor logged in the system
+	 * 
+	 * @return the actor logged in the system
+	 */
+	public Actor findActorByPrincipal() {
+		UserAccount userAccount;
+		Actor result;
+
+		userAccount = LoginService.getPrincipal();
+		result = this.findActorByUserAccount(userAccount);
+
+		return result;
+	}
+
+	/**
+	 * Get an actor with the UserAccount passed
+	 * 
+	 * @param userAccount
+	 * @return The actor with the UserAccount
+	 * @author MJ
+	 */
+	public Actor findActorByUserAccount(final UserAccount userAccount) {
+
+		Assert.notNull(userAccount);
+
+		Actor result;
+
+		result = this.actorRepository.findActorByUserAccountId(userAccount.getId());
+
+		return result;
+	}
+
+	/**
+	 * Checks there is an actor logged in the system
+	 */
+	public void checkUserLogin() {
+		Actor actor;
+
+		actor = this.findActorByPrincipal();
+
+		Assert.notNull(actor);
+	}
+}

@@ -9,6 +9,7 @@ import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -26,6 +27,7 @@ public class Comment extends DomainEntity {
 	private String	pictureUrl;
 
 
+	@NotNull
 	@Past
 	public Date getMoment() {
 		return this.moment;
@@ -55,17 +57,18 @@ public class Comment extends DomainEntity {
 
 
 	// Relationships ----------------------------------------------------------
-	private Collection<Comment>	replies;
+	private Collection<Comment>	comments;
 
 
 	@Valid
 	@OneToMany
-	public Collection<Comment> getReplies() {
-		return this.replies;
+	public Collection<Comment> getComments() {
+		return this.comments;
 	}
 
-	public void setReplies(final Collection<Comment> replies) {
-		this.replies = replies;
+	public void setComments(final Collection<Comment> comments) {
+		this.comments = comments;
+
 	}
 
 }

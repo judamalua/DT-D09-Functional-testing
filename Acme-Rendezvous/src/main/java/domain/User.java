@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -20,12 +21,12 @@ public class User extends Actor {
 
 	// Relationships ----------------------------------------------------------
 	private Collection<Rendezvous>	createdRendezvouses;
-	//private Rendezvous				rendezvous;
-	private Collection<Rendezvous>	rsvpsRendezvouses;
+	private Collection<Rendezvous>	RSVPRendezvouses;
 	private Collection<Answer>		answers;
 	private Collection<Comment>		comments;
 
 
+	@NotNull
 	@Valid
 	@OneToMany
 	public Collection<Rendezvous> getCreatedRendezvouses() {
@@ -34,35 +35,20 @@ public class User extends Actor {
 
 	public void setCreatedRendezvouses(final Collection<Rendezvous> createdRendezvouses) {
 		this.createdRendezvouses = createdRendezvouses;
-
 	}
-	/*
-	 * @Valid
-	 * 
-	 * @NotNull
-	 * 
-	 * @OneToOne(optional = false, mappedBy = "rendezvous")
-	 * public Rendezvous getrendezvous() {
-	 * return this.rendezvous;
-	 * }
-	 * 
-	 * public void setrendezvous(final Rendezvous rendezvous) {
-	 * this.rendezvous = rendezvous;
-	 * 
-	 * }
-	 */
 
+	@NotNull
 	@Valid
 	@ManyToMany
-	public Collection<Rendezvous> getRsvpsRendezvouses() {
-		return this.rsvpsRendezvouses;
+	public Collection<Rendezvous> getRSVPRendezvouses() {
+		return this.RSVPRendezvouses;
 	}
 
-	public void setRsvpsRendezvouses(final Collection<Rendezvous> rsvpsRendezvouses) {
-		this.rsvpsRendezvouses = rsvpsRendezvouses;
-
+	public void setRSVPRendezvouses(final Collection<Rendezvous> rSVPRendezvouses) {
+		this.RSVPRendezvouses = rSVPRendezvouses;
 	}
 
+	@NotNull
 	@Valid
 	@OneToMany
 	public Collection<Answer> getAnswers() {
@@ -73,6 +59,8 @@ public class User extends Actor {
 		this.answers = answers;
 
 	}
+
+	@NotNull
 	@Valid
 	@OneToMany
 	public Collection<Comment> getComments() {

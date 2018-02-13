@@ -5,13 +5,24 @@ import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
+import security.UserAccount;
+
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Access(AccessType.PROPERTY)
 public abstract class Actor extends DomainEntity {
 
@@ -60,6 +71,7 @@ public abstract class Actor extends DomainEntity {
 		this.phoneNumber = phoneNumber;
 	}
 
+	@NotNull
 	@Email
 	public String getEmail() {
 		return this.email;
@@ -69,7 +81,9 @@ public abstract class Actor extends DomainEntity {
 		this.email = email;
 	}
 
+	@NotNull
 	@Past
+	@Temporal(TemporalType.TIMESTAMP)
 	public Date getBirthDate() {
 		return this.birthDate;
 	}
@@ -78,6 +92,20 @@ public abstract class Actor extends DomainEntity {
 		this.birthDate = birthDate;
 	}
 
+
 	// Relationships ----------------------------------------------------------
+
+	private UserAccount	userAccount;
+
+
+	@Valid
+	@OneToOne(cascade = CascadeType.ALL, optional = false)
+	public UserAccount getUserAccount() {
+		return this.userAccount;
+	}
+
+	public void setUserAccount(final UserAccount userAccount) {
+		this.userAccount = userAccount;
+	}
 
 }

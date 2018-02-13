@@ -22,8 +22,17 @@
 			Add your own converters using entries of the following form: 
 			<bean class="converters.Class1ToClass2" /> 
 		-->
+
 		<bean class="converters.CommentToStringConverter" />
 		<bean class="converters.StringToCommentConverter" />
+
+		
+		<bean class="converters.QuestionToStringConverter" />
+		<bean class="converters.StringToQuestionConverter" />
+		
+		<bean class="converters.AnswerToStringConverter" />
+		<bean class="converters.StringToAnswerConverter" />
+
 	</util:list>
 	
 </beans>
