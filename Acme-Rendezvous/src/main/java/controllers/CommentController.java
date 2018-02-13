@@ -60,7 +60,7 @@ public class CommentController extends AbstractController {
 		String requestURI;
 
 		comment = this.commentService.findOne(commentId);
-		replies = comment.getReplies();
+		replies = comment.getComments();
 		requestURI = "comment/list.do";
 
 		result = new ModelAndView("comment/list");
@@ -79,7 +79,7 @@ public class CommentController extends AbstractController {
 		User user;
 
 		comment = this.commentService.findOne(commentId);
-		replies = comment.getReplies();
+		replies = comment.getComments();
 
 		user = this.commentService.getUserFromComment(comment);
 		result = new ModelAndView("comment/display");
