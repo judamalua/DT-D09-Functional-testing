@@ -107,12 +107,11 @@ public class QuestionService {
 
 		user = (User) this.actorService.findActorByPrincipal();
 
-		if (question.getId() != 0)
-			rendezvous = this.rendezvousService.getRendezvousByQuestion(question.getId());
-
 		result = this.questionRepository.save(question);
 
-		if (question.getId() == 0)
+		if (question.getId() != 0)
+			rendezvous = this.rendezvousService.getRendezvousByQuestion(question.getId());
+		else
 			rendezvous = this.rendezvousService.getRendezvousByQuestion(result.getId());
 
 		// We check that the rendezvous that has been saved is contained in the principal's created rendezvouses
