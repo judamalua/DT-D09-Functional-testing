@@ -11,18 +11,28 @@
 package controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ConfigurationService;
 import services.RendezvousService;
+import domain.Configuration;
+import domain.Rendezvous;
 
 @Controller
 @RequestMapping("/rendezvous")
 public class RendezvousController extends AbstractController {
 
 	@Autowired
-	private RendezvousService	rendezvousService;
+	private RendezvousService		rendezvousService;
+
+	@Autowired
+	private ConfigurationService	configurationService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -34,22 +44,31 @@ public class RendezvousController extends AbstractController {
 	// Listing  ---------------------------------------------------------------		
 
 	@RequestMapping("/list")
-	public ModelAndView list() {
+	public ModelAndView list(@RequestParam(defaultValue = "0") final int page) {
 		ModelAndView result;
-		//final Collection<Rendezvous> rendezvouses;
+		Page<Rendezvous> rendezvouses;
+		Pageable pageable;
+		final Configuration configuration;
 
 		result = new ModelAndView("rendezvous/list");
-		//rendezvouses = rendezvousService.;
+		configuration = this.configurationService.findConfiguration();
+		pageable = new PageRequest(page, configuration.getPageSize());
+		rendezvouses = this.rendezvousService.findFinalRendezvouses(pageable);
 
+		result.addObject("rendezvouses", rendezvouses.getContent());
 		return result;
 	}
-	// Action-2 ---------------------------------------------------------------		
+	// Detailing ---------------------------------------------------------------		
 
-	@RequestMapping("/action-2")
-	public ModelAndView action2() {
+	@RequestMapping("/detailed-rendezvous")
+	public ModelAndView detailing(@RequestParam final int rendezvousId) {
 		ModelAndView result;
+		Rendezvous rendezvous;
 
-		result = new ModelAndView("customer/action-2");
+		result = new ModelAndView("rendezvous/detailed-rendezvous");
+		rendezvous = this.rendezvousService.findOne(rendezvousId);
+
+		result.addObject("rendezvous", rendezvous);
 
 		return result;
 	}
