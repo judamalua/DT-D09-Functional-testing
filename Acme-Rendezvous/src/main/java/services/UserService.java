@@ -110,4 +110,21 @@ public class UserService {
 		return user;
 
 	}
+
+	/**
+	 * That method returns the user author of the answer
+	 * 
+	 * @param answerId
+	 * @return a User
+	 * @author Luis
+	 */
+	public User getUserFromAnswerId(final int answerId) {
+		User user;
+
+		user = this.userRepository.getUserFromAnswerId(answerId);
+
+		return user;
+
+	}
+
 }
