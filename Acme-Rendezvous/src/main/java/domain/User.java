@@ -22,7 +22,6 @@ public class User extends Actor {
 	// Relationships ----------------------------------------------------------
 	private Collection<Rendezvous>	createdRendezvouses;
 	private Collection<Rendezvous>	RSVPRendezvouses;
-	private Collection<Answer>		answers;
 	private Collection<Comment>		comments;
 
 
@@ -46,18 +45,6 @@ public class User extends Actor {
 
 	public void setRSVPRendezvouses(final Collection<Rendezvous> rSVPRendezvouses) {
 		this.RSVPRendezvouses = rSVPRendezvouses;
-	}
-
-	@NotNull
-	@Valid
-	@OneToMany
-	public Collection<Answer> getAnswers() {
-		return this.answers;
-	}
-
-	public void setAnswers(final Collection<Answer> answers) {
-		this.answers = answers;
-
 	}
 
 	@NotNull
