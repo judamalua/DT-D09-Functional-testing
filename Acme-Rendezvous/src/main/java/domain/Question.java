@@ -36,6 +36,7 @@ public class Question extends DomainEntity {
 	private Collection<Answer>	answers;
 
 
+	@NotNull
 	@Valid
 	@NotNull
 	@OneToMany

@@ -21,23 +21,24 @@ public class User extends Actor {
 	// Attributes -------------------------------------------------------------
 
 	// Relationships ----------------------------------------------------------
-	private Collection<Rendezvous>	rendezvouss;
+	private Collection<Rendezvous>	createdRendezvouses;
 	private Rendezvous				rendezvous;
-	private Collection<Rendezvous>	rendezvouss;
+	private Collection<Rendezvous>	RSVPRendezvouses;
 	private Collection<Answer>		answers;
 	private Collection<Comment>		comments;
 
 
+	@NotNull
 	@Valid
 	@OneToMany
-	public Collection<Rendezvous> getrendezvouss() {
-		return this.rendezvouss;
+	public Collection<Rendezvous> getCreatedRendezvouses() {
+		return this.createdRendezvouses;
 	}
 
-	public void setrendezvouss(final Collection<Rendezvous> rendezvouss) {
-		this.rendezvouss = rendezvouss;
-
+	public void setCreatedRendezvouses(final Collection<Rendezvous> createdRendezvouses) {
+		this.createdRendezvouses = createdRendezvouses;
 	}
+
 	@Valid
 	@NotNull
 	@OneToOne(optional = false, mappedBy = "Rendezvous")
@@ -49,16 +50,19 @@ public class User extends Actor {
 		this.rendezvous = rendezvous;
 
 	}
+
+	@NotNull
 	@Valid
 	@ManyToMany
-	public Collection<Rendezvous> getrendezvouss() {
-		return this.rendezvouss;
+	public Collection<Rendezvous> getRSVPRendezvouses() {
+		return this.RSVPRendezvouses;
 	}
 
-	public void setrendezvouss(final Collection<Rendezvous> rendezvouss) {
-		this.rendezvouss = rendezvouss;
-
+	public void setRSVPRendezvouses(final Collection<Rendezvous> rSVPRendezvouses) {
+		this.RSVPRendezvouses = rSVPRendezvouses;
 	}
+
+	@NotNull
 	@Valid
 	@OneToMany
 	public Collection<Answer> getanswers() {
@@ -69,6 +73,8 @@ public class User extends Actor {
 		this.answers = answers;
 
 	}
+
+	@NotNull
 	@Valid
 	@OneToMany
 	public Collection<Comment> getcomments() {
