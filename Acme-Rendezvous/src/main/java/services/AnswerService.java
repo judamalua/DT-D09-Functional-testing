@@ -34,6 +34,12 @@ public class AnswerService {
 
 	// Simple CRUD methods --------------------------------------------------
 
+	/**
+	 * Creates a new answer
+	 * 
+	 * @author Daniel Diment
+	 * @return the new answer
+	 */
 	public Answer create() {
 		Answer result;
 
@@ -42,6 +48,12 @@ public class AnswerService {
 		return result;
 	}
 
+	/**
+	 * Gets all the answers of the database
+	 * 
+	 * @author Daniel Diment
+	 * @return The collection containing the all the answers
+	 */
 	public Collection<Answer> findAll() {
 
 		Collection<Answer> result;
@@ -53,7 +65,14 @@ public class AnswerService {
 		return result;
 
 	}
-
+	/**
+	 * Gets the answer of the database that has that id
+	 * 
+	 * @param answerId
+	 *            The id you want to search
+	 * @author Daniel Diment
+	 * @return The answer with that id
+	 */
 	public Answer findOne(final int answerId) {
 
 		Answer result;
@@ -64,16 +83,24 @@ public class AnswerService {
 
 	}
 
+	/**
+	 * Saves an answer to the database
+	 * 
+	 * @param answer
+	 *            The answer you want to save
+	 * @author Daniel Diment
+	 * @return The saved answer
+	 */
 	public Answer save(final Answer answer) {
 
 		assert answer != null;
 
 		Answer result;
 
-		final Question question = this.questionService.getQuestionFromAnswerId(question.getId()); //We get the question that is related to this answer
+		final Question question = this.questionService.getQuestionByAnswerId(answer.getId()); //We get the question that is related to this answer
 		Assert.notNull(question);
 
-		final User user = this.userService.getUserFromAnswerId(question.getId()); //We get the user that is related to this answer
+		final User user = this.userService.getUserFromAnswerId(answer.getId()); //We get the user that is related to this answer
 		Assert.notNull(user);
 
 		result = this.answerRepository.save(answer);
@@ -94,6 +121,10 @@ public class AnswerService {
 
 	}
 
+	/**
+	 * 
+	 * @param answer
+	 */
 	public void delete(final Answer answer) {
 
 		assert answer != null;
@@ -101,11 +132,11 @@ public class AnswerService {
 
 		Assert.isTrue(this.answerRepository.exists(answer.getId()));
 
-		final Question question = this.questionService.getQuestionFromAnswerId(question.getId()); //We get the question that is related to this answer
+		final Question question = this.questionService.getQuestionByAnswerId(answer.getId()); //We get the question that is related to this answer
 		question.getAnswers().remove(answer);	//Delete the answer from the question
 		this.questionService.save(question);	//Save the question with the answer deleted
 
-		final User user = this.userService.getUserFromAnswerId(question.getId()); //We get the user that is related to this answer
+		final User user = this.userService.getUserFromAnswerId(answer.getId()); //We get the user that is related to this answer
 		user.getAnswers().remove(answer);	//Delete the answer from the user
 		this.userService.save(user);	//Save the user with the answer deleted	
 
