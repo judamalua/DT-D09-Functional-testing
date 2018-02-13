@@ -38,7 +38,6 @@ public class Question extends DomainEntity {
 
 	@NotNull
 	@Valid
-	@NotNull
 	@OneToMany
 	public Collection<Answer> getAnswers() {
 		return this.answers;
