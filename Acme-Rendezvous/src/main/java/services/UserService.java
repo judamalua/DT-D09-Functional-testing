@@ -87,11 +87,11 @@ public class UserService {
 	 * @author Luis
 	 */
 	public Collection<User> getRCPVusers(final int rendezvousId) {
-		Collection<User> rcpvusers;
+		Collection<User> result;
 
-		rcpvusers = this.userRepository.findUsersRSVPs(rendezvousId);
+		result = this.userRepository.findUsersRSVPs(rendezvousId);
 
-		return rcpvusers;
+		return result;
 
 	}
 
@@ -103,27 +103,11 @@ public class UserService {
 	 * @author Luis
 	 */
 	public User getCreatorUser(final int rendezvousId) {
-		User user;
+		User result;
 
-		user = this.userRepository.findCreatoUser(rendezvousId);
+		result = this.userRepository.findCreatoUser(rendezvousId);
 
-		return user;
-
-	}
-
-	/**
-	 * That method returns the user author of the answer
-	 * 
-	 * @param answerId
-	 * @return a User
-	 * @author Luis
-	 */
-	public User getUserFromAnswerId(final int answerId) {
-		User user;
-
-		user = this.userRepository.getUserFromAnswerId(answerId);
-
-		return user;
+		return result;
 
 	}
 
