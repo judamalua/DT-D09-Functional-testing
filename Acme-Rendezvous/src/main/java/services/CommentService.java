@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Collection;
@@ -46,6 +47,7 @@ public class CommentService {
 	}
 
 	public Comment findOne(final int commentId) {
+		Assert.isTrue(commentId != 0);
 
 		Comment result;
 
@@ -57,7 +59,7 @@ public class CommentService {
 
 	public Comment save(final Comment comment) {
 
-		assert comment != null;
+		Assert.notNull(comment);
 
 		Comment result;
 
@@ -69,8 +71,8 @@ public class CommentService {
 
 	public void delete(final Comment comment) {
 
-		assert comment != null;
-		assert comment.getId() != 0;
+		Assert.notNull(comment);
+		Assert.isTrue(comment.getId() != 0);
 
 		Assert.isTrue(this.commentRepository.exists(comment.getId()));
 
@@ -78,4 +80,3 @@ public class CommentService {
 
 	}
 }
-

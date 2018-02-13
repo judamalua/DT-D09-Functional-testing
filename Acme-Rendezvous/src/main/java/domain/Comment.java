@@ -1,12 +1,13 @@
 
 package domain;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.Past;
 
@@ -54,17 +55,17 @@ public class Comment extends DomainEntity {
 
 
 	// Relationships ----------------------------------------------------------
-	private Comment	comment;
+	private Collection<Comment>	replies;
 
 
 	@Valid
-	@OneToOne(optional = true)
-	public Comment getComment() {
-		return this.comment;
+	@OneToMany
+	public Collection<Comment> getReplies() {
+		return this.replies;
 	}
 
-	public void setComment(final Comment comment) {
-		this.comment = comment;
-
+	public void setReplies(final Collection<Comment> replies) {
+		this.replies = replies;
 	}
+
 }
