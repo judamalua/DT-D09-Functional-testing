@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Collection;
@@ -77,5 +78,53 @@ public class UserService {
 		this.userRepository.delete(user);
 
 	}
-}
 
+	/**
+	 * That method returns a collections of users that has RCVPd a rendezvous
+	 * 
+	 * @param rendezvousId
+	 * @return a collection of Users
+	 * @author Luis
+	 */
+	public Collection<User> getRCPVusers(final int rendezvousId) {
+		Collection<User> rcpvusers;
+
+		rcpvusers = this.userRepository.findUsersRSVPs(rendezvousId);
+
+		return rcpvusers;
+
+	}
+
+	/**
+	 * That method returns the user that has created
+	 * 
+	 * @param rendezvousId
+	 * @return a User
+	 * @author Luis
+	 */
+	public User getCreatorUser(final int rendezvousId) {
+		User user;
+
+		user = this.userRepository.findCreatoUser(rendezvousId);
+
+		return user;
+
+	}
+
+	/**
+	 * That method returns the user author of the answer
+	 * 
+	 * @param answerId
+	 * @return a User
+	 * @author Luis
+	 */
+	public User getUserFromAnswerId(final int answerId) {
+		User user;
+
+		user = this.userRepository.getUserFromAnswerId(answerId);
+
+		return user;
+
+	}
+
+}
