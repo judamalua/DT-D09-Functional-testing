@@ -1,7 +1,9 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.transaction.Transactional;
 
@@ -29,8 +31,15 @@ public class CommentService {
 
 	public Comment create() {
 		Comment result;
+		Date now;
+		Collection<Comment> replies;
+
+		now = new Date(System.currentTimeMillis() - 1);
+		replies = new ArrayList<Comment>();
 
 		result = new Comment();
+		result.setMoment(now);
+		result.setComments(replies);
 
 		return result;
 	}
