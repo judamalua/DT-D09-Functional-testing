@@ -26,8 +26,11 @@ public class RendezvousService {
 	@Autowired
 	private RendezvousRepository	rendezvousRepository;
 
-
 	// Supporting services --------------------------------------------------
+
+	@Autowired
+	private ActorService			actorService;
+
 
 	// Simple CRUD methods --------------------------------------------------
 
@@ -96,16 +99,18 @@ public class RendezvousService {
 
 		result = this.rendezvousRepository.findOne(rendezvousId);
 
+		Assert.isTrue(!result.getFinalMode());
+		Assert.isTrue(!result.getDeleted());
+
 		return result;
 
 	}
 
 	/**
 	 * 
-	 * This method returns a Rendezvous witch id its equals to the id that you
-	 * provides to the method
+	 * This method save a Rendezvous created or edited by a user
 	 * 
-	 * @param rendesvousId
+	 * @param rendesvous
 	 * @return This method return Rendezvous
 	 * @author Luis
 	 */
@@ -114,30 +119,65 @@ public class RendezvousService {
 		Rendezvous result;
 		User user;
 
-		user = this.actorService.findActorByPrincipal();
-
-		Assert.isTrue(user instanceof User);
-
-		if (rendezvous.getVersion() != 0)
-			if (rendezvous.getFinalMode())
-				Assert.isTrue(!this.rendezvousRepository.findOne(rendezvous.getId()).getFinalMode());
+		user = (User) this.actorService.findActorByPrincipal();
 
 		result = this.rendezvousRepository.save(rendezvous);
 
-		if (this.findAll().contains(rendezvous))
+		if (user.getCreatedRendezvouses().contains(rendezvous))   		//
+			user.getCreatedRendezvouses().remove(rendezvous);			//UPDATING USER
+		user.getCreatedRendezvouses().add(rendezvous);					//
 
-			return result;
+		this.actorService.save(user);
 
+		return result;
 	}
 
-	public void delete(final Rendezvous rendezvous) {
+	/**
+	 * 
+	 * This method save a Rendezvous in RCVPRendevouses(Collection<Rendevous>), that means that the user
+	 * has been joined to this Rendezvous
+	 * 
+	 * @param rendesvous
+	 * @return This method return Rendezvous
+	 * @author Luis
+	 */
+	public Rendezvous RCVP(final Rendezvous rendezvous) {
+		assert rendezvous != null;
+		Rendezvous result;
+		User user;
 
+		user = (User) this.actorService.findActorByPrincipal();
+
+		result = this.rendezvousRepository.save(rendezvous);
+
+		if (user.getRSVPRendezvouses().contains(rendezvous))			//
+			user.getRSVPRendezvouses().remove(rendezvous);				//UPDATING USER
+		user.getRSVPRendezvouses().add(rendezvous);						//
+
+		this.actorService.save(user);
+
+		return result;
+	}
+
+	/**
+	 * 
+	 * This method set rendezvous boolean "deleted" to true, that means that it is not deleted in DB,
+	 * but we mark it like deleted.
+	 * 
+	 * @param rendesvous
+	 * 
+	 * @author Luis
+	 */
+	public void delete(final Rendezvous rendezvous) {
 		assert rendezvous != null;
 		assert rendezvous.getId() != 0;
+		Rendezvous r;
 
 		Assert.isTrue(this.rendezvousRepository.exists(rendezvous.getId()));
+		r = this.findOne(rendezvous.getId());
+		r.setDeleted(true);
 
-		this.rendezvousRepository.delete(rendezvous);
+		this.save(r);
 
 	}
 
