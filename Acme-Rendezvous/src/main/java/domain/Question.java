@@ -8,6 +8,7 @@ import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -35,6 +36,7 @@ public class Question extends DomainEntity {
 	private Collection<Answer>	answers;
 
 
+	@NotNull
 	@Valid
 	@OneToMany
 	public Collection<Answer> getAnswers() {
