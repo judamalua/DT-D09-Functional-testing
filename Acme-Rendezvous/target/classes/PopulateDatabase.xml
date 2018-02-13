@@ -18,7 +18,7 @@
 	
 	<!-- User accounts -->
 
-	<bean id="userAccount1" class="security.UserAccount">
+	<bean id="UserAccount1" class="security.UserAccount">
 		<property name="username" value="admin" />
 		<property name="password" value="21232f297a57a5a743894a0e4a801fc3" />
 		<property name="authorities">
@@ -26,32 +26,44 @@
 				<bean class="security.Authority">
 					<property name="authority" value="ADMIN" />
 				</bean>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="userAccount2" class="security.UserAccount">
-		<property name="username" value="customer" />
-		<property name="password" value="91ec1f9324753048c0096d036a694f86" />
-		<property name="authorities">
-			<list>
 				<bean class="security.Authority">
-					<property name="authority" value="CUSTOMER" />
+					<property name="authority" value="USER" />
 				</bean>
 			</list>
 		</property>
 	</bean>
 
-	<bean id="userAccount3" class="security.UserAccount">
-		<property name="username" value="super" />
-		<property name="password" value="1b3231655cebb7a1f783eddf27d254ca" />
+	<bean id="UserAccount2" class="security.UserAccount">
+		<property name="username" value="admin1" />
+		<property name="password" value="e00cf25ad42683b3df678c61f42c6bda" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
 					<property name="authority" value="ADMIN" />
 				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="UserAccount3" class="security.UserAccount">
+		<property name="username" value="user1" />
+		<property name="password" value="24c9e15e52afc47c225b757e7bee1f9d" />
+		<property name="authorities">
+			<list>
 				<bean class="security.Authority">
-					<property name="authority" value="CUSTOMER" />
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="UserAccount4" class="security.UserAccount">
+		<property name="username" value="user2" />
+		<property name="password" value="7e58d63b60197ceb55a1c487989a3720" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
 				</bean>
 			</list>
 		</property>
@@ -59,4 +71,37 @@
 	
 	<!-- Other domain beans come here -->	
 	
+	<!-- %%%% Administrators %%%% -->
+	<bean id="Admin1" class="security.Administrator">
+		<property name="name" value="Super" />
+		<property name="surname" value="Super" />
+		<property name="email" value="super@mail.com" />
+		<property name="birthDate" value="1995/10/03 00:00" />
+		<property name="userAccount" ref="UserAccount1" />
+	</bean>
+	
+	<bean id="Admin2" class="security.Administrator">
+		<property name="name" value="Administrator 1" />
+		<property name="surname" value="Administrator" />
+		<property name="email" value="administrator1@mail.com" />
+		<property name="birthDate" value="1987/04/11 00:00" />
+		<property name="userAccount" ref="UserAccount2" />
+	</bean>
+	
+	<!-- %%%% Users %%%%% -->
+	<bean id="User1" class="security.User">
+		<property name="name" value="User 1" />
+		<property name="surname" value="User" />
+		<property name="email" value="user1@mail.com" />
+		<property name="birthDate" value="1987/04/11 00:00" />
+		<property name="userAccount" ref="UserAccount3" />
+	</bean>
+	
+	<bean id="User2" class="security.User">
+		<property name="name" value="User 2" />
+		<property name="surname" value="User " />
+		<property name="email" value="user2@mail.com" />
+		<property name="birthDate" value="1992/07/15 00:00" />
+		<property name="userAccount" ref="UserAccount4" />
+	</bean>
 </beans>
