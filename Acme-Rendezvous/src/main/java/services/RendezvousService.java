@@ -269,4 +269,61 @@ public class RendezvousService {
 
 		return result;
 	}
+
+	/**
+	 * Return the list of rendezvouses in final mode, not deleted and
+	 * without adult content paginated by the param
+	 * 
+	 * @param pageable
+	 * @return A page of Rendezvouses in final mode without adult content
+	 * @author MJ
+	 */
+	public Page<Rendezvous> findFinalWithoutAdultRendezvouses(final Pageable pageable) {
+		Assert.notNull(pageable);
+
+		Page<Rendezvous> result;
+
+		result = this.rendezvousRepository.findFinalWithoutAdultRendezvouses(pageable);
+
+		return result;
+	}
+
+	/**
+	 * Return the list of not deleted rendezvouses paginated by the pageable and created by user
+	 * 
+	 * @param pageable
+	 * @param user
+	 * @return A page of Rendezvouses created by the user
+	 * @author MJ
+	 */
+	public Page<Rendezvous> findCreatedRendezvouses(final User user, final Pageable pageable) {
+		Assert.notNull(pageable);
+		Assert.notNull(user);
+
+		Page<Rendezvous> result;
+
+		result = this.rendezvousRepository.findCreatedRendezvouses(user.getId(), pageable);
+
+		return result;
+	}
+
+	/**
+	 * Return the list of not deleted rendezvouses paginated by the pageable and RSVP by user
+	 * 
+	 * @param pageable
+	 * @param user
+	 * @return A page of Rendezvouses RSVP by the user
+	 * @author MJ
+	 */
+	public Page<Rendezvous> findRSVPRendezvouses(final User user, final Pageable pageable) {
+		Assert.notNull(pageable);
+		Assert.notNull(user);
+
+		Page<Rendezvous> result;
+
+		result = this.rendezvousRepository.findRSVPRendezvouses(user.getId(), pageable);
+
+		return result;
+	}
+
 }
