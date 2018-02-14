@@ -85,7 +85,7 @@ public class AnnouncementService {
 		assert announcement.getId() != 0;
 
 		Assert.isTrue(this.announcementRepository.exists(announcement.getId()));
-		actorService.findActorByPrincipal().
+		actorService.findActorByPrincipal().equals(RendezvousService.fin)
 		this.announcementRepository.delete(announcement);
 
 	}
