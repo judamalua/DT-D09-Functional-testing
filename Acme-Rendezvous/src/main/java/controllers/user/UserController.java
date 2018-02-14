@@ -26,7 +26,7 @@ import domain.Configuration;
 import domain.User;
 
 @Controller
-@RequestMapping("/rendezvous/user")
+@RequestMapping("/user")
 public class UserController extends AbstractController {
 
 	@Autowired
