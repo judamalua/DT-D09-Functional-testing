@@ -140,9 +140,7 @@ public class ActorController extends AbstractController {
 				auth.setAuthority(Authority.USER);
 				Assert.isTrue(admin.getUserAccount().getAuthorities().contains(auth));
 				Assert.isTrue(confirmPassword.equals(admin.getUserAccount().getPassword()), "Passwords do not match");
-
 				this.actorService.registerActor(admin);
-
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
 				if (oops.getMessage().contains("Passwords do not match"))
@@ -169,9 +167,7 @@ public class ActorController extends AbstractController {
 				auth.setAuthority(Authority.USER);
 				Assert.isTrue(user.getUserAccount().getAuthorities().contains(auth));
 				Assert.isTrue(confirmPassword.equals(user.getUserAccount().getPassword()), "Passwords do not match");
-
 				this.actorService.registerActor(user);
-
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
 				if (oops.getMessage().contains("Passwords do not match"))
@@ -182,6 +178,7 @@ public class ActorController extends AbstractController {
 
 		return result;
 	}
+
 	//Ancillary methods ----------------------------------------------------------------
 
 	protected ModelAndView createEditModelAndView(final Actor actor) {
