@@ -5,6 +5,8 @@ import java.util.Collection;
 
 import javax.transaction.Transactional;
 
+import org.joda.time.LocalDate;
+import org.joda.time.Years;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -13,6 +15,7 @@ import repositories.ActorRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Actor;
+import domain.User;
 
 @Service
 @Transactional
@@ -139,5 +142,20 @@ public class ActorService {
 		actor = this.findActorByPrincipal();
 
 		Assert.notNull(actor);
+	}
+
+	public int getAge(final User user) {
+		Assert.notNull(user);
+
+		final int result;
+		LocalDate birthDay;
+		LocalDate currentDate;
+
+		currentDate = LocalDate.now();
+		birthDay = LocalDate.fromDateFields(user.getBirthDate());
+		result = Years.yearsBetween(birthDay, currentDate).getYears();
+		Assert.isTrue(result > 0);
+
+		return result;
 	}
 }
