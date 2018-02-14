@@ -46,21 +46,6 @@ public class ActorController extends AbstractController {
 		super();
 	}
 
-	// Editing ---------------------------------------------------------------		
-
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit() {
-		ModelAndView result;
-		Actor actor;
-
-		actor = this.actorService.findActorByPrincipal();
-
-		result = new ModelAndView("actor/edit");
-		result.addObject("actor", actor);
-
-		return result;
-	}
-
 	//Saving --------------------------------------------------------------------
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@ModelAttribute("actor") @Valid final Actor actor, final BindingResult binding) {
@@ -98,6 +83,19 @@ public class ActorController extends AbstractController {
 		return result;
 	}
 
+	//Edit an User
+	@RequestMapping(value = "/user/edit", method = RequestMethod.GET)
+	public ModelAndView editUser() {
+		ModelAndView result;
+		User user;
+
+		user = (User) this.actorService.findActorByPrincipal();
+		Assert.notNull(user);
+		result = this.createEditModelAndView(user);
+
+		return result;
+	}
+
 	// Registering administrator ------------------------------------------------------------
 	@RequestMapping(value = "/register-admin", method = RequestMethod.GET)
 	public ModelAndView registerAdmin() {
@@ -112,6 +110,20 @@ public class ActorController extends AbstractController {
 
 		return result;
 	}
+
+	//Edit an Administrator
+	@RequestMapping(value = "/administrator/edit", method = RequestMethod.GET)
+	public ModelAndView editAdministrator() {
+		ModelAndView result;
+		Administrator admin;
+
+		admin = (Administrator) this.actorService.findActorByPrincipal();
+		Assert.notNull(admin);
+		result = this.createEditModelAndView(admin);
+
+		return result;
+	}
+
 	//Saving administrator ---------------------------------------------------------------------
 	@RequestMapping(value = "/register-admin", method = RequestMethod.POST, params = {
 		"save", "confirmPassword"
@@ -128,7 +140,7 @@ public class ActorController extends AbstractController {
 				auth.setAuthority(Authority.USER);
 				Assert.isTrue(admin.getUserAccount().getAuthorities().contains(auth));
 				Assert.isTrue(confirmPassword.equals(admin.getUserAccount().getPassword()), "Passwords do not match");
-				this.actorService.registerAdmin(admin);
+				this.actorService.registerActor(admin);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
 				if (oops.getMessage().contains("Passwords do not match"))
@@ -155,7 +167,7 @@ public class ActorController extends AbstractController {
 				auth.setAuthority(Authority.USER);
 				Assert.isTrue(user.getUserAccount().getAuthorities().contains(auth));
 				Assert.isTrue(confirmPassword.equals(user.getUserAccount().getPassword()), "Passwords do not match");
-				this.actorService.registerUser(user);
+				this.actorService.registerActor(user);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
 				if (oops.getMessage().contains("Passwords do not match"))
@@ -198,5 +210,46 @@ public class ActorController extends AbstractController {
 		result.addObject("message", messageCode);
 
 		return result;
+	}
+
+	protected ModelAndView createEditModelAndView(final User user) {
+		ModelAndView result;
+
+		result = this.createEditModelAndView(user, null);
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndView(final User user, final String messageCode) {
+		ModelAndView result;
+
+		result = new ModelAndView("actor/edit");
+
+		result.addObject("actor", user);
+		result.addObject("message", messageCode);
+		result.addObject("requestUri", "actor/user/edit.do");
+
+		return result;
+
+	}
+	protected ModelAndView createEditModelAndView(final Administrator admin) {
+		ModelAndView result;
+
+		result = this.createEditModelAndView(admin, null);
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndView(final Administrator admin, final String messageCode) {
+		ModelAndView result;
+
+		result = new ModelAndView("actor/edit");
+
+		result.addObject("actor", admin);
+		result.addObject("message", messageCode);
+		result.addObject("requestUri", "actor/user/edit.do");
+
+		return result;
+
 	}
 }
