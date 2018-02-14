@@ -11,8 +11,6 @@ import org.springframework.util.Assert;
 
 import repositories.AnswerRepository;
 import domain.Answer;
-import domain.Question;
-import domain.User;
 
 @Service
 @Transactional
@@ -23,14 +21,8 @@ public class AnswerService {
 	@Autowired
 	private AnswerRepository	answerRepository;
 
-	// Supporting services --------------------------------------------------
 
-	@Autowired
-	private QuestionService		questionService;
-
-	@Autowired
-	private UserService			userService;
-
+	// Supporting services --------------------------------------------------W
 
 	// Simple CRUD methods --------------------------------------------------
 
@@ -97,33 +89,18 @@ public class AnswerService {
 
 		Answer result;
 
-		final Question question = this.questionService.getQuestionByAnswerId(answer.getId()); //We get the question that is related to this answer
-		Assert.notNull(question);
-
-		final User user = this.userService.getUserFromAnswerId(answer.getId()); //We get the user that is related to this answer
-		Assert.notNull(user);
-
 		result = this.answerRepository.save(answer);
-
-		if (question.getAnswers().contains(answer))
-			question.getAnswers().remove(answer);	//Delete the answer if the question contained a previous version
-
-		if (user.getAnswers().contains(answer))
-			user.getAnswers().remove(answer);	//Delete the answer if the user contained a previous version
-
-		question.getAnswers().add(result);
-		this.questionService.save(question);	//Add and save the question with the answer inside
-
-		user.getAnswers().add(result);
-		this.userService.save(user);	//Add and save the user with the answer inside
 
 		return result;
 
 	}
 
 	/**
+	 * Deletes an answer to the database
 	 * 
+	 * @author Daniel Diment
 	 * @param answer
+	 *            the answer to delete
 	 */
 	public void delete(final Answer answer) {
 
@@ -132,15 +109,34 @@ public class AnswerService {
 
 		Assert.isTrue(this.answerRepository.exists(answer.getId()));
 
-		final Question question = this.questionService.getQuestionByAnswerId(answer.getId()); //We get the question that is related to this answer
-		question.getAnswers().remove(answer);	//Delete the answer from the question
-		this.questionService.save(question);	//Save the question with the answer deleted
-
-		final User user = this.userService.getUserFromAnswerId(answer.getId()); //We get the user that is related to this answer
-		user.getAnswers().remove(answer);	//Delete the answer from the user
-		this.userService.save(user);	//Save the user with the answer deleted	
-
 		this.answerRepository.delete(answer);
 
 	}
+
+	/**
+	 * Using the question id gets the collection of answers that have that question
+	 * 
+	 * @param questionId
+	 *            The id to check
+	 * @author Daniel Diment
+	 * @return The collection of answers
+	 */
+	public Collection<Answer> getAnswersByQuestionId(final int questionId) {
+		final Collection<Answer> result = this.answerRepository.getAnswersByQuestionId(questionId);
+		return result;
+	}
+
+	/**
+	 * Using the user id gets the collection of answers that that user have answer
+	 * 
+	 * @param questionId
+	 *            The id to check
+	 * @author Daniel Diment
+	 * @return The collection of answers
+	 */
+	public Collection<Answer> getAnswersByUserId(final int userId) {
+		final Collection<Answer> result = this.answerRepository.getAnswersByUserId(userId);
+		return result;
+	}
+
 }
