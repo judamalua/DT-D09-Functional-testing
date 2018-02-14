@@ -22,7 +22,7 @@
 </display:table>
 
 
-	<a href = "question/user/create.do?rendezvousId=${rendezvousId}">
+	<a href = "question/user/create.do?rendezvousId=${rendezvousId}"> <!-- Id sent by controller -->
 	<button class = "btn">
 		<spring:message code = "question.create"/>
 	</button>
