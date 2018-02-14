@@ -51,8 +51,11 @@
 </display:table>
 
 <!-- Creating a new rendezvous -->
-<a href="rendezvous/user/create.do">
-	<button class="btn">
-		<spring:message code="rendevous.create"/>
-	</button>
-</a>
+
+<jstl:if test="${not anonymous}">
+	<a href="rendezvous/user/create.do">
+		<button class="btn">
+			<spring:message code="rendezvous.create"/>
+		</button>
+	</a>
+</jstl:if>
