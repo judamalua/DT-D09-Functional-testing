@@ -79,6 +79,8 @@ public class AnnouncementService {
 
 	public void delete(final Announcement announcement) {
 
+		
+		
 		assert announcement != null;
 		assert announcement.getId() != 0;
 
