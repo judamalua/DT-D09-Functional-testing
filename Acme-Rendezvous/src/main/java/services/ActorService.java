@@ -5,8 +5,9 @@ import java.util.Collection;
 
 import javax.transaction.Transactional;
 
+import org.joda.time.LocalDate;
+import org.joda.time.Years;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -14,7 +15,6 @@ import repositories.ActorRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Actor;
-import domain.Administrator;
 import domain.User;
 
 @Service
@@ -135,8 +135,6 @@ public class ActorService {
 
 	/**
 	 * Checks there is an actor logged in the system
-	 * 
-	 * @author MJ
 	 */
 	public void checkUserLogin() {
 		Actor actor;
@@ -146,75 +144,17 @@ public class ActorService {
 		Assert.notNull(actor);
 	}
 
-	/**
-	 * That method create and save in the system and actor
-	 * 
-	 * @param actor
-	 * @return Actor
-	 */
-	public Actor registerActor(final Actor actor) {
-		Actor result;
-		String password;
-		Md5PasswordEncoder encoder;
+	public int getAge(final User user) {
+		Assert.notNull(user);
 
-		Assert.notNull(actor.getUserAccount());
-		Assert.isTrue(!this.actorRepository.exists((actor.getId())));
+		final int result;
+		LocalDate birthDay;
+		LocalDate currentDate;
 
-		encoder = new Md5PasswordEncoder();
-		password = actor.getUserAccount().getPassword();
-		password = encoder.encodePassword(password, null);
-
-		actor.getUserAccount().setPassword(password);
-
-		result = this.actorRepository.save(actor);
-
-		return result;
-	}
-
-	/**
-	 * That method create and save in the system and user
-	 * 
-	 * @param user
-	 * @return a User
-	 */
-	public User registerUser(final User user) {
-		String password;
-		Md5PasswordEncoder encoder;
-		User result;
-
-		Assert.isTrue(!this.actorRepository.exists((user.getId())));
-
-		encoder = new Md5PasswordEncoder();
-		password = user.getUserAccount().getPassword();
-		password = encoder.encodePassword(password, null);
-
-		user.getUserAccount().setPassword(password);
-
-		result = this.actorRepository.save(user);
-
-		return result;
-	}
-
-	/**
-	 * That method create and save in the system and user
-	 * 
-	 * @param user
-	 * @return a User
-	 */
-	public Administrator registerAdmin(final Administrator admin) {
-		String password;
-		Md5PasswordEncoder encoder;
-		Administrator result;
-
-		Assert.isTrue(!this.actorRepository.exists((admin.getId())));
-
-		encoder = new Md5PasswordEncoder();
-		password = admin.getUserAccount().getPassword();
-		password = encoder.encodePassword(password, null);
-
-		admin.getUserAccount().setPassword(password);
-
-		result = this.actorRepository.save(admin);
+		currentDate = LocalDate.now();
+		birthDay = LocalDate.fromDateFields(user.getBirthDate());
+		result = Years.yearsBetween(birthDay, currentDate).getYears();
+		Assert.isTrue(result > 0);
 
 		return result;
 	}
