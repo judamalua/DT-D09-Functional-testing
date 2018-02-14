@@ -32,9 +32,9 @@ public class QuestionService {
 	@Autowired
 	private RendezvousService	rendezvousService;
 
+	@Autowired
+	private AnswerService		answerService;
 
-	//	@Autowired
-	//	private AnswerService		answerService;
 
 	// Simple CRUD methods --------------------------------------------------
 
@@ -108,7 +108,6 @@ public class QuestionService {
 		Collection<Answer> answers;
 
 		user = (User) this.actorService.findActorByPrincipal();
-<<<<<<< HEAD
 
 		// We check that the rendezvous that is going to be saved is contained in the principal's created rendezvouses
 		Assert.isTrue(user.getCreatedRendezvouses().contains(rendezvous));
@@ -117,12 +116,8 @@ public class QuestionService {
 			answers = this.answerService.getAnswersByQuestionId(question.getId());
 		else
 			answers = new HashSet<Answer>();
-=======
-		//		if (question.getId() != 0)
-		//			answers = this.answerService.getAnswersByQuestionId(question.getId());
-		//		else
+
 		answers = new HashSet<Answer>();
->>>>>>> master
 
 		result = this.questionRepository.save(question);
 		if (!answers.isEmpty())
