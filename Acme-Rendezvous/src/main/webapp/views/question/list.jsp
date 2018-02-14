@@ -8,7 +8,7 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<display:table name="questions" id="question" requestURI="question/user/list.do?rendezvousId=${rendezvousId}" pagesize="${pagesize}" class="displayTag">
+<display:table name="questions" id="question" requestURI="question/user/list.do?rendezvousId=${rendezvousId}" pagesize="${pagesize}" class="displayTag"> <!-- Rendezvous Id sent by controller -->
 	
 	<spring:message code="question.text" var="text"/>
 	<display:column property="text" title="${text}" sortable="false"/>
@@ -22,7 +22,7 @@
 </display:table>
 
 
-	<a href = "question/user/create.do?rendezvousId=${rendezvousId}"> <!-- Id sent by controller -->
+	<a href = "question/user/create.do?rendezvousId=${rendezvousId}"> <!-- Rendezvous Id sent by controller -->
 	<button class = "btn">
 		<spring:message code = "question.create"/>
 	</button>
