@@ -43,6 +43,7 @@
 		
 		<security:intercept-url pattern="/rendezvous/list.do" access="permitAll" /> 
 		<security:intercept-url pattern="/rendezvous/detailed-rendezvous.do" access="permitAll" /> 
+		<security:intercept-url pattern="/user/list.do" access="permitAll" /> 
 		<security:intercept-url pattern="/rendezvous/user/**" access="hasRole('USER')" /> 
 		
 		<security:intercept-url pattern="/actor/edit.do" access="hasRole('ADMIN') or hasRole('USER')" /> 
