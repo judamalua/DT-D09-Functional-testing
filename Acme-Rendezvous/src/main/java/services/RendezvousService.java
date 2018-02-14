@@ -242,11 +242,11 @@ public class RendezvousService {
 	 * @return The rendezvous associated
 	 * @author MJ
 	 */
-	public Collection<Rendezvous> findRendezvousbySimilar(final int id, final Pageable pageable) {
+	public Page<Rendezvous> findRendezvousbySimilar(final int id, final Pageable pageable) {
 		Assert.isTrue(id != 0);
 		Assert.notNull(pageable);
 
-		Collection<Rendezvous> result;
+		Page<Rendezvous> result;
 
 		result = this.rendezvousRepository.findRendezvousbySimilar(id, pageable);
 

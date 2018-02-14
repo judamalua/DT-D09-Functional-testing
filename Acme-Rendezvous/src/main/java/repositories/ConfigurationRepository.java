@@ -10,6 +10,6 @@ import domain.Configuration;
 @Repository
 public interface ConfigurationRepository extends JpaRepository<Configuration, Integer> {
 
-	@Query("select c Configuration c")
+	@Query("select c from Configuration c")
 	Configuration findConfiguration();
 }
