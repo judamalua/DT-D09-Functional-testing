@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.AnnouncementRepository;
+import security.Authority;
 import domain.Announcement;
+import domain.Rendezvous;
+import domain.User;
 
 @Service
 @Transactional
@@ -22,7 +25,16 @@ public class AnnouncementService {
 	@Autowired
 	private AnnouncementRepository	announcementRepository;
 	@Autowired
+<<<<<<< HEAD
+	private RendezvousService rendezvousService;
+	@Autowired
+	private ActorService actorService;
+	@Autowired
+	private UserService userService;
+	
+=======
 	private ActorService			actorService;
+>>>>>>> master
 
 
 	// Supporting services --------------------------------------------------
@@ -78,9 +90,19 @@ public class AnnouncementService {
 
 		assert announcement != null;
 		assert announcement.getId() != 0;
-
+		
 		Assert.isTrue(this.announcementRepository.exists(announcement.getId()));
+<<<<<<< HEAD
+		
+		//Checkear que el usuario es el creador o administrador
+		Rendezvous rend = rendezvousService.getRendezvousByAnnouncement(announcement.getId());
+		User user = userService.getCreatorUser(rend.getId());
+		Assert.isTrue(actorService.findActorByPrincipal().getUserAccount().getAuthorities().contains(Authority.ADMIN) 
+				|| user.equals(actorService.findActorByPrincipal()));
+		
+=======
 		//actorService.findActorByPrincipal().
+>>>>>>> master
 		this.announcementRepository.delete(announcement);
 
 	}
