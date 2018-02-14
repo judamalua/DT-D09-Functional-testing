@@ -12,6 +12,7 @@
 	
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
+	<input type="hidden" name="rendezvousId" id="rendezvousId" value="${rendezvousId}"/>
 	
 	
 	<form:label path="text">

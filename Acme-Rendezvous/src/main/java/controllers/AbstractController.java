@@ -11,13 +11,37 @@
 package controllers;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
+
+import services.ConfigurationService;
 
 @Controller
 public class AbstractController {
+
+	@Autowired
+	private ConfigurationService	configurationService;
+
+
+	/**
+	 * 
+	 * @return the number of result to be shown in every list table, stored in the database
+	 * 
+	 * @author Juanmi
+	 */
+	@ModelAttribute(value = "pagesize")
+	//@RequestMapping(method = RequestMethod.POST)
+	public Integer pagesize() {
+		Integer result;
+
+		result = this.configurationService.findConfiguration().getPageSize();
+
+		return result;
+	}
 
 	// Panic handler ----------------------------------------------------------
 

@@ -25,11 +25,10 @@
 	
 </display:table>
 
-<jstl:if test = "${userHasCreatedRendezvous}"> <!-- Variable sent by the controller to see if the principal is the creator of this Rendezvous -->
 	<a href = "question/user/create.do?rendezvousId=${rendezvousId}"> <!-- Rendezvous Id sent by controller -->
 	<button class = "btn">
 		<spring:message code = "question.create"/>
 	</button>
 	</a>
-</jstl:if>
+
 
