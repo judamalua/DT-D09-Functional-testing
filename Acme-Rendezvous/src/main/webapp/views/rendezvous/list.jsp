@@ -22,7 +22,7 @@
 <spring:message code="rendezvous.description" var="titleDescription"/>
 <spring:message code="rendezvous.moment" var="titleMoment"/>
 <spring:message code="master.page.moment.format" var="formatMoment"/>
-<jsp:useBean id="now" class=java.util.Date/>
+<jsp:useBean id="now" class="java.util.Date" />
 <fmt:formatDate var="currentDate" value="${now}" pattern="yyyy-MM-dd HH:mm"/>
 
 
