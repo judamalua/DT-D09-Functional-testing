@@ -31,9 +31,10 @@ public class QuestionService {
 	private ActorService		actorService;
 	@Autowired
 	private RendezvousService	rendezvousService;
-	@Autowired
-	private AnswerService		answerService;
 
+
+	//	@Autowired
+	//	private AnswerService		answerService;
 
 	// Simple CRUD methods --------------------------------------------------
 
@@ -105,10 +106,10 @@ public class QuestionService {
 		Collection<Answer> answers;
 
 		user = (User) this.actorService.findActorByPrincipal();
-		if (question.getId() != 0)
-			answers = this.answerService.getAnswersByQuestionId(question.getId());
-		else
-			answers = new HashSet<Answer>();
+		//		if (question.getId() != 0)
+		//			answers = this.answerService.getAnswersByQuestionId(question.getId());
+		//		else
+		answers = new HashSet<Answer>();
 
 		result = this.questionRepository.save(question);
 		if (!answers.isEmpty())

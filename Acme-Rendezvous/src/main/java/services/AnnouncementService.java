@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Collection;
@@ -24,12 +25,16 @@ public class AnnouncementService {
 	@Autowired
 	private AnnouncementRepository	announcementRepository;
 	@Autowired
+<<<<<<< HEAD
 	private RendezvousService rendezvousService;
 	@Autowired
 	private ActorService actorService;
 	@Autowired
 	private UserService userService;
 	
+=======
+	private ActorService			actorService;
+>>>>>>> master
 
 
 	// Supporting services --------------------------------------------------
@@ -40,7 +45,6 @@ public class AnnouncementService {
 		Announcement result;
 
 		result = new Announcement();
-		
 
 		return result;
 	}
@@ -70,15 +74,12 @@ public class AnnouncementService {
 	public Announcement save(final Announcement announcement) {
 
 		assert announcement != null;
-		
-		
-		if (announcement.getVersion() == 0){
+
+		if (announcement.getVersion() == 0)
 			//The announcement moment is actual when the announcement is created 
-		announcement.setMoment(new Date(System.currentTimeMillis()+10));
-		}
-		
+			announcement.setMoment(new Date(System.currentTimeMillis() + 10));
 		Announcement result;
-		
+
 		result = this.announcementRepository.save(announcement);
 
 		return result;
@@ -87,12 +88,11 @@ public class AnnouncementService {
 
 	public void delete(final Announcement announcement) {
 
-		
-		
 		assert announcement != null;
 		assert announcement.getId() != 0;
 		
 		Assert.isTrue(this.announcementRepository.exists(announcement.getId()));
+<<<<<<< HEAD
 		
 		//Checkear que el usuario es el creador o administrador
 		Rendezvous rend = rendezvousService.getRendezvousByAnnouncement(announcement.getId());
@@ -100,8 +100,10 @@ public class AnnouncementService {
 		Assert.isTrue(actorService.findActorByPrincipal().getUserAccount().getAuthorities().contains(Authority.ADMIN) 
 				|| user.equals(actorService.findActorByPrincipal()));
 		
+=======
+		//actorService.findActorByPrincipal().
+>>>>>>> master
 		this.announcementRepository.delete(announcement);
 
 	}
 }
-

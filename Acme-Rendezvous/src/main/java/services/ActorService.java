@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.joda.time.LocalDate;
 import org.joda.time.Years;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -158,4 +159,24 @@ public class ActorService {
 
 		return result;
 	}
+
+	public Actor registerActor(final Actor actor) {
+		Actor result;
+		String password;
+		Md5PasswordEncoder encoder;
+
+		Assert.notNull(actor.getUserAccount());
+		Assert.isTrue(!this.actorRepository.exists((actor.getId())));
+
+		encoder = new Md5PasswordEncoder();
+
+		password = actor.getUserAccount().getPassword();
+		password = encoder.encodePassword(password, null);
+		actor.getUserAccount().setPassword(password);
+
+		result = this.actorRepository.save(actor);
+
+		return result;
+	}
+
 }

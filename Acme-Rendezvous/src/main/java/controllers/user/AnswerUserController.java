@@ -2,7 +2,6 @@
 package controllers.user;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +15,6 @@ import services.AnswerService;
 import services.QuestionService;
 import services.RendezvousService;
 import services.UserService;
-import domain.Answer;
 import domain.Question;
 import domain.Rendezvous;
 
@@ -59,35 +57,35 @@ public class AnswerUserController {
 
 	// Saving --------------------------------------------
 
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView saveDraft(@RequestParam("answers[]") final List<String> answers, @RequestParam("rendezvousId") final int rendezvousId) {
-		Rendezvous rendezvous;
-		ModelAndView result;
-		try {
-			rendezvous = this.rendezvousService.findOne(rendezvousId);
-			Assert.notNull(rendezvous);
-		} catch (final Throwable oops) {
-			return new ModelAndView("redirect:/misc/403");
-		}
-		for (final String s : answers)
-			if (s.equals("") || s == null)
-				return this.createEditModelAndView(rendezvous.getQuestions(), rendezvousId, "answer.emptyAnswer");
-		final int i=0;
-		for(final Question q : rendezvous.getQuestions())
-			Answer a = this.answerService.create();
-			a.setText(answers.get(i));
-			final a.s
-			i++;
-		try {
-				this.auditRecordService.save(auditRecord);
-				result = new ModelAndView("redirect:list.do");
-			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(auditRecord, "auditRecord.commit.error");
-
-			}
-
-		return result;
-	}
+	//	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	//	public ModelAndView saveDraft(@RequestParam("answers[]") final List<String> answers, @RequestParam("rendezvousId") final int rendezvousId) {
+	//		Rendezvous rendezvous;
+	//		ModelAndView result;
+	//		try {
+	//			rendezvous = this.rendezvousService.findOne(rendezvousId);
+	//			Assert.notNull(rendezvous);
+	//		} catch (final Throwable oops) {
+	//			return new ModelAndView("redirect:/misc/403");
+	//		}
+	//		for (final String s : answers)
+	//			if (s.equals("") || s == null)
+	//				return this.createEditModelAndView(rendezvous.getQuestions(), rendezvousId, "answer.emptyAnswer");
+	//		final int i=0;
+	//		for(final Question q : rendezvous.getQuestions())
+	//			Answer a = this.answerService.create();
+	//			a.setText(answers.get(i));
+	//			final a.s
+	//			i++;
+	//		try {
+	//				this.auditRecordService.save(auditRecord);
+	//				result = new ModelAndView("redirect:list.do");
+	//			} catch (final Throwable oops) {
+	//				result = this.createEditModelAndView(auditRecord, "auditRecord.commit.error");
+	//
+	//			}
+	//
+	//		return result;
+	//	}
 	// Ancillary methods -------------------------------------
 
 	protected ModelAndView createEditModelAndView(final Collection<Question> questions, final int rendezvousId) {
