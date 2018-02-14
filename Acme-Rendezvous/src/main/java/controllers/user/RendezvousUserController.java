@@ -10,12 +10,15 @@
 
 package controllers.user;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -90,6 +93,41 @@ public class RendezvousUserController extends AbstractController {
 
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:misc/403");
+		}
+
+		return result;
+	}
+
+	// Saving ---------------------------------------------------------------		
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@Valid final Rendezvous rendezvous, final BindingResult binding) {
+		ModelAndView result;
+
+		if (binding.hasErrors())
+			result = this.createEditModelAndView(rendezvous, "trip.params.error");
+		else
+			try {
+				this.rendezvousService.save(rendezvous);
+				result = new ModelAndView("redirect:list.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(rendezvous, "rendezvous.commit.error");
+			}
+
+		return result;
+	}
+
+	// Deleting ---------------------------------------------------------------		
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
+	public ModelAndView delete(@Valid final Rendezvous rendezvous, final BindingResult binding) {
+		ModelAndView result;
+
+		try {
+			this.rendezvousService.delete(rendezvous);
+			result = new ModelAndView("redirect:list.do");
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(rendezvous, "rendezvous.commit.error");
 		}
 
 		return result;

@@ -6,25 +6,25 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import repositories.RendezvousRepository;
-import domain.Rendezvous;
+import repositories.CommentRepository;
+import domain.Comment;
 
 @Component
 @Transactional
-public class StringToRendezvousConverter implements Converter<String, Rendezvous> {
+public class StringToCommentConverter implements Converter<String, Comment> {
 
 	@Autowired
-	RendezvousRepository	rendezvousRepository;
+	CommentRepository	commentRepository;
 
 
 	@Override
-	public Rendezvous convert(final String text) {
-		Rendezvous result;
+	public Comment convert(final String text) {
+		Comment result;
 		int id;
 
 		try {
 			id = Integer.valueOf(text);
-			result = this.rendezvousRepository.findOne(id);
+			result = this.commentRepository.findOne(id);
 		} catch (final Throwable oops) {
 			throw new IllegalArgumentException(oops);
 		}
