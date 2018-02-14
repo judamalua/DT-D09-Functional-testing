@@ -32,9 +32,9 @@ public class QuestionService {
 	@Autowired
 	private RendezvousService	rendezvousService;
 
+	@Autowired
+	private AnswerService		answerService;
 
-	//	@Autowired
-	//	private AnswerService		answerService;
 
 	// Simple CRUD methods --------------------------------------------------
 
@@ -61,6 +61,7 @@ public class QuestionService {
 	 * @author Juanmi
 	 */
 	public Collection<Question> findAll() {
+		this.actorService.checkUserLogin();
 
 		Collection<Question> result;
 
@@ -79,6 +80,7 @@ public class QuestionService {
 	 * @return the question with the id given
 	 */
 	public Question findOne(final int questionId) {
+		this.actorService.checkUserLogin();
 
 		Question result;
 
@@ -95,20 +97,26 @@ public class QuestionService {
 	 *            to be saved
 	 * @return the question saved
 	 */
-	public Question save(final Question question) {
+	public Question save(final Question question, final Rendezvous rendezvous) {
 		this.actorService.checkUserLogin();
 
 		assert question != null;
 
 		Question result;
 		User user;
-		Rendezvous rendezvous;
+
 		Collection<Answer> answers;
 
 		user = (User) this.actorService.findActorByPrincipal();
-		//		if (question.getId() != 0)
-		//			answers = this.answerService.getAnswersByQuestionId(question.getId());
-		//		else
+
+		// We check that the rendezvous that is going to be saved is contained in the principal's created rendezvouses
+		Assert.isTrue(user.getCreatedRendezvouses().contains(rendezvous));
+
+		if (question.getId() != 0)
+			answers = this.answerService.getAnswersByQuestionId(question.getId());
+		else
+			answers = new HashSet<Answer>();
+
 		answers = new HashSet<Answer>();
 
 		result = this.questionRepository.save(question);
@@ -117,13 +125,11 @@ public class QuestionService {
 			for (final Answer a : answers)
 				a.setQuestion(result);
 
-		if (question.getId() != 0)
-			rendezvous = this.rendezvousService.getRendezvousByQuestion(question.getId());
-		else
-			rendezvous = this.rendezvousService.getRendezvousByQuestion(result.getId());
-
-		// We check that the rendezvous that has been saved is contained in the principal's created rendezvouses
-		Assert.isTrue(user.getCreatedRendezvouses().contains(rendezvous));
+		// Updating rendezvous 
+		if (rendezvous.getQuestions().contains(question))
+			rendezvous.getQuestions().remove(question);
+		rendezvous.getQuestions().add(result);
+		this.rendezvousService.save(rendezvous);
 
 		return result;
 
@@ -136,15 +142,40 @@ public class QuestionService {
 	 * @author Juanmi
 	 */
 	public void delete(final Question question) {
+		this.actorService.checkUserLogin();
+		Rendezvous rendezvous;
 
 		assert question != null;
 		assert question.getId() != 0;
 
+		rendezvous = this.rendezvousService.getRendezvousByQuestion(question.getId());
+
 		Assert.isTrue(this.questionRepository.exists(question.getId()));
+
+		this.checkUserCreatedRendezvousOfQuestion(question);
+
+		rendezvous.getQuestions().remove(question);
 
 		this.questionRepository.delete(question);
 
 	}
 
 	// Other business methods --------------------------------------------------------
+
+	/**
+	 * This method checks if the Rendezvous that contains the question in parameters is contained in the created Rendezvouses of the principal
+	 * 
+	 * @param question
+	 * @author Juanmi
+	 */
+	public void checkUserCreatedRendezvousOfQuestion(final Question question) {
+		User user;
+		Rendezvous rendezvous;
+
+		user = (User) this.actorService.findActorByPrincipal();
+		rendezvous = this.rendezvousService.getRendezvousByQuestion(question.getId());
+
+		// Checking if user trying to delete this question is the creator of the Rendezvous
+		Assert.isTrue(user.getCreatedRendezvouses().contains(rendezvous));
+	}
 }

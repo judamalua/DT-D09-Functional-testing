@@ -12,6 +12,7 @@
 	
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
+	<input type="hidden" name="rendezvousId" id="rendezvousId" value="${rendezvousId}"/>
 	
 	
 	<form:label path="text">
@@ -42,6 +43,6 @@
 		name="cancel"
 		class = "btn"
 		value="<spring:message code="question.cancel" />"
-		onclick="javascript: relativeRedir('rendezvous/user/detailed-rendezvous.do?rendezvousId=${rendezvousId}');" /> <!-- This variable is sent by the controller -->
+		onclick="javascript: relativeRedir('rendezvous/detailed-rendezvous.do?rendezvousId=${rendezvousId}');" /> <!-- This variable is sent by the controller -->
 
 </form:form>

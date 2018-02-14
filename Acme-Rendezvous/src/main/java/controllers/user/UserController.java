@@ -58,7 +58,7 @@ public class UserController extends AbstractController {
 		Pageable pageable;
 		Configuration configuration;
 
-		result = new ModelAndView("rendezvous/list");
+		result = new ModelAndView("user/list");
 		configuration = this.configurationService.findConfiguration();
 		pageable = new PageRequest(page, configuration.getPageSize());
 		users = this.userService.getUsers(pageable);
