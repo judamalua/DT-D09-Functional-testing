@@ -48,10 +48,10 @@ public class UserService {
 		RSVPRendezvouses = new HashSet<Rendezvous>();
 		comments = new HashSet<Comment>();
 
-		result.setRSVPRendezvouses(RSVPRendezvouses);
+		result.setRsvpRendezvouses(RSVPRendezvouses);
 		result.setCreatedRendezvouses(createdRendezvouses);
 		result.setComments(comments);
-		result.setRSVPRendezvouses(RSVPRendezvouses);
+		result.setRsvpRendezvouses(RSVPRendezvouses);
 
 		return result;
 	}

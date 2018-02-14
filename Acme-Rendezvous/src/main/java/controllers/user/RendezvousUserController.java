@@ -105,7 +105,7 @@ public class RendezvousUserController extends AbstractController {
 		ModelAndView result;
 
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(rendezvous, "trip.params.error");
+			result = this.createEditModelAndView(rendezvous, "rendezvous.params.error");
 		else
 			try {
 				this.rendezvousService.save(rendezvous);

@@ -127,7 +127,11 @@ public class RendezvousService {
 
 		if (user.getCreatedRendezvouses().contains(rendezvous))   		//
 			user.getCreatedRendezvouses().remove(rendezvous);			//UPDATING USER
-		user.getCreatedRendezvouses().add(rendezvous);					//
+		user.getCreatedRendezvouses().add(result);						//
+
+		if (user.getRsvpRendezvouses().contains(rendezvous))   			//
+			user.getRsvpRendezvouses().remove(rendezvous);				//UPDATING USER
+		user.getRsvpRendezvouses().add(result);							//
 
 		this.actorService.save(user);
 
@@ -152,9 +156,9 @@ public class RendezvousService {
 
 		result = this.rendezvousRepository.save(rendezvous);
 
-		if (user.getRSVPRendezvouses().contains(rendezvous))			//
-			user.getRSVPRendezvouses().remove(rendezvous);				//UPDATING USER
-		user.getRSVPRendezvouses().add(rendezvous);						//
+		if (user.getRsvpRendezvouses().contains(rendezvous))			//
+			user.getRsvpRendezvouses().remove(rendezvous);				//UPDATING USER
+		user.getRsvpRendezvouses().add(rendezvous);						//
 
 		this.actorService.save(user);
 
