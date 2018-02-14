@@ -28,6 +28,9 @@
 		
 		<bean class="converters.AnswerToStringConverter" />
 		<bean class="converters.StringToAnswerConverter" />
+		
+		<bean class="converters.AnnouncementToStringConverter" />
+		<bean class="converters.StringToAnnouncementConverter" />
 	</util:list>
 	
 </beans>
