@@ -35,7 +35,7 @@
 								code="master.page.user" /><span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li class="arrow"></li>
-							<li><a href="rendezvous/user/create.do"><spring:message
+							<li><a href="rendezvous/user/list.do"><spring:message
 										code="master.page.createdRendezvous" /></a></li>
 							
 						</ul>

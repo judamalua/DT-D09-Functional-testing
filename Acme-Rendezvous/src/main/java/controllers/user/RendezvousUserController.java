@@ -59,21 +59,28 @@ public class RendezvousUserController extends AbstractController {
 	// Listing  ---------------------------------------------------------------		
 
 	@RequestMapping("/list")
-	public ModelAndView list(@RequestParam final int userId, @RequestParam(defaultValue = "0") final int page) {
-		ModelAndView result;
-		Page<Rendezvous> rendezvouses;
-		User user;
-		Pageable pageable;
-		Configuration configuration;
+	public ModelAndView list(@RequestParam(required = false) final Integer userId, @RequestParam(defaultValue = "0") final int page) {
+		final ModelAndView result;
+		final Page<Rendezvous> rendezvouses;
+		final User user;
+		final Pageable pageable;
+		final Configuration configuration;
+
+		if (userId != null) {
+			user = this.userService.findOne(userId);
+			Assert.notNull(user);
+		} else
+			user = (User) this.actorService.findActorByPrincipal();
 
 		result = new ModelAndView("rendezvous/list");
 		configuration = this.configurationService.findConfiguration();
-		user = this.userService.findOne(userId);
-		Assert.notNull(user);
+
 		pageable = new PageRequest(page, configuration.getPageSize());
 		rendezvouses = this.rendezvousService.findCreatedRendezvouses(user, pageable);
 
 		result.addObject("rendezvouses", rendezvouses.getContent());
+		result.addObject("anonymous", false);
+
 		return result;
 	}
 	// Editing ---------------------------------------------------------------		
@@ -86,6 +93,7 @@ public class RendezvousUserController extends AbstractController {
 
 		try {
 			rendezvous = this.rendezvousService.findOne(rendezvousId);
+			Assert.isTrue(!rendezvous.getFinalMode());
 			user = (User) this.actorService.findActorByPrincipal();
 			Assert.isTrue(user.getCreatedRendezvouses().contains(rendezvous));
 			result = this.createEditModelAndView(rendezvous);
@@ -103,13 +111,16 @@ public class RendezvousUserController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final Rendezvous rendezvous, final BindingResult binding) {
 		ModelAndView result;
+		User user;
 
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(rendezvous, "rendezvous.params.error");
 		else
 			try {
 				this.rendezvousService.save(rendezvous);
+				user = (User) this.actorService.findActorByPrincipal();
 				result = new ModelAndView("redirect:list.do");
+				result.addObject("userId", user.getId());
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(rendezvous, "rendezvous.commit.error");
 			}
