@@ -12,37 +12,62 @@
 	
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
-	<input type="hidden" name="rendezvousId" id="rendezvousId" value="${rendezvousId}"/>
+	<form:hidden path="createdRendezvouses"/>
+	<form:hidden path="rsvpRendezvouses"/>
+	<form:hidden path="comments"/>
 	
 	
-	<form:label path="text">
-		<spring:message code="question.text"/>
+	<form:label path="name">
+		<spring:message code="user.name"/>
 	</form:label>
-	<form:input path="text"/>
-	<form:errors cssClass="error" path="text"/>
-	<br/>
+	<form:input path="name"/>
+	<form:errors cssClass="error" path="name"/>
 	
+	
+	<form:label path="surname">
+		<spring:message code="user.surname"/>
+	</form:label>
+	<form:input path="surname"/>
+	<form:errors cssClass="error" path="surname"/>
+	
+	
+	<form:label path="phoneNumber">
+		<spring:message code="user.phoneNumber"/>
+	</form:label>
+	<form:input path="phoneNumber"/>
+	<form:errors cssClass="error" path="phoneNumber"/>
+	
+	<<form:label path="postalAddress">
+		<spring:message code="user.postalAddress"/>
+	</form:label>
+	<form:input path="postalAddress"/>
+	<form:errors cssClass="error" path="postalAddress"/>
+	
+	<form:label path="email">
+		<spring:message code="user.email"/>
+	</form:label>
+	<form:input path="email"/>
+	<form:errors cssClass="error" path="email"/>
+	
+	<form:label path="birthDate">
+		<spring:message code="user.birthDate"/>
+	</form:label>
+	<form:input path="birthDate"/>
+	<form:errors cssClass="error" path="birthDate"/>
+	
+
 	
 	<input 
 		type="submit"
 		name="save"
 		class = "btn"
-		value="<spring:message code="question.save" />" />
+		value="<spring:message code="user.save" />" />
 		
-	<jstl:if test="${question.id!=0}">
-		<input 
-			type="submit"
-			name="delete"
-			class = "btn"
-			value="<spring:message code="question.delete" />"
-			onclick="return confirm('<spring:message code='question.confirm.delete' />') "/>
-	</jstl:if>
-	
 	<input 
 		type="button"
 		name="cancel"
 		class = "btn"
-		value="<spring:message code="question.cancel" />"
-		onclick="javascript: relativeRedir('rendezvous/detailed-rendezvous.do?rendezvousId=${rendezvousId}');" /> <!-- This variable is sent by the controller -->
+		value="<spring:message code="user.cancel" />"
+		onclick="javascript: relativeRedir('user/list.do');" /> 
 
 </form:form>

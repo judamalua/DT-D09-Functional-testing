@@ -144,7 +144,6 @@ public class UserController extends AbstractController {
 				Assert.isTrue(user.getUserAccount().getAuthorities().contains(auth));
 				Assert.isTrue(confirmPassword.equals(user.getUserAccount().getPassword()), "Passwords do not match");
 				this.actorService.registerActor(user);
-				this.userService.save(user);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
 				if (oops.getMessage().contains("Passwords do not match"))

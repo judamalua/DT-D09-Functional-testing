@@ -123,33 +123,6 @@ public class ActorController extends AbstractController {
 
 		return result;
 	}
-	//Saving user ---------------------------------------------------------------------
-	@RequestMapping(value = "/register-user", method = RequestMethod.POST, params = {
-		"save", "confirmPassword"
-	})
-	public ModelAndView registerUser(@ModelAttribute("actor") @Valid final User user, final BindingResult binding, @RequestParam("confirmPassword") final String confirmPassword) {
-		ModelAndView result;
-		Authority auth;
-
-		if (binding.hasErrors())
-			result = this.createEditModelAndView(user, "actor.params.error");
-		else
-			try {
-				auth = new Authority();
-				auth.setAuthority(Authority.USER);
-				Assert.isTrue(user.getUserAccount().getAuthorities().contains(auth));
-				Assert.isTrue(confirmPassword.equals(user.getUserAccount().getPassword()), "Passwords do not match");
-				this.actorService.registerActor(user);
-				result = new ModelAndView("redirect:/welcome/index.do");
-			} catch (final Throwable oops) {
-				if (oops.getMessage().contains("Passwords do not match"))
-					result = this.createEditModelAndView(user, "actor.params.confirm.error");
-				else
-					result = this.createEditModelAndView(user, "actor.commit.error");
-			}
-
-		return result;
-	}
 
 	//Ancillary methods ----------------------------------------------------------------
 
