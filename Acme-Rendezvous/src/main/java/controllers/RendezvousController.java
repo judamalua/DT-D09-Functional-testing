@@ -97,15 +97,16 @@ public class RendezvousController extends AbstractController {
 			/**
 			 * Age control
 			 */
-			if (!anonymous) {//Checks if there is the user is listing logged
+			if (!anonymous && rendezvous.getAdultOnly()) {//Checks if there is the user is listing logged
 				user = (User) this.actorService.findActorByPrincipal();
 				age = this.actorService.getAge(user);
 				Assert.isTrue(age >= 18);//The age must be 18 or more
 			}
 
 			result.addObject("rendezvous", rendezvous);
+
 		} catch (final Throwable oops) {
-			result = new ModelAndView("misc/403");
+			result = new ModelAndView("redirect:misc/403");
 		}
 
 		return result;
