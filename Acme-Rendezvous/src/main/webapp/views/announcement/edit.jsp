@@ -12,14 +12,21 @@
 	
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
-	<input type="hidden" name="rendezvousId" id="rendezvousId" value="${rendezvousId}"/>
+	<input type="hidden" name="moment" id="moment" value="${moment}"/>
 	
 	
-	<form:label path="text">
-		<spring:message code="announcement.text"/>
+	<form:label path="title">
+		<spring:message code="announcement.title"/>
 	</form:label>
-	<form:input path="text"/>
-	<form:errors cssClass="error" path="text"/>
+	<form:input path="title"/>
+	<form:errors cssClass="error" path="title"/>
+	<br/>
+	
+	<form:label path="description">
+		<spring:message code="announcement.description"/>
+	</form:label>
+	<form:input path="description"/>
+	<form:errors cssClass="error" path="description"/>
 	<br/>
 	
 	
@@ -43,6 +50,6 @@
 		name="cancel"
 		class = "btn"
 		value="<spring:message code="announcement.cancel" />"
-		onclick="javascript: relativeRedir('rendezvous/detailed-rendezvous.do?rendezvousId=${rendezvousId}');" /> <!-- This variable is sent by the controller -->
+		onclick="javascript: relativeRedir('announcement/list.do;" /> <!-- This variable is sent by the controller -->
 
 </form:form>
