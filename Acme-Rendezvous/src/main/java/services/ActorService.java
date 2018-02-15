@@ -5,7 +5,10 @@ import java.util.Collection;
 
 import javax.transaction.Transactional;
 
+import org.joda.time.LocalDate;
+import org.joda.time.Years;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -13,6 +16,7 @@ import repositories.ActorRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Actor;
+import domain.User;
 
 @Service
 @Transactional
@@ -140,4 +144,39 @@ public class ActorService {
 
 		Assert.notNull(actor);
 	}
+
+	public int getAge(final User user) {
+		Assert.notNull(user);
+
+		final int result;
+		LocalDate birthDay;
+		LocalDate currentDate;
+
+		currentDate = LocalDate.now();
+		birthDay = LocalDate.fromDateFields(user.getBirthDate());
+		result = Years.yearsBetween(birthDay, currentDate).getYears();
+		Assert.isTrue(result > 0);
+
+		return result;
+	}
+
+	public Actor registerActor(final Actor actor) {
+		Actor result;
+		String password;
+		Md5PasswordEncoder encoder;
+
+		Assert.notNull(actor.getUserAccount());
+		Assert.isTrue(!this.actorRepository.exists((actor.getId())));
+
+		encoder = new Md5PasswordEncoder();
+
+		password = actor.getUserAccount().getPassword();
+		password = encoder.encodePassword(password, null);
+		actor.getUserAccount().setPassword(password);
+
+		result = this.actorRepository.save(actor);
+
+		return result;
+	}
+
 }

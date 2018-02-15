@@ -22,7 +22,7 @@
 <spring:message code="rendezvous.description" var="titleDescription"/>
 <spring:message code="rendezvous.moment" var="titleMoment"/>
 <spring:message code="master.page.moment.format" var="formatMoment"/>
-<jsp:useBean id="now" class=java.util.Date/>
+<jsp:useBean id="now" class="java.util.Date" />
 <fmt:formatDate var="currentDate" value="${now}" pattern="yyyy-MM-dd HH:mm"/>
 
 
@@ -33,7 +33,7 @@
 	<display:column property="description" title="${titleDescription}"/>
 	<display:column property="moment" title="${titleMoment}" format="${formatMoment}"/>
 	<display:column>
-		<a href="rendezvous/user/detailed-rendezvous.do?rendezvousId=${rendezvous.id}">
+		<a href="rendezvous/detailed-rendezvous.do?rendezvousId=${rendezvous.id}">
 			<button class="btn">
 				<spring:message code="rendevous.edit"/>
 			</button>
@@ -48,12 +48,14 @@
 			</a>
 		</jstl:if>
 	</display:column>
-	
 </display:table>
 
 <!-- Creating a new rendezvous -->
-<a href="rendezvous/user/create.do">
-	<button class="btn">
-		<spring:message code="rendevous.create"/>
-	</button>
-</a>
+
+<jstl:if test="${not anonymous}">
+	<a href="rendezvous/user/create.do">
+		<button class="btn">
+			<spring:message code="rendezvous.create"/>
+		</button>
+	</a>
+</jstl:if>

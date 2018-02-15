@@ -94,14 +94,54 @@
 		<property name="surname" value="User" />
 		<property name="email" value="user1@mail.com" />
 		<property name="birthDate" value="1987/04/11 00:00" />
+		<property name="phoneNumber" value="635587789"/>
+		<property name="postalAddress" value="San Antion Spurs Street"/>
 		<property name="userAccount" ref="UserAccount3" />
+		<property name="createdRendezvouses">
+			<list>
+			</list>
+		</property>
+		<property name="rsvpRendezvouses">
+			<list>
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="User2" class="domain.User">
 		<property name="name" value="User 2" />
 		<property name="surname" value="User " />
 		<property name="email" value="user2@mail.com" />
+		<property name="phoneNumber" value="635582389"/>
+		<property name="postalAddress" value="Okklahoma Thunder Street"/>
 		<property name="birthDate" value="1992/07/15 00:00" />
 		<property name="userAccount" ref="UserAccount4" />
+		<property name="createdRendezvouses">
+			<list>
+			</list>
+		</property>
+		<property name="rsvpRendezvouses">
+			<list>
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	
+	
+	<!-- %%%% Configuration %%%% -->
+	
+	<bean id="Configuration" class="domain.Configuration">
+		<property name="terms_eng" value="Terms in english" />
+		<property name="terms_es" value="Términos en español " />
+		<property name="cookies_eng" value="Cookies in english" />
+		<property name="cookies_es" value="Cookies en español" />
+		<property name="pageSize" value="10" />
 	</bean>
 </beans>

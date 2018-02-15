@@ -7,6 +7,8 @@ import java.util.HashSet;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -125,7 +127,11 @@ public class RendezvousService {
 
 		if (user.getCreatedRendezvouses().contains(rendezvous))   		//
 			user.getCreatedRendezvouses().remove(rendezvous);			//UPDATING USER
-		user.getCreatedRendezvouses().add(rendezvous);					//
+		user.getCreatedRendezvouses().add(result);						//
+
+		if (user.getRsvpRendezvouses().contains(rendezvous))   			//
+			user.getRsvpRendezvouses().remove(rendezvous);				//UPDATING USER
+		user.getRsvpRendezvouses().add(result);							//
 
 		this.actorService.save(user);
 
@@ -150,9 +156,9 @@ public class RendezvousService {
 
 		result = this.rendezvousRepository.save(rendezvous);
 
-		if (user.getRSVPRendezvouses().contains(rendezvous))			//
-			user.getRSVPRendezvouses().remove(rendezvous);				//UPDATING USER
-		user.getRSVPRendezvouses().add(rendezvous);						//
+		if (user.getRsvpRendezvouses().contains(rendezvous))			//
+			user.getRsvpRendezvouses().remove(rendezvous);				//UPDATING USER
+		user.getRsvpRendezvouses().add(rendezvous);						//
 
 		this.actorService.save(user);
 
@@ -231,4 +237,97 @@ public class RendezvousService {
 		return result;
 
 	}
+
+	/**
+	 * Get the rendezvous associated to a similar rendezvous
+	 * 
+	 * @param id
+	 * @param pageable
+	 * @return The rendezvous associated
+	 * @author MJ
+	 */
+	public Page<Rendezvous> findRendezvousbySimilar(final int id, final Pageable pageable) {
+		Assert.isTrue(id != 0);
+		Assert.notNull(pageable);
+
+		Page<Rendezvous> result;
+
+		result = this.rendezvousRepository.findRendezvousbySimilar(id, pageable);
+
+		return result;
+	}
+
+	/**
+	 * Return the list of rendezvouses in final mode and not deleted paginated by the param
+	 * 
+	 * @param pageable
+	 * @return A page of Rendezvouses in final mode
+	 * @author MJ
+	 */
+	public Page<Rendezvous> findFinalRendezvouses(final Pageable pageable) {
+		Assert.notNull(pageable);
+
+		Page<Rendezvous> result;
+
+		result = this.rendezvousRepository.findFinalRendezvouses(pageable);
+
+		return result;
+	}
+
+	/**
+	 * Return the list of rendezvouses in final mode, not deleted and
+	 * without adult content paginated by the param
+	 * 
+	 * @param pageable
+	 * @return A page of Rendezvouses in final mode without adult content
+	 * @author MJ
+	 */
+	public Page<Rendezvous> findFinalWithoutAdultRendezvouses(final Pageable pageable) {
+		Assert.notNull(pageable);
+
+		Page<Rendezvous> result;
+
+		result = this.rendezvousRepository.findFinalWithoutAdultRendezvouses(pageable);
+
+		return result;
+	}
+
+	/**
+	 * Return the list of not deleted rendezvouses paginated by the pageable and created by user
+	 * 
+	 * @param pageable
+	 * @param user
+	 * @return A page of Rendezvouses created by the user
+	 * @author MJ
+	 */
+	public Page<Rendezvous> findCreatedRendezvouses(final User user, final Pageable pageable) {
+		Assert.notNull(pageable);
+		Assert.notNull(user);
+
+		Page<Rendezvous> result;
+
+		result = this.rendezvousRepository.findCreatedRendezvouses(user.getId(), pageable);
+
+		return result;
+	}
+
+	/**
+	 * Return the list of not deleted rendezvouses paginated by the pageable and RSVP by user
+	 * 
+	 * @param pageable
+	 * @param user
+	 * @return A page of Rendezvouses RSVP by the user
+	 * @author MJ
+	 */
+	public Page<Rendezvous> findRSVPRendezvouses(final User user, final Pageable pageable) {
+		Assert.notNull(pageable);
+		Assert.notNull(user);
+
+		Page<Rendezvous> result;
+
+		result = this.rendezvousRepository.findRSVPRendezvouses(user.getId(), pageable);
+
+		return result;
+	}
+
 }

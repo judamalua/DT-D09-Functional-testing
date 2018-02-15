@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Collection;
@@ -77,5 +78,14 @@ public class ConfigurationService {
 		this.configurationRepository.delete(configuration);
 
 	}
-}
 
+	public Configuration findConfiguration() {
+		Configuration result;
+
+		result = this.configurationRepository.findConfiguration();
+		Assert.notNull(result);
+
+		return result;
+
+	}
+}

@@ -67,6 +67,8 @@
 	</form:label>
 	<form:checkbox path="adultOnly"/>
 	<form:errors cssClass="error" path="adultOnly"/>
+	<br/>
+	<br/>
 	
 	<input type="submit" 
 		name="save"

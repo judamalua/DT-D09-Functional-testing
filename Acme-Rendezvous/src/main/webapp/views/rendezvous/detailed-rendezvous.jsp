@@ -47,7 +47,7 @@
 <iframe class="map" src="https://www.google.com/maps/embed/v1/search?q=${rendezvous.gpsCoordinates}&key=AIzaSyBe0wmulZvK1IM3-3jIUgbxt2Ax_QOVW6c"></iframe>
 
 <!-- Displaying similar rendevouses -->
-<display:table name="rendezvouse.similars" id="similar" requestURI="rendezvouse/user/detailed-rendezvous.do" pagesize="10">
+<display:table name="rendezvouse.similars" id="similar" requestURI="rendezvouse/detailed-rendezvous.do" pagesize="10">
 	<display:column property="name" title="${titleName}"/>
 	<display:column property="description" title="${titleDescription}"/>
 	<display:column property="moment" title="${titleMoment}" format="${formatMoment}"/>
@@ -61,14 +61,14 @@
 </display:table>	
 
 <!-- Displaying announcements -->
-<display:table name="rendezvouse.announcements" id="announcement" requestURI="rendezvouse/user/detailed-rendezvous.do" pagesize="10">
+<display:table name="rendezvouse.announcements" id="announcement" requestURI="rendezvouse/detailed-rendezvous.do" pagesize="10">
 	<display:column property="title" title="${titleAnnouncement}"/>
 	<display:column property="description" title="${descriptionAnnouncement}"/>
 	<display:column property="moment" title="${momentAnnouncement}" format="${formatMoment}"/>
 </display:table>	
 
 <!-- Displaying comments -->
-<display:table name="rendezvouse.comments" id="comment" requestURI="rendezvouse/user/detailed-rendezvous.do" pagesize="10">
+<display:table name="rendezvouse.comments" id="comment" requestURI="rendezvouse/detailed-rendezvous.do" pagesize="10">
 	<display:column>
 		<img src="${comment.pictureUrl}">
 	</display:column>

@@ -20,6 +20,8 @@ public class CommentToStringConverter implements Converter<Comment, String> {
 			result = null;
 		else
 			result = String.valueOf(comment.getId());
+
 		return result;
 	}
+
 }
