@@ -46,15 +46,21 @@ public class RendezvousService {
 	 */
 	public Rendezvous create() {
 		Rendezvous result;
+		User user;
 		final Collection<Question> questions;
 		final Collection<Rendezvous> similars;
 		final Collection<Announcement> announcements;
 		final Collection<Comment> comments;
+		final Collection<User> users;
 
 		questions = new HashSet<Question>();
 		similars = new HashSet<Rendezvous>();
 		announcements = new HashSet<Announcement>();
 		comments = new HashSet<Comment>();
+		users = new HashSet<User>();
+
+		user = (User) this.actorService.findActorByPrincipal();
+		users.add(user);
 
 		result = new Rendezvous();
 
@@ -62,6 +68,7 @@ public class RendezvousService {
 		result.setAnnouncements(announcements);
 		result.setComments(comments);
 		result.setSimilars(similars);
+		result.setUsers(users);
 
 		return result;
 
@@ -101,7 +108,6 @@ public class RendezvousService {
 
 		result = this.rendezvousRepository.findOne(rendezvousId);
 
-		Assert.isTrue(!result.getFinalMode());
 		Assert.isTrue(!result.getDeleted());
 
 		return result;
@@ -123,15 +129,15 @@ public class RendezvousService {
 
 		user = (User) this.actorService.findActorByPrincipal();
 
+		if (rendezvous.getUsers().contains(user))   				//
+			rendezvous.getUsers().remove(user);						//UPDATING USER
+		rendezvous.getUsers().add(user);							//
+
 		result = this.rendezvousRepository.save(rendezvous);
 
 		if (user.getCreatedRendezvouses().contains(rendezvous))   		//
 			user.getCreatedRendezvouses().remove(rendezvous);			//UPDATING USER
 		user.getCreatedRendezvouses().add(result);						//
-
-		if (user.getRsvpRendezvouses().contains(rendezvous))   			//
-			user.getRsvpRendezvouses().remove(rendezvous);				//UPDATING USER
-		user.getRsvpRendezvouses().add(result);							//
 
 		this.actorService.save(user);
 
@@ -154,11 +160,11 @@ public class RendezvousService {
 
 		user = (User) this.actorService.findActorByPrincipal();
 
-		result = this.rendezvousRepository.save(rendezvous);
+		if (rendezvous.getUsers().contains(user))   				//
+			rendezvous.getUsers().remove(user);						//UPDATING USER
+		rendezvous.getUsers().add(user);							//
 
-		if (user.getRsvpRendezvouses().contains(rendezvous))			//
-			user.getRsvpRendezvouses().remove(rendezvous);				//UPDATING USER
-		user.getRsvpRendezvouses().add(rendezvous);						//
+		result = this.rendezvousRepository.save(rendezvous);
 
 		this.actorService.save(user);
 

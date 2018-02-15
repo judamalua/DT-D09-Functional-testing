@@ -24,6 +24,7 @@
 	<form:hidden path="similars"/>
 	<form:hidden path="announcements"/>
 	<form:hidden path="comments"/>
+	<form:hidden path="users"/>
 
 	<form:label path="name">
 		<spring:message code="rendezvous.name"/>
@@ -71,16 +72,19 @@
 	<br/>
 	
 	<input type="submit" 
+		class="btn"
 		name="save"
 		value="<spring:message code="rendezvous.save"/>"/>
 	<jstl:if test="${rendezvous.id!=0}">
 		<input type="submit"
+			class="btn"
 			name="delete"
 			value="<spring:message code="rendezvous.delete"/>"
 			onclick="return confirm('<spring:message code="rendezvous.confirm.delete"/>')"/>
 	</jstl:if>
 	
 	<input type="button" 
+		class="btn"
 		name="cancel"
 		value="<spring:message code="rendezvous.cancel"/>"
 		onclick="javascript:relativeRedir('rendezvous/user/list.do')"/>

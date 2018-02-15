@@ -30,9 +30,10 @@
 <spring:message code="rendezvous.comment.display" var="displayComment"/>
 
 
-<jsp:useBean id="now" class=java.util.Date/>
+<jsp:useBean id="now" class="java.util.Date"/>
 <fmt:formatDate var="currentDate" value="${now}" pattern="yyyy-MM-dd HH:mm"/>
-<fmt:formatDate var="formatMomentRendezvous" value="${rendezvous.moment}" pattern="<spring:message code="master.page.moment.pattern.out"/>"/>
+<spring:message var="format" code="master.page.moment.format.out"/>
+<fmt:formatDate var="formatMomentRendezvous" value="${rendezvous.moment}" pattern="${format}" />
 <spring:message code="master.page.moment.format" var="formatMoment"/>
 
 
