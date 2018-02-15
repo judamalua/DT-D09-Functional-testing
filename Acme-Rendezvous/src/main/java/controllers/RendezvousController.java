@@ -107,6 +107,7 @@ public class RendezvousController extends AbstractController {
 
 			if (!anonymous) {
 				user = (User) this.actorService.findActorByPrincipal();
+				// Variable to check if button to see Questions must be shown in detailed rendezvous.
 				userHasCreatedRendezvous = user.getCreatedRendezvouses().contains(rendezvous);
 			}
 
