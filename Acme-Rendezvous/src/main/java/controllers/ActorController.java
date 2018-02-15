@@ -68,34 +68,6 @@ public class ActorController extends AbstractController {
 		return result;
 	}
 
-	// Registering user ------------------------------------------------------------
-	@RequestMapping(value = "/register-user", method = RequestMethod.GET)
-	public ModelAndView registerExplorer() {
-		ModelAndView result;
-		Actor actor;
-
-		actor = this.userService.create();
-
-		result = this.createEditModelAndView(actor);
-
-		result.addObject("actionURL", "actor/register-user.do");
-
-		return result;
-	}
-
-	//Edit an User
-	@RequestMapping(value = "/user/edit", method = RequestMethod.GET)
-	public ModelAndView editUser() {
-		ModelAndView result;
-		User user;
-
-		user = (User) this.actorService.findActorByPrincipal();
-		Assert.notNull(user);
-		result = this.createEditModelAndView(user);
-
-		return result;
-	}
-
 	// Registering administrator ------------------------------------------------------------
 	@RequestMapping(value = "/register-admin", method = RequestMethod.GET)
 	public ModelAndView registerAdmin() {
