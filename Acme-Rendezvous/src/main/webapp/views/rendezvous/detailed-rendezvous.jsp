@@ -92,3 +92,12 @@
 		</a>
 	</display:column>
 </display:table>	
+
+<jstl:if test="${!anonymous && userHasCreatedRendezvous}">
+	<br/>
+	<a href="question/user/list.do?rendezvousId=${rendezvous.id}">
+		<button class="btn">
+				<spring:message code="rendezvous.question.list"/>
+			</button>
+	</a>
+</jstl:if>
