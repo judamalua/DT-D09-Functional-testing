@@ -41,17 +41,13 @@ public class UserService {
 		User result;
 		final Collection<Comment> comments;
 		final Collection<Rendezvous> createdRendezvouses;
-		final Collection<Rendezvous> RSVPRendezvouses;
 
 		result = new User();
 		createdRendezvouses = new HashSet<Rendezvous>();
-		RSVPRendezvouses = new HashSet<Rendezvous>();
 		comments = new HashSet<Comment>();
 
-		result.setRsvpRendezvouses(RSVPRendezvouses);
 		result.setCreatedRendezvouses(createdRendezvouses);
 		result.setComments(comments);
-		result.setRsvpRendezvouses(RSVPRendezvouses);
 
 		return result;
 	}
@@ -128,21 +124,6 @@ public class UserService {
 
 	}
 
-	/**
-	 * That method returns a collections of users that has RCVPd a rendezvous
-	 * 
-	 * @param rendezvousId
-	 * @return a collection of Users
-	 * @author Luis
-	 */
-	public Collection<User> getRCPVusers(final int rendezvousId) {
-		Collection<User> result;
-
-		result = this.userRepository.findUsersRSVPs(rendezvousId);
-
-		return result;
-
-	}
 	/**
 	 * That method returns a collections of users of the system with pageable
 	 * 
