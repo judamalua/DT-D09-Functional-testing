@@ -34,7 +34,7 @@ public class CommentController extends AbstractController {
 	}
 
 	//List -----------------------------------------------------------
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/listFromRendezvous", method = RequestMethod.GET)
 	public ModelAndView listFromRendezvous(@RequestParam final int rendezvousId) {
 		ModelAndView result;
 		Collection<Comment> comments;
@@ -52,7 +52,7 @@ public class CommentController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/listFromComment", method = RequestMethod.GET)
 	public ModelAndView listFromComment(@RequestParam final int commentId) {
 		ModelAndView result;
 		Collection<Comment> replies;
@@ -85,7 +85,7 @@ public class CommentController extends AbstractController {
 		result = new ModelAndView("comment/display");
 		result.addObject("comment", comment);
 		result.addObject("user", user);
-		result.addObject("replies", replies);
+		result.addObject("comments", replies);
 
 		return result;
 	}

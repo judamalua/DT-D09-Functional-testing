@@ -67,7 +67,7 @@ public class CommentUserController extends AbstractController {
 				saved = this.commentService.save(comment);
 				rendezvous.getComments().add(saved);
 				this.rendezvousService.save(rendezvous);
-				result = new ModelAndView("redirect:comment/list.do?rendezvousId=" + rendezvous.getId());
+				result = new ModelAndView("redirect:comment/listFromRendezvous.do?rendezvousId=" + rendezvous.getId());
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(comment, "comment.commit.error", rendezvous.getId());
 			}

@@ -32,12 +32,12 @@
 	
 	<spring:message code="comment.pictureUrl" var = "commentPictureUrl" />
 	<display:column title="${commentPictureUrl}">
-		<img src="${row.pictureUrl}"/>
+		<img src="${row.pictureUrl}" width="150" height="150"/>
 	</display:column>
 	
 	<spring:message code="comment.replies" var = "commentReplies" />
 	<display:column title="${commentReplies}" sortable="false">
-		<jstl:if test="${row.replies != null and fn:length(row.replies)>0}"> <!-- Comprueba que tenga respuestas -->
+		<jstl:if test="${row.comments != null and fn:length(row.comments)>0}"> <!-- Comprueba que tenga respuestas -->
 			<a href="comment/list.do?commentId=${row.id}"><spring:message code="comment.view.replies"/></a>
 		</jstl:if>
 	</display:column>
