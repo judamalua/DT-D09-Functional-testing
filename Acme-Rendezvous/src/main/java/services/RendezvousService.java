@@ -207,7 +207,6 @@ public class RendezvousService {
 		r.setDeleted(true);
 
 		this.save(r);
-
 	}
 
 	/**

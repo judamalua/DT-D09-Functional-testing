@@ -16,7 +16,6 @@ import repositories.ActorRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Actor;
-import domain.User;
 
 @Service
 @Transactional
@@ -136,6 +135,8 @@ public class ActorService {
 
 	/**
 	 * Checks there is an actor logged in the system
+	 * 
+	 * @author MJ
 	 */
 	public void checkUserLogin() {
 		Actor actor;
@@ -144,22 +145,35 @@ public class ActorService {
 
 		Assert.notNull(actor);
 	}
-
-	public int getAge(final User user) {
-		Assert.notNull(user);
+	/**
+	 * Gets the age in years of an actor
+	 * 
+	 * @param actor
+	 * @return The age of the actor
+	 * @author MJ
+	 */
+	public int getAge(final Actor actor) {
+		Assert.notNull(actor);
 
 		final int result;
 		LocalDate birthDay;
 		LocalDate currentDate;
 
 		currentDate = LocalDate.now();
-		birthDay = LocalDate.fromDateFields(user.getBirthDate());
+		birthDay = LocalDate.fromDateFields(actor.getBirthDate());
 		result = Years.yearsBetween(birthDay, currentDate).getYears();
 		Assert.isTrue(result > 0);
 
 		return result;
 	}
 
+	/**
+	 * Register an actor in the system
+	 * 
+	 * @param actor
+	 * @return The actor saved in the system
+	 * @author Luis
+	 */
 	public Actor registerActor(final Actor actor) {
 		Actor result;
 		String password;
@@ -174,7 +188,7 @@ public class ActorService {
 		password = encoder.encodePassword(password, null);
 		actor.getUserAccount().setPassword(password);
 
-		result = this.actorRepository.save(actor);
+		result = this.save(actor);
 
 		return result;
 	}
