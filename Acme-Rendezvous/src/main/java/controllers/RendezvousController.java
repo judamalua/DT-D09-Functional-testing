@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
 import services.ConfigurationService;
 import services.RendezvousService;
+import domain.Actor;
 import domain.Configuration;
 import domain.Rendezvous;
 import domain.User;
@@ -88,6 +89,7 @@ public class RendezvousController extends AbstractController {
 	public ModelAndView detailing(@RequestParam final int rendezvousId, @RequestParam final boolean anonymous) {
 		ModelAndView result;
 		Rendezvous rendezvous;
+		Actor actor;
 		User user;
 		int age;
 		boolean userHasCreatedRendezvous = false;
@@ -97,20 +99,24 @@ public class RendezvousController extends AbstractController {
 			result = new ModelAndView("rendezvous/detailed-rendezvous");
 			rendezvous = this.rendezvousService.findOne(rendezvousId);
 
-			/**
-			 * Age control
-			 */
-			if (!anonymous && rendezvous.getAdultOnly()) {//Checks if there is the user is listing logged
-				user = (User) this.actorService.findActorByPrincipal();
-				age = this.actorService.getAge(user);
-				Assert.isTrue(age >= 18);//The age must be 18 or more
-			}
-
 			if (!anonymous) {
-				user = (User) this.actorService.findActorByPrincipal();
-				// Variable to check if button to see Questions must be shown in detailed rendezvous.
-				userHasCreatedRendezvous = user.getCreatedRendezvouses().contains(rendezvous);
-				userHasRVSPdRendezvous = rendezvous.getUsers().contains(user);
+				actor = this.actorService.findActorByPrincipal();
+
+				/**
+				 * Age control
+				 */
+				if (rendezvous.getAdultOnly()) {//Checks if there is the user is listing logged
+					actor = this.actorService.findActorByPrincipal();
+					age = this.actorService.getAge(actor);
+					Assert.isTrue(age >= 18);//The age must be 18 or more
+				}
+
+				if (actor instanceof User) {
+					user = (User) actor;
+					//Variable to check if button to see Questions must be shown in detailed rendezvous.
+					userHasCreatedRendezvous = user.getCreatedRendezvouses().contains(rendezvous);
+					userHasRVSPdRendezvous = rendezvous.getUsers().contains(user);
+				}
 			}
 
 			result.addObject("rendezvous", rendezvous);

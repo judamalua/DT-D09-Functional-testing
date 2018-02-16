@@ -19,13 +19,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import security.Authority;
 import services.ActorService;
 import services.ConfigurationService;
 import services.UserService;
@@ -34,8 +32,8 @@ import domain.Configuration;
 import domain.User;
 
 @Controller
-@RequestMapping("/user")
-public class UserController extends AbstractController {
+@RequestMapping("/actor/user")
+public class ActorUserController extends AbstractController {
 
 	@Autowired
 	private UserService				userService;
@@ -49,7 +47,7 @@ public class UserController extends AbstractController {
 
 	// Constructors -----------------------------------------------------------
 
-	public UserController() {
+	public ActorUserController() {
 		super();
 	}
 
@@ -78,38 +76,15 @@ public class UserController extends AbstractController {
 		return result;
 	}
 
-	// Registering user ------------------------------------------------------------
-	/**
-	 * That method registers an user in the system and saves it.
-	 * 
-	 * @param
-	 * @return ModelandView
-	 * @author Luis
-	 */
-	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public ModelAndView registerExplorer() {
-		ModelAndView result;
-		final User user;
-
-		user = this.userService.create();
-
-		result = this.createEditModelAndView(user);
-
-		result.addObject("actionURL", "actor/register.do");
-
-		return result;
-	}
-
 	//Edit an User
 	/**
 	 * That method edits the profile of a user
 	 * 
-	 * @param
 	 * @return ModelandView
 	 * @author Luis
 	 */
-	@RequestMapping(value = "/user/edit", method = RequestMethod.GET)
-	public ModelAndView editUser() {
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit() {
 		ModelAndView result;
 		User user;
 
@@ -120,38 +95,42 @@ public class UserController extends AbstractController {
 		return result;
 	}
 
-	//Saving user ---------------------------------------------------------------------
 	/**
-	 * That method saves an user in the system
+	 * That method edits the profile of a user
 	 * 
-	 * @param save
 	 * @return ModelandView
 	 * @author Luis
 	 */
-	@RequestMapping(value = "/register", method = RequestMethod.POST, params = {
-		"save", "confirmPassword"
-	})
-	public ModelAndView registerUser(@ModelAttribute("user") @Valid final User user, final BindingResult binding, @RequestParam("confirmPassword") final String confirmPassword) {
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@Valid final User user, final BindingResult binding) {
 		ModelAndView result;
-		Authority auth;
 
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(user, "user.params.error");
 		else
 			try {
-				auth = new Authority();
-				auth.setAuthority(Authority.USER);
-				Assert.isTrue(user.getUserAccount().getAuthorities().contains(auth));
-				Assert.isTrue(confirmPassword.equals(user.getUserAccount().getPassword()), "Passwords do not match");
-				this.actorService.registerActor(user);
 				this.userService.save(user);
-				result = new ModelAndView("redirect:/welcome/index.do");
+				result = new ModelAndView("redirect:/");
+
 			} catch (final Throwable oops) {
-				if (oops.getMessage().contains("Passwords do not match"))
-					result = this.createEditModelAndView(user, "user.params.confirm.error");
-				else
-					result = this.createEditModelAndView(user, "user.commit.error");
+				result = this.createEditModelAndView(user, "user.commit.error");
 			}
+		return result;
+	}
+
+	// Deleting ------------------------------------------------------------------------
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
+	public ModelAndView delete(final User user, final BindingResult binding) {
+		ModelAndView result;
+
+		try {
+			this.userService.delete(user);
+			result = new ModelAndView("redirect:/");
+
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(user, "user.commit.error");
+		}
 
 		return result;
 	}
@@ -172,6 +151,7 @@ public class UserController extends AbstractController {
 		result = new ModelAndView("user/edit");
 		result.addObject("message", messageCode);
 		result.addObject("user", user);
+		result.addObject("requestURI", "actor/user/edit.do");
 
 		return result;
 
