@@ -26,6 +26,12 @@ public class ConfigurationService {
 
 	// Simple CRUD methods --------------------------------------------------
 
+	/**
+	 * Create a new Configuration entity
+	 * 
+	 * @return The Configuration entity
+	 * @author MJ
+	 */
 	public Configuration create() {
 		Configuration result;
 
@@ -34,6 +40,12 @@ public class ConfigurationService {
 		return result;
 	}
 
+	/**
+	 * Gets all the configurations in the system
+	 * 
+	 * @return the configurations in the system
+	 * @author MJ
+	 */
 	public Collection<Configuration> findAll() {
 
 		Collection<Configuration> result;
@@ -46,6 +58,14 @@ public class ConfigurationService {
 
 	}
 
+	/**
+	 * 
+	 * Gets the configuration with id configurationId
+	 * 
+	 * @param configurationId
+	 * @return the configuration with id equals to the param
+	 * @author MJ
+	 */
 	public Configuration findOne(final int configurationId) {
 
 		Configuration result;
@@ -56,6 +76,14 @@ public class ConfigurationService {
 
 	}
 
+	/**
+	 * 
+	 * Saves a configuration in the system
+	 * 
+	 * @param configuration
+	 * @return The configuration saved
+	 * @author MJ
+	 */
 	public Configuration save(final Configuration configuration) {
 
 		assert configuration != null;
@@ -68,6 +96,12 @@ public class ConfigurationService {
 
 	}
 
+	/**
+	 * Delete the configuration passed as parameter
+	 * 
+	 * @param configuration
+	 * @author MJ
+	 */
 	public void delete(final Configuration configuration) {
 
 		assert configuration != null;
@@ -79,6 +113,12 @@ public class ConfigurationService {
 
 	}
 
+	/**
+	 * Gets the unique configuration in the system
+	 * 
+	 * @return the configuratio of the system
+	 * @author MJ
+	 */
 	public Configuration findConfiguration() {
 		Configuration result;
 

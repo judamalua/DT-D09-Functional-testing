@@ -2,6 +2,10 @@
 package controllers.user;
 
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,12 +15,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.AnswerService;
 import services.QuestionService;
 import services.RendezvousService;
 import services.UserService;
+import domain.Answer;
 import domain.Question;
 import domain.Rendezvous;
+import domain.User;
 
 @Controller
 @RequestMapping("/answer/user")
@@ -30,6 +37,8 @@ public class AnswerUserController {
 	AnswerService		answerService;
 	@Autowired
 	RendezvousService	rendezvousService;
+	@Autowired
+	ActorService		actorService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -40,54 +49,157 @@ public class AnswerUserController {
 
 	// Editing --------------------------------------------
 
+	/**
+	 * This method is called when an user tries to join a rendezvous, the user is the one logged in and the rendezvous is the id that it receives as a parameter
+	 * 
+	 * @param rendezvousId
+	 *            The id of the rendezvous to join
+	 * @author Daniel Diment
+	 * @return
+	 *         The next view showed to the user
+	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int rendezvousId) {
 		ModelAndView result;
 		Rendezvous rendezvous;
-
+		final User user = (User) (this.actorService.findActorByPrincipal());
 		try {
-			rendezvous = this.rendezvousService.findOne(rendezvousId);
+			rendezvous = this.rendezvousService.findOne(rendezvousId);			//Checks that the rendezvous is valid
 			Assert.notNull(rendezvous);
-			result = this.createEditModelAndView(rendezvous.getQuestions(), rendezvousId);
+			Assert.isTrue(rendezvous.getFinalMode());							//Checks that the rendezvous is in final mode
+			Assert.isTrue(!rendezvous.getDeleted());							//Checks that the rendezvous is not deleted
+			Assert.isTrue(rendezvous.getMoment().after(new Date()));			//Checks that the rendezvous is not already over
+			Assert.isTrue(!rendezvous.getUsers().contains(user));				//Checks the user hasn't already joined to the rendezvous
+			if (rendezvous.getAdultOnly())
+				Assert.isTrue(this.actorService.getAge(user) >= 18);			//Checks that the user is old enough to join the rendezvous
+			if (rendezvous.getQuestions().isEmpty()) {
+				rendezvous.getUsers().add(user);			//If the rendezvous has no questions, it just lets the user join the rendezvous directly
+				this.rendezvousService.save(rendezvous);
+				return new ModelAndView("redirect:/user/rendezvous/list");
+			}
+			result = this.createEditModelAndView(rendezvous.getQuestions(), rendezvousId);		//If it has any questions, the user is sent to the answering form
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:/misc/403");
+			result = new ModelAndView("redirect:/misc/403");					//If any of the asserts fails, the user is sent to the 403 page
 		}
 		return result;
 	}
 
 	// Saving --------------------------------------------
 
-	//	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	//	public ModelAndView saveDraft(@RequestParam("answers[]") final List<String> answers, @RequestParam("rendezvousId") final int rendezvousId) {
-	//		Rendezvous rendezvous;
-	//		ModelAndView result;
-	//		try {
-	//			rendezvous = this.rendezvousService.findOne(rendezvousId);
-	//			Assert.notNull(rendezvous);
-	//		} catch (final Throwable oops) {
-	//			return new ModelAndView("redirect:/misc/403");
-	//		}
-	//		for (final String s : answers)
-	//			if (s.equals("") || s == null)
-	//				return this.createEditModelAndView(rendezvous.getQuestions(), rendezvousId, "answer.emptyAnswer");
-	//		final int i=0;
-	//		for(final Question q : rendezvous.getQuestions())
-	//			Answer a = this.answerService.create();
-	//			a.setText(answers.get(i));
-	//			final a.s
-	//			i++;
-	//		try {
-	//				this.auditRecordService.save(auditRecord);
-	//				result = new ModelAndView("redirect:list.do");
-	//			} catch (final Throwable oops) {
-	//				result = this.createEditModelAndView(auditRecord, "auditRecord.commit.error");
-	//
-	//			}
-	//
-	//		return result;
-	//	}
+	/**
+	 * This method is called when the user returns from the answering form and lets the user join the rendezvous
+	 * 
+	 * @param answers
+	 *            An array containing the text of the different answers that the user answered
+	 * @param rendezvousId
+	 *            The id of the rendezvous the user is trying to join
+	 * @author Daniel Diment
+	 * @return
+	 *         The next view the user should be redirected into
+	 */
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@RequestParam("answers[]") final List<String> answers, @RequestParam("rendezvousId") final int rendezvousId) {
+		Rendezvous rendezvous;
+		ModelAndView result;
+		final User user = (User) (this.actorService.findActorByPrincipal());
+		try {
+			rendezvous = this.rendezvousService.findOne(rendezvousId);			//Checks that the rendezvous is valid
+			Assert.notNull(rendezvous);
+			Assert.isTrue(rendezvous.getFinalMode());							//Checks that the rendezvous is in final mode
+			Assert.isTrue(!rendezvous.getDeleted());							//Checks that the rendezvous is not deleted
+			Assert.isTrue(rendezvous.getMoment().after(new Date()));			//Checks that the rendezvous is not already over
+			Assert.isTrue(!rendezvous.getUsers().contains(user));			 	//Checks the user hasn't already joined to the rendezvous
+			if (rendezvous.getAdultOnly())
+				Assert.isTrue(this.actorService.getAge(user) >= 18);			//Checks that the user is old enough to join the rendezvous
+		} catch (final Throwable oops) {
+			return new ModelAndView("redirect:/misc/403");						//If any of the checks fails, the system will redirect the user to the 403 page
+		}
+
+		//This whole for block checks that every answer given by the user is not empty or null
+		//if any of them are, they are returned to the form so they can complete it properly.
+		//The regular expression checks if the answer is not just white spaces
+		final Pattern allWhitespaces = Pattern.compile("\\s");
+		for (final String s : answers) {
+			final Matcher matcher = allWhitespaces.matcher(s);
+			if (s.equals("") || s == null || matcher.matches())
+				return this.createEditModelAndView(rendezvous.getQuestions(), rendezvousId, "answer.emptyAnswer");
+		}
+
+		int i = 0; //This pointer helps to locate every answer in the List that contains the text of all the answer
+
+		try {
+			//This for block creates and saves the answer for every single question it's made
+			for (final Question q : rendezvous.getQuestions()) {
+				Answer answer;
+				answer = this.answerService.create();
+				answer.setText(answers.get(i));
+				answer.setQuestion(q);
+				answer.setUser(user);
+				this.answerService.save(answer);
+				i++;
+			}
+			rendezvous.getUsers().add(user);	//Finally here, the user get's added to the rendezvous
+			this.rendezvousService.save(rendezvous);
+			result = new ModelAndView("redirect:/user/rendezvous/list");
+		} catch (final Throwable oops) {
+			//If any error is made during the commit, it will make the user return to the form
+			result = this.createEditModelAndView(rendezvous.getQuestions(), rendezvousId, "answer.commit.error");
+		}
+
+		return result;
+	}
+	// Deleting ----------------------------------------------
+
+	/**
+	 * The following method is called to make the user not to assist to a rendezvous and delete all his answers to the question of that rendezvous
+	 * 
+	 * @param rendezvousId
+	 *            The id of the rendezvous the user is not going to assist
+	 * @author Daniel Diment
+	 * @return
+	 *         The next view that is going to be shown to the user
+	 */
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public ModelAndView delete(@RequestParam("rendezvousId") final int rendezvousId) {
+		Rendezvous rendezvous;
+		ModelAndView result;
+		final User user = (User) this.actorService.findActorByPrincipal();
+		try {
+			rendezvous = this.rendezvousService.findOne(rendezvousId);			//Checks that the rendezvous is valid
+			Assert.notNull(rendezvous);
+			Assert.isTrue(rendezvous.getFinalMode());							//Checks that the rendezvous is in final mode
+			Assert.isTrue(!rendezvous.getDeleted());							//Checks that the rendezvous is not deleted
+			Assert.isTrue(rendezvous.getMoment().after(new Date()));			//Checks that the rendezvous is not already over
+			Assert.isTrue(rendezvous.getUsers().contains(user));		//Checks the user has already joined to the rendezvous
+
+			//This for block finds every answer the user gave to join the rendezvous and deletes it
+			for (final Question q : rendezvous.getQuestions()) {
+				final Answer answer = this.answerService.getAnswerByUserIdAndQuestionId(user.getId(), q.getId());
+				this.answerService.delete(answer);
+			}
+			rendezvous.getUsers().remove(user);	//Here the user is not assisting anymore to the rendezvous
+			this.rendezvousService.save(rendezvous);
+			result = new ModelAndView("redirect:/user/rendezvous/list");
+		} catch (final Throwable oops) {
+			//If any error is made during whole process, it will make the user go to the 403 page
+			result = new ModelAndView("redirect:/misc/403");
+		}
+
+		return result;
+	}
 	// Ancillary methods -------------------------------------
 
+	/**
+	 * Creates a view of questions for the user to answer
+	 * 
+	 * @param questions
+	 *            The questions to answer
+	 * @param rendezvousId
+	 *            The id of the rendezvous to join
+	 * @author Daniel Diment
+	 * @return
+	 *         The view itself
+	 */
 	protected ModelAndView createEditModelAndView(final Collection<Question> questions, final int rendezvousId) {
 		ModelAndView result;
 
@@ -95,6 +207,19 @@ public class AnswerUserController {
 
 		return result;
 	}
+	/**
+	 * Creates a view of questions for the user to answer
+	 * 
+	 * @param questions
+	 *            The questions to answer
+	 * @param rendezvousId
+	 *            The id of the rendezvous to join
+	 * @param messageCode
+	 *            The message is going to be shown to the user
+	 * @author Daniel Diment
+	 * @return
+	 *         The view itself
+	 */
 	protected ModelAndView createEditModelAndView(final Collection<Question> questions, final int rendezvousId, final String messageCode) {
 
 		final ModelAndView result;

@@ -43,6 +43,6 @@
 		name="cancel"
 		class = "btn"
 		value="<spring:message code="question.cancel" />"
-		onclick="javascript: relativeRedir('rendezvous/detailed-rendezvous.do?rendezvousId=${rendezvousId}');" /> <!-- This variable is sent by the controller -->
+		onclick="javascript: relativeRedir('question/user/list.do?rendezvousId=${rendezvousId}');" /> <!-- This variable is sent by the controller -->
 
 </form:form>

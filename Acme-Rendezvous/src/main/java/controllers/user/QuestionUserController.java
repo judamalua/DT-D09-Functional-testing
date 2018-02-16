@@ -51,7 +51,7 @@ public class QuestionUserController extends AbstractController {
 
 		try {
 
-			result = new ModelAndView("contact/list");
+			result = new ModelAndView("question/list");
 			user = (User) this.actorService.findActorByPrincipal();
 			rendezvous = this.rendezvousService.findOne(rendezvousId);
 			Assert.notNull(rendezvous);
@@ -76,14 +76,17 @@ public class QuestionUserController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int questionId) {
 		ModelAndView result;
 		Question question;
+		int rendezvousId;
 
 		try {
 			question = this.questionService.findOne(questionId);
 			Assert.notNull(question);
+			rendezvousId = this.rendezvousService.getRendezvousByQuestion(questionId).getId();
 
 			this.questionService.checkUserCreatedRendezvousOfQuestion(question);
 
 			result = this.createEditModelAndView(question);
+			result.addObject("rendezvousId", rendezvousId);
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/misc/403");
 		}
@@ -133,7 +136,7 @@ public class QuestionUserController extends AbstractController {
 				rendezvous = this.rendezvousService.findOne(rendezvousId);
 				Assert.notNull(rendezvous);
 				this.questionService.save(question, rendezvous);
-				result = new ModelAndView("redirect:list.do");
+				result = new ModelAndView("redirect:list.do?rendezvousId=" + rendezvousId);
 
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(question, "question.commit.error");

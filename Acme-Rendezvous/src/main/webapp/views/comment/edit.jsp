@@ -25,26 +25,26 @@
 	<form:hidden path="version"/>
 	
 	<form:hidden path="moment"/>
-	<form:hidden path="replies"/>
+	<form:hidden path="comments"/>
 	
 	<form:label path="text">
-		<spring:message code="contact.text"/> 
+		<spring:message code="comment.text"/> 
 	</form:label>
-	<form:input path="text"/>
+	<form:textarea path="text"/>
 	<form:errors cssClass="error" path="text"/>
 	<br/>
 	
 	<form:label path="pictureUrl">
-		<spring:message code="contact.pictureUrl"/> 
+		<spring:message code="comment.pictureUrl"/> 
 	</form:label>
 	<form:input path="pictureUrl"/>
 	<form:errors cssClass="error" path="pictureUrl"/>
 	<br/>
 
 	
-	<input type="submit" name="save" value="<spring:message code="comment.save"/>"/>
+	<input type="submit" name="save" class="btn" value="<spring:message code="comment.save"/>"/>
 	
-	<input type="button" name="cancel"
+	<input type="button" name="cancel" class="btn"
 		value="<spring:message code="comment.cancel" />"
 		onclick="javascript: window.history.back();" />
 		

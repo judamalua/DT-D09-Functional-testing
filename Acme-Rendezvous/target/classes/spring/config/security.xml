@@ -60,6 +60,7 @@
 
 		<security:intercept-url pattern="/comment/user/create.do" access="hasRole('USER')" /> 
 		<security:intercept-url pattern="/comment/user/edit.do" access="hasRole('USER')" /> 
+		<security:intercept-url pattern="/comment/user/reply.do" access="hasRole('USER')" /> 
 
 		<security:intercept-url pattern="/comment/listFromRendezvous.do" access="permitAll" />
 		<security:intercept-url pattern="/comment/listFromComment.do" access="permitAll" />

@@ -86,6 +86,9 @@ public class CommentService {
 
 		Assert.isTrue(this.commentRepository.exists(comment.getId()));
 
+		//Delete all the replies for this comment
+		for (final Comment c : comment.getComments())
+			this.delete(c);
 		this.commentRepository.delete(comment);
 
 	}
@@ -97,6 +100,16 @@ public class CommentService {
 		User result;
 
 		result = this.commentRepository.getUserFromComment(comment);
+
+		return result;
+	}
+
+	public Comment getFatherCommentFromReply(final Comment reply) {
+		Assert.isTrue(reply.getId() != 0);
+
+		Comment result;
+
+		result = this.commentRepository.getFatherCommentFromReply(reply);
 
 		return result;
 	}
