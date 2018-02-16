@@ -145,20 +145,25 @@ public class RendezvousService {
 		assert rendezvous != null;
 		Rendezvous result;
 		User user;
+		Actor actor;
 
-		user = (User) this.actorService.findActorByPrincipal();
+		actor = this.actorService.findActorByPrincipal();
+		if (actor instanceof User) {
+			user = (User) this.actorService.findActorByPrincipal();
 
-		if (rendezvous.getUsers().contains(user))   				//
-			rendezvous.getUsers().remove(user);						//UPDATING USER
-		rendezvous.getUsers().add(user);							//
+			if (rendezvous.getUsers().contains(user))   				//
+				rendezvous.getUsers().remove(user);						//UPDATING USER
+			rendezvous.getUsers().add(user);							//
 
-		result = this.rendezvousRepository.save(rendezvous);
+			result = this.rendezvousRepository.save(rendezvous);
 
-		if (user.getCreatedRendezvouses().contains(rendezvous))   		//
-			user.getCreatedRendezvouses().remove(rendezvous);			//UPDATING USER
-		user.getCreatedRendezvouses().add(result);						//
+			if (user.getCreatedRendezvouses().contains(rendezvous))   		//
+				user.getCreatedRendezvouses().remove(rendezvous);			//UPDATING USER
+			user.getCreatedRendezvouses().add(result);						//
 
-		this.actorService.save(user);
+			this.actorService.save(user);
+		} else
+			result = this.rendezvousRepository.save(rendezvous);
 
 		return result;
 	}

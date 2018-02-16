@@ -15,7 +15,7 @@ import domain.Comment;
 import domain.Rendezvous;
 
 @Controller
-@RequestMapping("/comment/administrator")
+@RequestMapping("/comment/admin")
 public class CommentAdministratorController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
@@ -35,7 +35,7 @@ public class CommentAdministratorController extends AbstractController {
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public ModelAndView deleteComment(@RequestParam final int commentId) {
 		ModelAndView result;
-		Comment comment;
+		Comment comment, father;
 		Rendezvous rendezvous;
 
 		comment = this.commentService.findOne(commentId);
@@ -43,9 +43,20 @@ public class CommentAdministratorController extends AbstractController {
 
 		try {
 			this.commentService.delete(comment);
-			result = new ModelAndView("redirect:comment/list.do?rendezvousId=" + rendezvous.getId());
+
+			if (rendezvous != null)
+				result = new ModelAndView("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvous.getId() + "&anonymous=false");
+			else {
+				father = this.commentService.getFatherCommentFromReply(comment);
+				result = new ModelAndView("redirect:/comment/listFromComment.do?commentId=" + father.getId());
+			}
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:comment/list.do?rendezvousId=" + rendezvous.getId());
+			if (rendezvous != null)
+				result = new ModelAndView("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvous.getId() + "&anonymous=false");
+			else {
+				father = this.commentService.getFatherCommentFromReply(comment);
+				result = new ModelAndView("redirect:/comment/listFromComment.do?commentId=" + father.getId());
+			}
 		}
 		return result;
 	}
