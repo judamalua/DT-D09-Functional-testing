@@ -116,6 +116,23 @@ public class RendezvousService {
 
 	/**
 	 * 
+	 * This method returns a Rendezvous witch id its equals to the id that you
+	 * provides to the method, but it doesn't check if it has been marked as deleted.
+	 * 
+	 * @param rendezvousId
+	 * @return This method return Rendezvous
+	 * @author Antonio
+	 */
+	public Rendezvous findOneForReplies(final int rendezvousId) {
+		Rendezvous result;
+
+		result = this.rendezvousRepository.findOne(rendezvousId);
+
+		return result;
+	}
+
+	/**
+	 * 
 	 * This method save a Rendezvous created or edited by a user
 	 * 
 	 * @param rendesvous

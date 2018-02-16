@@ -27,7 +27,10 @@
 <spring:message code="rendezvous.announcement.moment" var="momentAnnouncement"/>
 <spring:message code="rendezvous.comment.text" var="textComment"/>
 <spring:message code="rendezvous.comment.moment" var="momentComment"/>
+<spring:message code="rendezvous.comment.picture" var="pictureComment"/>
 <spring:message code="rendezvous.comment.display" var="displayComment"/>
+<spring:message code="rendezvous.comment.replies" var="repliesComment"/>
+<spring:message code="rendezvous.comment.reply" var="replyComment"/>
 
 
 <jsp:useBean id="now" class="java.util.Date"/>
@@ -48,6 +51,7 @@
 <p><jstl:out value="${formatMomentRendezvous}"/></p>
 
 <iframe class="map" src="https://www.google.com/maps/embed/v1/search?q=${rendezvous.gpsCoordinates}&key=AIzaSyBe0wmulZvK1IM3-3jIUgbxt2Ax_QOVW6c"></iframe>
+<br/>
 
 <!-- Displaying similar rendevouses -->
 <display:table name="rendezvouse.similars" id="similar" requestURI="rendezvouse/detailed-rendezvous.do" pagesize="10">
@@ -62,6 +66,7 @@
 		</a>
 	</display:column>
 </display:table>	
+<br/>
 
 <!-- Displaying announcements -->
 <display:table name="rendezvouse.announcements" id="announcement" requestURI="rendezvouse/detailed-rendezvous.do" pagesize="10">
@@ -69,15 +74,29 @@
 	<display:column property="description" title="${descriptionAnnouncement}"/>
 	<display:column property="moment" title="${momentAnnouncement}" format="${formatMoment}"/>
 </display:table>	
+<br/>
+
+<!-- Button to create a comment -->
+<jstl:if test="${!anonymous && userHasRVSPdRendezvous}">
+	<br/>
+	<a href="comment/user/create.do?rendezvousId=${rendezvous.id}">
+		<button class="btn">
+				<spring:message code="rendezvous.comment.create"/>
+			</button>
+	</a>
+</jstl:if>
+<br/>
 
 <!-- Displaying comments -->
-<display:table name="rendezvouse.comments" id="comment" requestURI="rendezvouse/detailed-rendezvous.do" pagesize="10">
-	<display:column>
-		<img src="${comment.pictureUrl}" width="150" height="150">
+<display:table name="rendezvous.comments" id="comment" requestURI="rendezvous/detailed-rendezvous.do" pagesize="10">
+	<display:column title="${pictureComment}">
+		<jstl:if test="${not empty comment.pictureUrl}">
+			<img src="${comment.pictureUrl}" width="150" height="150">
+		</jstl:if>
 	</display:column>
 	<display:column property="text" title="${textComment}"/>
 	<display:column property="moment" title="${momentComment}" format="${formatMoment}"/>
-	<display:column>
+	<display:column title="${repliesComment}">
 		<a href="comment/listFromComment.do?commentId=${comment.id}">
 			<button class="btn">
 				<spring:message code="rendezvous.comment.comments"/>
@@ -91,7 +110,18 @@
 			</button>
 		</a>
 	</display:column>
+	
+	<jstl:if test="${userHasRVSPdRendezvous}">	
+		<display:column title="${replyComment}">
+			<a href="comment/user/reply.do?commentId=${comment.id}">
+			<button class="btn">
+				<spring:message code="rendezvous.comment.reply"/>
+			</button>
+		</a>
+		</display:column>
+	</jstl:if>
 </display:table>	
+<br/>
 
 <jstl:if test="${!anonymous && userHasCreatedRendezvous}">
 	<br/>

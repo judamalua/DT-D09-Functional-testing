@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.CommentService;
 import services.RendezvousService;
 import domain.Comment;
@@ -27,6 +28,9 @@ public class CommentController extends AbstractController {
 	@Autowired
 	private RendezvousService	rendezvousService;
 
+	@Autowired
+	private ActorService		actorService;
+
 
 	// Constructors -----------------------------------------------------------
 	public CommentController() {
@@ -41,7 +45,7 @@ public class CommentController extends AbstractController {
 		Rendezvous rendezvous;
 		String requestURI;
 
-		rendezvous = this.rendezvousService.findOne(rendezvousId);
+		rendezvous = this.rendezvousService.findOneForReplies(rendezvousId);
 		comments = rendezvous.getComments();
 		requestURI = "comment/list.do";
 
@@ -58,6 +62,8 @@ public class CommentController extends AbstractController {
 		Collection<Comment> replies;
 		Comment comment;
 		String requestURI;
+		Boolean userHasRVSPdRendezvous = false;
+		Rendezvous rendezvous;
 
 		comment = this.commentService.findOne(commentId);
 		replies = comment.getComments();
@@ -67,9 +73,29 @@ public class CommentController extends AbstractController {
 		result.addObject("comments", replies);
 		result.addObject("requestURI", requestURI);
 
+		try {
+			User user;
+			Comment fatherComment;
+
+			user = (User) this.actorService.findActorByPrincipal();
+
+			rendezvous = this.rendezvousService.getRendezvousByCommentary(commentId);
+
+			fatherComment = comment;
+			while (rendezvous == null) {
+				fatherComment = this.commentService.getFatherCommentFromReply(comment);
+				rendezvous = this.rendezvousService.getRendezvousByCommentary(fatherComment.getId());
+			}
+
+			userHasRVSPdRendezvous = rendezvous.getUsers().contains(user);
+
+			result.addObject("userHasRVSPdRendezvous", userHasRVSPdRendezvous);
+		} catch (final Throwable oops) {
+
+		}
+
 		return result;
 	}
-
 	//Display -----------------------------------------------------------
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int commentId) {
