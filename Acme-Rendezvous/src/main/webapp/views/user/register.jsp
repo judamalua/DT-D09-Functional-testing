@@ -8,13 +8,13 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form id = "form" action="user/edit.do" modelAttribute ="user">
+<form:form id = "form" action="user/register.do" modelAttribute ="user">
 	
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
 	<form:hidden path="createdRendezvouses"/>
 	<form:hidden path="comments"/>
-	<form:hidden path="userAccount"/>
+	<form:hidden path="userAccount.authorities"/>
 	
 	
 	<form:label path="name">
@@ -55,8 +55,29 @@
 	<form:input path="birthDate"/>
 	<form:errors cssClass="error" path="birthDate"/>
 	
-
+	<form:label path="userAccount.username">
+		<spring:message code="user.username"/>
+	</form:label>
+	<form:input path="userAccount.username"/>
+	<form:errors cssClass="error" path="userAccount.username"/>
+	<br/>
 	
+	<form:label path="userAccount.password">
+		<spring:message code="user.password"/>
+	</form:label>
+	<form:password path="userAccount.password"/>
+	<form:errors cssClass="error" path="userAccount.password"/>
+	<br/>
+	
+	<label for = "confirmPassword">
+		<spring:message code="user.confirm.password" />
+	</label>
+	<input type = "password" name="confirmPassword" />
+	<br />
+	
+	
+
+	<div>
 	<input 
 		type="submit"
 		name="save"
@@ -69,5 +90,6 @@
 		class = "btn"
 		value="<spring:message code="user.cancel" />"
 		onclick="javascript: relativeRedir('user/list.do');" /> 
+	</div>
 
 </form:form>

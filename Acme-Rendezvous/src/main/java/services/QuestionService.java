@@ -106,6 +106,7 @@ public class QuestionService {
 		User user;
 
 		Collection<Answer> answers;
+		Assert.isTrue(!rendezvous.getFinalMode());
 
 		user = (User) this.actorService.findActorByPrincipal();
 

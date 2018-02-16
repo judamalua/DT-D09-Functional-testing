@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import javax.transaction.Transactional;
 
@@ -13,9 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.ActorRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Actor;
+import domain.Administrator;
 import domain.User;
 
 @Service
@@ -65,6 +68,29 @@ public class ActorService {
 
 		return result;
 
+	}
+
+	/**
+	 * That method create a instance of a user
+	 * 
+	 * @return User
+	 * @author Luis
+	 */
+	public Administrator createAdmin() {
+		Administrator result;
+
+		result = new Administrator();
+
+		final UserAccount ua = new UserAccount();
+		final Collection<Authority> auth = new HashSet<Authority>();
+		final Authority a = new Authority();
+		a.setAuthority(Authority.ADMIN);
+		auth.add(a);
+		ua.setAuthorities(auth);
+
+		result.setUserAccount(ua);
+
+		return result;
 	}
 
 	/**

@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.RendezvousRepository;
+import domain.Actor;
+import domain.Administrator;
 import domain.Announcement;
 import domain.Comment;
 import domain.Question;
@@ -32,6 +34,8 @@ public class RendezvousService {
 
 	@Autowired
 	private ActorService			actorService;
+	@Autowired
+	private UserService				userService;
 
 
 	// Simple CRUD methods --------------------------------------------------
@@ -107,8 +111,6 @@ public class RendezvousService {
 		Rendezvous result;
 
 		result = this.rendezvousRepository.findOne(rendezvousId);
-
-		Assert.isTrue(!result.getDeleted());
 
 		return result;
 
@@ -193,23 +195,32 @@ public class RendezvousService {
 	 * This method set rendezvous boolean "deleted" to true, that means that it is not deleted in DB,
 	 * but we mark it like deleted.
 	 * 
-	 * @param rendesvous
+	 * @param rendezvous
 	 * 
 	 * @author Luis
 	 */
 	public void delete(final Rendezvous rendezvous) {
+		this.actorService.checkUserLogin();
+
 		assert rendezvous != null;
 		assert rendezvous.getId() != 0;
-		Rendezvous r;
+
+		Actor actor;
+		User user;
 
 		Assert.isTrue(this.rendezvousRepository.exists(rendezvous.getId()));
-		r = this.findOne(rendezvous.getId());
-		r.setDeleted(true);
+		actor = this.actorService.findActorByPrincipal();
+		user = this.userService.getCreatorUser(rendezvous.getId());
 
-		this.save(r);
+		if (actor instanceof Administrator) {
+			user.getCreatedRendezvouses().remove(rendezvous);
+			this.rendezvousRepository.delete(rendezvous);
+		} else {
+			rendezvous.setDeleted(true);
+			this.save(rendezvous);
+		}
 
 	}
-
 	/**
 	 * 
 	 * This method returns the Rendezvous that has the question which id its provided

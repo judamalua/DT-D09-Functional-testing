@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
 import services.ConfigurationService;
 import services.RendezvousService;
+import domain.Actor;
 import domain.Configuration;
 import domain.Rendezvous;
 import domain.User;
@@ -55,30 +56,35 @@ public class RendezvousController extends AbstractController {
 		Page<Rendezvous> rendezvouses;
 		Pageable pageable;
 		Configuration configuration;
-		User user;
+		Actor actor;
 		final int age;
 
-		result = new ModelAndView("rendezvous/list");
-		configuration = this.configurationService.findConfiguration();
-		pageable = new PageRequest(page, configuration.getPageSize());
+		try {
+			result = new ModelAndView("rendezvous/list");
+			configuration = this.configurationService.findConfiguration();
+			pageable = new PageRequest(page, configuration.getPageSize());
 
-		/**
-		 * Age control
-		 */
-		if (!anonymous) {//Checks if there is the user is listing logged
-			user = (User) this.actorService.findActorByPrincipal();
-			age = this.actorService.getAge(user);
-			if (age >= 18)//If he has 18 or more he list all Final Rendezvouses
+			/**
+			 * Age control
+			 */
+			if (!anonymous) {//Checks if there is the user is listing logged
+				actor = this.actorService.findActorByPrincipal();
+				age = this.actorService.getAge(actor);
+				if (age >= 18)//If he has 18 or more he list all Final Rendezvouses
+					rendezvouses = this.rendezvousService.findFinalRendezvouses(pageable);
+				else
+					// If he has less than 18 then he only list the final Rendezvouses without adult content
+					rendezvouses = this.rendezvousService.findFinalWithoutAdultRendezvouses(pageable);
+			} else
+				//If no one is logged then list all final Rendezvouses
 				rendezvouses = this.rendezvousService.findFinalRendezvouses(pageable);
-			else
-				// If he has less than 18 then he only list the final Rendezvouses without adult content
-				rendezvouses = this.rendezvousService.findFinalWithoutAdultRendezvouses(pageable);
-		} else
-			//If no one is logged then list all final Rendezvouses
-			rendezvouses = this.rendezvousService.findFinalRendezvouses(pageable);
 
-		result.addObject("rendezvouses", rendezvouses.getContent());
-		result.addObject("anonymous", anonymous);
+			result.addObject("rendezvouses", rendezvouses.getContent());
+			result.addObject("anonymous", anonymous);
+
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/misc/403");
+		}
 
 		return result;
 	}
@@ -88,6 +94,7 @@ public class RendezvousController extends AbstractController {
 	public ModelAndView detailing(@RequestParam final int rendezvousId, @RequestParam final boolean anonymous) {
 		ModelAndView result;
 		Rendezvous rendezvous;
+		Actor actor;
 		User user;
 		int age;
 		boolean userHasCreatedRendezvous = false;
@@ -97,20 +104,24 @@ public class RendezvousController extends AbstractController {
 			result = new ModelAndView("rendezvous/detailed-rendezvous");
 			rendezvous = this.rendezvousService.findOne(rendezvousId);
 
-			/**
-			 * Age control
-			 */
-			if (!anonymous && rendezvous.getAdultOnly()) {//Checks if there is the user is listing logged
-				user = (User) this.actorService.findActorByPrincipal();
-				age = this.actorService.getAge(user);
-				Assert.isTrue(age >= 18);//The age must be 18 or more
-			}
-
 			if (!anonymous) {
-				user = (User) this.actorService.findActorByPrincipal();
-				// Variable to check if button to see Questions must be shown in detailed rendezvous.
-				userHasCreatedRendezvous = user.getCreatedRendezvouses().contains(rendezvous);
-				userHasRVSPdRendezvous = rendezvous.getUsers().contains(user);
+				actor = this.actorService.findActorByPrincipal();
+
+				/**
+				 * Age control
+				 */
+				if (rendezvous.getAdultOnly()) {//Checks if there is the user is listing logged
+					actor = this.actorService.findActorByPrincipal();
+					age = this.actorService.getAge(actor);
+					Assert.isTrue(age >= 18);//The age must be 18 or more
+				}
+
+				if (actor instanceof User) {
+					user = (User) actor;
+					//Variable to check if button to see Questions must be shown in detailed rendezvous.
+					userHasCreatedRendezvous = user.getCreatedRendezvouses().contains(rendezvous);
+					userHasRVSPdRendezvous = rendezvous.getUsers().contains(user);
+				}
 			}
 
 			result.addObject("rendezvous", rendezvous);
