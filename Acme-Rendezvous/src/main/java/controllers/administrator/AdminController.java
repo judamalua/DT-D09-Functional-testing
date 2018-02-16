@@ -94,7 +94,7 @@ public class AdminController extends AbstractController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST, params = {
 		"save", "confirmPassword"
 	})
-	public ModelAndView registerUser(@ModelAttribute("administrator") @Valid final Administrator admin, final BindingResult binding, @RequestParam("confirmPassword") final String confirmPassword) {
+	public ModelAndView registerAdministrator(@ModelAttribute("administrator") @Valid final Administrator admin, final BindingResult binding, @RequestParam("confirmPassword") final String confirmPassword) {
 		ModelAndView result;
 		Authority auth;
 
@@ -110,7 +110,7 @@ public class AdminController extends AbstractController {
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
 				if (oops.getMessage().contains("Passwords do not match"))
-					result = this.createEditModelAndViewRegister(admin, "admin.params.confirm.error");
+					result = this.createEditModelAndViewRegister(admin, "admin.password.error");
 				else
 					result = this.createEditModelAndViewRegister(admin, "admin.commit.error");
 			}
@@ -129,7 +129,7 @@ public class AdminController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = {
 		"save"
 	})
-	public ModelAndView updateUser(@ModelAttribute("admin") @Valid final Administrator admin, final BindingResult binding) {
+	public ModelAndView updateAdministrator(@ModelAttribute("admin") @Valid final Administrator admin, final BindingResult binding) {
 		ModelAndView result;
 
 		if (binding.hasErrors())
@@ -140,7 +140,7 @@ public class AdminController extends AbstractController {
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
 				if (oops.getMessage().contains("Passwords do not match"))
-					result = this.createEditModelAndView(admin, "admin.params.confirm.error");
+					result = this.createEditModelAndView(admin, "admin.password.error");
 				else
 					result = this.createEditModelAndView(admin, "admin.commit.error");
 			}

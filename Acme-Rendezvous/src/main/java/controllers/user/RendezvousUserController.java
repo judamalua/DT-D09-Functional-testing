@@ -117,6 +117,7 @@ public class RendezvousUserController extends AbstractController {
 			result = this.createEditModelAndView(rendezvous, "rendezvous.params.error");
 		else
 			try {
+				rendezvous.setFinalMode(!rendezvous.getFinalMode());
 				this.rendezvousService.save(rendezvous);
 				user = (User) this.actorService.findActorByPrincipal();
 				result = new ModelAndView("redirect:list.do");

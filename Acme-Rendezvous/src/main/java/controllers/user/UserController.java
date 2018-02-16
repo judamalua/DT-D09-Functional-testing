@@ -147,7 +147,7 @@ public class UserController extends AbstractController {
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
 				if (oops.getMessage().contains("Passwords do not match"))
-					result = this.createEditModelAndViewRegister(user, "user.params.confirm.error");
+					result = this.createEditModelAndViewRegister(user, "user.password.error");
 				else
 					result = this.createEditModelAndViewRegister(user, "user.commit.error");
 			}
@@ -177,7 +177,7 @@ public class UserController extends AbstractController {
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
 				if (oops.getMessage().contains("Passwords do not match"))
-					result = this.createEditModelAndView(user, "user.params.confirm.error");
+					result = this.createEditModelAndView(user, "user.password.error");
 				else
 					result = this.createEditModelAndView(user, "user.commit.error");
 			}

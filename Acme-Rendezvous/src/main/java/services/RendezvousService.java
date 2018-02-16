@@ -36,6 +36,12 @@ public class RendezvousService {
 	private ActorService			actorService;
 	@Autowired
 	private UserService				userService;
+	@Autowired
+	private AnnouncementService		announcementService;
+	@Autowired
+	private QuestionService			questionService;
+	@Autowired
+	private CommentService			commentService;
 
 
 	// Simple CRUD methods --------------------------------------------------
@@ -213,7 +219,19 @@ public class RendezvousService {
 		user = this.userService.getCreatorUser(rendezvous.getId());
 
 		if (actor instanceof Administrator) {
+
+			for (final Announcement announcement : rendezvous.getAnnouncements())
+				this.announcementService.delete(announcement);
+
+			for (final Question question : rendezvous.getQuestions())
+				this.questionService.delete(question);
+
+			for (final Comment comment : rendezvous.getComments())
+				this.commentService.delete(comment);
+
 			user.getCreatedRendezvouses().remove(rendezvous);
+
+			this.actorService.save(user);
 			this.rendezvousRepository.delete(rendezvous);
 		} else {
 			rendezvous.setDeleted(true);
