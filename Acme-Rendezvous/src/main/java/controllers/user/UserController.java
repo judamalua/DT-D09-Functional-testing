@@ -93,7 +93,7 @@ public class UserController extends AbstractController {
 
 		user = this.userService.create();
 
-		result = this.createEditModelAndView(user);
+		result = this.createEditModelAndViewRegister(user);
 
 		result.addObject("actionURL", "actor/register.do");
 
@@ -108,7 +108,7 @@ public class UserController extends AbstractController {
 	 * @return ModelandView
 	 * @author Luis
 	 */
-	@RequestMapping(value = "/user/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView editUser() {
 		ModelAndView result;
 		User user;
@@ -136,7 +136,7 @@ public class UserController extends AbstractController {
 		Authority auth;
 
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(user, "user.params.error");
+			result = this.createEditModelAndViewRegister(user, "user.params.error");
 		else
 			try {
 				auth = new Authority();
@@ -144,6 +144,36 @@ public class UserController extends AbstractController {
 				Assert.isTrue(user.getUserAccount().getAuthorities().contains(auth));
 				Assert.isTrue(confirmPassword.equals(user.getUserAccount().getPassword()), "Passwords do not match");
 				this.actorService.registerActor(user);
+				result = new ModelAndView("redirect:/welcome/index.do");
+			} catch (final Throwable oops) {
+				if (oops.getMessage().contains("Passwords do not match"))
+					result = this.createEditModelAndViewRegister(user, "user.params.confirm.error");
+				else
+					result = this.createEditModelAndViewRegister(user, "user.commit.error");
+			}
+
+		return result;
+	}
+
+	//Updating profile of a user ---------------------------------------------------------------------
+	/**
+	 * That method update the profile of a user.
+	 * 
+	 * @param save
+	 * @return ModelandView
+	 * @author Luis
+	 */
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = {
+		"save"
+	})
+	public ModelAndView updateUser(@ModelAttribute("user") @Valid final User user, final BindingResult binding) {
+		ModelAndView result;
+
+		if (binding.hasErrors())
+			result = this.createEditModelAndView(user, "user.params.error");
+		else
+			try {
+				this.actorService.save(user);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
 				if (oops.getMessage().contains("Passwords do not match"))
@@ -164,11 +194,29 @@ public class UserController extends AbstractController {
 
 		return result;
 	}
+	protected ModelAndView createEditModelAndViewRegister(final User user) {
+		ModelAndView result;
+
+		result = this.createEditModelAndViewRegister(user, null);
+
+		return result;
+	}
 
 	protected ModelAndView createEditModelAndView(final User user, final String messageCode) {
 		ModelAndView result;
 
 		result = new ModelAndView("user/edit");
+		result.addObject("message", messageCode);
+		result.addObject("user", user);
+
+		return result;
+
+	}
+
+	protected ModelAndView createEditModelAndViewRegister(final User user, final String messageCode) {
+		ModelAndView result;
+
+		result = new ModelAndView("user/register");
 		result.addObject("message", messageCode);
 		result.addObject("user", user);
 

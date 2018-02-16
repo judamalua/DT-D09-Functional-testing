@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.UserRepository;
+import security.Authority;
+import security.UserAccount;
 import domain.Comment;
 import domain.Rendezvous;
 import domain.User;
@@ -43,6 +45,16 @@ public class UserService {
 		final Collection<Rendezvous> createdRendezvouses;
 
 		result = new User();
+
+		final UserAccount ua = new UserAccount();
+		final Collection<Authority> auth = new HashSet<Authority>();
+		final Authority a = new Authority();
+		a.setAuthority(Authority.USER);
+		auth.add(a);
+		ua.setAuthorities(auth);
+
+		result.setUserAccount(ua);
+
 		createdRendezvouses = new HashSet<Rendezvous>();
 		comments = new HashSet<Comment>();
 
