@@ -20,7 +20,7 @@
 </div>
 
 <div class="navbar">
-	<a class="brand" href="#">&#160;&#160;Acme&#160;<img width = "24" src = "images/internet.png"/>&#160;Rendezvous</a>
+	<a class="brand" href="#">&#160;&#160;Acme&#160;<img width = "24" src = "images/teamwork.png"/>&#160;Rendezvous</a>
 	<div class="navbar-inner">
 		<div class="container">
 				
@@ -37,11 +37,7 @@
 							<li class="arrow"></li>
 							<li><a href="rendezvous/user/list.do"><spring:message
 										code="master.page.createdRendezvous" /></a></li>
-							<li><a href="user/edit.do"><spring:message
-										code="master.page.useredit" /></a></li>
-							
 						</ul>
-						
 					</li>
 				</security:authorize>
 
@@ -56,16 +52,21 @@
 							<li><a href="admin/create.do"><spring:message
 										code="master.page.createAdmin" /></a></li>
 							
-						</ul></li>
+						</ul>
+						
+								
+						</li>
 				</security:authorize>
 
 				<security:authorize access="isAnonymous()">
 					<li><a class="fNiv" href="security/login.do"><img src = "images/login.png"/> <spring:message
 								code="master.page.login" /></a></li>
-					<li><a class="fNiv" href="rendezvous/list.do?anonymous=true"><img src = "images/envelope.png"/> <spring:message
-								code="master.page.rendevouzList" /></a></li>
 					<li><a class="fNiv" href="user/register.do"><img src = "images/envelope.png"/> <spring:message
 								code="master.page.registerUser" /></a></li>
+					<li><a class="fNiv" href="rendezvous/list.do?anonymous=true"><img src = "images/envelope.png"/> <spring:message
+								code="master.page.rendevouzList" /></a></li>
+					<li><a class="fNiv" href="user/list.do"><img src = "images/envelope.png"/> <spring:message
+								code="master.page.userList" /></a></li>
 								</ul>
 				</security:authorize>
 
@@ -73,6 +74,8 @@
 
 					<li><a class="fNiv" href="rendezvous/list.do?anonymous=false"><img src = "images/envelope.png"/> <spring:message
 								code="master.page.rendevouzList" /></a></li>
+					<li><a class="fNiv" href="user/list.do"><img src = "images/envelope.png"/> <spring:message
+								code="master.page.userList" /></a></li>
 					
 						</ul>
 						<ul class = "nav pull-right">
@@ -87,7 +90,7 @@
 										code="master.page.actorEdit" /></a></li>
 							</security:authorize>
 							<security:authorize access="hasRole('USER')">
-							<li><a href="actor/user/edit.do"><spring:message
+							<li><a href="user/edit.do"><spring:message
 										code="master.page.actorEdit" /></a></li>
 							</security:authorize>
 							<li><a href="j_spring_security_logout"><spring:message

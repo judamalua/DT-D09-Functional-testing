@@ -7,8 +7,10 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
+<spring:message code="master.page.moment.format" var="formatDate" />
+
 <display:table name = "users" id = "row" 
-	requestURI = "${requestUri}" class = "displaytag">
+	requestURI = "user/list.do" class = "displaytag">
 
 	<spring:message code = "user.name" var = "name"/>
 	<display:column property = "name" title = "${name}" sortable = "true"/>
@@ -26,6 +28,6 @@
 	<display:column property = "email" title = "${email}" sortable = "true"/>
 	
 	<spring:message code = "user.birthDate" var = "birthDate"/>
-	<display:column property = "birthDate" title = "${email}" sortable = "true"/>
+	<display:column property = "birthDate" title = "${birthDate}" sortable = "true" format = "${formatDate}"/>
 	
 </display:table>
