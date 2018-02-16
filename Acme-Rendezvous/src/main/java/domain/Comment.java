@@ -73,5 +73,7 @@ public class Comment extends DomainEntity {
 
 	public void setComments(final Collection<Comment> comments) {
 		this.comments = comments;
+
 	}
+
 }

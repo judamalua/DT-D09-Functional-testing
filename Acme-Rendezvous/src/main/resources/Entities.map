@@ -1,11 +1,17 @@
 #./src/main/resources/Entities.map
-#Wed Feb 14 19:54:34 CET 2018
-Admin2=15
-Admin1=14
-Configuration=18
-UserAccount4=13
-UserAccount3=12
-UserAccount2=11
-UserAccount1=10
-User2=17
-User1=16
+#Thu Feb 15 12:08:45 CET 2018
+Admin2=21
+Admin1=20
+Comment2-1-1=29
+Comment2=27
+Comment1-2=26
+Comment1-1=25
+Comment1=24
+Configuration=30
+Comment2-1=28
+UserAccount4=19
+UserAccount3=18
+UserAccount2=17
+UserAccount1=16
+User2=23
+User1=22

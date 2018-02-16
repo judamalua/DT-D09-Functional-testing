@@ -27,10 +27,13 @@
 <spring:message code="rendezvous.announcement.moment" var="momentAnnouncement"/>
 <spring:message code="rendezvous.comment.text" var="textComment"/>
 <spring:message code="rendezvous.comment.moment" var="momentComment"/>
+<spring:message code="rendezvous.comment.display" var="displayComment"/>
 
-<jsp:useBean id="now" class=java.util.Date/>
+
+<jsp:useBean id="now" class="java.util.Date"/>
 <fmt:formatDate var="currentDate" value="${now}" pattern="yyyy-MM-dd HH:mm"/>
-<fmt:formatDate var="formatMomentRendezvous" value="${rendezvous.moment}" pattern="<spring:message code="master.page.moment.pattern.out"/>"/>
+<spring:message var="format" code="master.page.moment.format.out"/>
+<fmt:formatDate var="formatMomentRendezvous" value="${rendezvous.moment}" pattern="${format}" />
 <spring:message code="master.page.moment.format" var="formatMoment"/>
 
 
@@ -70,15 +73,31 @@
 <!-- Displaying comments -->
 <display:table name="rendezvouse.comments" id="comment" requestURI="rendezvouse/detailed-rendezvous.do" pagesize="10">
 	<display:column>
-		<img src="${comment.pictureUrl}">
+		<img src="${comment.pictureUrl}" width="150" height="150">
 	</display:column>
 	<display:column property="text" title="${textComment}"/>
 	<display:column property="moment" title="${momentComment}" format="${formatMoment}"/>
 	<display:column>
-		<a href="comment/user/list.do?commentId=${comment.id}">
+		<a href="comment/listFromComment.do?commentId=${comment.id}">
 			<button class="btn">
 				<spring:message code="rendezvous.comment.comments"/>
 			</button>
 		</a>
 	</display:column>
+	<display:column title="${displayComment}">
+		<a href="comment/display.do?commentId=${comment.id}">
+		<button class="btn">
+				<spring:message code="rendezvous.comment.display"/>
+			</button>
+		</a>
+	</display:column>
 </display:table>	
+
+<jstl:if test="${!anonymous && userHasCreatedRendezvous}">
+	<br/>
+	<a href="question/user/list.do?rendezvousId=${rendezvous.id}">
+		<button class="btn">
+				<spring:message code="rendezvous.question.list"/>
+			</button>
+	</a>
+</jstl:if>

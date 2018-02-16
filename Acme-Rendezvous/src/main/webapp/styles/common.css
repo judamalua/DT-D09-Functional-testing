@@ -13,6 +13,10 @@
 	font-weight: bolder;
 }
 
+.lang{
+	margin-left: 1%;
+}
+
 .message {
 	color: red;
 	font-weight: bolder;

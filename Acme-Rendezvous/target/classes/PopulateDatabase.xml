@@ -94,12 +94,10 @@
 		<property name="surname" value="User" />
 		<property name="email" value="user1@mail.com" />
 		<property name="birthDate" value="1987/04/11 00:00" />
+		<property name="phoneNumber" value="635587789"/>
+		<property name="postalAddress" value="San Antion Spurs Street"/>
 		<property name="userAccount" ref="UserAccount3" />
 		<property name="createdRendezvouses">
-			<list>
-			</list>
-		</property>
-		<property name="RSVPRendezvouses">
 			<list>
 			</list>
 		</property>
@@ -113,13 +111,11 @@
 		<property name="name" value="User 2" />
 		<property name="surname" value="User " />
 		<property name="email" value="user2@mail.com" />
+		<property name="phoneNumber" value="635582389"/>
+		<property name="postalAddress" value="Okklahoma Thunder Street"/>
 		<property name="birthDate" value="1992/07/15 00:00" />
 		<property name="userAccount" ref="UserAccount4" />
 		<property name="createdRendezvouses">
-			<list>
-			</list>
-		</property>
-		<property name="RSVPRendezvouses">
 			<list>
 			</list>
 		</property>
@@ -129,6 +125,70 @@
 		</property>
 	</bean>
 	
+	<!-- %%%% Comments %%%% -->
+	
+	<bean id="Comment1" class="domain.Comment">
+		<property name="moment" value="2017/08/28 00:00"/>
+		<property name="text" value="This is comment number 1"/>
+		<property name="pictureUrl" value="https://vignette.wikia.nocookie.net/unturned-bunker/images/0/0a/Meaning-of-vault-boy-thumbs-up-jpg.jpg"/>
+		<property name="comments">
+			<list>
+				<ref bean="Comment1-1"/>
+				<ref bean="Comment1-2"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="Comment1-1" class="domain.Comment">
+		<property name="moment" value="2017/08/28 05:37"/>
+		<property name="text" value="This is a reply for comment 1"/>
+		<property name="pictureUrl" value="https://www.emojirequest.com/images/ThumbsDownEmoji.jpg"/>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="Comment1-2" class="domain.Comment">
+		<property name="moment" value="2017/09/22 15:00"/>
+		<property name="text" value="This is the second reply for comment 1"/>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="Comment2" class="domain.Comment">
+		<property name="moment" value="2018/01/01 00:00"/>
+		<property name="text" value="This is comment number 2"/>
+		<property name="pictureUrl" value="http://amhersttimes.com/wp-content/uploads/2014/02/comment-300x300.jpg"/>
+		<property name="comments">
+			<list>
+				<ref bean="Comment2-1"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="Comment2-1" class="domain.Comment">
+		<property name="moment" value="2018/02/14 15:00"/>
+		<property name="text" value="This is the first reply for comment 2"/>
+		<property name="pictureUrl" value="http://www.elcorreogallego.es/img/noticias/20180102/love01_822381_manual.jpg"/>
+		<property name="comments">
+			<list>
+				<ref bean="Comment2-1-1"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="Comment2-1-1" class="domain.Comment">
+		<property name="moment" value="2018/02/14 18:20"/>
+		<property name="text" value="This is a reply for the reply for comment 2"/>
+		<property name="pictureUrl" value="http://www.ronaldo7.net/news/2014/03/806-benzema-and-cristiano-ronaldo-having-a-laugh.jpg"/>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+	</bean>
 	<!-- %%%% Configuration %%%% -->
 	
 	<bean id="Configuration" class="domain.Configuration">

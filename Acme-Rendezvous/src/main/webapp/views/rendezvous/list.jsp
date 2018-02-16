@@ -33,17 +33,18 @@
 	<display:column property="description" title="${titleDescription}"/>
 	<display:column property="moment" title="${titleMoment}" format="${formatMoment}"/>
 	<display:column>
-		<a href="rendezvous/detailed-rendezvous.do?rendezvousId=${rendezvous.id}">
+		<a href="rendezvous/detailed-rendezvous.do?rendezvousId=${rendezvous.id}&anonymous=${anonymous}">
 			<button class="btn">
-				<spring:message code="rendevous.edit"/>
+				<spring:message code="rendezvous.details"/>
 			</button>
 		</a>
 	</display:column>
+	
 	<display:column>
-		<jstl:if test="${!rendezvous.finalMode and !rendezvous.deleted and rendezvous.moment>currentMoment}">
-			<a href="rendezvous/user/create.do?rendezvousId=${rendezvous.id}">
+		<jstl:if test="${!rendezvous.finalMode and !rendezvous.deleted and rendezvous.moment>currentDate}">
+			<a href="rendezvous/user/edit.do?rendezvousId=${rendezvous.id}">
 				<button class="btn">
-					<spring:message code="rendevous.edit"/>
+					<spring:message code="rendezvous.edit"/>
 				</button>
 			</a>
 		</jstl:if>

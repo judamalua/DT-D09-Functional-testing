@@ -8,7 +8,7 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form id = "form" action="question/user/edit.do" modelAttribute ="question">
+<form:form id = "form" action="/user/register.do" modelAttribute ="user">
 	
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
@@ -43,6 +43,6 @@
 		name="cancel"
 		class = "btn"
 		value="<spring:message code="question.cancel" />"
-		onclick="javascript: relativeRedir('question/user/list.do?rendezvousId=${rendezvousId}');" /> <!-- This variable is sent by the controller -->
+		onclick="javascript: relativeRedir('rendezvous/detailed-rendezvous.do?rendezvousId=${rendezvousId}');" /> <!-- This variable is sent by the controller -->
 
 </form:form>
