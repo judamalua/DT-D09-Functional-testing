@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.RendezvousRepository;
+import domain.Actor;
+import domain.Administrator;
 import domain.Announcement;
 import domain.Comment;
 import domain.Question;
@@ -108,8 +110,6 @@ public class RendezvousService {
 
 		result = this.rendezvousRepository.findOne(rendezvousId);
 
-		Assert.isTrue(!result.getDeleted());
-
 		return result;
 
 	}
@@ -193,18 +193,26 @@ public class RendezvousService {
 	 * This method set rendezvous boolean "deleted" to true, that means that it is not deleted in DB,
 	 * but we mark it like deleted.
 	 * 
-	 * @param rendesvous
+	 * @param rendezvous
 	 * 
 	 * @author Luis
 	 */
 	public void delete(final Rendezvous rendezvous) {
+		this.actorService.checkUserLogin();
+
 		assert rendezvous != null;
 		assert rendezvous.getId() != 0;
 		Rendezvous r;
+		Actor actor;
 
 		Assert.isTrue(this.rendezvousRepository.exists(rendezvous.getId()));
+		actor = this.actorService.findActorByPrincipal();
 		r = this.findOne(rendezvous.getId());
-		r.setDeleted(true);
+
+		if (actor instanceof Administrator)
+			this.rendezvousRepository.delete(r);
+		else
+			r.setDeleted(true);
 
 		this.save(r);
 
