@@ -37,6 +37,8 @@
 							<li class="arrow"></li>
 							<li><a href="rendezvous/user/list.do"><spring:message
 										code="master.page.createdRendezvous" /></a></li>
+							<li><a href="announcement/user/list.do"><spring:message
+										code="master.page.announcements" /></a></li>
 							
 						</ul></li>
 				</security:authorize>
