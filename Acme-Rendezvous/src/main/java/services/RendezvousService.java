@@ -34,6 +34,8 @@ public class RendezvousService {
 
 	@Autowired
 	private ActorService			actorService;
+	@Autowired
+	private UserService				userService;
 
 
 	// Simple CRUD methods --------------------------------------------------
@@ -202,21 +204,23 @@ public class RendezvousService {
 
 		assert rendezvous != null;
 		assert rendezvous.getId() != 0;
-		Rendezvous r;
+
 		Actor actor;
+		User user;
 
 		Assert.isTrue(this.rendezvousRepository.exists(rendezvous.getId()));
 		actor = this.actorService.findActorByPrincipal();
-		r = this.findOne(rendezvous.getId());
+		user = this.userService.getCreatorUser(rendezvous.getId());
 
-		if (actor instanceof Administrator)
-			this.rendezvousRepository.delete(r);
-		else
-			r.setDeleted(true);
+		if (actor instanceof Administrator) {
+			user.getCreatedRendezvouses().remove(rendezvous);
+			this.rendezvousRepository.delete(rendezvous);
+		} else {
+			rendezvous.setDeleted(true);
+			this.save(rendezvous);
+		}
 
-		this.save(r);
 	}
-
 	/**
 	 * 
 	 * This method returns the Rendezvous that has the question which id its provided

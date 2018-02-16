@@ -3,7 +3,6 @@ package controllers.administrator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,14 +30,14 @@ public class RendezvousAdminController {
 	// Deleting ------------------------------------------------------------------------
 
 	@RequestMapping(value = "/delete")
-	public ModelAndView delete(@RequestParam final int rendezvousId, final BindingResult binding) {
+	public ModelAndView delete(@RequestParam final int rendezvousId) {
 		ModelAndView result;
 		final Rendezvous rendezvous;
 
 		try {
 			rendezvous = this.rendezvousService.findOne(rendezvousId);
 			this.rendezvousService.delete(rendezvous);
-			result = new ModelAndView("redirect:/rendezvous/list.do");
+			result = new ModelAndView("redirect:/rendezvous/list.do?anonymous=false");
 
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/misc/403");
