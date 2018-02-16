@@ -49,6 +49,23 @@
 			</a>
 		</jstl:if>
 	</display:column>
+	
+	<jstl:if test="${rendezvous.deleted}">
+		<display:column>
+			<img src = "images/deleted-rendezvous.png"/> <spring:message code = "rendezvous.deleted"/>
+		</display:column>
+	</jstl:if>
+	
+	<security:authorize access="hasRole('ADMIN')">
+		<display:column>
+			<a href="rendezvous/admin/delete.do?rendezvousId=${rendezvous.id}">
+				<button class="btn">
+					<spring:message code="rendezvous.delete"/>
+				</button>
+			</a>
+		</display:column>
+	</security:authorize>
+	
 </display:table>
 
 <!-- Creating a new rendezvous -->

@@ -23,7 +23,7 @@
 	<a class="brand" href="#">&#160;&#160;Acme&#160;<img width = "24" src = "images/internet.png"/>&#160;Rendezvous</a>
 	<div class="navbar-inner">
 		<div class="container">
-
+				
 
 			<ul class="nav">
 				<!-- id="jMenu" -->
@@ -38,7 +38,15 @@
 							<li><a href="rendezvous/user/list.do"><spring:message
 										code="master.page.createdRendezvous" /></a></li>
 							
-						</ul></li>
+						</ul>
+						
+						<ul class="dropdown-menu">
+							<li class="arrow"></li>
+							<li><a href="user/edit.do"><spring:message
+										code="master.page.useredit" /></a></li>
+							
+						</ul>
+					</li>
 				</security:authorize>
 
 				<security:authorize access="hasRole('ADMIN')">
@@ -49,6 +57,8 @@
 							<li class="arrow"></li>
 							<li><a href="dashboard/admin/list.do"><spring:message
 										code="master.page.dashboardList" /></a></li>
+							<li><a href="admin/create.do"><spring:message
+										code="master.page.createAdmin" /></a></li>
 							
 						</ul></li>
 				</security:authorize>
@@ -58,6 +68,8 @@
 								code="master.page.login" /></a></li>
 					<li><a class="fNiv" href="rendezvous/list.do?anonymous=true"><img src = "images/envelope.png"/> <spring:message
 								code="master.page.rendevouzList" /></a></li>
+					<li><a class="fNiv" href="user/register.do"><img src = "images/envelope.png"/> <spring:message
+								code="master.page.registerUser" /></a></li>
 								</ul>
 				</security:authorize>
 

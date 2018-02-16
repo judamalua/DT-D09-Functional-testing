@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import javax.transaction.Transactional;
 
@@ -13,9 +14,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.ActorRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Actor;
+import domain.Administrator;
+import domain.User;
 
 @Service
 @Transactional
@@ -64,6 +68,29 @@ public class ActorService {
 
 		return result;
 
+	}
+
+	/**
+	 * That method create a instance of a user
+	 * 
+	 * @return User
+	 * @author Luis
+	 */
+	public Administrator createAdmin() {
+		Administrator result;
+
+		result = new Administrator();
+
+		final UserAccount ua = new UserAccount();
+		final Collection<Authority> auth = new HashSet<Authority>();
+		final Authority a = new Authority();
+		a.setAuthority(Authority.ADMIN);
+		auth.add(a);
+		ua.setAuthorities(auth);
+
+		result.setUserAccount(ua);
+
+		return result;
 	}
 
 	/**
@@ -135,8 +162,6 @@ public class ActorService {
 
 	/**
 	 * Checks there is an actor logged in the system
-	 * 
-	 * @author MJ
 	 */
 	public void checkUserLogin() {
 		Actor actor;
@@ -145,35 +170,22 @@ public class ActorService {
 
 		Assert.notNull(actor);
 	}
-	/**
-	 * Gets the age in years of an actor
-	 * 
-	 * @param actor
-	 * @return The age of the actor
-	 * @author MJ
-	 */
-	public int getAge(final Actor actor) {
-		Assert.notNull(actor);
+
+	public int getAge(final User user) {
+		Assert.notNull(user);
 
 		final int result;
 		LocalDate birthDay;
 		LocalDate currentDate;
 
 		currentDate = LocalDate.now();
-		birthDay = LocalDate.fromDateFields(actor.getBirthDate());
+		birthDay = LocalDate.fromDateFields(user.getBirthDate());
 		result = Years.yearsBetween(birthDay, currentDate).getYears();
 		Assert.isTrue(result > 0);
 
 		return result;
 	}
 
-	/**
-	 * Register an actor in the system
-	 * 
-	 * @param actor
-	 * @return The actor saved in the system
-	 * @author Luis
-	 */
 	public Actor registerActor(final Actor actor) {
 		Actor result;
 		String password;
@@ -188,7 +200,7 @@ public class ActorService {
 		password = encoder.encodePassword(password, null);
 		actor.getUserAccount().setPassword(password);
 
-		result = this.save(actor);
+		result = this.actorRepository.save(actor);
 
 		return result;
 	}

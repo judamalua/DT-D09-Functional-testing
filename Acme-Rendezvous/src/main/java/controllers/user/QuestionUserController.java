@@ -48,6 +48,7 @@ public class QuestionUserController extends AbstractController {
 		Rendezvous rendezvous;
 		User user;
 		String rendezvousName;
+		boolean rendezvousIsInFinalMode, rendezvousIsDeleted;
 
 		try {
 
@@ -59,10 +60,15 @@ public class QuestionUserController extends AbstractController {
 			Assert.isTrue(user.getCreatedRendezvouses().contains(rendezvous));
 			rendezvousName = rendezvous.getName();
 			questions = rendezvous.getQuestions();
+			rendezvousIsInFinalMode = rendezvous.getFinalMode();
+			rendezvousIsDeleted = rendezvous.getDeleted();
 
 			result.addObject("rendezvousName", rendezvousName);
 			result.addObject("rendezvousId", rendezvousId);
 			result.addObject("questions", questions);
+			result.addObject("rendezvousIsInFinalMode", rendezvousIsInFinalMode);
+			result.addObject("rendezvousIsDeleted", rendezvousIsDeleted);
+
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/misc/403");
 		}
