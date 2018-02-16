@@ -32,20 +32,41 @@
 	
 	<spring:message code="comment.pictureUrl" var = "commentPictureUrl" />
 	<display:column title="${commentPictureUrl}">
-		<img src="${row.pictureUrl}" width="150" height="150"/>
+		<jstl:if test="${not empty row.pictureUrl}">
+			<img src="${row.pictureUrl}" width="150" height="150"/>
+		</jstl:if>
 	</display:column>
 	
 	<spring:message code="comment.replies" var = "commentReplies" />
 	<display:column title="${commentReplies}" sortable="false">
 		<jstl:if test="${row.comments != null and fn:length(row.comments)>0}"> <!-- Comprueba que tenga respuestas -->
-			<a href="comment/list.do?commentId=${row.id}"><spring:message code="comment.view.replies"/></a>
+			<a href="comment/listFromComment.do?commentId=${row.id}">
+				<button class="btn">
+					<spring:message code="comment.view.replies"/>
+				</button>
+			</a>
 		</jstl:if>
 	</display:column>
 	
 	<security:authorize access="hasRole('USER')"> 
-	<spring:message code="comment.reply" var = "commentReply" />
-	<display:column >
-		<a href="comment/user/reply.do?commentId=${row.id}"><jstl:out value="${commentReply}"/></a>
-	</display:column>
+		<jstl:if test="${userHasRVSPdRendezvous}">
+			<spring:message code="comment.reply" var = "commentReply" />
+			<display:column >
+				<a href="comment/user/reply.do?commentId=${row.id}">
+					<button class="btn">
+						<jstl:out value="${commentReply}"/>
+					</button>
+				</a>
+			</display:column>
+		</jstl:if>
 	</security:authorize>
+	
+	<spring:message code="comment.display" var = "commentDisplay" />
+	<display:column title="${commentDisplay}">
+		<a href="comment/display.do?commentId=${row.id}">
+		<button class="btn">
+				<spring:message code="comment.display"/>
+			</button>
+		</a>
+	</display:column>
 </display:table>
