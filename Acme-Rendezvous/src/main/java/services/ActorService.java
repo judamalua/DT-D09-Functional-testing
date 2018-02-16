@@ -19,7 +19,6 @@ import security.LoginService;
 import security.UserAccount;
 import domain.Actor;
 import domain.Administrator;
-import domain.User;
 
 @Service
 @Transactional
@@ -171,15 +170,15 @@ public class ActorService {
 		Assert.notNull(actor);
 	}
 
-	public int getAge(final User user) {
-		Assert.notNull(user);
+	public int getAge(final Actor actor) {
+		Assert.notNull(actor);
 
 		final int result;
 		LocalDate birthDay;
 		LocalDate currentDate;
 
 		currentDate = LocalDate.now();
-		birthDay = LocalDate.fromDateFields(user.getBirthDate());
+		birthDay = LocalDate.fromDateFields(actor.getBirthDate());
 		result = Years.yearsBetween(birthDay, currentDate).getYears();
 		Assert.isTrue(result > 0);
 
