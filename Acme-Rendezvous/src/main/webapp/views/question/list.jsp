@@ -17,18 +17,25 @@
 	<spring:message code="question.text" var="text"/>
 	<display:column property="text" title="${text}" sortable="false"/>
 	
+	<jstl:if test="${!rendezvousIsInFinalMode}"> <!-- Checking if the Rendezvous is in final mode, if true, questions cannot be added or modified -->
 	<display:column>
 		<a href="question/user/edit.do?questionId=${question.id}">
-			<spring:message code="question.edit"/>
+			<button class = "btn">
+				<spring:message code="question.edit"/>
+			</button>
 		</a>
 	</display:column>
+	</jstl:if>
 	
 </display:table>
 
+	<jstl:if test="${!rendezvousIsInFinalMode}"> <!-- Checking if the Rendezvous is in final mode, if true, questions cannot be added or modified -->
+	<br/>
 	<a href = "question/user/create.do?rendezvousId=${rendezvousId}"> <!-- Rendezvous Id sent by controller -->
 	<button class = "btn">
 		<spring:message code = "question.create"/>
 	</button>
 	</a>
+	</jstl:if>
 
 
