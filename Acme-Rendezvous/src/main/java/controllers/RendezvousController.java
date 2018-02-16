@@ -90,6 +90,8 @@ public class RendezvousController extends AbstractController {
 		Rendezvous rendezvous;
 		User user;
 		int age;
+		boolean userHasCreatedRendezvous = false;
+
 		try {
 			result = new ModelAndView("rendezvous/detailed-rendezvous");
 			rendezvous = this.rendezvousService.findOne(rendezvousId);
@@ -103,7 +105,14 @@ public class RendezvousController extends AbstractController {
 				Assert.isTrue(age >= 18);//The age must be 18 or more
 			}
 
+			if (!anonymous) {
+				user = (User) this.actorService.findActorByPrincipal();
+				// Variable to check if button to see Questions must be shown in detailed rendezvous.
+				userHasCreatedRendezvous = user.getCreatedRendezvouses().contains(rendezvous);
+			}
+
 			result.addObject("rendezvous", rendezvous);
+			result.addObject("userHasCreatedRendezvous", userHasCreatedRendezvous);
 
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:misc/403");
