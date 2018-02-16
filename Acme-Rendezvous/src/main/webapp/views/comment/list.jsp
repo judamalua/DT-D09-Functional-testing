@@ -48,6 +48,11 @@
 		</jstl:if>
 	</display:column>
 	
+	<spring:message code="comment.user" var = "commentUser" />
+	<display:column title="${commentUser}">
+		<jstl:out value="${users[row_rowNum-1].name}"></jstl:out>
+	</display:column>
+	
 	<security:authorize access="hasRole('USER')"> 
 		<jstl:if test="${userHasRVSPdRendezvous}">
 			<spring:message code="comment.reply" var = "commentReply" />

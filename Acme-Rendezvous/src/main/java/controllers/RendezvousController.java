@@ -10,6 +10,9 @@
 
 package controllers;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,9 +24,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
+import services.CommentService;
 import services.ConfigurationService;
 import services.RendezvousService;
 import domain.Actor;
+import domain.Comment;
 import domain.Configuration;
 import domain.Rendezvous;
 import domain.User;
@@ -40,6 +45,9 @@ public class RendezvousController extends AbstractController {
 
 	@Autowired
 	private ConfigurationService	configurationService;
+
+	@Autowired
+	private CommentService			commentService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -94,6 +102,7 @@ public class RendezvousController extends AbstractController {
 	public ModelAndView detailing(@RequestParam final int rendezvousId, @RequestParam final boolean anonymous) {
 		ModelAndView result;
 		Rendezvous rendezvous;
+		Collection<User> users;
 		Actor actor;
 		User user;
 		int age;
@@ -124,9 +133,15 @@ public class RendezvousController extends AbstractController {
 				}
 			}
 
+			users = new ArrayList<>();
+
+			for (final Comment comment : rendezvous.getComments())
+				users.add(this.commentService.getUserFromComment(comment));
+
 			result.addObject("rendezvous", rendezvous);
 			result.addObject("userHasCreatedRendezvous", userHasCreatedRendezvous);
 			result.addObject("userHasRVSPdRendezvous", userHasRVSPdRendezvous);
+			result.addObject("commentUsers", users);
 
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:misc/403");

@@ -106,6 +106,10 @@
 			</a>
 		</jstl:if>
 	</display:column>
+		<spring:message code="comment.user" var = "commentUser" />
+	<display:column title="${commentUser}">
+		<jstl:out value="${commentUsers[comment_rowNum-1].name}"></jstl:out>
+	</display:column>
 	<display:column title="${displayComment}">
 		<a href="comment/display.do?commentId=${comment.id}">
 		<button class="btn">

@@ -157,6 +157,9 @@ public class QuestionService {
 
 		rendezvous.getQuestions().remove(question);
 
+		for (final Answer answer : this.answerService.getAnswersByQuestionId(question.getId()))
+			this.answerService.delete(answer);
+
 		this.questionRepository.delete(question);
 
 	}
