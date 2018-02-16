@@ -69,12 +69,12 @@ public class AnswerUserController {
 			Assert.isTrue(rendezvous.getFinalMode());							//Checks that the rendezvous is in final mode
 			Assert.isTrue(!rendezvous.getDeleted());							//Checks that the rendezvous is not deleted
 			Assert.isTrue(rendezvous.getMoment().after(new Date()));			//Checks that the rendezvous is not already over
-			Assert.isTrue(!user.getRSVPRendezvouses().contains(rendezvous));	//Checks the user hasn't already joined to the rendezvous
+			Assert.isTrue(!rendezvous.getUsers().contains(user));				//Checks the user hasn't already joined to the rendezvous
 			if (rendezvous.getAdultOnly())
-				Assert.isTrue(this.userService.getAge(user) >= 18);				//Checks that the user is old enough to join the rendezvous
+				Assert.isTrue(this.actorService.getAge(user) >= 18);			//Checks that the user is old enough to join the rendezvous
 			if (rendezvous.getQuestions().isEmpty()) {
-				user.getRSVPRendezvouses().add(rendezvous);						//If the rendezvous has no questions, it just lets the user join the rendezvous directly
-				this.userService.save(user);
+				rendezvous.getUsers().add(user);			//If the rendezvous has no questions, it just lets the user join the rendezvous directly
+				this.rendezvousService.save(rendezvous);
 				return new ModelAndView("redirect:/user/rendezvous/list");
 			}
 			result = this.createEditModelAndView(rendezvous.getQuestions(), rendezvousId);		//If it has any questions, the user is sent to the answering form
@@ -108,9 +108,9 @@ public class AnswerUserController {
 			Assert.isTrue(rendezvous.getFinalMode());							//Checks that the rendezvous is in final mode
 			Assert.isTrue(!rendezvous.getDeleted());							//Checks that the rendezvous is not deleted
 			Assert.isTrue(rendezvous.getMoment().after(new Date()));			//Checks that the rendezvous is not already over
-			Assert.isTrue(!user.getRSVPRendezvouses().contains(rendezvous)); 	//Checks the user hasn't already joined to the rendezvous
+			Assert.isTrue(!rendezvous.getUsers().contains(user));			 	//Checks the user hasn't already joined to the rendezvous
 			if (rendezvous.getAdultOnly())
-				Assert.isTrue(this.userService.getAge(user) >= 18);				//Checks that the user is old enough to join the rendezvous
+				Assert.isTrue(this.actorService.getAge(user) >= 18);			//Checks that the user is old enough to join the rendezvous
 		} catch (final Throwable oops) {
 			return new ModelAndView("redirect:/misc/403");						//If any of the checks fails, the system will redirect the user to the 403 page
 		}
@@ -138,8 +138,8 @@ public class AnswerUserController {
 				this.answerService.save(answer);
 				i++;
 			}
-			user.getRSVPRendezvouses().add(rendezvous);	//Finally here, the user get's added to the Rendezvous
-			this.userService.save(user);
+			rendezvous.getUsers().add(user);	//Finally here, the user get's added to the rendezvous
+			this.rendezvousService.save(rendezvous);
 			result = new ModelAndView("redirect:/user/rendezvous/list");
 		} catch (final Throwable oops) {
 			//If any error is made during the commit, it will make the user return to the form
@@ -170,15 +170,15 @@ public class AnswerUserController {
 			Assert.isTrue(rendezvous.getFinalMode());							//Checks that the rendezvous is in final mode
 			Assert.isTrue(!rendezvous.getDeleted());							//Checks that the rendezvous is not deleted
 			Assert.isTrue(rendezvous.getMoment().after(new Date()));			//Checks that the rendezvous is not already over
-			Assert.isTrue(user.getRSVPRendezvouses().contains(rendezvous));		//Checks the user has already joined to the rendezvous
+			Assert.isTrue(rendezvous.getUsers().contains(user));		//Checks the user has already joined to the rendezvous
 
 			//This for block finds every answer the user gave to join the rendezvous and deletes it
 			for (final Question q : rendezvous.getQuestions()) {
 				final Answer answer = this.answerService.getAnswerByUserIdAndQuestionId(user.getId(), q.getId());
 				this.answerService.delete(answer);
 			}
-			user.getRSVPRendezvouses().remove(rendezvous);	//Here the user is not anymore to the rendezvous
-			this.userService.save(user);
+			rendezvous.getUsers().remove(user);	//Here the user is not assisting anymore to the rendezvous
+			this.rendezvousService.save(rendezvous);
 			result = new ModelAndView("redirect:/user/rendezvous/list");
 		} catch (final Throwable oops) {
 			//If any error is made during whole process, it will make the user go to the 403 page
