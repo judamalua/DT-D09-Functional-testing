@@ -139,4 +139,19 @@ public class AnswerService {
 		return result;
 	}
 
+	/**
+	 * Using the id of the user and the id of the questions, returns the answer that that user gave when answering that question
+	 * 
+	 * @param userId
+	 *            The id of the user
+	 * @param questionId
+	 *            The id of the question
+	 * @author Daniel Diment
+	 * @return The answer
+	 */
+	public Answer getAnswerByUserIdAndQuestionId(final int userId, final int questionId) {
+		final Answer result = this.answerRepository.getAnswerByUserIdAndQuestionId(userId, questionId);
+		return result;
+	}
+
 }
