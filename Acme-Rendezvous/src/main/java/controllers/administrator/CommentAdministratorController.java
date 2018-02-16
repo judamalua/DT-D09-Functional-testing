@@ -26,7 +26,7 @@ public class CommentAdministratorController extends AbstractController {
 	private RendezvousService	rendezvousService;
 
 
-	// Constructors -----------------------------------------------------------
+	// Constructors --------------------------------------------------------
 	public CommentAdministratorController() {
 		super();
 	}

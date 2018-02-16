@@ -44,7 +44,11 @@
 	
 	<security:authorize access="hasRole('USER')"> 
 		<spring:message code="comment.reply" var="commentReply"/>
-		<a href="comment/user/reply.do?commentId=${comment.id}"><jstl:out value="commentReply"/></a>
+		<a href="comment/user/reply.do?commentId=${comment.id}">
+			<button class="btn">
+				<jstl:out value="${commentReply}"/>
+			</button>		
+		</a>
 	</security:authorize>
 	
 	<spring:message code="comment.replies" var="commentReplies"/>

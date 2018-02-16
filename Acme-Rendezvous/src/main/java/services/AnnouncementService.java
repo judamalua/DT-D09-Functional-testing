@@ -25,12 +25,11 @@ public class AnnouncementService {
 	@Autowired
 	private AnnouncementRepository	announcementRepository;
 	@Autowired
-	private RendezvousService rendezvousService;
+	private RendezvousService		rendezvousService;
 	@Autowired
-	private UserService userService;
+	private UserService				userService;
 	@Autowired
-	private ActorService actorService;
-
+	private ActorService			actorService;
 
 
 	// Supporting services --------------------------------------------------
@@ -90,16 +89,16 @@ public class AnnouncementService {
 
 		assert announcement != null;
 		assert announcement.getId() != 0;
-		
+
 		Assert.isTrue(this.announcementRepository.exists(announcement.getId()));
 
-		
 		//Checkear que el usuario es el creador o administrador
-		Rendezvous rend = rendezvousService.getRendezvousByAnnouncement(announcement.getId());
-		User user = userService.getCreatorUser(rend.getId());
-		Assert.isTrue(actorService.findActorByPrincipal().getUserAccount().getAuthorities().contains(Authority.ADMIN) 
-				|| user.equals(actorService.findActorByPrincipal()));
-		
+		final Rendezvous rendezvous = this.rendezvousService.getRendezvousByAnnouncement(announcement.getId());
+		final User user = this.userService.getCreatorUser(rendezvous.getId());
+		Assert.isTrue(this.actorService.findActorByPrincipal().getUserAccount().getAuthorities().contains(Authority.ADMIN) || user.equals(this.actorService.findActorByPrincipal()));
+
+		rendezvous.getAnnouncements().remove(announcement);
+		this.rendezvousService.save(rendezvous);
 
 		this.announcementRepository.delete(announcement);
 

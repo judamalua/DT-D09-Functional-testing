@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.RendezvousRepository;
+import domain.Actor;
+import domain.Administrator;
 import domain.Announcement;
 import domain.Comment;
 import domain.Question;
@@ -32,6 +34,14 @@ public class RendezvousService {
 
 	@Autowired
 	private ActorService			actorService;
+	@Autowired
+	private UserService				userService;
+	@Autowired
+	private AnnouncementService		announcementService;
+	@Autowired
+	private QuestionService			questionService;
+	@Autowired
+	private CommentService			commentService;
 
 
 	// Simple CRUD methods --------------------------------------------------
@@ -108,10 +118,25 @@ public class RendezvousService {
 
 		result = this.rendezvousRepository.findOne(rendezvousId);
 
-		Assert.isTrue(!result.getDeleted());
-
 		return result;
 
+	}
+
+	/**
+	 * 
+	 * This method returns a Rendezvous witch id its equals to the id that you
+	 * provides to the method, but it doesn't check if it has been marked as deleted.
+	 * 
+	 * @param rendezvousId
+	 * @return This method return Rendezvous
+	 * @author Antonio
+	 */
+	public Rendezvous findOneForReplies(final int rendezvousId) {
+		Rendezvous result;
+
+		result = this.rendezvousRepository.findOne(rendezvousId);
+
+		return result;
 	}
 
 	/**
@@ -176,23 +201,44 @@ public class RendezvousService {
 	 * This method set rendezvous boolean "deleted" to true, that means that it is not deleted in DB,
 	 * but we mark it like deleted.
 	 * 
-	 * @param rendesvous
+	 * @param rendezvous
 	 * 
 	 * @author Luis
 	 */
 	public void delete(final Rendezvous rendezvous) {
+		this.actorService.checkUserLogin();
+
 		assert rendezvous != null;
 		assert rendezvous.getId() != 0;
-		Rendezvous r;
+
+		Actor actor;
+		User user;
 
 		Assert.isTrue(this.rendezvousRepository.exists(rendezvous.getId()));
-		r = this.findOne(rendezvous.getId());
-		r.setDeleted(true);
+		actor = this.actorService.findActorByPrincipal();
+		user = this.userService.getCreatorUser(rendezvous.getId());
 
-		this.save(r);
+		if (actor instanceof Administrator) {
+
+			for (final Announcement announcement : rendezvous.getAnnouncements())
+				this.announcementService.delete(announcement);
+
+			for (final Question question : rendezvous.getQuestions())
+				this.questionService.delete(question);
+
+			for (final Comment comment : rendezvous.getComments())
+				this.commentService.delete(comment);
+
+			user.getCreatedRendezvouses().remove(rendezvous);
+
+			this.actorService.save(user);
+			this.rendezvousRepository.delete(rendezvous);
+		} else {
+			rendezvous.setDeleted(true);
+			this.save(rendezvous);
+		}
 
 	}
-
 	/**
 	 * 
 	 * This method returns the Rendezvous that has the question which id its provided

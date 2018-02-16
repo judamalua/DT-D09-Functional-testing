@@ -106,6 +106,7 @@ public class QuestionService {
 		User user;
 
 		Collection<Answer> answers;
+		Assert.isTrue(!rendezvous.getFinalMode());
 
 		user = (User) this.actorService.findActorByPrincipal();
 
@@ -155,6 +156,9 @@ public class QuestionService {
 		this.checkUserCreatedRendezvousOfQuestion(question);
 
 		rendezvous.getQuestions().remove(question);
+
+		for (final Answer answer : this.answerService.getAnswersByQuestionId(question.getId()))
+			this.answerService.delete(answer);
 
 		this.questionRepository.delete(question);
 

@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import javax.transaction.Transactional;
 
@@ -13,10 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.ActorRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Actor;
-import domain.User;
+import domain.Administrator;
 
 @Service
 @Transactional
@@ -65,6 +67,29 @@ public class ActorService {
 
 		return result;
 
+	}
+
+	/**
+	 * That method create a instance of a user
+	 * 
+	 * @return User
+	 * @author Luis
+	 */
+	public Administrator createAdmin() {
+		Administrator result;
+
+		result = new Administrator();
+
+		final UserAccount ua = new UserAccount();
+		final Collection<Authority> auth = new HashSet<Authority>();
+		final Authority a = new Authority();
+		a.setAuthority(Authority.ADMIN);
+		auth.add(a);
+		ua.setAuthorities(auth);
+
+		result.setUserAccount(ua);
+
+		return result;
 	}
 
 	/**
@@ -145,15 +170,15 @@ public class ActorService {
 		Assert.notNull(actor);
 	}
 
-	public int getAge(final User user) {
-		Assert.notNull(user);
+	public int getAge(final Actor actor) {
+		Assert.notNull(actor);
 
 		final int result;
 		LocalDate birthDay;
 		LocalDate currentDate;
 
 		currentDate = LocalDate.now();
-		birthDay = LocalDate.fromDateFields(user.getBirthDate());
+		birthDay = LocalDate.fromDateFields(actor.getBirthDate());
 		result = Years.yearsBetween(birthDay, currentDate).getYears();
 		Assert.isTrue(result > 0);
 

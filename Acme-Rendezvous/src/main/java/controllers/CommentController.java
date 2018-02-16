@@ -1,6 +1,7 @@
 
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.CommentService;
 import services.RendezvousService;
+import services.UserService;
 import domain.Comment;
 import domain.Rendezvous;
 import domain.User;
@@ -27,6 +30,12 @@ public class CommentController extends AbstractController {
 	@Autowired
 	private RendezvousService	rendezvousService;
 
+	@Autowired
+	private ActorService		actorService;
+
+	@Autowired
+	private UserService			userService;
+
 
 	// Constructors -----------------------------------------------------------
 	public CommentController() {
@@ -38,38 +47,72 @@ public class CommentController extends AbstractController {
 	public ModelAndView listFromRendezvous(@RequestParam final int rendezvousId) {
 		ModelAndView result;
 		Collection<Comment> comments;
+		Collection<User> users;
 		Rendezvous rendezvous;
 		String requestURI;
 
-		rendezvous = this.rendezvousService.findOne(rendezvousId);
+		users = new ArrayList<>();
+		rendezvous = this.rendezvousService.findOneForReplies(rendezvousId);
 		comments = rendezvous.getComments();
+
+		for (final Comment comment : comments)
+			users.add(this.commentService.getUserFromComment(comment));
+
 		requestURI = "comment/list.do";
 
 		result = new ModelAndView("comment/list");
 		result.addObject("comments", comments);
 		result.addObject("requestURI", requestURI);
+		result.addObject("users", users);
 
 		return result;
 	}
-
 	@RequestMapping(value = "/listFromComment", method = RequestMethod.GET)
 	public ModelAndView listFromComment(@RequestParam final int commentId) {
 		ModelAndView result;
 		Collection<Comment> replies;
+		Collection<User> users;
 		Comment comment;
 		String requestURI;
+		Boolean userHasRVSPdRendezvous = false;
+		Rendezvous rendezvous;
 
 		comment = this.commentService.findOne(commentId);
+		users = new ArrayList<>();
 		replies = comment.getComments();
 		requestURI = "comment/list.do";
+
+		for (final Comment commentary : replies)
+			users.add(this.commentService.getUserFromComment(commentary));
 
 		result = new ModelAndView("comment/list");
 		result.addObject("comments", replies);
 		result.addObject("requestURI", requestURI);
 
+		try {
+			User user;
+			Comment fatherComment;
+
+			user = (User) this.actorService.findActorByPrincipal();
+
+			rendezvous = this.rendezvousService.getRendezvousByCommentary(commentId);
+
+			fatherComment = comment;
+			while (rendezvous == null) {
+				fatherComment = this.commentService.getFatherCommentFromReply(comment);
+				rendezvous = this.rendezvousService.getRendezvousByCommentary(fatherComment.getId());
+			}
+
+			userHasRVSPdRendezvous = rendezvous.getUsers().contains(user);
+
+			result.addObject("userHasRVSPdRendezvous", userHasRVSPdRendezvous);
+			result.addObject("users", users);
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/misc:403");
+		}
+
 		return result;
 	}
-
 	//Display -----------------------------------------------------------
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int commentId) {
