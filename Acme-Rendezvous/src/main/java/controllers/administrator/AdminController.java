@@ -120,6 +120,8 @@ public class AdminController extends AbstractController {
 
 	//Updating profile of a admin ---------------------------------------------------------------------
 	/**
+	 * 
+	 * 
 	 * That method update the profile of a user.
 	 * 
 	 * @param save
