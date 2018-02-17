@@ -93,8 +93,7 @@ public class AnswerUserController {
 	 * @param rendezvousId
 	 *            The id of the rendezvous the user is trying to join
 	 * @author Daniel Diment
-	 * @return
-	 *         The next view the user should be redirected into
+	 * @return The next view the user should be redirected into
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@RequestParam("answers") final List<String> answers, @RequestParam("rendezvousId") final int rendezvousId) {

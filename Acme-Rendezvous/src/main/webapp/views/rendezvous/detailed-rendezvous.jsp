@@ -58,18 +58,19 @@
 
 <!-- Button for joining the rendezvous -->
 <security:authorize access="hasRole('USER')">
-<jstl:if test="${!userHasRVSPdRendezvous}">
+<jstl:if test="${!userHasRVSPdRendezvous && !anonymous}">
 	<a href="answer/user/edit.do?rendezvousId=${rendezvous.id}">
 		<button class="btn">
 				<spring:message code="rendezvous.join"/>
 			</button>
 	</a>
 </jstl:if>
-<jstl:if test="${userHasRVSPdRendezvous}">
+<jstl:if test="${userHasRVSPdRendezvous && !userHasCreatedRendezvous && !anonymous}">
+	
 	<a href="answer/user/delete.do?rendezvousId=${rendezvous.id}">
-		<button class="btn">
-				<spring:message code="rendezvous.leave"/>
-			</button>
+		<button class="btn" onclick="javascript:confirm('<spring:message code="rendezvous.leave.confirm"/>')">
+			<spring:message code="rendezvous.leave"/>
+		</button>
 	</a>
 </jstl:if>
 <br/>
@@ -92,7 +93,7 @@
 
 <!-- Displaying announcements -->
 <h4><spring:message code="rendezvous.announcements.list"/></h4>
-<display:table name="rendezvouse.announcements" id="announcement" requestURI="rendezvouse/detailed-rendezvous.do" pagesize="10">
+<display:table name="rendezvous.announcements" id="announcement" requestURI="rendezvouse/detailed-rendezvous.do" pagesize="10">
 	<display:column property="title" title="${titleAnnouncement}"/>
 	<display:column property="description" title="${descriptionAnnouncement}"/>
 	<display:column property="moment" title="${momentAnnouncement}" format="${formatMoment}"/>

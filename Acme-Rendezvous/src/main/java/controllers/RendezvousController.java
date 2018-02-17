@@ -135,6 +135,7 @@ public class RendezvousController extends AbstractController {
 				users.add(this.commentService.getUserFromComment(comment));
 
 			result.addObject("rendezvous", rendezvous);
+			result.addObject("anonymous", anonymous);
 			result.addObject("userHasCreatedRendezvous", userHasCreatedRendezvous);
 			result.addObject("userHasRVSPdRendezvous", userHasRVSPdRendezvous);
 			result.addObject("commentUsers", users);

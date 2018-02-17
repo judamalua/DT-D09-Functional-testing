@@ -51,10 +51,11 @@
 	<form:input path="pictureUrl"/>
 	<form:errors cssClass="error" path="pictureUrl"/>
 	
+	<spring:message code="rendezvous.gpsCoordinates.placeholder" var="gpsPlaceholder"/>
 	<form:label path="gpsCoordinates">
 		<spring:message code="rendezvous.gpsCoordinates"/>
 	</form:label>
-	<form:input path="gpsCoordinates"/>
+	<form:input path="gpsCoordinates" placeholder="${gpsPlaceholder}"/>
 	<form:errors cssClass="error" path="gpsCoordinates"/>
 	
 	<form:label path="finalMode">

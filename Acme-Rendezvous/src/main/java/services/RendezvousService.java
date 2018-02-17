@@ -153,6 +153,8 @@ public class RendezvousService {
 		User user;
 
 		user = (User) this.actorService.findActorByPrincipal();
+		if (rendezvous.getId() != 0)
+			Assert.isTrue(user.getCreatedRendezvouses().contains(rendezvous));
 
 		result = this.rendezvousRepository.save(rendezvous);
 
@@ -211,8 +213,6 @@ public class RendezvousService {
 		rendezvous.getUsers().remove(user);						//Remove user
 
 		result = this.rendezvousRepository.save(rendezvous);
-
-		this.actorService.save(user);
 
 		return result;
 	}
