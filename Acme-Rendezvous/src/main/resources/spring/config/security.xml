@@ -72,6 +72,7 @@
 		<security:intercept-url pattern="/announcement/user/create.do" access="hasRole('USER')" /> 
 		<security:intercept-url pattern="/announcement/user/list.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/announcement/user/edit.do" access="hasRole('USER')" /> 
+		<security:intercept-url pattern="/announcement/user/delete.do" access="hasRole('USER')" /> 
 		
 		
 		<security:intercept-url pattern="/answer/user/edit.do" access="hasRole('USER')" />
