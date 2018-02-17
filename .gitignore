@@ -22,3 +22,4 @@
 hs_err_pid*
 */pom.properties
 
+Acme-Rendezvous/src/main/resources/Entities.map
