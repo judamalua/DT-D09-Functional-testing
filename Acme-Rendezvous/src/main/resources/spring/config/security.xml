@@ -46,6 +46,7 @@
 		<security:intercept-url pattern="/rendezvous/detailed-rendezvous.do" access="permitAll" /> 
 		<security:intercept-url pattern="/user/list.do" access="permitAll" /> 
 		<security:intercept-url pattern="/user/display.do" access="permitAll" /> 
+		<security:intercept-url pattern="/answer/user/list.do" access="permitAll" /> 
 		<security:intercept-url pattern="/actor/display.do" access="isAuthenticated()" />
 		<security:intercept-url pattern="actor/user/register.do" access="permitAll" /> 
 		<security:intercept-url pattern="/rendezvous/user/**" access="hasRole('USER')" /> 
