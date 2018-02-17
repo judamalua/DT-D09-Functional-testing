@@ -75,13 +75,17 @@ public class AnnouncementService {
 			//The announcement moment is actual when the announcement is created 
 			announcement.setMoment(new Date(System.currentTimeMillis() + 10));
 			//Rendezvous rend = rendezvousService.getRendezvousByAnnouncement(announcement.getId());
-			Rendezvous rend = rendezvousService.findOne(rendezvousId);
-			rend.getAnnouncements().add(announcement);
-			rendezvousService.save(rend);
+		
 		}
 		Announcement result;
 
 		result = this.announcementRepository.save(announcement);
+		
+		if (announcement.getVersion() == 0){
+			Rendezvous rend = rendezvousService.findOne(rendezvousId);
+			rend.getAnnouncements().add(result);
+			rendezvousService.save(rend);
+		}
 
 		return result;
 
