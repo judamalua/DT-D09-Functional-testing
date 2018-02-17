@@ -64,7 +64,7 @@
 				<security:authorize access="isAnonymous()">
 					<li><a class="fNiv" href="security/login.do"><img src = "images/login.png"/> <spring:message
 								code="master.page.login" /></a></li>
-					<li><a class="fNiv" href="actor/user/register.do"><img src = "images/envelope.png"/> <spring:message
+					<li><a class="fNiv" href="actor/register.do"><img src = "images/envelope.png"/> <spring:message
 								code="master.page.registerUser" /></a></li>
 					<li><a class="fNiv" href="rendezvous/list.do?anonymous=true"><img src = "images/envelope.png"/> <spring:message
 								code="master.page.rendevouzList" /></a></li>
@@ -89,13 +89,13 @@
 						<ul class="dropdown-menu">
 							<li class="arrow"></li>
 							<security:authorize access="hasRole('ADMIN')">
-							<li><a href="actor/edit.do"><spring:message
+							<li><a href="actor/admin/edit.do"><spring:message
 										code="master.page.actorEdit" /></a></li>
-							<li><a href="actor/display.do?anonymous=false"><spring:message
+							<li><a href="actor/display.do"><spring:message
 										code="master.page.actorProfile" /></a></li>
 							</security:authorize>
 							<security:authorize access="hasRole('USER')">
-							<li><a href="actor/edit.do"><spring:message
+							<li><a href="actor/user/edit.do"><spring:message
 										code="master.page.actorEdit" /></a></li>
 							<li><a href="user/display.do?anonymous=false"><spring:message
 										code="master.page.actorProfile" /></a></li>

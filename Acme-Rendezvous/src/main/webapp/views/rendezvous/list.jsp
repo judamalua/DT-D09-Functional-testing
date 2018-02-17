@@ -25,6 +25,17 @@
 <jsp:useBean id="now" class="java.util.Date" />
 <fmt:formatDate var="currentDate" value="${now}" pattern="yyyy-MM-dd HH:mm"/>
 
+<!-- Pagination -->
+<span class="pagebanner"> 
+	<jstl:forEach begin="1" end="${pageNum}" var="index">
+		<a href="${requestURI}?&pageage=${index-1}">
+			<jstl:out value="${index}" />
+		</a>
+		<jstl:if test="${index!=pageNum}">,</jstl:if>
+	</jstl:forEach>
+	<br />
+</span>
+<!-- Pagination -->
 
 <!-- Display -->
 <display:table name="rendezvouses" id="rendezvous" requestURI="${requestUri}" pagesize="10">

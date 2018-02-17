@@ -207,4 +207,22 @@ public class CommentService {
 
 		return result;
 	}
+
+	// Dasboard queries.
+
+	/**
+	 * Level A query 3
+	 * 
+	 * @return The average and the standard deviation of replies per comment.
+	 * @author Juanmi
+	 */
+	public String getQuestionsInfoFromRendezvous() {
+		String result;
+
+		result = this.commentRepository.getQuestionsInfoFromRendezvous();
+
+		Assert.notNull(result);
+
+		return result;
+	}
 }

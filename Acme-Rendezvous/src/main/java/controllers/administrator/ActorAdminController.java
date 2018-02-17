@@ -141,10 +141,7 @@ public class ActorAdminController extends AbstractController {
 				this.actorService.save(admin);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
-				if (oops.getMessage().contains("Passwords do not match"))
-					result = this.createEditModelAndView(admin, "admin.password.error");
-				else
-					result = this.createEditModelAndView(admin, "admin.commit.error");
+				result = this.createEditModelAndView(admin, "admin.commit.error");
 			}
 
 		return result;

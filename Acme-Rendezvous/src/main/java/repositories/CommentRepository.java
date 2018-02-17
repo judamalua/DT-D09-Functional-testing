@@ -16,4 +16,15 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
 	@Query("select c from Comment c join c.comments c1 where c1 = ?1")
 	public Comment getFatherCommentFromReply(Comment reply);
+
+	// Dashboard queries
+
+	/**
+	 * Level A query 3
+	 * 
+	 * @return The average and the standard deviation of replies per comment.
+	 * @author Juanmi
+	 */
+	@Query("select avg(c.comments.size), sqrt(sum(c.comments.size * c.comments.size) / count(c.comments.size) - (avg(c.comments.size) * avg(c.comments.size))) from Comment c")
+	String getQuestionsInfoFromRendezvous();
 }
