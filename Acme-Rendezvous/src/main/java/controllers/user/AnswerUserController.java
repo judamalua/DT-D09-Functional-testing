@@ -73,9 +73,8 @@ public class AnswerUserController {
 			if (rendezvous.getAdultOnly())
 				Assert.isTrue(this.actorService.getAge(user) >= 18);			//Checks that the user is old enough to join the rendezvous
 			if (rendezvous.getQuestions().isEmpty()) {
-				rendezvous.getUsers().add(user);			//If the rendezvous has no questions, it just lets the user join the rendezvous directly
-				this.rendezvousService.save(rendezvous);
-				return new ModelAndView("redirect:/user/rendezvous/list");
+				this.rendezvousService.RSVP(rendezvous);	//If the rendezvous has no questions, it just lets the user join the rendezvous directly
+				return new ModelAndView("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvousId + "&anonymous=false");
 			}
 			result = this.createEditModelAndView(rendezvous.getQuestions(), rendezvousId);		//If it has any questions, the user is sent to the answering form
 		} catch (final Throwable oops) {
@@ -98,7 +97,7 @@ public class AnswerUserController {
 	 *         The next view the user should be redirected into
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@RequestParam("answers[]") final List<String> answers, @RequestParam("rendezvousId") final int rendezvousId) {
+	public ModelAndView save(@RequestParam("answers") final List<String> answers, @RequestParam("rendezvousId") final int rendezvousId) {
 		Rendezvous rendezvous;
 		ModelAndView result;
 		final User user = (User) (this.actorService.findActorByPrincipal());
@@ -119,28 +118,27 @@ public class AnswerUserController {
 		//if any of them are, they are returned to the form so they can complete it properly.
 		//The regular expression checks if the answer is not just white spaces
 		final Pattern allWhitespaces = Pattern.compile("\\s");
-		for (final String s : answers) {
-			final Matcher matcher = allWhitespaces.matcher(s);
-			if (s.equals("") || s == null || matcher.matches())
+		for (final String answerText : answers) {
+			final Matcher matcher = allWhitespaces.matcher(answerText);
+			if (answerText.equals("") || answerText == null || matcher.matches())
 				return this.createEditModelAndView(rendezvous.getQuestions(), rendezvousId, "answer.emptyAnswer");
 		}
 
-		int i = 0; //This pointer helps to locate every answer in the List that contains the text of all the answer
+		int iterator = 0; //This pointer helps to locate every answer in the List that contains the text of all the answer
 
 		try {
 			//This for block creates and saves the answer for every single question it's made
-			for (final Question q : rendezvous.getQuestions()) {
+			for (final Question question : rendezvous.getQuestions()) {
 				Answer answer;
 				answer = this.answerService.create();
-				answer.setText(answers.get(i));
-				answer.setQuestion(q);
+				answer.setText(answers.get(iterator));
+				answer.setQuestion(question);
 				answer.setUser(user);
 				this.answerService.save(answer);
-				i++;
+				iterator++;
 			}
-			rendezvous.getUsers().add(user);	//Finally here, the user get's added to the rendezvous
-			this.rendezvousService.save(rendezvous);
-			result = new ModelAndView("redirect:/user/rendezvous/list");
+			this.rendezvousService.RSVP(rendezvous);	//Finally here, the user get's added to the rendezvous
+			result = new ModelAndView("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvousId + "&anonymous=false");
 		} catch (final Throwable oops) {
 			//If any error is made during the commit, it will make the user return to the form
 			result = this.createEditModelAndView(rendezvous.getQuestions(), rendezvousId, "answer.commit.error");
@@ -173,13 +171,12 @@ public class AnswerUserController {
 			Assert.isTrue(rendezvous.getUsers().contains(user));		//Checks the user has already joined to the rendezvous
 
 			//This for block finds every answer the user gave to join the rendezvous and deletes it
-			for (final Question q : rendezvous.getQuestions()) {
-				final Answer answer = this.answerService.getAnswerByUserIdAndQuestionId(user.getId(), q.getId());
+			for (final Question question : rendezvous.getQuestions()) {
+				final Answer answer = this.answerService.getAnswerByUserIdAndQuestionId(user.getId(), question.getId());
 				this.answerService.delete(answer);
 			}
-			rendezvous.getUsers().remove(user);	//Here the user is not assisting anymore to the rendezvous
-			this.rendezvousService.save(rendezvous);
-			result = new ModelAndView("redirect:/user/rendezvous/list");
+			this.rendezvousService.disRSVP(rendezvous);	//Here the user is not assisting anymore to the rendezvous
+			result = new ModelAndView("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvousId + "&anonymous=false");
 		} catch (final Throwable oops) {
 			//If any error is made during whole process, it will make the user go to the 403 page
 			result = new ModelAndView("redirect:/misc/403");
@@ -224,7 +221,7 @@ public class AnswerUserController {
 
 		final ModelAndView result;
 
-		result = new ModelAndView("answer/edit");
+		result = new ModelAndView("answer/user/edit");
 		result.addObject("questions", questions);
 		result.addObject("rendezvousId", rendezvousId);
 		result.addObject("messageCode", messageCode);
