@@ -53,6 +53,50 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	 * @return The average and the standard deviation of rendezvouses that are RSVPd per user.
 	 * @author Juanmi
 	 */
-	//TODO Continuar por esta query
+	//TODO Ask on monday
 
+	/**
+	 * Level C query 5
+	 * 
+	 * @return The top rendezvouses in terms of users who have RSVPd them, if you want to get the top X, then you must get the first X results.
+	 * @author Juanmi
+	 */
+	@Query("select r from Rendezvous r order by r.users.size desc")
+	String getTopRendezvouses();
+
+	/**
+	 * Level B query 1
+	 * 
+	 * @return The average and the standard deviation of announcements per rendezvous.
+	 * @author Juanmi
+	 */
+	@Query("select avg(r.announcements.size), sqrt(sum(r.announcements.size * r.announcements.size) / count(r.announcements.size) - (avg(r.announcements.size) * avg(r.announcements.size))) from Rendezvous r")
+	String getAnnouncementsInfoFromRendezvous();
+
+	/**
+	 * Level B query 2
+	 * 
+	 * @return The rendezvouses whose number of announcements is above 75% the average number of announcements per rendezvous.
+	 * @author Juanmi
+	 */
+	@Query("select r from Rendezvous r where r.announcements.size >= (select avg(re.announcements.size)*0.75 from Rendezvous re)")
+	String getRendezvousWithAnnouncementAboveSeventyFivePercent();
+
+	/**
+	 * Level B query 3
+	 * 
+	 * @return The rendezvouses that are linked to a number of rendezvouses that is greater than the average plus 10%.
+	 * @author Juanmi
+	 */
+	@Query("select r from Rendezvous r where r.similars.size >= (select avg(re.similars.size)+(avg(re.similars.size)*0.1) from Rendezvous re)")
+	String getRendezvousesMostLinked();
+
+	/**
+	 * Level A query 1
+	 * 
+	 * @return The average and the standard deviation of the number of questions per rendezvous.
+	 * @author Juanmi
+	 */
+	@Query("select avg(r.questions.size), sqrt(sum(r.questions.size * r.questions.size) / count(r.questions.size) - (avg(r.questions.size) * avg(r.questions.size))) from Rendezvous r")
+	String getQuestionsInfoFromRendezvous();
 }
