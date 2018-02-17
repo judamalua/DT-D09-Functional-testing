@@ -21,4 +21,9 @@
 		<put-attribute name="body" value="/views/answer/edit.jsp" />
 	</definition>
 	
+	<definition name="answer/user/list" extends="master.page">	
+		<put-attribute name="title" value="Listar de asistentes" />
+		<put-attribute name="body" value="/views/answer/list.jsp" />
+	</definition>
+	
 </tiles-definitions>
