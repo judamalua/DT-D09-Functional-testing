@@ -449,6 +449,57 @@ public class RendezvousService {
 	}
 
 	/**
+	 * Level C query 4 part 1/2
+	 * 
+	 * @return The average of rendezvouses that are RSVPd per user as the first element of the array and RSVPed users as the second element.
+	 * @author Juanmi
+	 */
+	public String[] getAverageAnswersPerQuestions() {
+		final String[] result = {
+			"", ""
+		};
+		Float average;
+
+		Collection<Rendezvous> allRendezvouses;
+		Collection<User> allUsers;
+
+		Float RSVPedUsers = 0F;
+		allRendezvouses = this.findAll();
+		allUsers = this.userService.findAll();
+
+		for (final Rendezvous rendezvous : allRendezvouses)
+			RSVPedUsers += new Float(rendezvous.getUsers().size() - 1);
+
+		average = RSVPedUsers / new Float(allUsers.size());
+
+		result[0] = average.toString();
+		result[1] = RSVPedUsers.toString();
+
+		return result;
+	}
+	//sqrt(sum(r.users.size * r.users.size) / count(r.users.size) - (avg(r.users.size) * avg(r.users.size)))
+	/**
+	 * Level A query 2 part 2/2
+	 * 
+	 * @return The standard deviation of the number of answers to the questions per rendezvous.
+	 */
+	public Float getStandardDeviationAnswersPerQuestions() {
+		String[] averageRSVPedUsers;
+		Float average, totalUsers, result, RSVPedUsers;
+
+		averageRSVPedUsers = this.getAverageAnswersPerQuestions();
+
+		average = new Float(averageRSVPedUsers[0]);
+		RSVPedUsers = new Float(averageRSVPedUsers[1]);
+
+		totalUsers = new Float(this.userService.findAll().size());
+
+		result = (float) ((Math.sqrt(RSVPedUsers * RSVPedUsers) / totalUsers) - (average * average));
+
+		return result;
+	}
+
+	/**
 	 * Level C query 5
 	 * 
 	 * @return The top-10 rendezvouses in terms of users who have RSVPd them.
