@@ -4,7 +4,6 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 
 import javax.transaction.Transactional;
 
@@ -96,60 +95,95 @@ public class CommentService {
 
 		Rendezvous rendezvous;
 		User user;
-		Comment fatherComment, saved;
+		Comment fatherComment;
 
-		if (comment.getComments().isEmpty()) {//It doesn't have replies
-			fatherComment = this.getFatherCommentFromReply(comment);
-			if (fatherComment != null) {
-				//fatherComment.getComments().remove(comment);
-				//this.save(fatherComment);
-			}
+		rendezvous = this.rendezvousService.getRendezvousByCommentary(comment.getId());
+		user = this.getUserFromComment(comment);
+		fatherComment = this.getFatherCommentFromReply(comment);
 
-			rendezvous = this.rendezvousService.getRendezvousByCommentary(comment.getId());
-			if (rendezvous != null) {
-				rendezvous.getComments().remove(comment);
-				this.rendezvousService.save(rendezvous);
-			}
+		user.getComments().remove(comment);
+		this.actorService.save(user);
 
-			user = this.getUserFromComment(comment);
-			user.getComments().remove(comment);
-			this.actorService.save(user);
-
-			this.commentRepository.delete(comment);
-
-		} else { // It has replies
-			for (final Comment c : comment.getComments())
-				this.delete(c);
-
-			comment.getComments().clear();
-			comment.setComments(new HashSet<Comment>());
-
-			saved = this.save(comment);
-
-			this.delete(saved);
+		if (rendezvous != null) {
+			rendezvous.getComments().remove(comment);
+			this.rendezvousService.save(rendezvous);
 		}
 
+		if (fatherComment != null) {
+			fatherComment.getComments().remove(comment);
+			this.save(fatherComment);
+		}
+
+		this.commentRepository.delete(comment);
+
 		/*
-		 * //Delete all the replies for this comment
+		 * //Comentario solo en el rendezvous
+		 * if (rendezvous != null && comment.getComments().size() == 0) {
+		 * rendezvous.getComments().remove(comment);
+		 * this.rendezvousService.save(rendezvous);
+		 * 
+		 * user.getComments().remove(comment);
+		 * this.userService.save(user);
+		 * 
+		 * this.commentRepository.delete(comment);
+		 * 
+		 * //Comentario solo en el reply
+		 * } else if (rendezvous == null && comment.getComments().size() == 0) {
+		 * user.getComments().remove(comment);
+		 * this.userService.save(user);
+		 * 
+		 * fatherComment = this.getFatherCommentFromReply(comment);
+		 * fatherComment.getComments().remove(comment);
+		 * this.save(fatherComment);
+		 * 
+		 * this.commentRepository.delete(comment);
+		 * 
+		 * //Comentario con replies en el rendezvous
+		 * } else if (rendezvous != null && comment.getComments().size() > 0) {
 		 * for (final Comment c : comment.getComments())
 		 * this.delete(c);
 		 * 
-		 * rendezvous = this.rendezvousService.getRendezvousByCommentary(comment.getId());
-		 * user = this.getUserFromComment(comment);
+		 * //rendezvous.getComments().remove(comment);
+		 * //this.rendezvousService.save(rendezvous);
+		 * 
+		 * user.getComments().remove(comment);
+		 * this.userService.save(user);
+		 * 
+		 * this.commentRepository.delete(comment);
+		 * 
+		 * }
+		 */
+
+		//Comentario con replies como reply
+
+		/*
+		 * 
+		 * if (comment.getComments().isEmpty()) {//It doesn't have replies
 		 * fatherComment = this.getFatherCommentFromReply(comment);
 		 * 
+		 * if (fatherComment != null) {
+		 * fatherComment.getComments().remove(comment);
+		 * this.save(fatherComment);
+		 * }
+		 * 
+		 * rendezvous = this.rendezvousService.getRendezvousByCommentary(comment.getId());
 		 * if (rendezvous != null) {
 		 * rendezvous.getComments().remove(comment);
 		 * this.rendezvousService.save(rendezvous);
 		 * }
-		 * user.getComments().remove(comment);
-		 * this.userService.save(user);
 		 * 
-		 * if (fatherComment != null) {
-		 * fatherComment.getComments().remove(comment);
-		 * this.commentRepository.save(fatherComment);
-		 * }
+		 * user = this.getUserFromComment(comment);
+		 * user.getComments().remove(comment);
+		 * this.actorService.save(user);
+		 * 
 		 * this.commentRepository.delete(comment);
+		 * 
+		 * } else { // It has replies
+		 * for (final Comment c : comment.getComments())
+		 * this.delete(c);
+		 * 
+		 * this.commentRepository.delete(comment);
+		 * }
 		 */
 
 	}
@@ -170,6 +204,24 @@ public class CommentService {
 		Comment result;
 
 		result = this.commentRepository.getFatherCommentFromReply(reply);
+
+		return result;
+	}
+
+	// Dasboard queries.
+
+	/**
+	 * Level A query 3
+	 * 
+	 * @return The average and the standard deviation of replies per comment.
+	 * @author Juanmi
+	 */
+	public String getQuestionsInfoFromRendezvous() {
+		String result;
+
+		result = this.commentRepository.getQuestionsInfoFromRendezvous();
+
+		Assert.notNull(result);
 
 		return result;
 	}

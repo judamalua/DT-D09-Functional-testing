@@ -182,4 +182,64 @@ public class QuestionService {
 		// Checking if user trying to delete this question is the creator of the Rendezvous
 		Assert.isTrue(user.getCreatedRendezvouses().contains(rendezvous));
 	}
+
+	// Dashboard queries.
+
+	/**
+	 * Level A query 2 part 1/2
+	 * 
+	 * @return The average of the number of answers to the questions per rendezvous as the first element of the array, total rendezvouses as the second element, and total answers as the third one.
+	 * @author Juanmi
+	 */
+	public String[] getAverageAnswersPerRendezvous() {
+		final String[] result = {
+			"", "", ""
+		};
+		Float average, totalAnswers;
+		Collection<Rendezvous> allRendezvouses;
+		Collection<Question> rendezvousQuestions;
+		Collection<Answer> questionAnswers;
+
+		totalAnswers = 0F;
+		allRendezvouses = this.rendezvousService.findAll();
+
+		for (final Rendezvous rendezvous : allRendezvouses) {
+			rendezvousQuestions = rendezvous.getQuestions();
+			for (final Question question : rendezvousQuestions) {
+				questionAnswers = this.answerService.getAnswersByQuestionId(question.getId());
+				totalAnswers += questionAnswers.size();
+			}
+		}
+
+		average = totalAnswers / new Float(allRendezvouses.size());
+
+		result[0] = average.toString();
+		result[1] = new Integer(allRendezvouses.size()).toString();
+		result[2] = totalAnswers.toString();
+
+		return result;
+	}
+
+	//sqrt(sum(q.answers.size * q.answers.size) / count(q.answers.size) - (avg(q.answers.size) * avg(q.answers.size)))
+	/**
+	 * Level A query 2 part 2/2
+	 * 
+	 * @return The standard deviation of the number of answers to the questions per rendezvous.
+	 */
+	public Float getStandardDeviationAnswersPerRendezvous() {
+		String[] averageTotalRendezvousesTotalAnswers = {
+			"", "", ""
+		};
+		Float average, totalRendezvouses, totalAnswers, result;
+
+		averageTotalRendezvousesTotalAnswers = this.getAverageAnswersPerRendezvous();
+
+		average = new Float(averageTotalRendezvousesTotalAnswers[0]);
+		totalRendezvouses = new Float(averageTotalRendezvousesTotalAnswers[1]);
+		totalAnswers = new Float(averageTotalRendezvousesTotalAnswers[2]);
+
+		result = (float) ((Math.sqrt(totalAnswers * totalAnswers) / totalRendezvouses) - (average * average));
+
+		return result;
+	}
 }

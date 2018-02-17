@@ -157,7 +157,7 @@ public class CommentUserController extends AbstractController {
 				saved = this.commentService.save(comment);
 
 				rendezvous.getComments().add(saved);
-				this.rendezvousService.save(rendezvous);
+				this.rendezvousService.comment(rendezvous);
 
 				user.getComments().add(saved);
 				this.userService.save(user);

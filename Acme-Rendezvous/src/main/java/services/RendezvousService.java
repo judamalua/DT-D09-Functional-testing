@@ -143,7 +143,7 @@ public class RendezvousService {
 	 * 
 	 * This method save a Rendezvous created or edited by a user
 	 * 
-	 * @param rendesvous
+	 * @param rendezvous
 	 * @return This method return Rendezvous
 	 * @author Luis
 	 */
@@ -166,6 +166,25 @@ public class RendezvousService {
 			this.actorService.save(user);
 		} else
 			result = this.rendezvousRepository.save(rendezvous);
+
+		return result;
+	}
+
+	/**
+	 * 
+	 * This method save a Rendezvous commented by an user
+	 * 
+	 * @param rendezvous
+	 * @return This method return Rendezvous
+	 * @author Antonio
+	 */
+	public Rendezvous comment(final Rendezvous rendezvous) {
+		Assert.notNull(rendezvous);
+		Assert.isTrue(rendezvous.getComments().size() != 0);
+
+		Rendezvous result;
+
+		result = this.rendezvousRepository.save(rendezvous);
 
 		return result;
 	}
@@ -426,4 +445,159 @@ public class RendezvousService {
 		return result;
 	}
 
+	// Dashboard queries.
+
+	/**
+	 * Level C query 3
+	 * 
+	 * @return The average and the standard deviation of users per rendezvous.
+	 * @author Juanmi
+	 */
+	public String getUsersInfoFromRendezvous() {
+		String result;
+
+		result = this.rendezvousRepository.getUsersInfoFromRendezvous();
+
+		Assert.notNull(result);
+
+		return result;
+	}
+
+	/**
+	 * Level C query 4 part 1/2
+	 * 
+	 * @return The average of rendezvouses that are RSVPd per user as the first element of the array and RSVPed users as the second element.
+	 * @author Juanmi
+	 */
+	public String[] getAverageAnswersPerQuestions() {
+		final String[] result = {
+			"", ""
+		};
+		Float average;
+
+		Collection<Rendezvous> allRendezvouses;
+		Collection<User> allUsers;
+
+		Float RSVPedUsers = 0F;
+		allRendezvouses = this.findAll();
+		allUsers = this.userService.findAll();
+
+		for (final Rendezvous rendezvous : allRendezvouses)
+			RSVPedUsers += new Float(rendezvous.getUsers().size() - 1);
+
+		average = RSVPedUsers / new Float(allUsers.size());
+
+		result[0] = average.toString();
+		result[1] = RSVPedUsers.toString();
+
+		return result;
+	}
+	//sqrt(sum(r.users.size * r.users.size) / count(r.users.size) - (avg(r.users.size) * avg(r.users.size)))
+	/**
+	 * Level A query 2 part 2/2
+	 * 
+	 * @return The standard deviation of the number of answers to the questions per rendezvous.
+	 */
+	public Float getStandardDeviationAnswersPerQuestions() {
+		String[] averageRSVPedUsers;
+		Float average, totalUsers, result, RSVPedUsers;
+
+		averageRSVPedUsers = this.getAverageAnswersPerQuestions();
+
+		average = new Float(averageRSVPedUsers[0]);
+		RSVPedUsers = new Float(averageRSVPedUsers[1]);
+
+		totalUsers = new Float(this.userService.findAll().size());
+
+		result = (float) ((Math.sqrt(RSVPedUsers * RSVPedUsers) / totalUsers) - (average * average));
+
+		return result;
+	}
+
+	/**
+	 * Level C query 5
+	 * 
+	 * @return The top-10 rendezvouses in terms of users who have RSVPd them.
+	 * @author Juanmi
+	 */
+	public Collection<Rendezvous> getTopTenRendezvouses() {
+		Collection<Rendezvous> allRendezvouses;
+		final Collection<Rendezvous> result = new HashSet<Rendezvous>();
+
+		allRendezvouses = this.rendezvousRepository.getTopRendezvouses();
+
+		if (allRendezvouses.size() > 10) {
+			for (final Rendezvous rendezvous : allRendezvouses)
+				if (result.size() < 10)
+					result.add(rendezvous);
+
+		} else
+			result.addAll(allRendezvouses);
+
+		return result;
+	}
+
+	/**
+	 * Level B query 1
+	 * 
+	 * @return The average and the standard deviation of announcements per rendezvous.
+	 * @author Juanmi
+	 */
+	public String getAnnouncementsInfoFromRendezvous() {
+		String result;
+
+		result = this.rendezvousRepository.getAnnouncementsInfoFromRendezvous();
+
+		Assert.notNull(result);
+
+		return result;
+	}
+
+	/**
+	 * Level B query 2
+	 * 
+	 * @return The rendezvouses whose number of announcements is above 75% the average number of announcements per rendezvous.
+	 * @author Juanmi
+	 */
+	public Collection<Rendezvous> getRendezvousWithAnnouncementAboveSeventyFivePercent() {
+		Collection<Rendezvous> result;
+
+		result = this.rendezvousRepository.getRendezvousWithAnnouncementAboveSeventyFivePercent();
+
+		Assert.notNull(result);
+
+		return result;
+	}
+
+	/**
+	 * Level B query 3
+	 * 
+	 * @return The rendezvouses that are linked to a number of rendezvouses that is greater than the average plus 10%.
+	 * @author Juanmi
+	 */
+	public Collection<Rendezvous> getRendezvousesMostLinked() {
+		Collection<Rendezvous> result;
+
+		result = this.rendezvousRepository.getRendezvousesMostLinked();
+
+		Assert.notNull(result);
+
+		return result;
+	}
+
+	/**
+	 * Level A query 1
+	 * 
+	 * @return The average and the standard deviation of the number of questions per rendezvous.
+	 * @author Juanmi
+	 */
+	public String getQuestionsInfoFromRendezvous() {
+		String result;
+
+		result = this.rendezvousRepository.getQuestionsInfoFromRendezvous();
+
+		Assert.notNull(result);
+
+		return result;
+	}
 }

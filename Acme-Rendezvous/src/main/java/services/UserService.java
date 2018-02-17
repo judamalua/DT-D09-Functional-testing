@@ -168,4 +168,37 @@ public class UserService {
 
 	}
 
+	// Dashboard queries
+
+	/**
+	 * Level C query 1
+	 * 
+	 * @return The average and the standard deviation of rendezvouses created per user.
+	 * @author Juanmi
+	 */
+	public String getRendezvousesInfoFromUsers() {
+		String result;
+
+		result = this.userRepository.getRendezvousesInfoFromUsers();
+
+		Assert.notNull(result);
+
+		return result;
+	}
+
+	/**
+	 * Level C query 2
+	 * 
+	 * @return The average and the standard deviation of rendezvouses created per user.
+	 * @author Juanmi
+	 */
+	public String getRatioCreatedRendezvouses() {
+		String result;
+
+		result = this.userRepository.getRatioCreatedRendezvouses();
+
+		Assert.notNull(result);
+
+		return result;
+	}
 }
