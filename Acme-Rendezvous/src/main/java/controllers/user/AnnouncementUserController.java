@@ -2,6 +2,7 @@
 package controllers.user;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import javax.validation.Valid;
 
@@ -42,26 +43,21 @@ public class AnnouncementUserController extends AbstractController {
 	// Listing ----------------------------------------------------
 
 	@RequestMapping(value = "/list")
-	public ModelAndView list(@RequestParam final int rendezvousId) {
+	public ModelAndView list() {
 		ModelAndView result;
-		Collection<Announcement> announcements;
-		Rendezvous rendezvous;
+		Collection<Announcement> announcements = new HashSet<Announcement>();
+		Collection<Rendezvous> rendezvouses;
 		User user;
-		String rendezvousName;
-
 		try {
 
 			result = new ModelAndView("announcement/list");
 			user = (User) this.actorService.findActorByPrincipal();
-			rendezvous = this.rendezvousService.findOne(rendezvousId);
-			Assert.notNull(rendezvous);
-			// Checking if the user trying to access is the creator of this Rendezvous
-			Assert.isTrue(user.getCreatedRendezvouses().contains(rendezvous));
-			rendezvousName = rendezvous.getName();
-			announcements = rendezvous.getAnnouncements();
+			rendezvouses = user.getCreatedRendezvouses();
+		
+			for (Rendezvous rd : rendezvouses){
+			announcements.addAll(rd.getAnnouncements());
+			}
 
-			result.addObject("rendezvousName", rendezvousName);
-			result.addObject("rendezvousId", rendezvousId);
 			result.addObject("announcements", announcements);
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/misc/403");
@@ -139,7 +135,7 @@ public class AnnouncementUserController extends AbstractController {
 			try {
 				rendezvous = this.rendezvousService.findOne(rendezvousId);
 				Assert.notNull(rendezvous);
-				this.announcementService.save(announcement);
+				this.announcementService.save(announcement, rendezvousId);
 				result = new ModelAndView("redirect:list.do?rendezvousId=" + rendezvousId);
 
 			} catch (final Throwable oops) {

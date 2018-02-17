@@ -42,8 +42,6 @@
 										code="master.page.announcements" /></a></li>
 							
 						</ul></li>
-						</ul>
-					</li>
 				</security:authorize>
 
 				<security:authorize access="hasRole('ADMIN')">

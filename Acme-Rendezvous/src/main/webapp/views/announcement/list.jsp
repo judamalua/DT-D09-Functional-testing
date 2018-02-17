@@ -9,10 +9,11 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 
-<display:table  name="announcements" id="announcement" defaultsort="moment" requestURI="announcement/user/list.do" pagesize="${pagesize}" class="displayTag"> <!-- Rendezvous Id sent by controller -->
+<display:table  name="announcements" id="announcement" requestURI="announcement/user/list.do" pagesize="${pagesize}" class="displayTag"> <!-- Rendezvous Id sent by controller -->
 	
-	<spring:message code="announcement.moment" var="moment"/>
-	<display:column property="moment" title="${moment}" sortable="false"/>
+	<spring:message code="announcement.moment.format" var = "momentFormat"/>
+	<spring:message code="announcement.moment" var = "announcementMoment" />
+	<display:column property="moment" title="${announcementMoment}" sortable="true" format="${momentFormat}"/>
 	
 	<spring:message code="announcement.title" var="title"/>
 	<display:column property="title" title="${title}" sortable="false"/>

@@ -134,4 +134,11 @@
 				<spring:message code="rendezvous.question.list"/>
 			</button>
 	</a>
+	
+	<br/>
+	<a href="announcement/user/create.do?rendezvousId=${rendezvous.id}">
+		<button class="btn">
+				<spring:message code="rendezvous.announcement.create"/>
+			</button>
+	</a>
 </jstl:if>

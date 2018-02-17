@@ -40,6 +40,7 @@ public class AnnouncementService {
 		Announcement result;
 
 		result = new Announcement();
+		result.setMoment(new Date(System.currentTimeMillis()+10));
 
 		return result;
 	}
@@ -66,14 +67,15 @@ public class AnnouncementService {
 
 	}
 
-	public Announcement save(final Announcement announcement) {
+	public Announcement save(final Announcement announcement, Integer rendezvousId) {
 
 		assert announcement != null;
 
 		if (announcement.getVersion() == 0){
 			//The announcement moment is actual when the announcement is created 
 			announcement.setMoment(new Date(System.currentTimeMillis() + 10));
-			Rendezvous rend = rendezvousService.getRendezvousByAnnouncement(announcement.getId());
+			//Rendezvous rend = rendezvousService.getRendezvousByAnnouncement(announcement.getId());
+			Rendezvous rend = rendezvousService.findOne(rendezvousId);
 			rend.getAnnouncements().add(announcement);
 			rendezvousService.save(rend);
 		}

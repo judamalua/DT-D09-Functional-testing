@@ -10,9 +10,12 @@
 
 <form:form id = "form" action="announcement/user/edit.do" modelAttribute ="announcement">
 	
+	<input type="hidden" name="rendezvousId" id="rendezvousId" value="${rendezvousId}"/>
+	
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
-	<input type="hidden" name="moment" id="moment" value="${moment}"/>
+	<form:hidden path="moment"/>
+	
 	
 	
 	<form:label path="title">
