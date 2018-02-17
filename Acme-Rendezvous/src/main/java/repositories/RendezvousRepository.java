@@ -36,4 +36,23 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select r from Rendezvous r join r.users u where r.deleted=false and u.id=?1")
 	Page<Rendezvous> findRSVPRendezvouses(int userId, Pageable pageable);
 
+	// Dashboard queries.
+
+	/**
+	 * Level C query 3
+	 * 
+	 * @return The average and the standard deviation of users per rendezvous.
+	 * @author Juanmi
+	 */
+	@Query("select avg(r.users.size), sqrt(sum(r.users.size * r.users.size) / count(r.users.size) - (avg(r.users.size) * avg(r.users.size))) from Rendezvous r")
+	String getUsersInfoFromRendezvous();
+
+	/**
+	 * Level C query 4
+	 * 
+	 * @return The average and the standard deviation of rendezvouses that are RSVPd per user.
+	 * @author Juanmi
+	 */
+	//TODO Continuar por esta query
+
 }
