@@ -154,10 +154,6 @@ public class RendezvousService {
 
 		user = (User) this.actorService.findActorByPrincipal();
 
-		if (rendezvous.getUsers().contains(user))   				//
-			rendezvous.getUsers().remove(user);						//UPDATING USER
-		rendezvous.getUsers().add(user);							//
-
 		result = this.rendezvousRepository.save(rendezvous);
 
 		if (user.getCreatedRendezvouses().contains(rendezvous))   		//
@@ -171,14 +167,14 @@ public class RendezvousService {
 
 	/**
 	 * 
-	 * This method save a Rendezvous in RCVPRendevouses(Collection<Rendevous>), that means that the user
+	 * This method save a Rendezvous in RSVPRendevouses(Collection<Rendevous>), that means that the user
 	 * has been joined to this Rendezvous
 	 * 
 	 * @param rendesvous
 	 * @return This method return Rendezvous
 	 * @author Luis
 	 */
-	public Rendezvous RCVP(final Rendezvous rendezvous) {
+	public Rendezvous RSVP(final Rendezvous rendezvous) {
 		assert rendezvous != null;
 		Rendezvous result;
 		User user;
@@ -188,6 +184,31 @@ public class RendezvousService {
 		if (rendezvous.getUsers().contains(user))   				//
 			rendezvous.getUsers().remove(user);						//UPDATING USER
 		rendezvous.getUsers().add(user);							//
+
+		result = this.rendezvousRepository.save(rendezvous);
+
+		this.actorService.save(user);
+
+		return result;
+	}
+
+	/**
+	 * Let's the principal user leave a Rendezvous
+	 * 
+	 * @param rendezvous
+	 *            The rendezvous to leave
+	 * @author Daniel Diment
+	 * @return
+	 *         The updated rendezvous
+	 */
+	public Rendezvous disRSVP(final Rendezvous rendezvous) {
+		assert rendezvous != null;
+		Rendezvous result;
+		User user;
+
+		user = (User) this.actorService.findActorByPrincipal();
+
+		rendezvous.getUsers().remove(user);						//Remove user
 
 		result = this.rendezvousRepository.save(rendezvous);
 
