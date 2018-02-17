@@ -100,6 +100,7 @@ public class ActorService {
 	 * 
 	 * @param actor
 	 * @return The actor saved in the system
+	 * @author Luis
 	 */
 	public Actor save(final Actor actor) {
 
@@ -117,6 +118,7 @@ public class ActorService {
 	 * Delete the actor passed as parameter
 	 * 
 	 * @param actor
+	 * @author Luis
 	 */
 	public void delete(final Actor actor) {
 
@@ -133,6 +135,7 @@ public class ActorService {
 	 * Get the actor logged in the system
 	 * 
 	 * @return the actor logged in the system
+	 * @author MJ
 	 */
 	public Actor findActorByPrincipal() {
 		UserAccount userAccount;
@@ -180,6 +183,7 @@ public class ActorService {
 	 * 
 	 * @param actor
 	 * @return age
+	 * @author MJ
 	 */
 	public int getAge(final Actor actor) {
 		Assert.notNull(actor);
