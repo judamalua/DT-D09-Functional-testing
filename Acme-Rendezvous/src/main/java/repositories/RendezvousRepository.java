@@ -1,6 +1,8 @@
 
 package repositories;
 
+import java.util.Collection;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -62,7 +64,7 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	 * @author Juanmi
 	 */
 	@Query("select r from Rendezvous r order by r.users.size desc")
-	String getTopRendezvouses();
+	Collection<Rendezvous> getTopRendezvouses();
 
 	/**
 	 * Level B query 1
@@ -80,7 +82,7 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	 * @author Juanmi
 	 */
 	@Query("select r from Rendezvous r where r.announcements.size >= (select avg(re.announcements.size)*0.75 from Rendezvous re)")
-	String getRendezvousWithAnnouncementAboveSeventyFivePercent();
+	Collection<Rendezvous> getRendezvousWithAnnouncementAboveSeventyFivePercent();
 
 	/**
 	 * Level B query 3
@@ -89,7 +91,7 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	 * @author Juanmi
 	 */
 	@Query("select r from Rendezvous r where r.similars.size >= (select avg(re.similars.size)+(avg(re.similars.size)*0.1) from Rendezvous re)")
-	String getRendezvousesMostLinked();
+	Collection<Rendezvous> getRendezvousesMostLinked();
 
 	/**
 	 * Level A query 1
