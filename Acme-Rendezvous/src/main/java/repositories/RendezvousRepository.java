@@ -1,6 +1,8 @@
 
 package repositories;
 
+import java.util.Collection;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,6 +28,9 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 
 	@Query("select r from Rendezvous r where r.finalMode=true and r.deleted=false")
 	Page<Rendezvous> findFinalRendezvouses(Pageable pageable);
+
+	@Query("select r from Rendezvous r where r.finalMode=true and r.deleted=false")
+	Collection<Rendezvous> findFinalRendezvouses();
 
 	@Query("select r from Rendezvous r where r.finalMode=true and r.deleted=false and r.adultOnly=false")
 	Page<Rendezvous> findFinalWithoutAdultRendezvouses(Pageable pageable);

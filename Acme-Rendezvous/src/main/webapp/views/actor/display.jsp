@@ -43,7 +43,8 @@
 <security:authorize access="!hasRole('ADMIN')">
 
 	<!-- Display created Rendezvouses-->
-
+	
+	<h4><spring:message code="actor.createdRendezvouses"/></h4>
 	<!-- Pagination -->
 	<span class="pagebanner"> <jstl:forEach begin="1"
 			end="${createdPageNum}" var="createdRendezvousIndex">
@@ -54,11 +55,10 @@
 			<jstl:if test="${createdRendezvousIndex!=rsvpPageNum}">,</jstl:if>
 		</jstl:forEach>
 	</span>
-	<br />
 	<!-- Pagination -->
-
+	
 	<display:table name="${createdRendezvouses}" id="rendezvous"
-		requestURI="user/display.do" pagesize="10">
+		requestURI="user/display.do">
 
 		<display:column property="name" title="${titleName}" />
 		<display:column property="description" title="${titleDescription}" />
@@ -94,7 +94,7 @@
 	<br />
 
 	<!-- Display created Rendezvouses-->
-
+	<h4><spring:message code="actor.rsvpRendezvouses"/></h4>
 
 	<!-- Pagination -->
 	<span class="pagebanner"> <jstl:forEach begin="1"
@@ -109,7 +109,7 @@
 	<!-- Pagination -->
 
 	<display:table name="${rsvpRendezvouses}" id="rsvpRendezvous"
-		requestURI="user/display.do" pagesize="10">
+		requestURI="user/display.do">
 
 		<display:column property="name" title="${titleName}" />
 		<display:column property="description" title="${titleDescription}" />

@@ -21,7 +21,6 @@
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
 	<form:hidden path="questions"/>
-	<form:hidden path="similars"/>
 	<form:hidden path="announcements"/>
 	<form:hidden path="comments"/>
 	<form:hidden path="users"/>
@@ -58,6 +57,13 @@
 	<form:input path="gpsCoordinates" placeholder="${gpsPlaceholder}"/>
 	<form:errors cssClass="error" path="gpsCoordinates"/>
 	
+	<form:label path="similars">
+		<spring:message code="rendezvous.similars"/>
+	</form:label>
+	<form:select path="similars" items="${rendezvouses}" itemLabel="name" itemValue="id" multiple="true" />
+	<br/>
+	<br/>
+	
 	<form:label path="finalMode">
 		<spring:message code="rendezvous.finalMode"/>
 	</form:label>
@@ -71,6 +77,8 @@
 	<form:errors cssClass="error" path="adultOnly"/>
 	<br/>
 	<br/>
+	
+	
 	
 	<input type="submit" 
 		class="btn"

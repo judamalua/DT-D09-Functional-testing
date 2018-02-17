@@ -259,9 +259,9 @@ public class RendezvousService {
 				this.commentService.delete(comment);
 
 			user.getCreatedRendezvouses().remove(rendezvous); // Deleting rendezvous from user list when an admin deletes a Rendezvous
-
 			this.actorService.save(user);
 			this.rendezvousRepository.delete(rendezvous);
+
 		} else {
 			rendezvous.setDeleted(true);
 			this.save(rendezvous);
@@ -351,6 +351,21 @@ public class RendezvousService {
 		Page<Rendezvous> result;
 
 		result = this.rendezvousRepository.findFinalRendezvouses(pageable);
+
+		return result;
+	}
+
+	/**
+	 * Return the list of rendezvouses in final mode and not deleted
+	 * 
+	 * @return A page of Rendezvouses in final mode
+	 * @author MJ
+	 */
+	public Collection<Rendezvous> findFinalRendezvouses() {
+
+		Collection<Rendezvous> result;
+
+		result = this.rendezvousRepository.findFinalRendezvouses();
 
 		return result;
 	}

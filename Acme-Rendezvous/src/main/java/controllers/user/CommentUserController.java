@@ -51,14 +51,18 @@ public class CommentUserController extends AbstractController {
 		Rendezvous rendezvous;
 		User user;
 
-		comment = this.commentService.create();
-		rendezvous = this.rendezvousService.findOneForReplies(rendezvousId);
+		try {
+			comment = this.commentService.create();
+			rendezvous = this.rendezvousService.findOneForReplies(rendezvousId);
 
-		user = (User) this.actorService.findActorByPrincipal();
-		Assert.isTrue(rendezvous.getUsers().contains(user));
+			user = (User) this.actorService.findActorByPrincipal();
+			Assert.isTrue(rendezvous.getUsers().contains(user));
 
-		result = this.createEditModelAndView(comment, rendezvousId);
-		result.addObject("rendezvous", rendezvous);
+			result = this.createEditModelAndView(comment, rendezvousId);
+			result.addObject("rendezvous", rendezvous);
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/misc/403");
+		}
 
 		return result;
 	}
@@ -70,21 +74,25 @@ public class CommentUserController extends AbstractController {
 		User user;
 		Rendezvous rendezvous;
 
-		reply = this.commentService.create();
-		replied = this.commentService.findOne(commentId);
-		user = (User) this.actorService.findActorByPrincipal();
+		try {
+			reply = this.commentService.create();
+			replied = this.commentService.findOne(commentId);
+			user = (User) this.actorService.findActorByPrincipal();
 
-		//This code and the assert below cheks that only an user that RVSPd the rendezvous can reply to its comments.
-		rendezvous = this.rendezvousService.getRendezvousByCommentary(replied.getId());
-		fatherComment = replied;
-		while (rendezvous == null) {
-			fatherComment = this.commentService.getFatherCommentFromReply(fatherComment);
-			rendezvous = this.rendezvousService.getRendezvousByCommentary(fatherComment.getId());
+			//This code and the assert below cheks that only an user that RVSPd the rendezvous can reply to its comments.
+			rendezvous = this.rendezvousService.getRendezvousByCommentary(replied.getId());
+			fatherComment = replied;
+			while (rendezvous == null) {
+				fatherComment = this.commentService.getFatherCommentFromReply(fatherComment);
+				rendezvous = this.rendezvousService.getRendezvousByCommentary(fatherComment.getId());
+			}
+
+			Assert.isTrue(rendezvous.getUsers().contains(user));
+
+			result = this.replyModelAndView(reply, replied);
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/misc/403");
 		}
-
-		Assert.isTrue(rendezvous.getUsers().contains(user));
-
-		result = this.replyModelAndView(reply, replied);
 
 		return result;
 
