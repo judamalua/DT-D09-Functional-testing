@@ -9,8 +9,11 @@
 <form action="answer/user/edit.do" method="post">
 	<input type="hidden" name="rendezvousId" value="${rendezvousId}">
 	<jstl:forEach var="question" items="${questions}">
-		<h4>${question}</h4>
-		<input type="text" name="answers" id="answers">
+		<h4>${question.text}</h4>
+		<input type="text" name="answers" id="answers" required>
 	</jstl:forEach>
+	<br>
+	<p class="error"/><spring:message code="${messageCode}"/><p>
+	<br>
 	<input type="submit" name="save" class="btn" value="<spring:message code="answer.save"/>">
 </form>

@@ -28,8 +28,8 @@ import controllers.AbstractController;
 import domain.Administrator;
 
 @Controller
-@RequestMapping("/admin")
-public class AdminController extends AbstractController {
+@RequestMapping("/actor/admin")
+public class ActorAdminController extends AbstractController {
 
 	@Autowired
 	private ActorService	actorService;
@@ -37,7 +37,7 @@ public class AdminController extends AbstractController {
 
 	// Constructors -----------------------------------------------------------
 
-	public AdminController() {
+	public ActorAdminController() {
 		super();
 	}
 

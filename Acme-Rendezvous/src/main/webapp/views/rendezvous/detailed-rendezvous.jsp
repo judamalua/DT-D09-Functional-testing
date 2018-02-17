@@ -42,20 +42,42 @@
 
 
 <!-- Display -->
-<img src="${rendezvous.pictureUrl}" alt="${rendezvous.name}"/>
+<img src="${rendezvous.pictureUrl}" alt="${rendezvous.name}" class="rendezvousPhoto"/>
 
 <h2><jstl:out value="${rendezvous.name}"/></h2>
-
+<br>
+<h4><spring:message code="rendezvous.description"/></h4>
 <p><jstl:out value="${rendezvous.description}"/></p>
 <br/>
 
+<h4><spring:message code="rendezvous.moment"/></h4>
 <p><jstl:out value="${formatMomentRendezvous}"/></p>
 
+<h4><spring:message code="rendezvous.map"/></h4>
 <iframe class="map" src="https://www.google.com/maps/embed/v1/search?q=${rendezvous.gpsCoordinates}&key=AIzaSyBe0wmulZvK1IM3-3jIUgbxt2Ax_QOVW6c"></iframe>
 <br/>
 
-<!-- Displaying similar rendevouses -->
-<display:table name="rendezvouse.similars" id="similar" requestURI="rendezvouse/detailed-rendezvous.do" pagesize="10">
+<!-- Button for joining the rendezvous -->
+<security:authorize access="hasRole('USER')">
+<jstl:if test="${!userHasRVSPdRendezvous}">
+	<a href="answer/user/edit.do?rendezvousId=${rendezvous.id}">
+		<button class="btn">
+				<spring:message code="rendezvous.join"/>
+			</button>
+	</a>
+</jstl:if>
+<jstl:if test="${userHasRVSPdRendezvous}">
+	<a href="answer/user/delete.do?rendezvousId=${rendezvous.id}">
+		<button class="btn">
+				<spring:message code="rendezvous.leave"/>
+			</button>
+	</a>
+</jstl:if>
+<br/>
+</security:authorize>
+<!-- Displaying similar rendezvouses -->
+<h4><spring:message code="rendezvous.similar.list"/></h4>
+<display:table name="rendezvous.similars" id="similar" requestURI="rendezvous/detailed-rendezvous.do" pagesize="10">
 	<display:column property="name" title="${titleName}"/>
 	<display:column property="description" title="${titleDescription}"/>
 	<display:column property="moment" title="${titleMoment}" format="${formatMoment}"/>
@@ -70,6 +92,7 @@
 <br/>
 
 <!-- Displaying announcements -->
+<h4><spring:message code="rendezvous.announcements.list"/></h4>
 <display:table name="rendezvouse.announcements" id="announcement" requestURI="rendezvouse/detailed-rendezvous.do" pagesize="10">
 	<display:column property="title" title="${titleAnnouncement}"/>
 	<display:column property="description" title="${descriptionAnnouncement}"/>
@@ -77,6 +100,8 @@
 </display:table>	
 <br/>
 
+<!-- Comments -->
+<h4><spring:message code="rendezvous.comment.list"/></h4>
 <!-- Button to create a comment -->
 <jstl:if test="${!anonymous && userHasRVSPdRendezvous}">
 	<br/>
@@ -85,10 +110,11 @@
 				<spring:message code="rendezvous.comment.create"/>
 			</button>
 	</a>
+	<br/>
 </jstl:if>
-<br/>
 
 <!-- Displaying comments -->
+
 <display:table name="rendezvous.comments" id="comment" requestURI="rendezvous/detailed-rendezvous.do" pagesize="10">
 	<display:column title="${pictureComment}">
 		<jstl:if test="${not empty comment.pictureUrl}">
@@ -139,12 +165,20 @@
 	</security:authorize>
 </display:table>	
 <br/>
-
-<jstl:if test="${!anonymous && userHasCreatedRendezvous}">
+<security:authorize access="hasRole('USER')">
+<jstl:if test="${userHasCreatedRendezvous}">
 	<br/>
 	<a href="question/user/list.do?rendezvousId=${rendezvous.id}">
 		<button class="btn">
 				<spring:message code="rendezvous.question.list"/>
 			</button>
 	</a>
+	
+	<br/>
+	<a href="announcement/user/create.do?rendezvousId=${rendezvous.id}">
+		<button class="btn">
+				<spring:message code="rendezvous.announcement.create"/>
+			</button>
+	</a>
 </jstl:if>
+</security:authorize>

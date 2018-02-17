@@ -125,6 +125,25 @@
 		</property>
 	</bean>
 	
+	<!-- %%%% Announcements %%%% -->
+	<bean id="Announcement1" class="domain.Announcement">
+		<property name="moment" value="2017/08/28 00:00"/>
+		<property name="title" value="This is announcement number 1"/>
+		<property name="description" value="This is the description regarding the announcement number 1"/>
+	</bean>
+	
+		<bean id="Announcement2" class="domain.Announcement">
+		<property name="moment" value="2017/05/05 00:00"/>
+		<property name="title" value="This is announcement number 2"/>
+		<property name="description" value="This is the description regarding the announcement number 2"/>
+	</bean>
+	
+		<bean id="Announcement3" class="domain.Announcement">
+		<property name="moment" value="2016/08/28 00:00"/>
+		<property name="title" value="This is announcement number 3"/>
+		<property name="description" value="This is the description regarding the announcement number 3"/>
+	</bean>
+		
 	<!-- %%%% Comments %%%% -->
 	
 	<bean id="Comment1" class="domain.Comment">

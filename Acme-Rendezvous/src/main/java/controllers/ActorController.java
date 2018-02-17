@@ -18,9 +18,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import security.Authority;
 import services.ActorService;
 import services.UserService;
 import domain.Actor;
@@ -45,8 +45,22 @@ public class ActorController extends AbstractController {
 	}
 
 	//Saving --------------------------------------------------------------------
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@ModelAttribute("actor") @Valid final Actor actor, final BindingResult binding) {
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit() {
+		ModelAndView result;
+		Actor actor;
+
+		actor = this.actorService.findActorByPrincipal();
+
+		result = new ModelAndView("actor/edit");
+		result.addObject("actor", actor);
+
+		return result;
+	}
+
+	//Saving --------------------------------------------------------------------
+	@RequestMapping(value = "/edit-admin", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@ModelAttribute("actor") @Valid final Administrator actor, final BindingResult binding) {
 		ModelAndView result;
 
 		if (binding.hasErrors()) {
@@ -66,6 +80,50 @@ public class ActorController extends AbstractController {
 		return result;
 	}
 
+	//Saving --------------------------------------------------------------------
+	@RequestMapping(value = "/edit-user", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@ModelAttribute("actor") @Valid final User actor, final BindingResult binding) {
+		ModelAndView result;
+
+		if (binding.hasErrors()) {
+			result = new ModelAndView("actor/edit");
+			result.addObject("actor", actor);
+			result.addObject("message", "actor.params.error");
+		} else
+			try {
+				this.actorService.save(actor);
+				result = new ModelAndView("redirect:/welcome/index.do");
+			} catch (final Throwable oops) {
+				result = new ModelAndView("actor/edit");
+				result.addObject("actor", actor);
+				result.addObject("message", "actor.params.error");
+			}
+
+		return result;
+	}
+	// Displaying  ---------------------------------------------------------------		
+
+	/**
+	 * That method returns a model and view with the system users list
+	 * 
+	 * @param page
+	 * @return ModelandView
+	 * @author MJ
+	 */
+	@RequestMapping("/display")
+	public ModelAndView display(@RequestParam final boolean anonymous) {
+		ModelAndView result;
+		Actor actor;
+
+		result = new ModelAndView("actor/display");
+		actor = this.actorService.findActorByPrincipal();
+
+		result.addObject("actor", actor);
+		result.addObject("anonymous", anonymous);
+
+		return result;
+	}
+
 	//Ancillary methods ----------------------------------------------------------------
 
 	protected ModelAndView createEditModelAndView(final Actor actor) {
@@ -78,65 +136,12 @@ public class ActorController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final Actor actor, final String messageCode) {
 		ModelAndView result;
-		Administrator admin;
-
-		if (actor instanceof User) {
-			result = new ModelAndView("actor/register-user");
-			result.addObject("authority", Authority.USER);
-			result.addObject("requestUri", "actor/register-user.do");
-			result.addObject("actor", actor);
-		} else {
-			admin = (Administrator) actor;
-			result = new ModelAndView("actor/register-admin");
-			result.addObject("authority", Authority.ADMIN);
-			result.addObject("requestUri", "actor/register-admin.do");
-			result.addObject("actor", admin);
-
-		}
-
-		result.addObject("message", messageCode);
-
-		return result;
-	}
-
-	protected ModelAndView createEditModelAndView(final User user) {
-		ModelAndView result;
-
-		result = this.createEditModelAndView(user, null);
-
-		return result;
-	}
-
-	protected ModelAndView createEditModelAndView(final User user, final String messageCode) {
-		ModelAndView result;
 
 		result = new ModelAndView("actor/edit");
+		result.addObject("actor", actor);
 
-		result.addObject("actor", user);
 		result.addObject("message", messageCode);
-		result.addObject("requestUri", "actor/user/edit.do");
 
 		return result;
-
-	}
-	protected ModelAndView createEditModelAndView(final Administrator admin) {
-		ModelAndView result;
-
-		result = this.createEditModelAndView(admin, null);
-
-		return result;
-	}
-
-	protected ModelAndView createEditModelAndView(final Administrator admin, final String messageCode) {
-		ModelAndView result;
-
-		result = new ModelAndView("actor/edit");
-
-		result.addObject("actor", admin);
-		result.addObject("message", messageCode);
-		result.addObject("requestUri", "actor/user/edit.do");
-
-		return result;
-
 	}
 }

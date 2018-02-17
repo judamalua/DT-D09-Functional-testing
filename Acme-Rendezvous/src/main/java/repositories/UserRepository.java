@@ -13,4 +13,24 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("select u from User u join u.createdRendezvouses cr where cr.id =?1 ")
 	User findCreatoUser(int id);
 
+	// Dashboard queries.
+
+	/**
+	 * Level C query 1
+	 * 
+	 * @return The average and the standard deviation of rendezvouses created per user.
+	 * @author Juanmi
+	 */
+	@Query("select avg(u.createdRendezvouses.size), sqrt(sum(u.createdRendezvouses.size * u.createdRendezvouses.size) / count(u.createdRendezvouses.size) - (avg(u.createdRendezvouses.size) * avg(u.createdRendezvouses.size))) from User u")
+	String getRendezvousesInfoFromUsers();
+
+	/**
+	 * Level C query 2
+	 * 
+	 * @return The average and the standard deviation of rendezvouses created per user.
+	 * @author Juanmi
+	 */
+	@Query("select sum(case when(u.createdRendezvouses.size>0) then 1.0 else 0.0 end)/count(u) from User u")
+	String getRatioCreatedRendezvouses();
+
 }
