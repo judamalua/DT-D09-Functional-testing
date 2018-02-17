@@ -78,7 +78,7 @@ public class RendezvousController extends AbstractController {
 			if (!anonymous) {//Checks if there is the user is listing logged
 				actor = this.actorService.findActorByPrincipal();
 				age = this.actorService.getAge(actor);
-				if (age >= 18)//If he has 18 or more he list all Final Rendezvouses
+				if (this.actorService.checkUserIsAdult(age))//If he has 18 or more he list all Final Rendezvouses
 					rendezvouses = this.rendezvousService.findFinalRendezvouses(pageable);
 				else
 					// If he has less than 18 then he only list the final Rendezvouses without adult content
@@ -122,7 +122,7 @@ public class RendezvousController extends AbstractController {
 				if (rendezvous.getAdultOnly()) {//Checks if there is the user is listing logged
 					actor = this.actorService.findActorByPrincipal();
 					age = this.actorService.getAge(actor);
-					Assert.isTrue(age >= 18);//The age must be 18 or more
+					Assert.isTrue(this.actorService.checkUserIsAdult(age));//The age must be 18 or more
 				}
 
 				if (actor instanceof User) {
