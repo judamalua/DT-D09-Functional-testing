@@ -22,12 +22,20 @@
 	<display:column property = "postalAddress" title = "${postalAddress}" sortable = "true"/>
 	
 	<spring:message code = "user.phoneNumber" var = "phoneNumber"/>
-	<display:column property = "phoneNumber" title = "${phoneNumber}" sortable = "true"/>
+	<display:column property = "phoneNumber" title = "${phoneNumber}" sortable = "false"/>
 	
 	<spring:message code = "user.email" var = "email"/>
-	<display:column property = "email" title = "${email}" sortable = "true"/>
+	<display:column property = "email" title = "${email}" sortable = "false"/>
 	
 	<spring:message code = "user.birthDate" var = "birthDate"/>
 	<display:column property = "birthDate" title = "${birthDate}" sortable = "true" format = "${formatDate}"/>
+	
+	<display:column >
+		<a href="user/display.do?userId=${row.id}&anonymous=${anonymous}">
+			<button class="btn">
+				<spring:message code="user.display"/>
+			</button>
+		</a>
+	</display:column>
 	
 </display:table>
