@@ -143,7 +143,7 @@ public class RendezvousService {
 	 * 
 	 * This method save a Rendezvous created or edited by a user
 	 * 
-	 * @param rendesvous
+	 * @param rendezvous
 	 * @return This method return Rendezvous
 	 * @author Luis
 	 */
@@ -166,6 +166,25 @@ public class RendezvousService {
 			this.actorService.save(user);
 		} else
 			result = this.rendezvousRepository.save(rendezvous);
+
+		return result;
+	}
+
+	/**
+	 * 
+	 * This method save a Rendezvous commented by an user
+	 * 
+	 * @param rendezvous
+	 * @return This method return Rendezvous
+	 * @author Antonio
+	 */
+	public Rendezvous comment(final Rendezvous rendezvous) {
+		Assert.notNull(rendezvous);
+		Assert.isTrue(rendezvous.getComments().size() != 0);
+
+		Rendezvous result;
+
+		result = this.rendezvousRepository.save(rendezvous);
 
 		return result;
 	}

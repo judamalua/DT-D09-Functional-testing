@@ -108,7 +108,7 @@ public class CommentController extends AbstractController {
 			result.addObject("userHasRVSPdRendezvous", userHasRVSPdRendezvous);
 			result.addObject("users", users);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:/misc:403");
+
 		}
 
 		return result;

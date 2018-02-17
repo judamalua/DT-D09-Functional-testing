@@ -40,23 +40,20 @@ public class CommentAdministratorController extends AbstractController {
 
 		comment = this.commentService.findOne(commentId);
 		rendezvous = this.rendezvousService.getRendezvousByCommentary(commentId);
+		father = this.commentService.getFatherCommentFromReply(comment);
 
 		try {
 			this.commentService.delete(comment);
 
 			if (rendezvous != null)
 				result = new ModelAndView("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvous.getId() + "&anonymous=false");
-			else {
-				father = this.commentService.getFatherCommentFromReply(comment);
+			else
 				result = new ModelAndView("redirect:/comment/listFromComment.do?commentId=" + father.getId());
-			}
 		} catch (final Throwable oops) {
 			if (rendezvous != null)
 				result = new ModelAndView("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvous.getId() + "&anonymous=false");
-			else {
-				father = this.commentService.getFatherCommentFromReply(comment);
+			else
 				result = new ModelAndView("redirect:/comment/listFromComment.do?commentId=" + father.getId());
-			}
 		}
 		return result;
 	}
