@@ -15,7 +15,7 @@ import domain.Comment;
 import domain.Rendezvous;
 
 @Controller
-@RequestMapping("/comment/administrator")
+@RequestMapping("/comment/admin")
 public class CommentAdministratorController extends AbstractController {
 
 	// Services ---------------------------------------------------------------

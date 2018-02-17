@@ -16,24 +16,16 @@
        
 <tiles-definitions>
 
-	<definition name="user/list" extends="master.page">	
-		<put-attribute name="title" value="User list" />
-		<put-attribute name="body" value="/views/user/list.jsp" />
-	</definition>
 	
-	<definition name="user/edit" extends="master.page">	
+	<definition name="actor/edit" extends="master.page">	
 		<put-attribute name="title" value="Edit profile" />
-		<put-attribute name="body" value="/views/user/edit.jsp" />
+		<put-attribute name="body" value="/views/actor/edit.jsp" />
 	</definition>
 	
-	<definition name="user/register" extends="master.page">	
-		<put-attribute name="title" value="Register user" />
-		<put-attribute name="body" value="/views/user/register.jsp" />
-	</definition>
 	
-	<definition name="user/display" extends="master.page">	
+	<definition name="actor/display" extends="master.page">	
 		<put-attribute name="title" value="Display user" />
-		<put-attribute name="body" value="/views/user/display.jsp" />
+		<put-attribute name="body" value="/views/actor/display.jsp" />
 	</definition>
 	
 </tiles-definitions>

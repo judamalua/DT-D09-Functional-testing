@@ -13,9 +13,6 @@ package controllers.user;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -27,55 +24,25 @@ import org.springframework.web.servlet.ModelAndView;
 
 import security.Authority;
 import services.ActorService;
-import services.ConfigurationService;
 import services.UserService;
 import controllers.AbstractController;
-import domain.Configuration;
 import domain.User;
 
 @Controller
-@RequestMapping("/user")
-public class UserController extends AbstractController {
+@RequestMapping("/actor/user")
+public class ActorUserController extends AbstractController {
 
 	@Autowired
-	private UserService				userService;
+	private UserService		userService;
 
 	@Autowired
-	private ActorService			actorService;
-
-	@Autowired
-	private ConfigurationService	configurationService;
+	private ActorService	actorService;
 
 
 	// Constructors -----------------------------------------------------------
 
-	public UserController() {
+	public ActorUserController() {
 		super();
-	}
-
-	// Listing  ---------------------------------------------------------------		
-
-	/**
-	 * That method returns a model and view with the system users list
-	 * 
-	 * @param page
-	 * @return ModelandView
-	 * @author Luis
-	 */
-	@RequestMapping("/list")
-	public ModelAndView list(@RequestParam(defaultValue = "0") final int page) {
-		ModelAndView result;
-		Page<User> users;
-		Pageable pageable;
-		Configuration configuration;
-
-		result = new ModelAndView("user/list");
-		configuration = this.configurationService.findConfiguration();
-		pageable = new PageRequest(page, configuration.getPageSize());
-		users = this.userService.getUsers(pageable);
-
-		result.addObject("users", users.getContent());
-		return result;
 	}
 
 	// Registering user ------------------------------------------------------------
