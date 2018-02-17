@@ -157,7 +157,7 @@ public class RendezvousService {
 		if (actor instanceof User) {
 			user = (User) this.actorService.findActorByPrincipal();
 
-		result = this.rendezvousRepository.save(rendezvous);
+			result = this.rendezvousRepository.save(rendezvous);
 
 			if (user.getCreatedRendezvouses().contains(rendezvous))   		//
 				user.getCreatedRendezvouses().remove(rendezvous);			//UPDATING USER

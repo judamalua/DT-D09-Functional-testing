@@ -136,14 +136,6 @@
 	<display:column title="${commentUser}">
 		<jstl:out value="${commentUsers[comment_rowNum-1].name}"></jstl:out>
 	</display:column>
-	<display:column title="${displayComment}">
-		<a href="comment/display.do?commentId=${comment.id}">
-		<button class="btn">
-				<spring:message code="rendezvous.comment.display"/>
-			</button>
-		</a>
-	</display:column>
-	
 	<jstl:if test="${userHasRVSPdRendezvous}">	
 		<display:column title="${replyComment}">
 			<a href="comment/user/reply.do?commentId=${comment.id}">
