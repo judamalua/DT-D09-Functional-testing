@@ -8,6 +8,10 @@
  * 
  */
 
+.rendezvousPhoto{
+	width: 10%;
+	height: 10%;
+}
 .error {
 	color: red;
 	font-weight: bolder;
