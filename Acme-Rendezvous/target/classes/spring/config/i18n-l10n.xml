@@ -28,7 +28,11 @@
 		<value>/views/rendezvous/messages</value>
 		<value>/views/user/messages</value>
 		<value>/views/comment/messages</value>
+<<<<<<< HEAD
 		<value>/views/actor/messages</value>
+=======
+		<value>/views/answer/messages</value>
+>>>>>>> origin/Juanmi
 	</util:list>
 
 </beans>
