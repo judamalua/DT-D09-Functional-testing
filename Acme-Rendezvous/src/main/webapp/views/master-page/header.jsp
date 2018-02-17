@@ -91,7 +91,7 @@
 							<security:authorize access="hasRole('ADMIN')">
 							<li><a href="actor/edit.do"><spring:message
 										code="master.page.actorEdit" /></a></li>
-							<li><a href="actor/display.do?anonymous=false"><spring:message
+							<li><a href="actor/display.do"><spring:message
 										code="master.page.actorProfile" /></a></li>
 							</security:authorize>
 							<security:authorize access="hasRole('USER')">

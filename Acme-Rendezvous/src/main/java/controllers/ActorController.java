@@ -18,7 +18,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
@@ -50,10 +49,15 @@ public class ActorController extends AbstractController {
 		ModelAndView result;
 		Actor actor;
 
-		actor = this.actorService.findActorByPrincipal();
+		try {
+			actor = this.actorService.findActorByPrincipal();
 
-		result = new ModelAndView("actor/edit");
-		result.addObject("actor", actor);
+			result = new ModelAndView("actor/edit");
+			result.addObject("actor", actor);
+
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/misc/403");
+		}
 
 		return result;
 	}
@@ -111,15 +115,18 @@ public class ActorController extends AbstractController {
 	 * @author MJ
 	 */
 	@RequestMapping("/display")
-	public ModelAndView display(@RequestParam final boolean anonymous) {
+	public ModelAndView display() {
 		ModelAndView result;
 		Actor actor;
 
-		result = new ModelAndView("actor/display");
-		actor = this.actorService.findActorByPrincipal();
+		try {
+			result = new ModelAndView("actor/display");
+			actor = this.actorService.findActorByPrincipal();
 
-		result.addObject("actor", actor);
-		result.addObject("anonymous", anonymous);
+			result.addObject("actor", actor);
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/misc/403");
+		}
 
 		return result;
 	}
