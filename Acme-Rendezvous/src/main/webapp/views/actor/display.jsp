@@ -40,19 +40,20 @@
 <jstl:out value="${actor.birthDate}" />
 <br />
 
-<security:authorize access="hasRole('USER')">
+<security:authorize access="!hasRole('ADMIN')">
 
 	<!-- Display created Rendezvouses-->
 
 	<!-- Pagination -->
-	<jstl:forEach begin="1" end="${createdPageNum}"
-		var="createdRendezvousIndex">
-		<a
-			href="user/display.do?actorId=${actor.id}&anonymous=${anonymous}&rsvpPage=${rsvpPage}&createdRendezvousPage=${createdRendezvousIndex-1}">
-			<jstl:out value="${createdRendezvousIndex}" />
-		</a>
-		<jstl:if test="${createdRendezvousIndex!=rsvpPageNum}">,</jstl:if>
-	</jstl:forEach>
+	<span class="pagebanner"> <jstl:forEach begin="1"
+			end="${createdPageNum}" var="createdRendezvousIndex">
+			<a
+				href="user/display.do?actorId=${actor.id}&anonymous=${anonymous}&rsvpPage=${rsvpPage}&createdRendezvousPage=${createdRendezvousIndex-1}">
+				<jstl:out value="${createdRendezvousIndex}" />
+			</a>
+			<jstl:if test="${createdRendezvousIndex!=rsvpPageNum}">,</jstl:if>
+		</jstl:forEach>
+	</span>
 	<br />
 	<!-- Pagination -->
 
@@ -96,14 +97,15 @@
 
 
 	<!-- Pagination -->
-	<jstl:forEach begin="1" end="${rsvpPageNum}" var="rsvpIndex">
-		<a
-			href="user/display.do?actorId=${actor.id}&anonymous=${anonymous}&rsvpPage=${rsvpIndex-1}&createdRendezvousPage=${createdRendezvousPage}">
-			<jstl:out value="${rsvpIndex}" />
-		</a>
-		<jstl:if test="${rsvpIndex!=rsvpPageNum}">,</jstl:if>
-	</jstl:forEach>
-	<br />
+	<span class="pagebanner"> <jstl:forEach begin="1"
+			end="${rsvpPageNum}" var="rsvpIndex">
+			<a
+				href="user/display.do?actorId=${actor.id}&anonymous=${anonymous}&rsvpPage=${rsvpIndex-1}&createdRendezvousPage=${createdRendezvousPage}">
+				<jstl:out value="${rsvpIndex}" />
+			</a>
+			<jstl:if test="${rsvpIndex!=rsvpPageNum}">,</jstl:if>
+		</jstl:forEach> <br />
+	</span>
 	<!-- Pagination -->
 
 	<display:table name="${rsvpRendezvouses}" id="rsvpRendezvous"

@@ -60,26 +60,32 @@ public class RendezvousUserController extends AbstractController {
 
 	@RequestMapping("/list")
 	public ModelAndView list(@RequestParam(required = false) final Integer userId, @RequestParam(defaultValue = "0") final int page) {
-		final ModelAndView result;
-		final Page<Rendezvous> rendezvouses;
-		final User user;
-		final Pageable pageable;
-		final Configuration configuration;
+		ModelAndView result;
+		Page<Rendezvous> rendezvouses;
+		User user;
+		Pageable pageable;
+		Configuration configuration;
+		try {
+			if (userId != null) {
+				user = this.userService.findOne(userId);
+				Assert.notNull(user);
+			} else
+				user = (User) this.actorService.findActorByPrincipal();
 
-		if (userId != null) {
-			user = this.userService.findOne(userId);
-			Assert.notNull(user);
-		} else
-			user = (User) this.actorService.findActorByPrincipal();
+			result = new ModelAndView("rendezvous/list");
+			configuration = this.configurationService.findConfiguration();
 
-		result = new ModelAndView("rendezvous/list");
-		configuration = this.configurationService.findConfiguration();
+			pageable = new PageRequest(page, configuration.getPageSize());
+			rendezvouses = this.rendezvousService.findCreatedRendezvouses(user, pageable);
 
-		pageable = new PageRequest(page, configuration.getPageSize());
-		rendezvouses = this.rendezvousService.findCreatedRendezvouses(user, pageable);
-
-		result.addObject("rendezvouses", rendezvouses.getContent());
-		result.addObject("anonymous", false);
+			result.addObject("rendezvouses", rendezvouses.getContent());
+			result.addObject("requestURI", "rendezvous/user/list.do");
+			result.addObject("pageNum", rendezvouses.getTotalPages());
+			result.addObject("page", page);
+			result.addObject("anonymous", false);
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/misc/403");
+		}
 
 		return result;
 	}
@@ -100,7 +106,7 @@ public class RendezvousUserController extends AbstractController {
 			result.addObject("rendezvous", rendezvous);
 
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:misc/403");
+			result = new ModelAndView("redirect:/misc/403");
 		}
 
 		return result;
