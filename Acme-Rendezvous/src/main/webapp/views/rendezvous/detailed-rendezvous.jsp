@@ -16,6 +16,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!-- Variable declaration -->
 <spring:message code="master.page.moment.format" var="formatMoment"/>
@@ -123,24 +124,18 @@
 	<display:column property="text" title="${textComment}"/>
 	<display:column property="moment" title="${momentComment}" format="${formatMoment}"/>
 	<display:column title="${repliesComment}">
-		<a href="comment/listFromComment.do?commentId=${comment.id}">
-			<button class="btn">
-				<spring:message code="rendezvous.comment.comments"/>
-			</button>
-		</a>
+		<jstl:if test="${comment.comments != null and fn:length(comment.comments)>0}"> <!-- Comprueba que tenga respuestas -->
+			<a href="comment/listFromComment.do?commentId=${comment.id}">
+				<button class="btn">
+					<spring:message code="rendezvous.comment.comments"/>
+				</button>
+			</a>
+		</jstl:if>
 	</display:column>
 		<spring:message code="comment.user" var = "commentUser" />
 	<display:column title="${commentUser}">
 		<jstl:out value="${commentUsers[comment_rowNum-1].name}"></jstl:out>
 	</display:column>
-	<display:column title="${displayComment}">
-		<a href="comment/display.do?commentId=${comment.id}">
-		<button class="btn">
-				<spring:message code="rendezvous.comment.display"/>
-			</button>
-		</a>
-	</display:column>
-	
 	<jstl:if test="${userHasRVSPdRendezvous}">	
 		<display:column title="${replyComment}">
 			<a href="comment/user/reply.do?commentId=${comment.id}">
@@ -150,6 +145,16 @@
 		</a>
 		</display:column>
 	</jstl:if>
+	
+	<security:authorize access="hasRole('ADMIN')"> 
+		<display:column>
+			<a href="comment/admin/delete.do?commentId=${comment.id}">
+				<button class="btn">
+					<spring:message code="rendezvous.delete"/>
+				</button>
+			</a>
+		</display:column>
+	</security:authorize>
 </display:table>	
 <br/>
 <security:authorize access="hasRole('USER')">

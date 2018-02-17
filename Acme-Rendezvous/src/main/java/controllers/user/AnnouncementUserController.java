@@ -126,15 +126,13 @@ public class AnnouncementUserController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@RequestParam final int rendezvousId, @Valid final Announcement announcement, final BindingResult binding) {
 		ModelAndView result;
-		Rendezvous rendezvous;
-
+		
 		if (binding.hasErrors()) {
 			result = this.createEditModelAndView(announcement, "announcement.params.error");
 			result.addObject("rendezvousId", rendezvousId);
 		} else
 			try {
-				rendezvous = this.rendezvousService.findOne(rendezvousId);
-				Assert.notNull(rendezvous);
+				
 				this.announcementService.save(announcement, rendezvousId);
 				result = new ModelAndView("redirect:list.do?rendezvousId=" + rendezvousId);
 

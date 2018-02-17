@@ -63,15 +63,16 @@
 		<security:intercept-url pattern="/comment/user/create.do" access="hasRole('USER')" /> 
 		<security:intercept-url pattern="/comment/user/edit.do" access="hasRole('USER')" /> 
 		<security:intercept-url pattern="/comment/user/reply.do" access="hasRole('USER')" /> 
+		<security:intercept-url pattern="/comment/admin/delete.do" access="hasRole('ADMIN')" />
 
 		<security:intercept-url pattern="/comment/listFromRendezvous.do" access="permitAll" />
 		<security:intercept-url pattern="/comment/listFromComment.do" access="permitAll" />
-		<security:intercept-url pattern="/comment/display.do" access="permitAll" /> 
 		
 		<security:intercept-url pattern="/announcement/administrator/delete.do" access="hasRole('ADMIN')" /> 
 		<security:intercept-url pattern="/announcement/user/create.do" access="hasRole('USER')" /> 
 		<security:intercept-url pattern="/announcement/user/list.do" access="hasRole('USER')" />
 		<security:intercept-url pattern="/announcement/user/edit.do" access="hasRole('USER')" /> 
+		<security:intercept-url pattern="/announcement/user/delete.do" access="hasRole('USER')" /> 
 		
 		
 		<security:intercept-url pattern="/answer/user/edit.do" access="hasRole('USER')" />
