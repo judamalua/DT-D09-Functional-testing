@@ -241,16 +241,19 @@ public class RendezvousService {
 
 		if (actor instanceof Administrator) {
 
+			// Deleting Announcements of the Rendezvous that is about to be deleted
 			for (final Announcement announcement : rendezvous.getAnnouncements())
 				this.announcementService.delete(announcement);
 
+			// Deleting Questions of the Rendezvous that is about to be deleted
 			for (final Question question : rendezvous.getQuestions())
 				this.questionService.delete(question);
 
+			// Deleting Comments of the Rendezvous that is about to be deleted
 			for (final Comment comment : rendezvous.getComments())
 				this.commentService.delete(comment);
 
-			user.getCreatedRendezvouses().remove(rendezvous);
+			user.getCreatedRendezvouses().remove(rendezvous); // Deleting rendezvous from user list when an admin deletes a Rendezvous
 
 			this.actorService.save(user);
 			this.rendezvousRepository.delete(rendezvous);

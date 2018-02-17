@@ -24,6 +24,9 @@ import domain.Administrator;
 @Transactional
 public class ActorService {
 
+	// Constants
+	private final int		LEGALAGE	= 18;
+
 	// Managed repository --------------------------------------------------
 
 	@Autowired
@@ -97,6 +100,7 @@ public class ActorService {
 	 * 
 	 * @param actor
 	 * @return The actor saved in the system
+	 * @author Luis
 	 */
 	public Actor save(final Actor actor) {
 
@@ -114,6 +118,7 @@ public class ActorService {
 	 * Delete the actor passed as parameter
 	 * 
 	 * @param actor
+	 * @author Luis
 	 */
 	public void delete(final Actor actor) {
 
@@ -130,6 +135,7 @@ public class ActorService {
 	 * Get the actor logged in the system
 	 * 
 	 * @return the actor logged in the system
+	 * @author MJ
 	 */
 	public Actor findActorByPrincipal() {
 		UserAccount userAccount;
@@ -161,6 +167,8 @@ public class ActorService {
 
 	/**
 	 * Checks there is an actor logged in the system
+	 * 
+	 * @author MJ
 	 */
 	public void checkUserLogin() {
 		Actor actor;
@@ -170,6 +178,13 @@ public class ActorService {
 		Assert.notNull(actor);
 	}
 
+	/**
+	 * This method obtains the age of the actor passed by parameters
+	 * 
+	 * @param actor
+	 * @return age
+	 * @author MJ
+	 */
 	public int getAge(final Actor actor) {
 		Assert.notNull(actor);
 
@@ -185,6 +200,13 @@ public class ActorService {
 		return result;
 	}
 
+	/**
+	 * This method registers in the system the actor passed by parameters
+	 * 
+	 * @param actor
+	 * @return the actor registered
+	 * @author Luis
+	 */
 	public Actor registerActor(final Actor actor) {
 		Actor result;
 		String password;
@@ -202,6 +224,16 @@ public class ActorService {
 		result = this.actorRepository.save(actor);
 
 		return result;
+	}
+
+	/**
+	 * This method checks if the age passed by parameters is greater or equals to the legal age
+	 * 
+	 * @param age
+	 * @author Juanmi
+	 */
+	public boolean checkUserIsAdult(final int age) {
+		return age >= this.LEGALAGE;
 	}
 
 }
