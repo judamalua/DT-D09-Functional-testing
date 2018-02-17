@@ -71,7 +71,7 @@ public class AnswerUserController {
 			Assert.isTrue(rendezvous.getMoment().after(new Date()));			//Checks that the rendezvous is not already over
 			Assert.isTrue(!rendezvous.getUsers().contains(user));				//Checks the user hasn't already joined to the rendezvous
 			if (rendezvous.getAdultOnly())
-				Assert.isTrue(this.actorService.getAge(user) >= 18);			//Checks that the user is old enough to join the rendezvous
+				Assert.isTrue(this.actorService.checkUserIsAdult(user));		//Checks that the user is old enough to join the rendezvous
 			if (rendezvous.getQuestions().isEmpty()) {
 				this.rendezvousService.RSVP(rendezvous);	//If the rendezvous has no questions, it just lets the user join the rendezvous directly
 				return new ModelAndView("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvousId + "&anonymous=false");
@@ -109,7 +109,7 @@ public class AnswerUserController {
 			Assert.isTrue(rendezvous.getMoment().after(new Date()));			//Checks that the rendezvous is not already over
 			Assert.isTrue(!rendezvous.getUsers().contains(user));			 	//Checks the user hasn't already joined to the rendezvous
 			if (rendezvous.getAdultOnly())
-				Assert.isTrue(this.actorService.getAge(user) >= 18);			//Checks that the user is old enough to join the rendezvous
+				Assert.isTrue(this.actorService.checkUserIsAdult(user));		//Checks that the user is old enough to join the rendezvous
 		} catch (final Throwable oops) {
 			return new ModelAndView("redirect:/misc/403");						//If any of the checks fails, the system will redirect the user to the 403 page
 		}

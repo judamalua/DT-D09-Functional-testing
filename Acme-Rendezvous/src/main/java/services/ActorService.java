@@ -185,7 +185,7 @@ public class ActorService {
 	 * @return age
 	 * @author MJ
 	 */
-	public int getAge(final Actor actor) {
+	private int getAge(final Actor actor) {
 		Assert.notNull(actor);
 
 		final int result;
@@ -230,10 +230,10 @@ public class ActorService {
 	 * This method checks if the age passed by parameters is greater or equals to the legal age
 	 * 
 	 * @param age
-	 * @author Juanmi
+	 * @author Juanmi and Daniel Diment
 	 */
-	public boolean checkUserIsAdult(final int age) {
+	public boolean checkUserIsAdult(final Actor actor) {
+		final int age = this.getAge(actor);
 		return age >= this.LEGALAGE;
 	}
-
 }
