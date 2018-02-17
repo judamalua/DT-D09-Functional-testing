@@ -65,13 +65,13 @@
 			</display:column>
 		</jstl:if>
 	</security:authorize>
-	
-	<spring:message code="comment.display" var = "commentDisplay" />
-	<display:column title="${commentDisplay}">
-		<a href="comment/display.do?commentId=${row.id}">
-		<button class="btn">
-				<spring:message code="comment.display"/>
-			</button>
-		</a>
-	</display:column>
+	<security:authorize access="hasRole('ADMIN')"> 
+		<display:column>
+			<a href="comment/admin/delete.do?commentId=${row.id}">
+				<button class="btn">
+					<spring:message code="comment.delete"/>
+				</button>
+			</a>
+		</display:column>
+	</security:authorize>
 </display:table>

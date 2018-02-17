@@ -4,6 +4,7 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 import javax.transaction.Transactional;
 
@@ -13,6 +14,7 @@ import org.springframework.util.Assert;
 
 import repositories.CommentRepository;
 import domain.Comment;
+import domain.Rendezvous;
 import domain.User;
 
 @Service
@@ -24,8 +26,17 @@ public class CommentService {
 	@Autowired
 	private CommentRepository	commentRepository;
 
-
 	// Supporting services --------------------------------------------------
+
+	@Autowired
+	private RendezvousService	rendezvousService;
+
+	@Autowired
+	private UserService			userService;
+
+	@Autowired
+	private ActorService		actorService;
+
 
 	// Simple CRUD methods --------------------------------------------------
 
@@ -80,19 +91,68 @@ public class CommentService {
 	}
 
 	public void delete(final Comment comment) {
-
 		Assert.notNull(comment);
 		Assert.isTrue(comment.getId() != 0);
 
-		Assert.isTrue(this.commentRepository.exists(comment.getId()));
+		Rendezvous rendezvous;
+		User user;
+		Comment fatherComment, saved;
 
-		//Delete all the replies for this comment
-		for (final Comment c : comment.getComments())
-			this.delete(c);
-		this.commentRepository.delete(comment);
+		if (comment.getComments().isEmpty()) {//It doesn't have replies
+			fatherComment = this.getFatherCommentFromReply(comment);
+			if (fatherComment != null) {
+				//fatherComment.getComments().remove(comment);
+				//this.save(fatherComment);
+			}
+
+			rendezvous = this.rendezvousService.getRendezvousByCommentary(comment.getId());
+			if (rendezvous != null) {
+				rendezvous.getComments().remove(comment);
+				this.rendezvousService.save(rendezvous);
+			}
+
+			user = this.getUserFromComment(comment);
+			user.getComments().remove(comment);
+			this.actorService.save(user);
+
+			this.commentRepository.delete(comment);
+
+		} else { // It has replies
+			for (final Comment c : comment.getComments())
+				this.delete(c);
+
+			comment.getComments().clear();
+			comment.setComments(new HashSet<Comment>());
+
+			saved = this.save(comment);
+
+			this.delete(saved);
+		}
+
+		/*
+		 * //Delete all the replies for this comment
+		 * for (final Comment c : comment.getComments())
+		 * this.delete(c);
+		 * 
+		 * rendezvous = this.rendezvousService.getRendezvousByCommentary(comment.getId());
+		 * user = this.getUserFromComment(comment);
+		 * fatherComment = this.getFatherCommentFromReply(comment);
+		 * 
+		 * if (rendezvous != null) {
+		 * rendezvous.getComments().remove(comment);
+		 * this.rendezvousService.save(rendezvous);
+		 * }
+		 * user.getComments().remove(comment);
+		 * this.userService.save(user);
+		 * 
+		 * if (fatherComment != null) {
+		 * fatherComment.getComments().remove(comment);
+		 * this.commentRepository.save(fatherComment);
+		 * }
+		 * this.commentRepository.delete(comment);
+		 */
 
 	}
-
 	//Queries ----------------------------------------------
 	public User getUserFromComment(final Comment comment) {
 		Assert.isTrue(comment.getId() != 0);

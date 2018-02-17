@@ -70,6 +70,7 @@ public class AnswerUserController {
 			Assert.isTrue(!rendezvous.getDeleted());							//Checks that the rendezvous is not deleted
 			Assert.isTrue(rendezvous.getMoment().after(new Date()));			//Checks that the rendezvous is not already over
 			Assert.isTrue(!rendezvous.getUsers().contains(user));				//Checks the user hasn't already joined to the rendezvous
+			Assert.isTrue(!user.getCreatedRendezvouses().contains(rendezvous));	//Checks that the user that created the rendezvous is not attempting to join it
 			if (rendezvous.getAdultOnly())
 				Assert.isTrue(this.actorService.checkUserIsAdult(user));		//Checks that the user is old enough to join the rendezvous
 			if (rendezvous.getQuestions().isEmpty()) {
@@ -107,6 +108,7 @@ public class AnswerUserController {
 			Assert.isTrue(!rendezvous.getDeleted());							//Checks that the rendezvous is not deleted
 			Assert.isTrue(rendezvous.getMoment().after(new Date()));			//Checks that the rendezvous is not already over
 			Assert.isTrue(!rendezvous.getUsers().contains(user));			 	//Checks the user hasn't already joined to the rendezvous
+			Assert.isTrue(!user.getCreatedRendezvouses().contains(rendezvous));	//Checks that the user that created the rendezvous is not attempting to join it
 			if (rendezvous.getAdultOnly())
 				Assert.isTrue(this.actorService.checkUserIsAdult(user));		//Checks that the user is old enough to join the rendezvous
 		} catch (final Throwable oops) {
@@ -167,7 +169,8 @@ public class AnswerUserController {
 			Assert.isTrue(rendezvous.getFinalMode());							//Checks that the rendezvous is in final mode
 			Assert.isTrue(!rendezvous.getDeleted());							//Checks that the rendezvous is not deleted
 			Assert.isTrue(rendezvous.getMoment().after(new Date()));			//Checks that the rendezvous is not already over
-			Assert.isTrue(rendezvous.getUsers().contains(user));		//Checks the user has already joined to the rendezvous
+			Assert.isTrue(rendezvous.getUsers().contains(user));				//Checks the user has already joined to the rendezvous
+			Assert.isTrue(!user.getCreatedRendezvouses().contains(rendezvous));	//Checks that the user that created the rendezvous is not attempting to leave it
 
 			//This for block finds every answer the user gave to join the rendezvous and deletes it
 			for (final Question question : rendezvous.getQuestions()) {
