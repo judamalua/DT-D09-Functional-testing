@@ -35,11 +35,7 @@
 	
 	<acme:password code="user.password" path="userAccount.password" required="true"/>
 	
-	<label for = "confirmPassword">
-		<spring:message code="user.confirm.password" />*
-	</label>
-	<input type = "password" name="confirmPassword" />
-	<br />
+	<acme:confirmPassword name="confirmPassword" code="user.confirm.password" required = "true"/>
 
 	<div>
 	<acme:submit name="save" code="user.save"/>

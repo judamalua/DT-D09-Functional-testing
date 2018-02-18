@@ -26,19 +26,11 @@
 	<acme:submit name="save" code="announcement.save"/>
 		
 	<jstl:if test="${announcement.id!=0}">
-		<input 
-			type="submit"
-			name="delete"
-			class = "btn"
-			value="<spring:message code="announcement.delete" />"
-			onclick="return confirm('<spring:message code='announcement.confirm.delete' />') "/>
+		
+		<acme:delete clickCode="announcement.confirm.delete" name="delete" code="announcement.delete"/>
+		
 	</jstl:if>
 	
-	<input 
-		type="button"
-		name="cancel"
-		class = "btn"
-		value="<spring:message code="announcement.cancel" />"
-		onclick="javascript: relativeRedir('announcement/list.do')" /> <!-- This variable is sent by the controller -->
+	<acme:cancel url="announcement/list.do" code="announcement.cancel"/>
 
 </form:form>
