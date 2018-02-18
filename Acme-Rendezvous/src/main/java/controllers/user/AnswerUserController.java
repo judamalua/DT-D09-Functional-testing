@@ -171,6 +171,7 @@ public class AnswerUserController {
 			Assert.isTrue(rendezvous.getMoment().after(new Date()));			//Checks that the rendezvous is not already over
 			Assert.isTrue(!rendezvous.getUsers().contains(user));			 	//Checks the user hasn't already joined to the rendezvous
 			Assert.isTrue(!user.getCreatedRendezvouses().contains(rendezvous));	//Checks that the user that created the rendezvous is not attempting to join it
+			Assert.isTrue(answers.size() == rendezvous.getQuestions().size());	//Checks that the number of question received is the same than the questions that the rendezvous contains
 			if (rendezvous.getAdultOnly())
 				Assert.isTrue(this.actorService.checkUserIsAdult(user));		//Checks that the user is old enough to join the rendezvous
 		} catch (final Throwable oops) {
