@@ -7,6 +7,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <form:form id = "form" action="announcement/user/edit.do" modelAttribute ="announcement">
 	
@@ -16,43 +17,20 @@
 	<form:hidden path="version"/>
 	<form:hidden path="moment"/>
 	
+	<p><em><spring:message code = "form.required.params"/></em></p>
 	
+	<acme:textbox code="announcement.title" path="title"/>
 	
-	<form:label path="title">
-		<spring:message code="announcement.title"/>
-	</form:label>
-	<form:input path="title"/>
-	<form:errors cssClass="error" path="title"/>
-	<br/>
+	<acme:textarea code="announcement.description" path="description" required = "true"/>
 	
-	<form:label path="description">
-		<spring:message code="announcement.description"/>
-	</form:label>
-	<form:textarea path="description"/>
-	<form:errors cssClass="error" path="description"/>
-	<br/>
-	
-	
-	<input 
-		type="submit"
-		name="save"
-		class = "btn"
-		value="<spring:message code="announcement.save" />" />
+	<acme:submit name="save" code="announcement.save"/>
 		
 	<jstl:if test="${announcement.id!=0}">
-		<input 
-			type="submit"
-			name="delete"
-			class = "btn"
-			value="<spring:message code="announcement.delete" />"
-			onclick="return confirm('<spring:message code='announcement.confirm.delete' />') "/>
+		
+		<acme:delete clickCode="announcement.confirm.delete" name="delete" code="announcement.delete"/>
+		
 	</jstl:if>
 	
-	<input 
-		type="button"
-		name="cancel"
-		class = "btn"
-		value="<spring:message code="announcement.cancel" />"
-		onclick="javascript: relativeRedir('announcement/list.do;" /> <!-- This variable is sent by the controller -->
+	<acme:cancel url="announcement/list.do" code="announcement.cancel"/>
 
 </form:form>

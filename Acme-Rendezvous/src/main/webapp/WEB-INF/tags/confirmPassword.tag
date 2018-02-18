@@ -1,5 +1,5 @@
 <%--
- * textarea.tag
+ * password.tag
  *
  * Copyright (C) 2017 Universidad de Sevilla
  * 
@@ -21,26 +21,20 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <%-- Attributes --%> 
+ 
+<%@ attribute name="name" required="true" rtexprvalue="true" %>
+<%@ attribute name="code" required="true" rtexprvalue="true" %>
+<%@ attribute name="required" required="false" rtexprvalue="true" %>
 
-<%@ attribute name="path" required="true" %>
-<%@ attribute name="code" required="true" %>
-<%@ attribute name="readonly" required="false" %>
-<%@ attribute name="required" required="false" %>
-
-<jstl:if test="${readonly == null}">
-	<jstl:set var="readonly" value="false" />
-</jstl:if>
-
+<%-- Definition --%>
 <jstl:if test="${required == null}">
 	<jstl:set var="required" value="false" />
 </jstl:if>
 
-<%-- Definition --%>
 
-<div class="form-group">
-	<form:label path="${path}">
+<div>
+	<label for = "${name}">
 		<spring:message code="${code}" /><jstl:if test="${required}">*</jstl:if>
-	</form:label>
-	<form:textarea path="${path}" readonly="${readonly}" />
-	<form:errors path="${path}" cssClass="error" />
+	</label>
+	<input type = "password" name="${name}" />
 </div>

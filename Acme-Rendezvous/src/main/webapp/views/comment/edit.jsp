@@ -19,34 +19,27 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+
+<p><em><spring:message code = "form.required.params"/></em></p>
 
 <form:form id="form" action="${requestURI}" modelAttribute="comment">
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
-	
 	<form:hidden path="moment"/>
 	<form:hidden path="comments"/>
-	
-	<form:label path="text">
-		<spring:message code="comment.text"/> 
-	</form:label>
-	<form:textarea path="text"/>
-	<form:errors cssClass="error" path="text"/>
-	<br/>
-	
-	<form:label path="pictureUrl">
-		<spring:message code="comment.pictureUrl"/> 
-	</form:label>
-	<form:input path="pictureUrl"/>
-	<form:errors cssClass="error" path="pictureUrl"/>
-	<br/>
 
+	<acme:textarea code="comment.text" path="text"/>
+	<acme:textbox code="comment.pictureUrl" path="pictureUrl"/>
+
+	<acme:submit name="save" code="comment.save"/>
+	<jstl:if test="${replied!=null}">
+		<acme:cancel url="comment/listFromComment.do?commentId=${replied.id}" code="comment.cancel"/>
+	</jstl:if>
+	<jstl:if test="${replied==null}">
+		<acme:cancel url="rendezvous/detailed-rendezvous.do?rendezvousId=${rendezvousId}&anonymous=false" code="comment.cancel"/>
+	</jstl:if>
 	
-	<input type="submit" name="save" class="btn" value="<spring:message code="comment.save"/>"/>
-	
-	<input type="button" name="cancel" class="btn"
-		value="<spring:message code="comment.cancel" />"
-		onclick="javascript: window.history.back();" />
 		
 </form:form>
 

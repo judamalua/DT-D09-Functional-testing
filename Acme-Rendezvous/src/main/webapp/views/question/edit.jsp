@@ -7,6 +7,9 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+
+<p><em><spring:message code = "form.required.params"/></em></p>
 
 <form:form id = "form" action="question/user/edit.do" modelAttribute ="question">
 	
@@ -14,35 +17,12 @@
 	<form:hidden path="version"/>
 	<input type="hidden" name="rendezvousId" id="rendezvousId" value="${rendezvousId}"/>
 	
+	<acme:textarea code="question.text" path="text"/>
 	
-	<form:label path="text">
-		<spring:message code="question.text"/>
-	</form:label>
-	<form:input path="text"/>
-	<form:errors cssClass="error" path="text"/>
-	<br/>
-	
-	
-	<input 
-		type="submit"
-		name="save"
-		class = "btn"
-		value="<spring:message code="question.save" />" />
+	<acme:submit name="save" code="question.save"/>
 		
 	<jstl:if test="${question.id!=0}">
-		<input 
-			type="submit"
-			name="delete"
-			class = "btn"
-			value="<spring:message code="question.delete" />"
-			onclick="return confirm('<spring:message code='question.confirm.delete' />') "/>
+		<acme:delete clickCode="question.confirm.delete" name="delete" code="question.delete"/>
 	</jstl:if>
-	
-	<input 
-		type="button"
-		name="cancel"
-		class = "btn"
-		value="<spring:message code="question.cancel" />"
-		onclick="javascript: relativeRedir('question/user/list.do?rendezvousId=${rendezvousId}');" /> <!-- This variable is sent by the controller -->
-
+	<acme:cancel url="question/user/list.do?rendezvousId=${rendezvousId}" code="question.cancel"/>
 </form:form>
