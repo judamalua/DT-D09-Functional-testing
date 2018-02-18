@@ -14,7 +14,7 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 
 <div class = "crop">
-	<a href="welcome/index.do"> <img class="banner img-responsive" src="${banner}"
+	<a href="welcome/index.do"> <img class="banner img-responsive" src="https://articles-images.sftcdn.net/wp-content/uploads/sites/2/2014/06/MASTER-IMAGE-Tinder-568x319.jpg"
 		alt="Acme Co., Inc." />
 	</a>
 </div>
