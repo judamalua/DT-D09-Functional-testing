@@ -43,6 +43,14 @@ public class CommentController extends AbstractController {
 	}
 
 	//List -----------------------------------------------------------
+	/**
+	 * This method returns a ModelAndView object with all the comments of a rendezvous,
+	 * passed as a param.
+	 * 
+	 * @param rendezvousId
+	 * @return ModelAndView
+	 * @author Antonio
+	 */
 	@RequestMapping(value = "/listFromRendezvous", method = RequestMethod.GET)
 	public ModelAndView listFromRendezvous(@RequestParam final int rendezvousId) {
 		ModelAndView result;
@@ -71,6 +79,15 @@ public class CommentController extends AbstractController {
 
 		return result;
 	}
+
+	/**
+	 * This method returns a ModelAndView object with all the replies of a comment,
+	 * passed as a param.
+	 * 
+	 * @param commentId
+	 * @return ModelAndView
+	 * @author Antonio
+	 */
 	@RequestMapping(value = "/listFromComment", method = RequestMethod.GET)
 	public ModelAndView listFromComment(@RequestParam final int commentId) {
 		ModelAndView result;
