@@ -4,6 +4,7 @@ package domain;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -18,7 +19,7 @@ public class Configuration extends DomainEntity {
 	private String	terms_es;
 	private String	cookies_eng;
 	private String	cookies_es;
-	private int		pageSize;
+	private Integer	pageSize;
 
 
 	@NotBlank
@@ -57,11 +58,12 @@ public class Configuration extends DomainEntity {
 		this.cookies_es = cookies_es;
 	}
 
-	public int getPageSize() {
+	@NotNull
+	public Integer getPageSize() {
 		return this.pageSize;
 	}
 
-	public void setPageSize(final int pageSize) {
+	public void setPageSize(final Integer pageSize) {
 		this.pageSize = pageSize;
 	}
 

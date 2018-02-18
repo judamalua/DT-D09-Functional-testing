@@ -54,7 +54,8 @@
 										code="master.page.createAdmin" /></a></li>
 							<li><a href="dashboard/admin/list.do"><spring:message
 										code="master.page.dashboardList" /></a></li>
-							
+							<li><a href="configuration/admin/list.do"><spring:message
+										code="master.page.configuration" /></a></li>
 						</ul>
 						
 								
