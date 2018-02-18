@@ -28,7 +28,7 @@
 <!-- Pagination -->
 <span class="pagebanner"> 
 	<jstl:forEach begin="1" end="${pageNum}" var="index">
-		<a href="${requestURI}?&pageage=${index-1}">
+		<a href="${requestURI}?&pageage=${index-1}&anonymous=${anonymous}">
 			<jstl:out value="${index}" />
 		</a>
 		<jstl:if test="${index!=pageNum}">,</jstl:if>
@@ -61,11 +61,13 @@
 		</jstl:if>
 	</display:column>
 	
-	<jstl:if test="${rendezvous.deleted}">
-		<display:column>
+	
+	<display:column>
+		<jstl:if test="${rendezvous.deleted}">
 			<img src = "images/deleted-rendezvous.png"/> <spring:message code = "rendezvous.deleted"/>
-		</display:column>
-	</jstl:if>
+		</jstl:if>
+	</display:column>
+	
 	
 	<security:authorize access="hasRole('ADMIN')">
 		<display:column>

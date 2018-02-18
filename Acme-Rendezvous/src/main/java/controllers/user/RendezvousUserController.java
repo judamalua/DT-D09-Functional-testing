@@ -10,6 +10,8 @@
 
 package controllers.user;
 
+import java.util.Collection;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -184,9 +186,13 @@ public class RendezvousUserController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final Rendezvous rendezvous, final String messageCode) {
 		ModelAndView result;
+		Collection<Rendezvous> similars;
 
 		result = new ModelAndView("rendezvous/edit");
+		similars = this.rendezvousService.findFinalRendezvouses();
+
 		result.addObject("message", messageCode);
+		result.addObject("rendezvouses", similars);
 		result.addObject("rendezvous", rendezvous);
 
 		return result;

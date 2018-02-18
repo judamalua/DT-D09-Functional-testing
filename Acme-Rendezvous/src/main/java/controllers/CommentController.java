@@ -51,19 +51,23 @@ public class CommentController extends AbstractController {
 		Rendezvous rendezvous;
 		String requestURI;
 
-		users = new ArrayList<>();
-		rendezvous = this.rendezvousService.findOneForReplies(rendezvousId);
-		comments = rendezvous.getComments();
+		try {
+			users = new ArrayList<>();
+			rendezvous = this.rendezvousService.findOneForReplies(rendezvousId);
+			comments = rendezvous.getComments();
 
-		for (final Comment comment : comments)
-			users.add(this.commentService.getUserFromComment(comment));
+			for (final Comment comment : comments)
+				users.add(this.commentService.getUserFromComment(comment));
 
-		requestURI = "comment/list.do";
+			requestURI = "comment/list.do";
 
-		result = new ModelAndView("comment/list");
-		result.addObject("comments", comments);
-		result.addObject("requestURI", requestURI);
-		result.addObject("users", users);
+			result = new ModelAndView("comment/list");
+			result.addObject("comments", comments);
+			result.addObject("requestURI", requestURI);
+			result.addObject("users", users);
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/misc/403");
+		}
 
 		return result;
 	}
@@ -116,19 +120,23 @@ public class CommentController extends AbstractController {
 	//Display -----------------------------------------------------------
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int commentId) {
-		final ModelAndView result;
+		ModelAndView result;
 		Collection<Comment> replies;
 		Comment comment;
 		User user;
 
-		comment = this.commentService.findOne(commentId);
-		replies = comment.getComments();
+		try {
+			comment = this.commentService.findOne(commentId);
+			replies = comment.getComments();
 
-		user = this.commentService.getUserFromComment(comment);
-		result = new ModelAndView("comment/display");
-		result.addObject("comment", comment);
-		result.addObject("user", user);
-		result.addObject("comments", replies);
+			user = this.commentService.getUserFromComment(comment);
+			result = new ModelAndView("comment/display");
+			result.addObject("comment", comment);
+			result.addObject("user", user);
+			result.addObject("comments", replies);
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/misc/403");
+		}
 
 		return result;
 	}

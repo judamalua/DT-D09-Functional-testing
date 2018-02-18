@@ -189,7 +189,7 @@ public class UserService {
 	/**
 	 * Level C query 2
 	 * 
-	 * @return The average and the standard deviation of rendezvouses created per user.
+	 * @return The ratio of users who have ever created a rendezvous versus the users who have never created any rendezvouses.
 	 * @author Juanmi
 	 */
 	public String getRatioCreatedRendezvouses() {

@@ -157,6 +157,8 @@ public class RendezvousService {
 		if (actor instanceof User) {
 			user = (User) this.actorService.findActorByPrincipal();
 
+			rendezvous.getSimilars().remove(null);//Nedded to not have errors
+
 			result = this.rendezvousRepository.save(rendezvous);
 
 			if (user.getCreatedRendezvouses().contains(rendezvous))   		//
@@ -274,13 +276,14 @@ public class RendezvousService {
 				this.questionService.delete(question);
 
 			// Deleting Comments of the Rendezvous that is about to be deleted
-			for (final Comment comment : rendezvous.getComments())
+			for (final Comment comment : new HashSet<Comment>(rendezvous.getComments()))
 				this.commentService.delete(comment);
 
 			user.getCreatedRendezvouses().remove(rendezvous); // Deleting rendezvous from user list when an admin deletes a Rendezvous
-
 			this.actorService.save(user);
+
 			this.rendezvousRepository.delete(rendezvous);
+
 		} else {
 			rendezvous.setDeleted(true);
 			this.save(rendezvous);
@@ -375,6 +378,21 @@ public class RendezvousService {
 	}
 
 	/**
+	 * Return the list of rendezvouses in final mode and not deleted
+	 * 
+	 * @return A page of Rendezvouses in final mode
+	 * @author MJ
+	 */
+	public Collection<Rendezvous> findFinalRendezvouses() {
+
+		Collection<Rendezvous> result;
+
+		result = this.rendezvousRepository.findFinalRendezvouses();
+
+		return result;
+	}
+
+	/**
 	 * Return the list of rendezvouses in final mode, not deleted and
 	 * without adult content paginated by the param
 	 * 
@@ -454,7 +472,7 @@ public class RendezvousService {
 	 * @return The average of rendezvouses that are RSVPd per user as the first element of the array and RSVPed users as the second element.
 	 * @author Juanmi
 	 */
-	public String[] getAverageAnswersPerQuestions() {
+	public String[] getAverageRSVPedPerUser() {
 		final String[] result = {
 			"", ""
 		};
@@ -479,22 +497,25 @@ public class RendezvousService {
 	}
 	//sqrt(sum(r.users.size * r.users.size) / count(r.users.size) - (avg(r.users.size) * avg(r.users.size)))
 	/**
-	 * Level A query 2 part 2/2
+	 * Level C query 4 part 2/2
 	 * 
-	 * @return The standard deviation of the number of answers to the questions per rendezvous.
+	 * @return The standard deviation of rendezvouses that are RSVPd per user.
 	 */
-	public Float getStandardDeviationAnswersPerQuestions() {
+	public String getStandardDeviationRSVPedPerUser() {
 		String[] averageRSVPedUsers;
-		Float average, totalUsers, result, RSVPedUsers;
+		Float average, totalUsers, standardDeviation, RSVPedUsers;
+		String result;
 
-		averageRSVPedUsers = this.getAverageAnswersPerQuestions();
+		averageRSVPedUsers = this.getAverageRSVPedPerUser();
 
 		average = new Float(averageRSVPedUsers[0]);
 		RSVPedUsers = new Float(averageRSVPedUsers[1]);
 
 		totalUsers = new Float(this.userService.findAll().size());
 
-		result = (float) ((Math.sqrt(RSVPedUsers * RSVPedUsers) / totalUsers) - (average * average));
+		standardDeviation = (float) ((Math.sqrt(RSVPedUsers * RSVPedUsers) / totalUsers) - (average * average));
+
+		result = standardDeviation.toString();
 
 		return result;
 	}
@@ -544,10 +565,10 @@ public class RendezvousService {
 	 * @return The rendezvouses whose number of announcements is above 75% the average number of announcements per rendezvous.
 	 * @author Juanmi
 	 */
-	public Collection<Rendezvous> getRendezvousWithAnnouncementAboveSeventyFivePercent() {
+	public Collection<Rendezvous> getRendezvousesWithAnnouncementAboveSeventyFivePercent() {
 		Collection<Rendezvous> result;
 
-		result = this.rendezvousRepository.getRendezvousWithAnnouncementAboveSeventyFivePercent();
+		result = this.rendezvousRepository.getRendezvousesWithAnnouncementAboveSeventyFivePercent();
 
 		Assert.notNull(result);
 

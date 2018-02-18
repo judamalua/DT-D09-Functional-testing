@@ -8,11 +8,12 @@
  * http://www.tdg-seville.info/License.html
  */
 
-package controllers.administrator;
+package controllers.admin;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -94,7 +95,7 @@ public class ActorAdminController extends AbstractController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST, params = {
 		"save", "confirmPassword"
 	})
-	public ModelAndView registerAdministrator(@ModelAttribute("administrator") @Valid final Administrator admin, final BindingResult binding, @RequestParam("confirmPassword") final String confirmPassword) {
+	public ModelAndView registerAdministrator(@ModelAttribute("admin") @Valid final Administrator admin, final BindingResult binding, @RequestParam("confirmPassword") final String confirmPassword) {
 		ModelAndView result;
 		Authority auth;
 
@@ -108,6 +109,8 @@ public class ActorAdminController extends AbstractController {
 				Assert.isTrue(confirmPassword.equals(admin.getUserAccount().getPassword()), "Passwords do not match");
 				this.actorService.registerActor(admin);
 				result = new ModelAndView("redirect:/welcome/index.do");
+			} catch (final DataIntegrityViolationException oops) {
+				result = this.createEditModelAndViewRegister(admin, "admin.username.error");
 			} catch (final Throwable oops) {
 				if (oops.getMessage().contains("Passwords do not match"))
 					result = this.createEditModelAndViewRegister(admin, "admin.password.error");
@@ -131,17 +134,17 @@ public class ActorAdminController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = {
 		"save"
 	})
-	public ModelAndView updateAdministrator(@ModelAttribute("admin") @Valid final Administrator admin, final BindingResult binding) {
+	public ModelAndView updateAdministrator(@ModelAttribute("actor") @Valid final Administrator admin, final BindingResult binding) {
 		ModelAndView result;
 
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(admin, "user.params.error");
+			result = this.createEditModelAndView(admin, "actor.params.error");
 		else
 			try {
 				this.actorService.save(admin);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(admin, "admin.commit.error");
+				result = this.createEditModelAndView(admin, "actor.commit.error");
 			}
 
 		return result;
@@ -167,9 +170,9 @@ public class ActorAdminController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final Administrator admin, final String messageCode) {
 		ModelAndView result;
 
-		result = new ModelAndView("admin/edit");
+		result = new ModelAndView("actor/edit");
 		result.addObject("message", messageCode);
-		result.addObject("admin", admin);
+		result.addObject("actor", admin);
 
 		return result;
 

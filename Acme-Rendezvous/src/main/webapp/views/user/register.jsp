@@ -52,7 +52,7 @@
 	<form:label path="birthDate">
 		<spring:message code="user.birthDate"/>
 	</form:label>
-	<form:input path="birthDate"/>
+	<form:input path="birthDate" placeholder="dd/MM/yyyy"/>
 	<form:errors cssClass="error" path="birthDate"/>
 	
 	<form:label path="userAccount.username">
@@ -89,7 +89,7 @@
 		name="cancel"
 		class = "btn"
 		value="<spring:message code="user.cancel" />"
-		onclick="javascript: relativeRedir('user/list.do');" /> 
+		onclick="javascript: relativeRedir('/');" /> 
 	</div>
 
 </form:form>

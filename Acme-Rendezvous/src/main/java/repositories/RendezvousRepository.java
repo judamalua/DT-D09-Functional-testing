@@ -29,6 +29,9 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select r from Rendezvous r where r.finalMode=true and r.deleted=false")
 	Page<Rendezvous> findFinalRendezvouses(Pageable pageable);
 
+	@Query("select r from Rendezvous r where r.finalMode=true and r.deleted=false")
+	Collection<Rendezvous> findFinalRendezvouses();
+
 	@Query("select r from Rendezvous r where r.finalMode=true and r.deleted=false and r.adultOnly=false")
 	Page<Rendezvous> findFinalWithoutAdultRendezvouses(Pageable pageable);
 
@@ -82,7 +85,7 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	 * @author Juanmi
 	 */
 	@Query("select r from Rendezvous r where r.announcements.size >= (select avg(re.announcements.size)*0.75 from Rendezvous re)")
-	Collection<Rendezvous> getRendezvousWithAnnouncementAboveSeventyFivePercent();
+	Collection<Rendezvous> getRendezvousesWithAnnouncementAboveSeventyFivePercent();
 
 	/**
 	 * Level B query 3

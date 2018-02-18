@@ -216,10 +216,10 @@ public class CommentService {
 	 * @return The average and the standard deviation of replies per comment.
 	 * @author Juanmi
 	 */
-	public String getQuestionsInfoFromRendezvous() {
+	public String getRepliesInfoFromComment() {
 		String result;
 
-		result = this.commentRepository.getQuestionsInfoFromRendezvous();
+		result = this.commentRepository.getRepliesInfoFromComment();
 
 		Assert.notNull(result);
 
