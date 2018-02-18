@@ -223,6 +223,7 @@ public class CommentUserController extends AbstractController {
 		requestURI = "comment/user/edit.do?rendezvousId=" + rendezvousId;
 		result = new ModelAndView("comment/edit");
 		result.addObject("comment", comment);
+		result.addObject("rendezvousId", rendezvousId);
 		result.addObject("message", message);
 		result.addObject("requestURI", requestURI);
 

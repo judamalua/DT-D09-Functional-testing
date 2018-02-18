@@ -9,6 +9,8 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<p><em><spring:message code = "form.required.params"/></em></p>
+
 <form:form id = "form" action="actor/register.do" modelAttribute ="user">
 	
 	<form:hidden path="id"/>

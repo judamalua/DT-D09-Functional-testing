@@ -15,6 +15,10 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+
+<spring:message code="rendezvous.moment.placeholder" var="momentPlaceholder"/>
+<spring:message code="rendezvous.gpsCoordinates.placeholder" var="gpsPlaceholder"/>
 
 <form:form action="rendezvous/user/edit.do" modelAttribute="rendezvous">
 
@@ -25,82 +29,19 @@
 	<form:hidden path="comments"/>
 	<form:hidden path="users"/>
 
-	<form:label path="name">
-		<spring:message code="rendezvous.name"/>
-	</form:label>
-	<form:input path="name"/>
-	<form:errors cssClass="error" path="name"/>
+	<acme:textbox code="rendezvous.name" path="name" required="true"/>
+	<acme:textbox code="rendezvous.description" path="description" required="true"/>
+	<acme:textbox code="rendezvous.moment" path="moment" required="true" placeholder="${momentPlaceholder}"/>
+	<acme:textbox code="rendezvous.pictureUrl" path="pictureUrl"/>
+	<acme:textbox code="rendezvous.gpsCoordinates" path="gpsCoordinates" placeholder="${gpsPlaceholder}"/>
+	<acme:select code="rendezvous.similars" path="similars" items="${rendezvouses}" itemLabel="name"/>
+	<acme:checkbox code="rendezvous.finalMode" path="finalMode"/>	
+	<acme:checkbox code="rendezvous.adultOnly" path="adultOnly"/>
 	
-	<form:label path="description">
-		<spring:message code="rendezvous.description"/>
-	</form:label>
-	<form:textarea path="description"/>
-	<form:errors cssClass="error" path="description"/>
-	
-	<spring:message code="rendezvous.moment.placeholder" var="momentPlaceholder"/>
-	<form:label path="moment">
-		<spring:message code="rendezvous.moment"/>
-	</form:label>
-	<form:input path="moment" placeholder="${momentPlaceholder}" />
-	<form:errors cssClass="error" path="moment"/>
-	
-	<form:label path="pictureUrl">
-		<spring:message code="rendezvous.pictureUrl"/>
-	</form:label>
-	<form:input path="pictureUrl"/>
-	<form:errors cssClass="error" path="pictureUrl"/>
-	
-	<spring:message code="rendezvous.gpsCoordinates.placeholder" var="gpsPlaceholder"/>
-	<form:label path="gpsCoordinates">
-		<spring:message code="rendezvous.gpsCoordinates"/>
-	</form:label>
-	<form:input path="gpsCoordinates" placeholder="${gpsPlaceholder}"/>
-	<form:errors cssClass="error" path="gpsCoordinates"/>
-	
-	<form:label path="similars">
-		<spring:message code="rendezvous.similars"/>
-	</form:label>
-	<form:select path="similars" multiple="true" >
-		<form:option value="0" selected="true" >---------</form:option>
-		<jstl:forEach items="${rendezvouses}" var="item">
-			<form:option value="${item.id}"><jstl:out value="${item.name}"/></form:option>
-		</jstl:forEach>
-	</form:select>
-	<br/>
-	<br/>
-	
-	<form:label path="finalMode">
-		<spring:message code="rendezvous.finalMode"/>
-	</form:label>
-	<form:checkbox path="finalMode"/>
-	<form:errors cssClass="error" path="finalMode"/>
-	
-	<form:label path="adultOnly">
-		<spring:message code="rendezvous.adultOnly"/>
-	</form:label>
-	<form:checkbox path="adultOnly"/>
-	<form:errors cssClass="error" path="adultOnly"/>
-	<br/>
-	<br/>
-	
-	
-	
-	<input type="submit" 
-		class="btn"
-		name="save"
-		value="<spring:message code="rendezvous.save"/>"/>
+	<acme:submit name="save" code="rendezvous.save"/>
 	<jstl:if test="${rendezvous.id!=0}">
-		<input type="submit"
-			class="btn"
-			name="delete"
-			value="<spring:message code="rendezvous.delete"/>"
-			onclick="return confirm('<spring:message code="rendezvous.confirm.delete"/>')"/>
+		<acme:delete clickCode="rendezvous.confirm.delete" name="delete" code="rendezvous.delete"/>
 	</jstl:if>
-	
-	<input type="button" 
-		class="btn"
-		name="cancel"
-		value="<spring:message code="rendezvous.cancel"/>"
-		onclick="javascript:relativeRedir('rendezvous/user/list.do')"/>
+	<acme:cancel url="rendezvous/user/list.do" code="rendezvous.cancel"/>
 
 </form:form>
