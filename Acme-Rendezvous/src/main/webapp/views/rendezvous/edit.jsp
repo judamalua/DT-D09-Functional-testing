@@ -60,7 +60,12 @@
 	<form:label path="similars">
 		<spring:message code="rendezvous.similars"/>
 	</form:label>
-	<form:select path="similars" items="${rendezvouses}" itemLabel="name" itemValue="id" multiple="true" />
+	<form:select path="similars" multiple="true" >
+		<form:option value="0" selected="true" >---------</form:option>
+		<jstl:forEach items="${rendezvouses}" var="item">
+			<form:option value="${item.id}"><jstl:out value="${item.name}"/></form:option>
+		</jstl:forEach>
+	</form:select>
 	<br/>
 	<br/>
 	

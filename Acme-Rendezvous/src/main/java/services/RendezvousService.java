@@ -157,6 +157,8 @@ public class RendezvousService {
 		if (actor instanceof User) {
 			user = (User) this.actorService.findActorByPrincipal();
 
+			rendezvous.getSimilars().remove(null);//Nedded to not have errors
+
 			result = this.rendezvousRepository.save(rendezvous);
 
 			if (user.getCreatedRendezvouses().contains(rendezvous))   		//
@@ -274,11 +276,12 @@ public class RendezvousService {
 				this.questionService.delete(question);
 
 			// Deleting Comments of the Rendezvous that is about to be deleted
-			for (final Comment comment : rendezvous.getComments())
+			for (final Comment comment : new HashSet<Comment>(rendezvous.getComments()))
 				this.commentService.delete(comment);
 
 			user.getCreatedRendezvouses().remove(rendezvous); // Deleting rendezvous from user list when an admin deletes a Rendezvous
 			this.actorService.save(user);
+
 			this.rendezvousRepository.delete(rendezvous);
 
 		} else {

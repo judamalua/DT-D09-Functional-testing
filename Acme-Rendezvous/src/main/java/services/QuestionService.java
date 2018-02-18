@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.QuestionRepository;
+import domain.Actor;
 import domain.Answer;
 import domain.Question;
 import domain.Rendezvous;
@@ -145,6 +146,7 @@ public class QuestionService {
 	public void delete(final Question question) {
 		this.actorService.checkUserLogin();
 		Rendezvous rendezvous;
+		Actor actor;
 
 		assert question != null;
 		assert question.getId() != 0;
@@ -152,8 +154,9 @@ public class QuestionService {
 		rendezvous = this.rendezvousService.getRendezvousByQuestion(question.getId());
 
 		Assert.isTrue(this.questionRepository.exists(question.getId()));
-
-		this.checkUserCreatedRendezvousOfQuestion(question);
+		actor = this.actorService.findActorByPrincipal();
+		if (actor instanceof User)
+			this.checkUserCreatedRendezvousOfQuestion(question);
 
 		rendezvous.getQuestions().remove(question);
 
