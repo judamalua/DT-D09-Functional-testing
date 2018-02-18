@@ -2,6 +2,7 @@
 package controllers.user;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 
 import javax.validation.Valid;
@@ -15,12 +16,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.Authority;
 import services.ActorService;
 import services.ConfigurationService;
 import services.AnnouncementService;
 import services.RendezvousService;
+import services.UserService;
 import controllers.AbstractController;
 import domain.Announcement;
+import domain.Answer;
+import domain.Question;
 import domain.Rendezvous;
 import domain.User;
 
@@ -38,6 +43,9 @@ public class AnnouncementUserController extends AbstractController {
 	RendezvousService		rendezvousService;
 	@Autowired
 	ConfigurationService	configurationService;
+	@Autowired
+	UserService			userService;
+	
 
 
 	// Listing ----------------------------------------------------
@@ -157,6 +165,32 @@ public class AnnouncementUserController extends AbstractController {
 		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(announcement, "announcement.commit.error");
 			result.addObject("rendezvousId", rendezvousId);
+		}
+
+		return result;
+	}
+	
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public ModelAndView delete(@RequestParam("announcementId") final int announcementId) {
+		
+		Announcement announcement;
+		ModelAndView result;
+		final User user = (User) this.actorService.findActorByPrincipal();
+		try {
+			announcement = this.announcementService.findOne(announcementId);			//Checks that the rendezvous is valid
+			Assert.notNull(announcement);
+			
+			final Rendezvous rendezvous = this.rendezvousService.getRendezvousByAnnouncement(announcement.getId());
+			final User userCreator = this.userService.getCreatorUser(rendezvous.getId());
+			Assert.isTrue(userCreator.equals(user));
+
+
+			
+			announcementService.delete(announcement);
+			result = new ModelAndView("redirect:/announcement/user/list.do");
+		} catch (final Throwable oops) {
+			//If any error is made during whole process, it will make the user go to the 403 page
+			result = new ModelAndView("redirect:/misc/403");
 		}
 
 		return result;
