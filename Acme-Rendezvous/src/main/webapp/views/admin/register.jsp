@@ -8,7 +8,7 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form id = "form" action="admin/register.do" modelAttribute ="admin">
+<form:form id = "form" action="actor/admin/register.do" modelAttribute ="admin">
 	
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
@@ -50,7 +50,7 @@
 	<form:label path="birthDate">
 		<spring:message code="admin.birthDate"/>
 	</form:label>
-	<form:input path="birthDate"/>
+	<form:input path="birthDate" placeholder="dd/MM/yyyy"/>
 	<form:errors cssClass="error" path="birthDate"/>
 	
 	<form:label path="userAccount.username">

@@ -50,7 +50,7 @@
 								code="master.page.admin" /><span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li class="arrow"></li>
-							<li><a href="admin/create.do"><spring:message
+							<li><a href="actor/admin/register.do"><spring:message
 										code="master.page.createAdmin" /></a></li>
 							<li><a href="dashboard/admin/list.do"><spring:message
 										code="master.page.dashboardList" /></a></li>

@@ -10,6 +10,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <spring:message code="master.page.moment.format" var="formatDate" />
+<spring:message code="master.page.birthDate.format" var="formatBirthDate" />
 
 <!-- Pagination -->
 <span class="pagebanner"> 
@@ -45,7 +46,7 @@
 
 	<spring:message code="user.birthDate" var="birthDate" />
 	<display:column property="birthDate" title="${birthDate}"
-		sortable="true" format="${formatDate}" />
+		sortable="true" format="${formatBirthDate}" />
 
 	<display:column>
 		<a href="user/display.do?actorId=${row.id}&anonymous=${anonymous}">

@@ -13,6 +13,7 @@ package controllers.admin;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -94,7 +95,7 @@ public class ActorAdminController extends AbstractController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST, params = {
 		"save", "confirmPassword"
 	})
-	public ModelAndView registerAdministrator(@ModelAttribute("administrator") @Valid final Administrator admin, final BindingResult binding, @RequestParam("confirmPassword") final String confirmPassword) {
+	public ModelAndView registerAdministrator(@ModelAttribute("admin") @Valid final Administrator admin, final BindingResult binding, @RequestParam("confirmPassword") final String confirmPassword) {
 		ModelAndView result;
 		Authority auth;
 
@@ -108,6 +109,8 @@ public class ActorAdminController extends AbstractController {
 				Assert.isTrue(confirmPassword.equals(admin.getUserAccount().getPassword()), "Passwords do not match");
 				this.actorService.registerActor(admin);
 				result = new ModelAndView("redirect:/welcome/index.do");
+			} catch (final DataIntegrityViolationException oops) {
+				result = this.createEditModelAndViewRegister(admin, "admin.username.error");
 			} catch (final Throwable oops) {
 				if (oops.getMessage().contains("Passwords do not match"))
 					result = this.createEditModelAndViewRegister(admin, "admin.password.error");
