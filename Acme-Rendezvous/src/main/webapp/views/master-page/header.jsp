@@ -64,20 +64,20 @@
 				<security:authorize access="isAnonymous()">
 					<li><a class="fNiv" href="security/login.do"><img src = "images/login.png"/> <spring:message
 								code="master.page.login" /></a></li>
-					<li><a class="fNiv" href="actor/register.do"><img src = "images/envelope.png"/> <spring:message
+					<li><a class="fNiv" href="actor/register.do"><img src = "images/register.png"/> <spring:message
 								code="master.page.registerUser" /></a></li>
-					<li><a class="fNiv" href="rendezvous/list.do?anonymous=true"><img src = "images/envelope.png"/> <spring:message
+					<li><a class="fNiv" href="rendezvous/list.do?anonymous=true"><img src = "images/rendezvouses.png"/> <spring:message
 								code="master.page.rendevouzList" /></a></li>
-					<li><a class="fNiv" href="user/list.do?anonymous=true"><img src = "images/envelope.png"/> <spring:message
+					<li><a class="fNiv" href="user/list.do?anonymous=true"><img src = "images/users.png"/> <spring:message
 								code="master.page.userList" /></a></li>
 								</ul>
 				</security:authorize>
 
 				<security:authorize access="isAuthenticated()">
 
-					<li><a class="fNiv" href="rendezvous/list.do?anonymous=false"><img src = "images/envelope.png"/> <spring:message
+					<li><a class="fNiv" href="rendezvous/list.do?anonymous=false"><img src = "images/rendezvouses.png"/> <spring:message
 								code="master.page.rendevouzList" /></a></li>
-					<li><a class="fNiv" href="user/list.do?anonymous=false"><img src = "images/envelope.png"/> <spring:message
+					<li><a class="fNiv" href="user/list.do?anonymous=false"><img src = "images/users.png"/> <spring:message
 								code="master.page.userList" /></a></li>
 					
 						</ul>
