@@ -9,9 +9,9 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <!-- Selecting request uri -->
-<jstl:set var="requestURI" value="actor/edit-admin.do"/>
+<jstl:set var="requestURI" value="actor/admin/edit.do"/>
 <security:authorize access="hasRole('USER')">
-	<jstl:set var="requestURI" value="actor/edit-user.do"/>
+	<jstl:set var="requestURI" value="actor/user/edit.do"/>
 </security:authorize>
 
 
@@ -62,15 +62,12 @@
 	</form:label>
 	<form:input path="birthDate"/>
 	<form:errors cssClass="error" path="birthDate"/>
-	
-
-	
+	<br/>
 	<input 
 		type="submit"
 		name="save"
 		class = "btn"
 		value="<spring:message code="actor.save" />" />
-		
 	<input 
 		type="button"
 		name="cancel"

@@ -108,7 +108,7 @@ public class CommentUserController extends AbstractController {
 		replied = this.commentService.findOne(repliedId);
 
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(comment, replied.getId());
+			result = this.replyModelAndView(comment, replied);
 		else
 			try {
 				user = (User) this.actorService.findActorByPrincipal();

@@ -67,10 +67,8 @@ public class ActorUserController extends AbstractController {
 	 * @return ModelandView
 	 * @author Luis
 	 */
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = {
-		"save"
-	})
-	public ModelAndView updateUser(@ModelAttribute("user") @Valid final User user, final BindingResult binding) {
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView updateUser(@ModelAttribute("actor") @Valid final User user, final BindingResult binding) {
 		ModelAndView result;
 
 		if (binding.hasErrors())
@@ -99,9 +97,9 @@ public class ActorUserController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final User user, final String messageCode) {
 		ModelAndView result;
 
-		result = new ModelAndView("user/edit");
+		result = new ModelAndView("actor/edit");
 		result.addObject("message", messageCode);
-		result.addObject("user", user);
+		result.addObject("actor", user);
 
 		return result;
 

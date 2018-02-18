@@ -151,12 +151,15 @@
 	</security:authorize>
 </display:table>	
 <br/>
-<a href="answer/user/list.do?rendezvousId=${rendezvous.id}">
-	<button class="btn">
-		<spring:message code="rendezvous.answer.list"/>
-	</button>
-</a>
 
+<!-- Link to attendants -->
+<jstl:if test="${rendezvous.finalMode}">
+	<a href="answer/user/list.do?rendezvousId=${rendezvous.id}">
+		<button class="btn">
+			<spring:message code="rendezvous.answer.list"/>
+		</button>
+	</a>
+</jstl:if>
 <security:authorize access="hasRole('USER')">
 <jstl:if test="${userHasCreatedRendezvous}">
 	<br/>

@@ -72,7 +72,7 @@ public abstract class Actor extends DomainEntity {
 		this.phoneNumber = phoneNumber;
 	}
 
-	@NotNull
+	@NotBlank
 	@Email
 	public String getEmail() {
 		return this.email;

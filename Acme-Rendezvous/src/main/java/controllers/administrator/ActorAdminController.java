@@ -131,17 +131,17 @@ public class ActorAdminController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = {
 		"save"
 	})
-	public ModelAndView updateAdministrator(@ModelAttribute("admin") @Valid final Administrator admin, final BindingResult binding) {
+	public ModelAndView updateAdministrator(@ModelAttribute("actor") @Valid final Administrator admin, final BindingResult binding) {
 		ModelAndView result;
 
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(admin, "user.params.error");
+			result = this.createEditModelAndView(admin, "actor.params.error");
 		else
 			try {
 				this.actorService.save(admin);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(admin, "admin.commit.error");
+				result = this.createEditModelAndView(admin, "actor.commit.error");
 			}
 
 		return result;
@@ -167,9 +167,9 @@ public class ActorAdminController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final Administrator admin, final String messageCode) {
 		ModelAndView result;
 
-		result = new ModelAndView("admin/edit");
+		result = new ModelAndView("actor/edit");
 		result.addObject("message", messageCode);
-		result.addObject("admin", admin);
+		result.addObject("actor", admin);
 
 		return result;
 
