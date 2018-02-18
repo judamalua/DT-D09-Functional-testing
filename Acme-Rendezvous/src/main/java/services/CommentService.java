@@ -31,20 +31,24 @@ public class CommentService {
 	private RendezvousService	rendezvousService;
 
 	@Autowired
-	private UserService			userService;
-
-	@Autowired
 	private ActorService		actorService;
 
 
 	// Simple CRUD methods --------------------------------------------------
 
+	/**
+	 * This method returns a new comment, with an empty list of replies and the actual moment
+	 * 
+	 * 
+	 * @return Comment
+	 * @author Antonio
+	 */
 	public Comment create() {
 		Comment result;
 		Date now;
 		Collection<Comment> replies;
 
-		now = new Date(System.currentTimeMillis() - 1);
+		now = new Date(System.currentTimeMillis() - 10);
 		replies = new ArrayList<Comment>();
 
 		result = new Comment();
@@ -54,6 +58,13 @@ public class CommentService {
 		return result;
 	}
 
+	/**
+	 * This method returns a collection of all the comments in the system.
+	 * 
+	 * 
+	 * @return Collection<Comment>
+	 * @author Antonio
+	 */
 	public Collection<Comment> findAll() {
 
 		Collection<Comment> result;
@@ -66,6 +77,13 @@ public class CommentService {
 
 	}
 
+	/**
+	 * This method returns the comment which ID is passed by means of a param
+	 * 
+	 * @param commentId
+	 * @return Comment
+	 * @author Antonio
+	 */
 	public Comment findOne(final int commentId) {
 		Assert.isTrue(commentId != 0);
 
@@ -77,6 +95,13 @@ public class CommentService {
 
 	}
 
+	/**
+	 * This method saves a comment passed as a param into the database.
+	 * 
+	 * @param comment
+	 * @return Comment
+	 * @author Antonio
+	 */
 	public Comment save(final Comment comment) {
 
 		Assert.notNull(comment);
@@ -89,6 +114,13 @@ public class CommentService {
 
 	}
 
+	/**
+	 * This method deletes a comment passed as a param from the database.
+	 * It also refresh the user's and rendezvou's comments list.
+	 * 
+	 * @param comment
+	 * @author Antonio
+	 */
 	public void delete(final Comment comment) {
 		Assert.notNull(comment);
 		Assert.isTrue(comment.getId() != 0);
@@ -116,78 +148,15 @@ public class CommentService {
 
 		this.commentRepository.delete(comment);
 
-		/*
-		 * //Comentario solo en el rendezvous
-		 * if (rendezvous != null && comment.getComments().size() == 0) {
-		 * rendezvous.getComments().remove(comment);
-		 * this.rendezvousService.save(rendezvous);
-		 * 
-		 * user.getComments().remove(comment);
-		 * this.userService.save(user);
-		 * 
-		 * this.commentRepository.delete(comment);
-		 * 
-		 * //Comentario solo en el reply
-		 * } else if (rendezvous == null && comment.getComments().size() == 0) {
-		 * user.getComments().remove(comment);
-		 * this.userService.save(user);
-		 * 
-		 * fatherComment = this.getFatherCommentFromReply(comment);
-		 * fatherComment.getComments().remove(comment);
-		 * this.save(fatherComment);
-		 * 
-		 * this.commentRepository.delete(comment);
-		 * 
-		 * //Comentario con replies en el rendezvous
-		 * } else if (rendezvous != null && comment.getComments().size() > 0) {
-		 * for (final Comment c : comment.getComments())
-		 * this.delete(c);
-		 * 
-		 * //rendezvous.getComments().remove(comment);
-		 * //this.rendezvousService.save(rendezvous);
-		 * 
-		 * user.getComments().remove(comment);
-		 * this.userService.save(user);
-		 * 
-		 * this.commentRepository.delete(comment);
-		 * 
-		 * }
-		 */
-
-		//Comentario con replies como reply
-
-		/*
-		 * 
-		 * if (comment.getComments().isEmpty()) {//It doesn't have replies
-		 * fatherComment = this.getFatherCommentFromReply(comment);
-		 * 
-		 * if (fatherComment != null) {
-		 * fatherComment.getComments().remove(comment);
-		 * this.save(fatherComment);
-		 * }
-		 * 
-		 * rendezvous = this.rendezvousService.getRendezvousByCommentary(comment.getId());
-		 * if (rendezvous != null) {
-		 * rendezvous.getComments().remove(comment);
-		 * this.rendezvousService.save(rendezvous);
-		 * }
-		 * 
-		 * user = this.getUserFromComment(comment);
-		 * user.getComments().remove(comment);
-		 * this.actorService.save(user);
-		 * 
-		 * this.commentRepository.delete(comment);
-		 * 
-		 * } else { // It has replies
-		 * for (final Comment c : comment.getComments())
-		 * this.delete(c);
-		 * 
-		 * this.commentRepository.delete(comment);
-		 * }
-		 */
-
 	}
 	//Queries ----------------------------------------------
+	/**
+	 * This method returns the user that wrote a comment, passed as a param.
+	 * 
+	 * @param comment
+	 * @return User
+	 * @author Antonio
+	 */
 	public User getUserFromComment(final Comment comment) {
 		Assert.isTrue(comment.getId() != 0);
 
@@ -198,6 +167,13 @@ public class CommentService {
 		return result;
 	}
 
+	/**
+	 * This method returns the comment that has been replied by a comment, passed as a param.
+	 * 
+	 * @param comment
+	 * @return Comment
+	 * @author Antonio
+	 */
 	public Comment getFatherCommentFromReply(final Comment reply) {
 		Assert.isTrue(reply.getId() != 0);
 
