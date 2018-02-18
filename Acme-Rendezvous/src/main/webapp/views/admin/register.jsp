@@ -87,7 +87,7 @@
 		name="cancel"
 		class = "btn"
 		value="<spring:message code="admin.cancel" />"
-		onclick="javascript: relativeRedir('user/list.do');" /> 
+		onclick="javascript: relativeRedir('/');" /> 
 	</div>
 
 </form:form>
