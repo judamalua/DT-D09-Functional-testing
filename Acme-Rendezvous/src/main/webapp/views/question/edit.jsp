@@ -9,13 +9,15 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<p><em><spring:message code = "form.required.params"/></em></p>
+
 <form:form id = "form" action="question/user/edit.do" modelAttribute ="question">
 	
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
 	<input type="hidden" name="rendezvousId" id="rendezvousId" value="${rendezvousId}"/>
 	
-	<acme:textbox code="question.text" path="text"/>
+	<acme:textarea code="question.text" path="text"/>
 	
 	<acme:submit name="save" code="question.save"/>
 		

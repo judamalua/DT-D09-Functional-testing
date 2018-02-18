@@ -17,9 +17,12 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<!-- Variables -->
 <spring:message code="rendezvous.moment.placeholder" var="momentPlaceholder"/>
 <spring:message code="rendezvous.gpsCoordinates.placeholder" var="gpsPlaceholder"/>
 
+<!-- Form -->
+<p><em><spring:message code = "form.required.params"/></em></p>
 <form:form action="rendezvous/user/edit.do" modelAttribute="rendezvous">
 
 	<form:hidden path="id"/>
@@ -30,11 +33,11 @@
 	<form:hidden path="users"/>
 
 	<acme:textbox code="rendezvous.name" path="name" required="true"/>
-	<acme:textbox code="rendezvous.description" path="description" required="true"/>
+	<acme:textarea code="rendezvous.description" path="description" required="true"/>
 	<acme:textbox code="rendezvous.moment" path="moment" required="true" placeholder="${momentPlaceholder}"/>
 	<acme:textbox code="rendezvous.pictureUrl" path="pictureUrl"/>
 	<acme:textbox code="rendezvous.gpsCoordinates" path="gpsCoordinates" placeholder="${gpsPlaceholder}"/>
-	<acme:select code="rendezvous.similars" path="similars" items="${rendezvouses}" itemLabel="name"/>
+	<acme:select code="rendezvous.similars" path="similars" items="${rendezvouses}" itemLabel="name" multiple="true"/>
 	<acme:checkbox code="rendezvous.finalMode" path="finalMode"/>	
 	<acme:checkbox code="rendezvous.adultOnly" path="adultOnly"/>
 	

@@ -121,6 +121,7 @@ public class RendezvousUserController extends AbstractController {
 		ModelAndView result;
 		User user;
 
+		rendezvous.getSimilars().remove(null);
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(rendezvous, "rendezvous.params.error");
 		else
@@ -136,7 +137,6 @@ public class RendezvousUserController extends AbstractController {
 
 		return result;
 	}
-
 	// Deleting ---------------------------------------------------------------		
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")

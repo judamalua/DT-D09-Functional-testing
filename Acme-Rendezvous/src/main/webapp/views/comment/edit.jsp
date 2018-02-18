@@ -21,18 +21,20 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<p><em><spring:message code = "form.required.params"/></em></p>
+
 <form:form id="form" action="${requestURI}" modelAttribute="comment">
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
 	<form:hidden path="moment"/>
 	<form:hidden path="comments"/>
 
-	<acme:textbox code="comment.text" path="text"/>
+	<acme:textarea code="comment.text" path="text"/>
 	<acme:textbox code="comment.pictureUrl" path="pictureUrl"/>
 
 	<acme:submit name="save" code="comment.save"/>
 	<jstl:if test="${replied!=null}">
-		<acme:cancel url="comment/user/reply.do?repliedId=${replied.id}" code="comment.cancel"/>
+		<acme:cancel url="comment/listFromComment.do?commentId=${replied.id}" code="comment.cancel"/>
 	</jstl:if>
 	<jstl:if test="${replied==null}">
 		<acme:cancel url="rendezvous/detailed-rendezvous.do?rendezvousId=${rendezvousId}&anonymous=false" code="comment.cancel"/>

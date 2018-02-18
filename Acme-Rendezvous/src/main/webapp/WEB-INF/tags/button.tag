@@ -22,7 +22,7 @@
 
 <%-- Attributes --%> 
  
-<%@ attribute name="path" required="true" %>
+<%@ attribute name="url" required="true" %>
 <%@ attribute name="code" required="true" %>
 
 <%@ attribute name="readonly" required="false" %>
@@ -31,12 +31,13 @@
 	<jstl:set var="readonly" value="false" />
 </jstl:if>
 
+
 <%-- Definition --%>
 
 <div>
-	<form:label path="${path}">
-		<spring:message code="${code}" />
-	</form:label>	
-	<form:checkbox path="${path}" />	
-	<form:errors path="${path}" cssClass="error" />
+	<a href="${url}">
+		<button class="btn">
+			<spring:message code="${code}" />
+		</button>
+	</a>
 </div>	
