@@ -1,5 +1,5 @@
 
-package controllers.administrator;
+package controllers.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
