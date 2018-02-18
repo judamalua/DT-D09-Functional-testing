@@ -26,5 +26,5 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
 	 * @author Juanmi
 	 */
 	@Query("select avg(c.comments.size), sqrt(sum(c.comments.size * c.comments.size) / count(c.comments.size) - (avg(c.comments.size) * avg(c.comments.size))) from Comment c")
-	String getQuestionsInfoFromRendezvous();
+	String getRepliesInfoFromComment();
 }

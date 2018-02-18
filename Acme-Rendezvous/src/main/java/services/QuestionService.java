@@ -229,11 +229,12 @@ public class QuestionService {
 	 * 
 	 * @return The standard deviation of the number of answers to the questions per rendezvous.
 	 */
-	public Float getStandardDeviationAnswersPerRendezvous() {
+	public String getStandardDeviationAnswersPerRendezvous() {
 		String[] averageTotalRendezvousesTotalAnswers = {
 			"", "", ""
 		};
-		Float average, totalRendezvouses, totalAnswers, result;
+		Float average, totalRendezvouses, totalAnswers, standardDeviation;
+		String result;
 
 		averageTotalRendezvousesTotalAnswers = this.getAverageAnswersPerRendezvous();
 
@@ -241,7 +242,9 @@ public class QuestionService {
 		totalRendezvouses = new Float(averageTotalRendezvousesTotalAnswers[1]);
 		totalAnswers = new Float(averageTotalRendezvousesTotalAnswers[2]);
 
-		result = (float) ((Math.sqrt(totalAnswers * totalAnswers) / totalRendezvouses) - (average * average));
+		standardDeviation = (float) ((Math.sqrt(totalAnswers * totalAnswers) / totalRendezvouses) - (average * average));
+
+		result = standardDeviation.toString();
 
 		return result;
 	}

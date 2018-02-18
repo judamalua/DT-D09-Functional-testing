@@ -8,7 +8,7 @@
  * http://www.tdg-seville.info/License.html
  */
 
-package controllers.administrator;
+package controllers.admin;
 
 import javax.validation.Valid;
 
