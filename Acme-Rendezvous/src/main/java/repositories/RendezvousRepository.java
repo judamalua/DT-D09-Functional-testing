@@ -58,7 +58,9 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	 * @return The average and the standard deviation of rendezvouses that are RSVPd per user.
 	 * @author Juanmi
 	 */
-	//TODO Ask on monday
+	//	@Query("select avg((r.users.size) - 1), sqrt(sum(((r.users.size) - 1) * ((r.users.size) - 1)) / count(((r.users.size) - 1)) - (avg(((r.users.size) - 1)) * avg(((r.users.size) - 1)))) from Rendezvous r")
+	//	String getRSVPedInfoFromRendezvous();
+	//TODO Correct
 
 	/**
 	 * Level C query 5

@@ -198,27 +198,20 @@ public class QuestionService {
 		final String[] result = {
 			"", "", ""
 		};
-		Float average, totalAnswers;
+		Float average;
 		Collection<Rendezvous> allRendezvouses;
-		Collection<Question> rendezvousQuestions;
-		Collection<Answer> questionAnswers;
 
-		totalAnswers = 0F;
+		Collection<Answer> allAnswers;
+
 		allRendezvouses = this.rendezvousService.findAll();
+		allAnswers = this.answerService.findAll();
 
-		for (final Rendezvous rendezvous : allRendezvouses) {
-			rendezvousQuestions = rendezvous.getQuestions();
-			for (final Question question : rendezvousQuestions) {
-				questionAnswers = this.answerService.getAnswersByQuestionId(question.getId());
-				totalAnswers += questionAnswers.size();
-			}
-		}
 
-		average = totalAnswers / new Float(allRendezvouses.size());
+		average = new Float(allAnswers.size()) / new Float(allRendezvouses.size());
 
 		result[0] = average.toString();
 		result[1] = new Integer(allRendezvouses.size()).toString();
-		result[2] = totalAnswers.toString();
+		result[2] = new Integer(allAnswers.size()).toString();
 
 		return result;
 	}

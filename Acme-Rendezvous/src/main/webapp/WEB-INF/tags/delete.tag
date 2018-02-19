@@ -28,6 +28,6 @@
 
 <%-- Definition --%>
 
-<button type="submit" name="${name}" class="btn btn-primary" onclick="return confirm('<spring:message code="${clickCode}"/>')" >
+<button type="submit" name="${name}" class="btn" onclick="return confirm('<spring:message code="${clickCode}"/>')" >
 	<spring:message code="${code}" />
 </button>
