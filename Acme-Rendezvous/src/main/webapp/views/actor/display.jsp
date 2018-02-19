@@ -8,9 +8,12 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!-- Variables -->
 <spring:message code="master.page.moment.format" var="formatDate" />
+<spring:message var="format" code="master.page.moment.format.out" />
+<spring:message var="birthDateFormat" code="master.page.birthDate" />
 <spring:message code="rendezvous.name" var="titleName" />
 <spring:message code="rendezvous.description" var="titleDescription" />
 <spring:message code="rendezvous.moment" var="titleMoment" />
@@ -37,33 +40,38 @@
 <br />
 <spring:message code="actor.birthDate" />
 :
-<jstl:out value="${actor.birthDate}" />
+<fmt:formatDate value="${actor.birthDate}" pattern="${birthDateFormat}" />
 <br />
 
 <security:authorize access="!hasRole('ADMIN')">
 
 	<!-- Display created Rendezvouses-->
-	
-	<h4><spring:message code="actor.createdRendezvouses"/></h4>
+
+	<h4>
+		<spring:message code="actor.createdRendezvouses" />
+	</h4>
+
+	<jstl:if test="${createdPageNum!=0}">
+		<!-- Pagination -->
+		<span class="pagebanner"> <jstl:forEach begin="1"
+				end="${createdPageNum}" var="createdRendezvousIndex">
+				<a
+					href="user/display.do?actorId=${actor.id}&anonymous=${anonymous}&rsvpPage=${rsvpPage}&createdRendezvousPage=${createdRendezvousIndex-1}">
+					<jstl:out value="${createdRendezvousIndex}" />
+				</a>
+				<jstl:if test="${createdRendezvousIndex!=rsvpPageNum}">,</jstl:if>
+			</jstl:forEach>
+		</span>
+	</jstl:if>
 	<!-- Pagination -->
-	<span class="pagebanner"> <jstl:forEach begin="1"
-			end="${createdPageNum}" var="createdRendezvousIndex">
-			<a
-				href="user/display.do?actorId=${actor.id}&anonymous=${anonymous}&rsvpPage=${rsvpPage}&createdRendezvousPage=${createdRendezvousIndex-1}">
-				<jstl:out value="${createdRendezvousIndex}" />
-			</a>
-			<jstl:if test="${createdRendezvousIndex!=rsvpPageNum}">,</jstl:if>
-		</jstl:forEach>
-	</span>
-	<!-- Pagination -->
-	
+
 	<display:table name="${createdRendezvouses}" id="rendezvous"
 		requestURI="user/display.do">
 
-		<display:column property="name" title="${titleName}" />
+		<display:column property="name" title="${titleName}" sortable="true" />
 		<display:column property="description" title="${titleDescription}" />
 		<display:column property="moment" title="${titleMoment}"
-			format="${formatMoment}" />
+			format="${formatMoment}" sortable="true" />
 		<display:column>
 			<a
 				href="rendezvous/detailed-rendezvous.do?rendezvousId=${rendezvous.id}&anonymous=${anonymous}">
@@ -94,25 +102,30 @@
 	<br />
 
 	<!-- Display created Rendezvouses-->
-	<h4><spring:message code="actor.rsvpRendezvouses"/></h4>
+	<h4>
+		<spring:message code="actor.rsvpRendezvouses" />
+	</h4>
 
-	<!-- Pagination -->
-	<span class="pagebanner"> <jstl:forEach begin="1"
-			end="${rsvpPageNum}" var="rsvpIndex">
-			<a
-				href="user/display.do?actorId=${actor.id}&anonymous=${anonymous}&rsvpPage=${rsvpIndex-1}&createdRendezvousPage=${createdRendezvousPage}">
-				<jstl:out value="${rsvpIndex}" />
-			</a>
-			<jstl:if test="${rsvpIndex!=rsvpPageNum}">,</jstl:if>
-		</jstl:forEach> <br />
-	</span>
+	<jstl:if test="${rsvpPageNum!=0}">
+		<!-- Pagination -->
+		<span class="pagebanner"> <jstl:forEach begin="1"
+				end="${rsvpPageNum}" var="rsvpIndex">
+				<a
+					href="user/display.do?actorId=${actor.id}&anonymous=${anonymous}&rsvpPage=${rsvpIndex-1}&createdRendezvousPage=${createdRendezvousPage}">
+					<jstl:out value="${rsvpIndex}" />
+				</a>
+				<jstl:if test="${rsvpIndex!=rsvpPageNum}">,</jstl:if>
+			</jstl:forEach> <br />
+		</span>
+	</jstl:if>
 	<!-- Pagination -->
 
 	<display:table name="${rsvpRendezvouses}" id="rsvpRendezvous"
 		requestURI="user/display.do">
 
-		<display:column property="name" title="${titleName}" />
-		<display:column property="description" title="${titleDescription}" />
+		<display:column property="name" title="${titleName}" sortable="true" />
+		<display:column property="description" title="${titleDescription}"
+			sortable="true" />
 		<display:column property="moment" title="${titleMoment}"
 			format="${formatMoment}" />
 		<display:column>

@@ -24,6 +24,7 @@
 
 <%@ attribute name="path" required="true" %>
 <%@ attribute name="code" required="true" %>
+<%@ attribute name="multiple" required="false" %>
 <%@ attribute name="items" required="true" type="java.util.Collection" %>
 <%@ attribute name="itemLabel" required="true" %>
 
@@ -37,6 +38,9 @@
 <jstl:if test="${onchange == null}">
 	<jstl:set var="onchange" value="javascript: return true;" />
 </jstl:if>
+<jstl:if test="${multiple == null}">
+	<jstl:set var="multiple" value="false" />
+</jstl:if>
 
 <%-- Definition --%>
 
@@ -44,8 +48,8 @@
 	<form:label path="${path}">
 		<spring:message code="${code}" />
 	</form:label>	
-	<form:select id="${id}" path="${path}" onchange="${onchange}">
-		<form:option value="0" label="----" />		
+	<form:select id="${id}" path="${path}" onchange="${onchange}" multiple="${multiple}">
+		<form:option value="0" label="----" hidden="true" selected="selected"/>		
 		<form:options items="${items}" itemValue="id" itemLabel="${itemLabel}" />
 	</form:select>
 	<form:errors path="${path}" cssClass="error" />

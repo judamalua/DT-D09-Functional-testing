@@ -86,6 +86,10 @@
 		<security:intercept-url pattern="/question/user/**" access="hasRole('USER')" />
 		
 		<security:intercept-url pattern="/rendezvous/admin/**" access="hasRole('ADMIN')" />
+		
+		<security:intercept-url pattern="/dashboard/admin/**" access="hasRole('ADMIN')" />
+		
+		<security:intercept-url pattern="/configuration/admin/**" access="hasRole('ADMIN')" />
 			
 
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />

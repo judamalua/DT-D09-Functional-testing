@@ -44,6 +44,15 @@ public class CommentUserController extends AbstractController {
 		super();
 	}
 	//Create-----------------------------------------------------------
+
+	/**
+	 * This method returns a ModelAndView object with a new blank comment created by the principal, and
+	 * added to a rendezvous, passed as a param.
+	 * 
+	 * @param rendezvousId
+	 * @return ModelAndView
+	 * @author Antonio
+	 */
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam final int rendezvousId) {
 		ModelAndView result;
@@ -67,6 +76,16 @@ public class CommentUserController extends AbstractController {
 		return result;
 	}
 	//Reply------------------------------------------------------------
+
+	/**
+	 * This method returns a ModelAndView object with a new blank reply of
+	 * a comment passed as a param, and created by the principal.
+	 * 
+	 * 
+	 * @param commentId
+	 * @return ModelAndView
+	 * @author Antonio
+	 */
 	@RequestMapping(value = "/reply", method = RequestMethod.GET)
 	public ModelAndView reply(@RequestParam final int commentId) {
 		ModelAndView result;
@@ -98,6 +117,16 @@ public class CommentUserController extends AbstractController {
 
 	}
 
+	/**
+	 * This method returns a ModelAndView object with the list of replies of a comment,
+	 * after saving a new reply created by the principal
+	 * 
+	 * 
+	 * @param commentReply
+	 *            , binding, commentRepliedId
+	 * @return ModelAndView
+	 * @author Antonio
+	 */
 	@RequestMapping(value = "/reply", method = RequestMethod.POST, params = "save")
 	public ModelAndView reply(@Valid final Comment comment, final BindingResult binding, @RequestParam final int repliedId) {
 		ModelAndView result;
@@ -108,7 +137,7 @@ public class CommentUserController extends AbstractController {
 		replied = this.commentService.findOne(repliedId);
 
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(comment, replied.getId());
+			result = this.replyModelAndView(comment, replied);
 		else
 			try {
 				user = (User) this.actorService.findActorByPrincipal();
@@ -138,6 +167,16 @@ public class CommentUserController extends AbstractController {
 
 	//Edit-----------------------------------------------------------
 
+	/**
+	 * This method returns a ModelAndView object with the list of comments of a rendezvous,
+	 * after saving a new comment created by the principal
+	 * 
+	 * 
+	 * @param comment
+	 *            , binding, rendezvousId
+	 * @return ModelAndView
+	 * @author Antonio
+	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView edit(@Valid final Comment comment, final BindingResult binding, @RequestParam final int rendezvousId) {
 		ModelAndView result;
@@ -184,6 +223,7 @@ public class CommentUserController extends AbstractController {
 		requestURI = "comment/user/edit.do?rendezvousId=" + rendezvousId;
 		result = new ModelAndView("comment/edit");
 		result.addObject("comment", comment);
+		result.addObject("rendezvousId", rendezvousId);
 		result.addObject("message", message);
 		result.addObject("requestURI", requestURI);
 

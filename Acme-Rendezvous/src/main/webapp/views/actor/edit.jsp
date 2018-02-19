@@ -7,11 +7,12 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <!-- Selecting request uri -->
-<jstl:set var="requestURI" value="actor/edit-admin.do"/>
+<jstl:set var="requestURI" value="actor/admin/edit.do"/>
 <security:authorize access="hasRole('USER')">
-	<jstl:set var="requestURI" value="actor/edit-user.do"/>
+	<jstl:set var="requestURI" value="actor/user/edit.do"/>
 </security:authorize>
 
 
@@ -25,57 +26,22 @@
 	</security:authorize>
 	<form:hidden path="userAccount"/>
 	
-	<form:label path="name">
-		<spring:message code="actor.name"/>
-	</form:label>
-	<form:input path="name"/>
-	<form:errors cssClass="error" path="name"/>
+	<p><em><spring:message code = "form.required.params"/></em></p>
 	
+	<acme:textbox code="actor.name" path="name" required = "true"/>
 	
-	<form:label path="surname">
-		<spring:message code="actor.surname"/>
-	</form:label>
-	<form:input path="surname"/>
-	<form:errors cssClass="error" path="surname"/>
+	<acme:textbox code="actor.surname" path="surname" required = "true"/>
 	
+	<acme:textbox code="actor.phoneNumber" path="phoneNumber"/>
 	
-	<form:label path="phoneNumber">
-		<spring:message code="actor.phoneNumber"/>
-	</form:label>
-	<form:input path="phoneNumber"/>
-	<form:errors cssClass="error" path="phoneNumber"/>
+	<acme:textbox code="actor.postalAddress" path="postalAddress"/>
 	
-	<form:label path="postalAddress">
-		<spring:message code="actor.postalAddress"/>
-	</form:label>
-	<form:input path="postalAddress"/>
-	<form:errors cssClass="error" path="postalAddress"/>
+	<acme:textbox code="actor.email" path="email" required = "true"/>
 	
-	<form:label path="email">
-		<spring:message code="actor.email"/>
-	</form:label>
-	<form:input path="email"/>
-	<form:errors cssClass="error" path="email"/>
+	<acme:textbox code="actor.birthDate" path="birthDate" required = "true" placeholder = "dd/MM/yyyy"/>
 	
-	<form:label path="birthDate">
-		<spring:message code="actor.birthDate"/>
-	</form:label>
-	<form:input path="birthDate"/>
-	<form:errors cssClass="error" path="birthDate"/>
+	<acme:submit name="save" code="actor.save"/>
 	
-
-	
-	<input 
-		type="submit"
-		name="save"
-		class = "btn"
-		value="<spring:message code="actor.save" />" />
-		
-	<input 
-		type="button"
-		name="cancel"
-		class = "btn"
-		value="<spring:message code="actor.cancel" />"
-		onclick="javascript: relativeRedir('/');" /> 
+	<acme:cancel url="/" code="actor.cancel"/>
 
 </form:form>

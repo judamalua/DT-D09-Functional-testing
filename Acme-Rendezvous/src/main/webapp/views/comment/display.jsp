@@ -21,17 +21,19 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+<spring:message var="format" code="master.page.moment.format.out"/>
+<spring:message code="master.page.moment.format" var="formatMoment"/>
 <dl>
 	<spring:message code="comment.author" var="commentAuthor"/>
 	<dt><jstl:out value="${commentAuthor}"/></dt>
 	<dd><a href="user/display.do?userId=${user.id}"><jstl:out value="${user.name}"/></a></dd>
 	
 	<spring:message code="comment.moment" var="commentMoment"/>
-	<dt><jstl:out value="${commentMoment}"/></dt>
-	<dd><jstl:out value="${comment.moment}"/></dd>
+	<dt><fmt:formatDate value="${commentText}" pattern="${format}"/> </dt>
+	<dd><fmt:formatDate value="${commentText}" pattern="${format}"/> </dd>
 	
 	<spring:message code="comment.text" var="commentText"/>
-	<dt><jstl:out value="${commentText}"/></dt>
+	<dt><</dt>
 	<dd><jstl:out value="${comment.text}"/></dd>
 	
 	<jstl:if test="${not empty comment.pictureUrl}"> <!-- Solo muestra la imagen si esta existe -->

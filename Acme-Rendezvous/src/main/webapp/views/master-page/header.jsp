@@ -14,7 +14,7 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 
 <div class = "crop">
-	<a href="welcome/index.do"> <img class="banner img-responsive" src="${banner}"
+	<a href="welcome/index.do"> <img class="banner img-responsive" src="https://articles-images.sftcdn.net/wp-content/uploads/sites/2/2014/06/MASTER-IMAGE-Tinder-568x319.jpg"
 		alt="Acme Co., Inc." />
 	</a>
 </div>
@@ -50,11 +50,12 @@
 								code="master.page.admin" /><span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li class="arrow"></li>
+							<li><a href="actor/admin/register.do"><spring:message
+										code="master.page.createAdmin" /></a></li>
 							<li><a href="dashboard/admin/list.do"><spring:message
 										code="master.page.dashboardList" /></a></li>
-							<li><a href="admin/create.do"><spring:message
-										code="master.page.createAdmin" /></a></li>
-							
+							<li><a href="configuration/admin/list.do"><spring:message
+										code="master.page.configuration" /></a></li>
 						</ul>
 						
 								
@@ -64,20 +65,20 @@
 				<security:authorize access="isAnonymous()">
 					<li><a class="fNiv" href="security/login.do"><img src = "images/login.png"/> <spring:message
 								code="master.page.login" /></a></li>
-					<li><a class="fNiv" href="actor/register.do"><img src = "images/envelope.png"/> <spring:message
+					<li><a class="fNiv" href="actor/register.do"><img src = "images/register.png"/> <spring:message
 								code="master.page.registerUser" /></a></li>
-					<li><a class="fNiv" href="rendezvous/list.do?anonymous=true"><img src = "images/envelope.png"/> <spring:message
+					<li><a class="fNiv" href="rendezvous/list.do?anonymous=true"><img src = "images/rendezvouses.png"/> <spring:message
 								code="master.page.rendevouzList" /></a></li>
-					<li><a class="fNiv" href="user/list.do?anonymous=true"><img src = "images/envelope.png"/> <spring:message
+					<li><a class="fNiv" href="user/list.do?anonymous=true"><img src = "images/users.png"/> <spring:message
 								code="master.page.userList" /></a></li>
 								</ul>
 				</security:authorize>
 
 				<security:authorize access="isAuthenticated()">
 
-					<li><a class="fNiv" href="rendezvous/list.do?anonymous=false"><img src = "images/envelope.png"/> <spring:message
+					<li><a class="fNiv" href="rendezvous/list.do?anonymous=false"><img src = "images/rendezvouses.png"/> <spring:message
 								code="master.page.rendevouzList" /></a></li>
-					<li><a class="fNiv" href="user/list.do?anonymous=false"><img src = "images/envelope.png"/> <spring:message
+					<li><a class="fNiv" href="user/list.do?anonymous=false"><img src = "images/users.png"/> <spring:message
 								code="master.page.userList" /></a></li>
 					
 						</ul>

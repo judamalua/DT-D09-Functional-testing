@@ -7,6 +7,9 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+
+<p><em><spring:message code = "form.required.params"/></em></p>
 
 <form:form id = "form" action="actor/register.do" modelAttribute ="user">
 	
@@ -16,80 +19,27 @@
 	<form:hidden path="comments"/>
 	<form:hidden path="userAccount.authorities"/>
 	
+	<acme:textbox code="user.name" path="name" required="true"/>
 	
-	<form:label path="name">
-		<spring:message code="user.name"/>
-	</form:label>
-	<form:input path="name"/>
-	<form:errors cssClass="error" path="name"/>
+	<acme:textbox code="user.surname" path="surname" required="true"/>
 	
+	<acme:textbox code="user.phoneNumber" path="phoneNumber"/>
 	
-	<form:label path="surname">
-		<spring:message code="user.surname"/>
-	</form:label>
-	<form:input path="surname"/>
-	<form:errors cssClass="error" path="surname"/>
+	<acme:textbox code="user.postalAddress" path="postalAddress"/>
 	
+	<acme:textbox code="user.email" path="email" required="true"/>
 	
-	<form:label path="phoneNumber">
-		<spring:message code="user.phoneNumber"/>
-	</form:label>
-	<form:input path="phoneNumber"/>
-	<form:errors cssClass="error" path="phoneNumber"/>
+	<acme:textbox code="user.birthDate" path="birthDate" placeholder="dd/MM/yyyy" required="true"/>
 	
-	<form:label path="postalAddress">
-		<spring:message code="user.postalAddress"/>
-	</form:label>
-	<form:input path="postalAddress"/>
-	<form:errors cssClass="error" path="postalAddress"/>
+	<acme:textbox code="user.username" path="userAccount.username" required="true"/>
 	
-	<form:label path="email">
-		<spring:message code="user.email"/>
-	</form:label>
-	<form:input path="email"/>
-	<form:errors cssClass="error" path="email"/>
+	<acme:password code="user.password" path="userAccount.password" required="true"/>
 	
-	<form:label path="birthDate">
-		<spring:message code="user.birthDate"/>
-	</form:label>
-	<form:input path="birthDate"/>
-	<form:errors cssClass="error" path="birthDate"/>
-	
-	<form:label path="userAccount.username">
-		<spring:message code="user.username"/>
-	</form:label>
-	<form:input path="userAccount.username"/>
-	<form:errors cssClass="error" path="userAccount.username"/>
-	<br/>
-	
-	<form:label path="userAccount.password">
-		<spring:message code="user.password"/>
-	</form:label>
-	<form:password path="userAccount.password"/>
-	<form:errors cssClass="error" path="userAccount.password"/>
-	<br/>
-	
-	<label for = "confirmPassword">
-		<spring:message code="user.confirm.password" />
-	</label>
-	<input type = "password" name="confirmPassword" />
-	<br />
-	
-	
+	<acme:confirmPassword name="confirmPassword" code="user.confirm.password" required = "true"/>
 
 	<div>
-	<input 
-		type="submit"
-		name="save"
-		class = "btn"
-		value="<spring:message code="user.save" />" />
-		
-	<input 
-		type="button"
-		name="cancel"
-		class = "btn"
-		value="<spring:message code="user.cancel" />"
-		onclick="javascript: relativeRedir('user/list.do');" /> 
+	<acme:submit name="save" code="user.save"/>
+	<acme:cancel url="/" code="user.cancel" />
 	</div>
 
 </form:form>

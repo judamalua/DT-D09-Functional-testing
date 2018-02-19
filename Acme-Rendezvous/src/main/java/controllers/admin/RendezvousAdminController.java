@@ -1,5 +1,5 @@
 
-package controllers.administrator;
+package controllers.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,7 +32,7 @@ public class RendezvousAdminController {
 	@RequestMapping(value = "/delete")
 	public ModelAndView delete(@RequestParam final int rendezvousId) {
 		ModelAndView result;
-		final Rendezvous rendezvous;
+		Rendezvous rendezvous;
 
 		try {
 			rendezvous = this.rendezvousService.findOne(rendezvousId);

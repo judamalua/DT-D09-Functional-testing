@@ -76,7 +76,7 @@
 		<property name="name" value="Super" />
 		<property name="surname" value="Super" />
 		<property name="email" value="super@mail.com" />
-		<property name="birthDate" value="1995/10/03 00:00" />
+		<property name="birthDate" value="1995/10/03" />
 		<property name="userAccount" ref="UserAccount1" />
 	</bean>
 	
@@ -84,7 +84,7 @@
 		<property name="name" value="Administrator 1" />
 		<property name="surname" value="Administrator" />
 		<property name="email" value="administrator1@mail.com" />
-		<property name="birthDate" value="1987/04/11 00:00" />
+		<property name="birthDate" value="1987/04/11" />
 		<property name="userAccount" ref="UserAccount2" />
 	</bean>
 	
@@ -93,7 +93,7 @@
 		<property name="name" value="User 1" />
 		<property name="surname" value="User" />
 		<property name="email" value="user1@mail.com" />
-		<property name="birthDate" value="1987/04/11 00:00" />
+		<property name="birthDate" value="1987/04/11" />
 		<property name="phoneNumber" value="635587789"/>
 		<property name="postalAddress" value="San Antion Spurs Street"/>
 		<property name="userAccount" ref="UserAccount3" />
@@ -113,7 +113,7 @@
 		<property name="email" value="user2@mail.com" />
 		<property name="phoneNumber" value="635582389"/>
 		<property name="postalAddress" value="Okklahoma Thunder Street"/>
-		<property name="birthDate" value="1992/07/15 00:00" />
+		<property name="birthDate" value="1992/07/15" />
 		<property name="userAccount" ref="UserAccount4" />
 		<property name="createdRendezvouses">
 			<list>

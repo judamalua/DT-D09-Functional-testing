@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.QuestionRepository;
+import domain.Actor;
 import domain.Answer;
 import domain.Question;
 import domain.Rendezvous;
@@ -145,6 +146,7 @@ public class QuestionService {
 	public void delete(final Question question) {
 		this.actorService.checkUserLogin();
 		Rendezvous rendezvous;
+		Actor actor;
 
 		assert question != null;
 		assert question.getId() != 0;
@@ -152,8 +154,9 @@ public class QuestionService {
 		rendezvous = this.rendezvousService.getRendezvousByQuestion(question.getId());
 
 		Assert.isTrue(this.questionRepository.exists(question.getId()));
-
-		this.checkUserCreatedRendezvousOfQuestion(question);
+		actor = this.actorService.findActorByPrincipal();
+		if (actor instanceof User)
+			this.checkUserCreatedRendezvousOfQuestion(question);
 
 		rendezvous.getQuestions().remove(question);
 
@@ -226,11 +229,12 @@ public class QuestionService {
 	 * 
 	 * @return The standard deviation of the number of answers to the questions per rendezvous.
 	 */
-	public Float getStandardDeviationAnswersPerRendezvous() {
+	public String getStandardDeviationAnswersPerRendezvous() {
 		String[] averageTotalRendezvousesTotalAnswers = {
 			"", "", ""
 		};
-		Float average, totalRendezvouses, totalAnswers, result;
+		Float average, totalRendezvouses, totalAnswers, standardDeviation;
+		String result;
 
 		averageTotalRendezvousesTotalAnswers = this.getAverageAnswersPerRendezvous();
 
@@ -238,7 +242,9 @@ public class QuestionService {
 		totalRendezvouses = new Float(averageTotalRendezvousesTotalAnswers[1]);
 		totalAnswers = new Float(averageTotalRendezvousesTotalAnswers[2]);
 
-		result = (float) ((Math.sqrt(totalAnswers * totalAnswers) / totalRendezvouses) - (average * average));
+		standardDeviation = (float) ((Math.sqrt(totalAnswers * totalAnswers) / totalRendezvouses) - (average * average));
+
+		result = standardDeviation.toString();
 
 		return result;
 	}
