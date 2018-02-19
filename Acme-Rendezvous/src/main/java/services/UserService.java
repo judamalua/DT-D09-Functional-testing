@@ -150,11 +150,21 @@ public class UserService {
 
 			Collection<Comment> comments;
 			Collection<Rendezvous> createdRendezvouses;
+			UserAccount userAccount;
+			Collection<Authority> authorities;
+			Authority authority;
 
 			createdRendezvouses = new HashSet<Rendezvous>();
 			comments = new HashSet<Comment>();
+			userAccount = user.getUserAccount();
+			authorities = new HashSet<Authority>();
+			authority = new Authority();
 
 			result = user;
+
+			authority.setAuthority(Authority.USER);
+			authorities.add(authority);
+			userAccount.setAuthorities(authorities);
 
 			result.setCreatedRendezvouses(createdRendezvouses);
 			result.setComments(comments);

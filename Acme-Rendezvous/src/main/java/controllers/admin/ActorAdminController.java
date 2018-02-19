@@ -10,8 +10,6 @@
 
 package controllers.admin;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -98,10 +96,11 @@ public class ActorAdminController extends AbstractController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST, params = {
 		"save", "confirmPassword"
 	})
-	public ModelAndView registerAdministrator(@ModelAttribute("admin") @Valid final Administrator admin, final BindingResult binding, @RequestParam("confirmPassword") final String confirmPassword) {
+	public ModelAndView registerAdministrator(@ModelAttribute("admin") Administrator admin, final BindingResult binding, @RequestParam("confirmPassword") final String confirmPassword) {
 		ModelAndView result;
 		Authority auth;
 
+		admin = this.administratorService.reconstruct(admin, binding);
 		if (binding.hasErrors())
 			result = this.createEditModelAndViewRegister(admin, "admin.params.error");
 		else

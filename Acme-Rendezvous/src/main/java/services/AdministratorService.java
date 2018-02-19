@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import javax.transaction.Transactional;
 
@@ -12,6 +13,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.AdministratorRepository;
+import security.Authority;
+import security.UserAccount;
 import domain.Administrator;
 
 @Service
@@ -89,9 +92,23 @@ public class AdministratorService {
 	public Administrator reconstruct(final Administrator admin, final BindingResult binding) {
 		Administrator result;
 
-		if (admin.getId() == 0)
+		if (admin.getId() == 0) {
+
+			UserAccount userAccount;
+			Collection<Authority> authorities;
+			Authority authority;
+
+			userAccount = admin.getUserAccount();
+			authorities = new HashSet<Authority>();
+			authority = new Authority();
+
 			result = admin;
-		else {
+
+			authority.setAuthority(Authority.ADMIN);
+			authorities.add(authority);
+			userAccount.setAuthorities(authorities);
+
+		} else {
 			result = this.administratorRepository.findOne(admin.getId());
 
 			result.setName(admin.getName());
