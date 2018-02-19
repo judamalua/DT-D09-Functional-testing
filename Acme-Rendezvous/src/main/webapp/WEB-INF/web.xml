@@ -44,4 +44,16 @@
     <error-code>403</error-code>
     <location>/views/misc/403.jsp</location>
   </error-page>
+  
+  <!-- Security implementation -->
+<!--   <context-param> -->
+<!--           <param-name>contextConfigLocation</param-name> -->
+<!--           <param-value>/WEB-INF/application-security.xml            -->
+<!--           </param-value> -->
+<!--      </context-param> -->
+  
+<!--   <filter-mapping> -->
+<!--     <filter-name>springSecurityFilterChain</filter-name> -->
+<!--     <url-pattern>/*</url-pattern> -->
+<!--   </filter-mapping> -->
 </web-app>
