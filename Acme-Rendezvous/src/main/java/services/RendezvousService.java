@@ -160,6 +160,10 @@ public class RendezvousService {
 		Actor actor;
 
 		actor = this.actorService.findActorByPrincipal();
+
+		if (rendezvous.getAdultOnly())
+			Assert.isTrue(this.actorService.checkUserIsAdult(actor));
+
 		if (actor instanceof User) {
 			user = (User) this.actorService.findActorByPrincipal();
 
