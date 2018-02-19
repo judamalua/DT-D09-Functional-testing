@@ -17,6 +17,15 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+
+<script src="scripts/commentUserAjax.js"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		getCommentUsers();
+		}, false);
+</script>
+
 
 <!-- Variable declaration -->
 <spring:message code="master.page.moment.format" var="formatMoment"/>
@@ -109,7 +118,7 @@
 
 <!-- Displaying comments -->
 
-<display:table name="${rendezvous.comments}" id="comment" requestURI="rendezvous/detailed-rendezvous.do" pagesize="10">
+<!--<display:table name="${rendezvous.comments}" id="comment" requestURI="rendezvous/detailed-rendezvous.do" pagesize="10">
 	<display:column title="${pictureComment}">
 		<jstl:if test="${not empty comment.pictureUrl}">
 			<img src="${comment.pictureUrl}" width="150" height="150">
@@ -118,7 +127,7 @@
 	<display:column property="text" title="${textComment}"/>
 	<display:column property="moment" title="${momentComment}" format="${formatMoment}"/>
 	<display:column title="${repliesComment}">
-		<jstl:if test="${comment.comments != null and fn:length(comment.comments)>0}"> <!-- Comprueba que tenga respuestas -->
+		<jstl:if test="${comment.comments != null and fn:length(comment.comments)>0}">
 			<a href="comment/listFromComment.do?commentId=${comment.id}">
 				<button class="btn">
 					<spring:message code="rendezvous.comment.comments"/>
@@ -139,7 +148,7 @@
 		</a>
 		</display:column>
 	</jstl:if>
-	
+
 	<security:authorize access="hasRole('ADMIN')"> 
 		<display:column>
 			<a href="comment/admin/delete.do?commentId=${comment.id}">
@@ -151,6 +160,13 @@
 	</security:authorize>
 </display:table>	
 <br/>
+-->
+		<jstl:forEach var="comment" items="${rendezvous.comments}">
+			<acme:showComment comment="${comment}" canUserComment="${userHasRVSPdRendezvous}" indent="0"/>
+		</jstl:forEach>
+		<br/>
+
+
 <a href="answer/user/list.do?rendezvousId=${rendezvous.id}">
 	<button class="btn">
 		<spring:message code="rendezvous.answer.list"/>
