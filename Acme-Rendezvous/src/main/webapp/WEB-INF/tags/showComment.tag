@@ -48,4 +48,3 @@
 </details>
 </jstl:if>
 </div>
-
