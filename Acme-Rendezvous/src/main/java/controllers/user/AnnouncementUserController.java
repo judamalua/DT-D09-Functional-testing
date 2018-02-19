@@ -4,8 +4,6 @@ package controllers.user;
 import java.util.Collection;
 import java.util.HashSet;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -109,7 +107,7 @@ public class AnnouncementUserController extends AbstractController {
 			rendezvous = this.rendezvousService.findOne(rendezvousId);
 			announcement = this.announcementService.create();
 			result = this.createEditModelAndView(announcement);
-			Assert.isTrue(!rendezvous.getDeleted());
+
 			Assert.isTrue(user.getCreatedRendezvouses().contains(rendezvous));
 
 			result.addObject("rendezvousId", rendezvousId);
@@ -125,7 +123,7 @@ public class AnnouncementUserController extends AbstractController {
 	// Saving -------------------------------------------------------------------
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@RequestParam final int rendezvousId, @Valid Announcement announcement, final BindingResult binding) {
+	public ModelAndView save(@RequestParam final int rendezvousId, Announcement announcement, final BindingResult binding) {
 		ModelAndView result;
 
 		announcement = this.announcementService.reconstruct(announcement, binding);
@@ -149,10 +147,9 @@ public class AnnouncementUserController extends AbstractController {
 	// Deleting ------------------------------------------------------------------------
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(@RequestParam final int rendezvousId, Announcement announcement, final BindingResult binding) {
+	public ModelAndView delete(@RequestParam final int rendezvousId, final Announcement announcement, final BindingResult binding) {
 		ModelAndView result;
 
-		announcement = this.announcementService.reconstruct(announcement, binding);
 		try {
 			this.announcementService.delete(announcement);
 			result = new ModelAndView("redirect:list.do?rendezvousId=" + rendezvousId);
@@ -170,19 +167,13 @@ public class AnnouncementUserController extends AbstractController {
 
 		Announcement announcement;
 		ModelAndView result;
-		final Rendezvous rendezvous;
-		final User userCreator;
-		final User user;
-
-		user = (User) this.actorService.findActorByPrincipal();
+		final User user = (User) this.actorService.findActorByPrincipal();
 		try {
 			announcement = this.announcementService.findOne(announcementId);			//Checks that the rendezvous is valid
 			Assert.notNull(announcement);
-			rendezvous = this.rendezvousService.getRendezvousByAnnouncement(announcement.getId());
 
-			Assert.isTrue(!rendezvous.getDeleted());
-
-			userCreator = this.userService.getCreatorUser(rendezvous.getId());
+			final Rendezvous rendezvous = this.rendezvousService.getRendezvousByAnnouncement(announcement.getId());
+			final User userCreator = this.userService.getCreatorUser(rendezvous.getId());
 			Assert.isTrue(userCreator.equals(user));
 
 			this.announcementService.delete(announcement);
