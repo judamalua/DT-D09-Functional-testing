@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import security.Authority;
 import services.ActorService;
+import services.AdministratorService;
 import controllers.AbstractController;
 import domain.Administrator;
 
@@ -33,7 +34,9 @@ import domain.Administrator;
 public class ActorAdminController extends AbstractController {
 
 	@Autowired
-	private ActorService	actorService;
+	private ActorService			actorService;
+	@Autowired
+	private AdministratorService	administratorService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -131,18 +134,17 @@ public class ActorAdminController extends AbstractController {
 	 * @return ModelandView
 	 * @author Luis
 	 */
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = {
-		"save"
-	})
-	public ModelAndView updateAdministrator(@ModelAttribute("actor") @Valid final Administrator admin, final BindingResult binding) {
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView updateAdministrator(@ModelAttribute("actor") Administrator admin, final BindingResult binding) {
 		ModelAndView result;
 
+		admin = this.administratorService.reconstruct(admin, binding);
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(admin, "actor.params.error");
 		else
 			try {
 				this.actorService.save(admin);
-				result = new ModelAndView("redirect:/welcome/index.do");
+				result = new ModelAndView("redirect:/actor/display.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(admin, "actor.commit.error");
 			}

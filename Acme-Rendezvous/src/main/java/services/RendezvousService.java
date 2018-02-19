@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.RendezvousRepository;
 import domain.Actor;
@@ -43,6 +45,9 @@ public class RendezvousService {
 	private QuestionService			questionService;
 	@Autowired
 	private CommentService			commentService;
+
+	@Autowired
+	private Validator				validator;
 
 
 	// Simple CRUD methods --------------------------------------------------
@@ -290,6 +295,54 @@ public class RendezvousService {
 			this.save(rendezvous);
 		}
 
+	}
+
+	// Other business methods --------------------------------------------------
+
+	public Rendezvous reconstruct(final Rendezvous rendezvous, final BindingResult binding) {
+		Rendezvous result;
+
+		if (rendezvous.getId() == 0) {
+			User user;
+			Collection<Question> questions;
+			Collection<Rendezvous> similars;
+			Collection<Announcement> announcements;
+			Collection<Comment> comments;
+			Collection<User> users;
+
+			questions = new HashSet<Question>();
+			similars = new HashSet<Rendezvous>();
+			announcements = new HashSet<Announcement>();
+			comments = new HashSet<Comment>();
+			users = new HashSet<User>();
+			user = (User) this.actorService.findActorByPrincipal();
+			users.add(user);
+			result = rendezvous;
+
+			result.setQuestions(questions);
+			result.setAnnouncements(announcements);
+			result.setComments(comments);
+			result.setSimilars(similars);
+			result.setUsers(users);
+		} else {
+			result = this.rendezvousRepository.findOne(rendezvous.getId());
+
+			// Checking that the rendezvous that is trying to be saved
+			Assert.isTrue(!result.getFinalMode());
+
+			result.setName(rendezvous.getName());
+			result.setDescription(rendezvous.getDescription());
+			result.setMoment(rendezvous.getMoment());
+			result.setPictureUrl(rendezvous.getPictureUrl());
+			result.setGpsCoordinates(rendezvous.getGpsCoordinates());
+			result.setFinalMode(rendezvous.getFinalMode());
+			result.setDeleted(rendezvous.getDeleted());
+			result.setAdultOnly(rendezvous.getAdultOnly());
+
+			this.validator.validate(result, binding);
+		}
+
+		return result;
 	}
 	/**
 	 * 
