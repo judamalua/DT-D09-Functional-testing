@@ -144,7 +144,7 @@ public class ActorAdminController extends AbstractController {
 		else
 			try {
 				this.actorService.save(admin);
-				result = new ModelAndView("redirect:/welcome/index.do");
+				result = new ModelAndView("redirect:/actor/display.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(admin, "actor.commit.error");
 			}
