@@ -15,9 +15,6 @@
 	
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
-	<form:hidden path="createdRendezvouses"/>
-	<form:hidden path="comments"/>
-	<form:hidden path="userAccount.authorities"/>
 	
 	<acme:textbox code="user.name" path="name" required="true"/>
 	

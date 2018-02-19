@@ -168,10 +168,11 @@ public class ActorController extends AbstractController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST, params = {
 		"save", "confirmPassword"
 	})
-	public ModelAndView registerUser(@ModelAttribute("user") @Valid final User user, final BindingResult binding, @RequestParam("confirmPassword") final String confirmPassword) {
+	public ModelAndView registerUser(@ModelAttribute("user") User user, final BindingResult binding, @RequestParam("confirmPassword") final String confirmPassword) {
 		ModelAndView result;
 		Authority auth;
 
+		user = this.userService.reconstruct(user, binding);
 		if (binding.hasErrors())
 			result = this.createEditModelAndViewRegister(user, "user.params.error");
 		else
