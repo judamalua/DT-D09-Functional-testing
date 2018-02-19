@@ -156,7 +156,7 @@ public class CommentService {
 		Assert.isTrue(comment.getId() != 0);
 
 		User user;
-		Rendezvous rendezvous;
+		final Rendezvous rendezvous;
 
 		user = this.getUserFromComment(comment);
 		user.getComments().remove(comment);
@@ -166,7 +166,6 @@ public class CommentService {
 		rendezvous.getComments().remove(comment);
 		this.rendezvousService.save(rendezvous);
 
-		this.commentRepository.flush();
 		this.commentRepository.delete(comment);
 
 	}
