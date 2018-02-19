@@ -21,7 +21,9 @@
 <p>${comment.moment}
 <a id="commentUser${comment.id}id" href="#"><i id="commentUser${comment.id}name"></i> <i id="commentUser${comment.id}surname"></i></a>
 </p>
-<img src="${comment.pictureUrl}"/>
+<jstl:if test="${not empty comment.pictureUrl}">
+	<img src="${comment.pictureUrl}" width="150" height="150"/>
+</jstl:if>
 </div>
 <div>
 <jstl:if test="${canUserComment}">
