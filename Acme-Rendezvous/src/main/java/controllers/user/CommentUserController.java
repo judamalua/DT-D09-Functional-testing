@@ -108,7 +108,7 @@ public class CommentUserController extends AbstractController {
 
 			Assert.isTrue(rendezvous.getUsers().contains(user));
 
-			result = this.replyModelAndView(reply, replied);
+			result = this.replyModelAndView(reply, replied, rendezvous);
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/misc/403");
 		}
@@ -136,8 +136,10 @@ public class CommentUserController extends AbstractController {
 
 		replied = this.commentService.findOne(repliedId);
 
+		rendezvous = this.rendezvousService.getRendezvousByCommentary(replied.getId());
+
 		if (binding.hasErrors())
-			result = this.replyModelAndView(comment, replied);
+			result = this.replyModelAndView(comment, replied, rendezvous);
 		else
 			try {
 				user = (User) this.actorService.findActorByPrincipal();
@@ -160,7 +162,7 @@ public class CommentUserController extends AbstractController {
 
 				result = new ModelAndView("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvous.getId() + "&anonymous=false");
 			} catch (final Throwable oops) {
-				result = this.replyModelAndView(comment, replied, "comment.commit.error");
+				result = this.replyModelAndView(comment, replied, rendezvous, "comment.commit.error");
 			}
 		return result;
 	}
@@ -232,14 +234,14 @@ public class CommentUserController extends AbstractController {
 	}
 
 	//Ancilliary methods for replying a comment-------------------------------------------
-	private ModelAndView replyModelAndView(final Comment reply, final Comment replied) {
+	private ModelAndView replyModelAndView(final Comment reply, final Comment replied, final Rendezvous rendezvous) {
 		ModelAndView result;
 
-		result = this.replyModelAndView(reply, replied, null);
+		result = this.replyModelAndView(reply, replied, rendezvous, null);
 
 		return result;
 	}
-	private ModelAndView replyModelAndView(final Comment reply, final Comment replied, final String message) {
+	private ModelAndView replyModelAndView(final Comment reply, final Comment replied, final Rendezvous rendezvous, final String message) {
 		ModelAndView result;
 		String requestURI;
 
@@ -249,6 +251,7 @@ public class CommentUserController extends AbstractController {
 		result.addObject("requestURI", requestURI);
 		result.addObject("replied", replied);
 		result.addObject("message", message);
+		result.addObject("rendezvous", rendezvous);
 
 		return result;
 	}
