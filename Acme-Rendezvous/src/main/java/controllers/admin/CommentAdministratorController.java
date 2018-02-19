@@ -44,6 +44,7 @@ public class CommentAdministratorController extends AbstractController {
 	public ModelAndView deleteComment(@RequestParam final int commentId) {
 		ModelAndView result;
 		Comment comment, father;
+		final Comment reply;
 		Rendezvous rendezvous;
 
 		comment = this.commentService.findOne(commentId);
@@ -55,14 +56,28 @@ public class CommentAdministratorController extends AbstractController {
 
 			if (rendezvous != null)
 				result = new ModelAndView("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvous.getId() + "&anonymous=false");
-			else
-				result = new ModelAndView("redirect:/comment/listFromComment.do?commentId=" + father.getId());
+			else {
+				rendezvous = this.rendezvousService.getRendezvousByCommentary(father.getId());
+				while (rendezvous == null) {
+					father = this.commentService.getFatherCommentFromReply(father);
+					rendezvous = this.rendezvousService.getRendezvousByCommentary(father.getId());
+				}
+
+				result = new ModelAndView("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvous.getId() + "&anonymous=false");
+			}
+
 		} catch (final Throwable oops) {
 			if (rendezvous != null)
 				result = new ModelAndView("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvous.getId() + "&anonymous=false");
 			else if (comment != null) {
-				father = this.commentService.getFatherCommentFromReply(comment);
-				result = new ModelAndView("redirect:/comment/listFromComment.do?commentId=" + father.getId());
+				rendezvous = this.rendezvousService.getRendezvousByCommentary(father.getId());
+				while (rendezvous == null) {
+					father = this.commentService.getFatherCommentFromReply(father);
+					rendezvous = this.rendezvousService.getRendezvousByCommentary(father.getId());
+				}
+
+				result = new ModelAndView("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvous.getId() + "&anonymous=false");
+
 			} else
 				result = new ModelAndView("redirect:/misc/403");
 		}
