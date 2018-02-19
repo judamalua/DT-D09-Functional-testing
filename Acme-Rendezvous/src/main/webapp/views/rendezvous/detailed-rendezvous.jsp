@@ -105,7 +105,7 @@
 <!-- Comments -->
 <h4><spring:message code="rendezvous.comment.list"/></h4>
 <!-- Button to create a comment -->
-<jstl:if test="${!anonymous && userHasRVSPdRendezvous}">
+<jstl:if test="${!anonymous && userHasRVSPdRendezvous and !rendezvous.deleted}">
 	<br/>
 	<a href="comment/user/create.do?rendezvousId=${rendezvous.id}">
 		<button class="btn">
@@ -165,7 +165,7 @@
 <br/>
   -->
 <!-- Link to attendants -->
-<jstl:if test="${rendezvous.finalMode}">
+<jstl:if test="${rendezvous.finalMode and !rendezvous.deleted}">
 	<a href="answer/user/list.do?rendezvousId=${rendezvous.id}">
 		<button class="btn">
 			<spring:message code="rendezvous.answer.list"/>
@@ -173,7 +173,7 @@
 	</a>
 </jstl:if>
 <security:authorize access="hasRole('USER')">
-<jstl:if test="${userHasCreatedRendezvous}">
+<jstl:if test="${userHasCreatedRendezvous and !rendezvous.deleted}">
 	<br/>
 	<!-- Link to questions -->
 	<a href="question/user/list.do?rendezvousId=${rendezvous.id}">

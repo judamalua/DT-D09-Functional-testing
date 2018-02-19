@@ -242,7 +242,7 @@ public class CommentService {
 
 			result.setText(comment.getText());
 			result.setPictureUrl(comment.getPictureUrl());
-			result.setMoment(new Date());
+			result.setMoment(comment.getMoment());
 
 			this.validator.validate(result, binding);
 		}
