@@ -44,7 +44,7 @@ public class AnnouncementService {
 		Announcement result;
 
 		result = new Announcement();
-		result.setMoment(new Date(System.currentTimeMillis() + 10));
+		result.setMoment(new Date(System.currentTimeMillis() - 1000));
 
 		return result;
 	}
@@ -77,7 +77,7 @@ public class AnnouncementService {
 
 		if (announcement.getVersion() == 0)
 			//The announcement moment is actual when the announcement is created 
-			announcement.setMoment(new Date(System.currentTimeMillis() + 10));
+			announcement.setMoment(new Date(System.currentTimeMillis() - 1000));
 		//Rendezvous rend = rendezvousService.getRendezvousByAnnouncement(announcement.getId());
 		Announcement result;
 
@@ -128,7 +128,7 @@ public class AnnouncementService {
 			result = this.announcementRepository.findOne(announcement.getId());
 			result.setDescription(announcement.getDescription());
 			result.setTitle(announcement.getTitle());
-			result.setMoment(new Date());
+			result.setMoment(announcement.getMoment());
 
 			this.validator.validate(result, binding);
 		}

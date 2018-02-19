@@ -2,10 +2,7 @@
 package controllers.user;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,16 +13,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import security.Authority;
 import services.ActorService;
-import services.ConfigurationService;
 import services.AnnouncementService;
+import services.ConfigurationService;
 import services.RendezvousService;
 import services.UserService;
 import controllers.AbstractController;
 import domain.Announcement;
-import domain.Answer;
-import domain.Question;
 import domain.Rendezvous;
 import domain.User;
 
@@ -36,7 +30,7 @@ public class AnnouncementUserController extends AbstractController {
 	// Services -------------------------------------------------------
 
 	@Autowired
-	AnnouncementService			announcementService;
+	AnnouncementService		announcementService;
 	@Autowired
 	ActorService			actorService;
 	@Autowired
@@ -44,8 +38,7 @@ public class AnnouncementUserController extends AbstractController {
 	@Autowired
 	ConfigurationService	configurationService;
 	@Autowired
-	UserService			userService;
-	
+	UserService				userService;
 
 
 	// Listing ----------------------------------------------------
@@ -53,7 +46,7 @@ public class AnnouncementUserController extends AbstractController {
 	@RequestMapping(value = "/list")
 	public ModelAndView list() {
 		ModelAndView result;
-		Collection<Announcement> announcements = new HashSet<Announcement>();
+		final Collection<Announcement> announcements = new HashSet<Announcement>();
 		Collection<Rendezvous> rendezvouses;
 		User user;
 		try {
@@ -61,10 +54,9 @@ public class AnnouncementUserController extends AbstractController {
 			result = new ModelAndView("announcement/list");
 			user = (User) this.actorService.findActorByPrincipal();
 			rendezvouses = user.getCreatedRendezvouses();
-		
-			for (Rendezvous rd : rendezvouses){
-			announcements.addAll(rd.getAnnouncements());
-			}
+
+			for (final Rendezvous rd : rendezvouses)
+				announcements.addAll(rd.getAnnouncements());
 
 			result.addObject("announcements", announcements);
 		} catch (final Throwable oops) {
@@ -86,12 +78,11 @@ public class AnnouncementUserController extends AbstractController {
 			announcement = this.announcementService.findOne(announcementId);
 			Assert.notNull(announcement);
 			rendezvousId = this.rendezvousService.getRendezvousByAnnouncement(announcementId).getId();
-			
+
 			//Check the user rspv that rendezvous.
 			//TODO: Make a global method for all classes for this purpose
-			User user = (User) actorService.findActorByPrincipal();
+			final User user = (User) this.actorService.findActorByPrincipal();
 			this.rendezvousService.getRendezvousByAnnouncement(announcementId).getUsers().contains(user);
-			
 
 			result = this.createEditModelAndView(announcement);
 			result.addObject("rendezvousId", rendezvousId);
@@ -132,15 +123,16 @@ public class AnnouncementUserController extends AbstractController {
 	// Saving -------------------------------------------------------------------
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@RequestParam final int rendezvousId, @Valid final Announcement announcement, final BindingResult binding) {
+	public ModelAndView save(@RequestParam final int rendezvousId, Announcement announcement, final BindingResult binding) {
 		ModelAndView result;
-		
+
+		announcement = this.announcementService.reconstruct(announcement, binding);
 		if (binding.hasErrors()) {
 			result = this.createEditModelAndView(announcement, "announcement.params.error");
 			result.addObject("rendezvousId", rendezvousId);
 		} else
 			try {
-				
+
 				this.announcementService.save(announcement, rendezvousId);
 				result = new ModelAndView("redirect:list.do?rendezvousId=" + rendezvousId);
 
@@ -169,24 +161,22 @@ public class AnnouncementUserController extends AbstractController {
 
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public ModelAndView delete(@RequestParam("announcementId") final int announcementId) {
-		
+
 		Announcement announcement;
 		ModelAndView result;
 		final User user = (User) this.actorService.findActorByPrincipal();
 		try {
 			announcement = this.announcementService.findOne(announcementId);			//Checks that the rendezvous is valid
 			Assert.notNull(announcement);
-			
+
 			final Rendezvous rendezvous = this.rendezvousService.getRendezvousByAnnouncement(announcement.getId());
 			final User userCreator = this.userService.getCreatorUser(rendezvous.getId());
 			Assert.isTrue(userCreator.equals(user));
 
-
-			
-			announcementService.delete(announcement);
+			this.announcementService.delete(announcement);
 			result = new ModelAndView("redirect:/announcement/user/list.do");
 		} catch (final Throwable oops) {
 			//If any error is made during whole process, it will make the user go to the 403 page

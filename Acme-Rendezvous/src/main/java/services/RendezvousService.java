@@ -311,7 +311,7 @@ public class RendezvousService {
 			Collection<User> users;
 
 			questions = new HashSet<Question>();
-			similars = new HashSet<Rendezvous>();
+			similars = rendezvous.getSimilars();
 			announcements = new HashSet<Announcement>();
 			comments = new HashSet<Comment>();
 			users = new HashSet<User>();
