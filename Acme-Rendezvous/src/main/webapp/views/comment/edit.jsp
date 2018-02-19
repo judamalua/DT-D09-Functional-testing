@@ -34,7 +34,7 @@
 
 	<acme:submit name="save" code="comment.save"/>
 	<jstl:if test="${replied!=null}">
-		<acme:cancel url="comment/listFromComment.do?commentId=${replied.id}" code="comment.cancel"/>
+		<acme:cancel url="rendezvous/detailed-rendezvous.do?rendezvousId=${rendezvous.id}&anonymous=false" code="comment.cancel"/>
 	</jstl:if>
 	<jstl:if test="${replied==null}">
 		<acme:cancel url="rendezvous/detailed-rendezvous.do?rendezvousId=${rendezvousId}&anonymous=false" code="comment.cancel"/>
