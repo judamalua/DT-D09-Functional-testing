@@ -20,11 +20,11 @@
 	
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
-	<security:authorize access="hasRole('USER')">
+	<%-- <security:authorize access="hasRole('USER')">
 		<form:hidden path="createdRendezvouses"/>
 		<form:hidden path="comments"/>
 	</security:authorize>
-	<form:hidden path="userAccount"/>
+	<form:hidden path="userAccount"/> --%>
 	
 	<p><em><spring:message code = "form.required.params"/></em></p>
 	

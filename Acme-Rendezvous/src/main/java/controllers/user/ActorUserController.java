@@ -10,8 +10,6 @@
 
 package controllers.user;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -22,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
+import services.UserService;
 import controllers.AbstractController;
 import domain.User;
 
@@ -31,6 +30,8 @@ public class ActorUserController extends AbstractController {
 
 	@Autowired
 	private ActorService	actorService;
+	@Autowired
+	private UserService		userService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -68,15 +69,16 @@ public class ActorUserController extends AbstractController {
 	 * @author Luis
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView updateUser(@ModelAttribute("actor") @Valid final User user, final BindingResult binding) {
+	public ModelAndView updateUser(@ModelAttribute("actor") User user, final BindingResult binding) {
 		ModelAndView result;
 
+		user = this.userService.reconstruct(user, binding);
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(user, "user.params.error");
 		else
 			try {
 				this.actorService.save(user);
-				result = new ModelAndView("redirect:/welcome/index.do");
+				result = new ModelAndView("redirect:/user/display.do?anonymous=false");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(user, "user.commit.error");
 			}

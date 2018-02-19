@@ -12,8 +12,6 @@ package controllers.user;
 
 import java.util.Collection;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -117,10 +115,15 @@ public class RendezvousUserController extends AbstractController {
 	// Saving ---------------------------------------------------------------		
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final Rendezvous rendezvous, final BindingResult binding) {
+	public ModelAndView save(Rendezvous rendezvous, final BindingResult binding) {
 		ModelAndView result;
 		User user;
 
+		try {
+			rendezvous = this.rendezvousService.reconstruct(rendezvous, binding);
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/misc/403");
+		}
 		rendezvous.getSimilars().remove(null);
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(rendezvous, "rendezvous.params.error");
@@ -140,9 +143,10 @@ public class RendezvousUserController extends AbstractController {
 	// Deleting ---------------------------------------------------------------		
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(@Valid final Rendezvous rendezvous, final BindingResult binding) {
+	public ModelAndView delete(Rendezvous rendezvous, final BindingResult binding) {
 		ModelAndView result;
 
+		rendezvous = this.rendezvousService.reconstruct(rendezvous, binding);
 		try {
 			this.rendezvousService.delete(rendezvous);
 			result = new ModelAndView("redirect:list.do");

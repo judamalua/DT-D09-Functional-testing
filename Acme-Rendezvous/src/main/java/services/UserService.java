@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.UserRepository;
 import security.Authority;
@@ -28,8 +30,11 @@ public class UserService {
 	@Autowired
 	private UserRepository	userRepository;
 
-
 	// Supporting services --------------------------------------------------
+
+	@Autowired
+	private Validator		validator;
+
 
 	// Simple CRUD methods --------------------------------------------------
 
@@ -134,6 +139,40 @@ public class UserService {
 
 		this.userRepository.delete(user);
 
+	}
+
+	// Other business methods ----------------------------------------------------------------
+
+	public User reconstruct(final User user, final BindingResult binding) {
+		User result;
+
+		if (user.getId() == 0) {
+
+			Collection<Comment> comments;
+			Collection<Rendezvous> createdRendezvouses;
+
+			createdRendezvouses = new HashSet<Rendezvous>();
+			comments = new HashSet<Comment>();
+
+			result = user;
+
+			result.setCreatedRendezvouses(createdRendezvouses);
+			result.setComments(comments);
+
+		} else {
+			result = this.userRepository.findOne(user.getId());
+
+			result.setName(user.getName());
+			result.setSurname(user.getSurname());
+			result.setPostalAddress(user.getPostalAddress());
+			result.setPhoneNumber(user.getPhoneNumber());
+			result.setEmail(user.getEmail());
+			result.setBirthDate(user.getBirthDate());
+
+			this.validator.validate(result, binding);
+		}
+
+		return result;
 	}
 
 	/**
