@@ -36,7 +36,7 @@
 	<acme:textarea code="rendezvous.description" path="description" required="true"/>
 	<acme:textbox code="rendezvous.moment" path="moment" required="true" placeholder="${momentPlaceholder}"/>
 	<acme:textbox code="rendezvous.pictureUrl" path="pictureUrl"/>
-	<acme:textbox code="rendezvous.gpsCoordinates" path="gpsCoordinates" placeholder="${gpsPlaceholder}"/>
+	<acme:textbox code="rendezvous.gpsCoordinates" path="gpsCoordinates" placeholder="${gpsPlaceholder}" required = "true"/>
 	<acme:select code="rendezvous.similars" path="similars" items="${rendezvouses}" itemLabel="name" multiple="true"/>
 	<acme:checkbox code="rendezvous.finalMode" path="finalMode"/>	
 	<acme:checkbox code="rendezvous.adultOnly" path="adultOnly"/>

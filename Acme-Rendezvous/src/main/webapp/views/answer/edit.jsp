@@ -5,6 +5,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <spring:message var="inputError" code="answer.input.error"/>
 <form action="answer/user/edit.do" method="post">
@@ -17,5 +18,5 @@
 	<br>
 	<p class="error"/><spring:message code="${messageCode}"/><p>
 	<br>
-	<input type="submit" name="save" class="btn" value="<spring:message code="answer.save"/>">
+	<acme:submit name="save" code="answer.save"/>
 </form>
