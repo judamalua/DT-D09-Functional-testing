@@ -147,6 +147,26 @@ public class CommentService {
 		}
 
 		this.commentRepository.delete(comment);
+		this.commentRepository.flush();
+
+	}
+
+	public void deleteCommentFromRendezvous(final Comment comment) {
+		Assert.notNull(comment);
+		Assert.isTrue(comment.getId() != 0);
+
+		User user;
+		final Rendezvous rendezvous;
+
+		user = this.getUserFromComment(comment);
+		user.getComments().remove(comment);
+		this.actorService.save(user);
+
+		rendezvous = this.rendezvousService.getRendezvousByCommentary(comment.getId());
+		rendezvous.getComments().remove(comment);
+		this.rendezvousService.save(rendezvous);
+
+		this.commentRepository.delete(comment);
 
 	}
 	//Queries ----------------------------------------------
