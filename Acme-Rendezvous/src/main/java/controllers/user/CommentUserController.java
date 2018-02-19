@@ -158,7 +158,7 @@ public class CommentUserController extends AbstractController {
 				user.getComments().add(saved);
 				this.userService.save(user);
 
-				result = new ModelAndView("redirect:/comment/listFromComment.do?commentId=" + replied.getId());
+				result = new ModelAndView("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvous.getId() + "&anonymous=false");
 			} catch (final Throwable oops) {
 				result = this.replyModelAndView(comment, replied, "comment.commit.error");
 			}

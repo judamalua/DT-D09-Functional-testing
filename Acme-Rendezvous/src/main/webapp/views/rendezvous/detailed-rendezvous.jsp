@@ -17,6 +17,14 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+
+<script src="scripts/commentUserAjax.js"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+	getCommentUsers();
+	}, false);
+</script>
 
 <!-- Variable declaration -->
 <spring:message code="master.page.moment.format" var="formatMoment"/>
@@ -108,7 +116,11 @@
 </jstl:if>
 
 <!-- Displaying comments -->
-
+<jstl:forEach var="comment" items="${rendezvous.comments}">
+ 	<acme:showComment comment="${comment}" canUserComment="${userHasRVSPdRendezvous}" indent="0"/>
+</jstl:forEach>
+<br/>
+<!--
 <display:table name="${rendezvous.comments}" id="comment" requestURI="rendezvous/detailed-rendezvous.do" pagesize="10">
 	<display:column title="${pictureComment}">
 		<jstl:if test="${not empty comment.pictureUrl}">
@@ -118,7 +130,7 @@
 	<display:column property="text" title="${textComment}"/>
 	<display:column property="moment" title="${momentComment}" format="${formatMoment}"/>
 	<display:column title="${repliesComment}">
-		<jstl:if test="${comment.comments != null and fn:length(comment.comments)>0}"> <!-- Comprueba que tenga respuestas -->
+		<jstl:if test="${comment.comments != null and fn:length(comment.comments)>0}">
 			<a href="comment/listFromComment.do?commentId=${comment.id}">
 				<button class="btn">
 					<spring:message code="rendezvous.comment.comments"/>
@@ -151,7 +163,7 @@
 	</security:authorize>
 </display:table>	
 <br/>
-
+  -->
 <!-- Link to attendants -->
 <jstl:if test="${rendezvous.finalMode}">
 	<a href="answer/user/list.do?rendezvousId=${rendezvous.id}">

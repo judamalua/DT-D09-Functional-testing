@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -276,8 +277,8 @@ public class RendezvousService {
 				this.questionService.delete(question);
 
 			// Deleting Comments of the Rendezvous that is about to be deleted
-			for (final Comment comment : new HashSet<Comment>(rendezvous.getComments()))
-				this.commentService.delete(comment);
+			for (final Comment comment : new ArrayList<Comment>(rendezvous.getComments()))
+				this.commentService.deleteCommentFromRendezvous(comment);
 
 			user.getCreatedRendezvouses().remove(rendezvous); // Deleting rendezvous from user list when an admin deletes a Rendezvous
 			this.actorService.save(user);

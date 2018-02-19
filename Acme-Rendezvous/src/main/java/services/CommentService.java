@@ -149,6 +149,31 @@ public class CommentService {
 		this.commentRepository.delete(comment);
 
 	}
+
+	/**
+	 * This method deletes a comment passed as a param. It's only useful when deleting a rendezvous.
+	 * 
+	 * @param comment
+	 * @author Antonio
+	 */
+	public void deleteCommentFromRendezvous(final Comment comment) {
+		Assert.notNull(comment);
+		Assert.isTrue(comment.getId() != 0);
+
+		User user;
+		Rendezvous rendezvous;
+
+		user = this.getUserFromComment(comment);
+		user.getComments().remove(comment);
+		this.actorService.save(user);
+
+		rendezvous = this.rendezvousService.getRendezvousByCommentary(comment.getId());
+		rendezvous.getComments().remove(comment);
+		this.rendezvousService.save(rendezvous);
+
+		this.commentRepository.delete(comment);
+
+	}
 	//Queries ----------------------------------------------
 	/**
 	 * This method returns the user that wrote a comment, passed as a param.
@@ -158,8 +183,6 @@ public class CommentService {
 	 * @author Antonio
 	 */
 	public User getUserFromComment(final Comment comment) {
-		Assert.isTrue(comment.getId() != 0);
-
 		User result;
 
 		result = this.commentRepository.getUserFromComment(comment);
@@ -175,8 +198,6 @@ public class CommentService {
 	 * @author Antonio
 	 */
 	public Comment getFatherCommentFromReply(final Comment reply) {
-		Assert.isTrue(reply.getId() != 0);
-
 		Comment result;
 
 		result = this.commentRepository.getFatherCommentFromReply(reply);
