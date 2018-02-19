@@ -9,6 +9,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.AnnouncementRepository;
 import security.Authority;
@@ -30,6 +32,8 @@ public class AnnouncementService {
 	private UserService				userService;
 	@Autowired
 	private ActorService			actorService;
+	@Autowired
+	private Validator				validator;
 
 
 	// Supporting services --------------------------------------------------
@@ -113,5 +117,21 @@ public class AnnouncementService {
 
 		this.announcementRepository.delete(announcement);
 
+	}
+
+	public Announcement reconstruct(final Announcement announcement, final BindingResult binding) {
+		Announcement result;
+
+		if (announcement.getId() == 0)
+			result = announcement;
+		else {
+			result = this.announcementRepository.findOne(announcement.getId());
+			result.setDescription(announcement.getDescription());
+			result.setTitle(announcement.getTitle());
+			result.setMoment(new Date());
+
+			this.validator.validate(result, binding);
+		}
+		return result;
 	}
 }

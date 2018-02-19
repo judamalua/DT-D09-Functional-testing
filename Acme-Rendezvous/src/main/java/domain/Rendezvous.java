@@ -19,6 +19,7 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -42,6 +43,7 @@ public class Rendezvous extends DomainEntity {
 	private boolean	adultOnly;
 
 
+	@SafeHtml
 	@NotBlank
 	public String getName() {
 		return this.name;
@@ -51,6 +53,7 @@ public class Rendezvous extends DomainEntity {
 		this.name = name;
 	}
 
+	@SafeHtml
 	@NotBlank
 	public String getDescription() {
 		return this.description;
@@ -71,6 +74,7 @@ public class Rendezvous extends DomainEntity {
 		this.moment = moment;
 	}
 
+	@SafeHtml
 	@URL
 	public String getPictureUrl() {
 		return this.pictureUrl;
@@ -80,6 +84,7 @@ public class Rendezvous extends DomainEntity {
 		this.pictureUrl = pictureUrl;
 	}
 
+	@SafeHtml
 	@NotBlank
 	@Pattern(regexp = "^(\\-?\\d+(\\.\\d+)?),\\w*(\\-?\\d+(\\.\\d+)?)$")
 	public String getGpsCoordinates() {
