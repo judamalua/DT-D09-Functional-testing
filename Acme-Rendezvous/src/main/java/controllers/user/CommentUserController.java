@@ -101,14 +101,13 @@ public class CommentUserController extends AbstractController {
 
 			//This code and the assert below cheks that only an user that RVSPd the rendezvous can reply to its comments.
 			rendezvous = this.rendezvousService.getRendezvousByCommentary(replied.getId());
-			Assert.isTrue(!rendezvous.getDeleted());
 			fatherComment = replied;
 			while (rendezvous == null) {
 				fatherComment = this.commentService.getFatherCommentFromReply(fatherComment);
 				rendezvous = this.rendezvousService.getRendezvousByCommentary(fatherComment.getId());
 			}
-
 			Assert.isTrue(rendezvous.getUsers().contains(user));
+			Assert.isTrue(!rendezvous.getDeleted());
 
 			result = this.replyModelAndView(reply, replied, rendezvous);
 		} catch (final Throwable oops) {
