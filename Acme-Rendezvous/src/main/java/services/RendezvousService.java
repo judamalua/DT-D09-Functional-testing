@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -595,18 +596,14 @@ public class RendezvousService {
 	 * @author Juanmi
 	 */
 	public Collection<Rendezvous> getTopTenRendezvouses() {
-		Collection<Rendezvous> allRendezvouses;
-		final Collection<Rendezvous> result = new HashSet<Rendezvous>();
+		Page<Rendezvous> allRendezvouses;
+		Collection<Rendezvous> result = new HashSet<Rendezvous>();
+		Pageable pageable;
 
-		allRendezvouses = this.rendezvousRepository.getTopRendezvouses();
+		pageable = new PageRequest(0, 10);
+		allRendezvouses = this.rendezvousRepository.getTopRendezvouses(pageable);
 
-		if (allRendezvouses.size() > 10) {
-			for (final Rendezvous rendezvous : allRendezvouses)
-				if (result.size() < 10)
-					result.add(rendezvous);
-
-		} else
-			result.addAll(allRendezvouses);
+		result = allRendezvouses.getContent();
 
 		return result;
 	}

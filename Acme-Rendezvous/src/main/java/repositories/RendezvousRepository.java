@@ -62,7 +62,7 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	 * @author Juanmi
 	 */
 	@Query("select r from Rendezvous r order by r.users.size desc")
-	Collection<Rendezvous> getTopRendezvouses();
+	Page<Rendezvous> getTopRendezvouses(Pageable page);
 
 	/**
 	 * Level B query 1
@@ -79,7 +79,7 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	 * @return The rendezvouses whose number of announcements is above 75% the average number of announcements per rendezvous.
 	 * @author Juanmi
 	 */
-	@Query("select r from Rendezvous r where r.announcements.size >= (select avg(re.announcements.size)*0.75 from Rendezvous re)")
+	@Query("select r from Rendezvous r where r.announcements.size > (select avg(re.announcements.size)*0.75 from Rendezvous re)")
 	Collection<Rendezvous> getRendezvousesWithAnnouncementAboveSeventyFivePercent();
 
 	/**
@@ -88,7 +88,7 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	 * @return The rendezvouses that are linked to a number of rendezvouses that is greater than the average plus 10%.
 	 * @author Juanmi
 	 */
-	@Query("select r from Rendezvous r where r.similars.size >= (select avg(re.similars.size)+(avg(re.similars.size)*0.1) from Rendezvous re)")
+	@Query("select r from Rendezvous r where r.similars.size > (select avg(re.similars.size)+(avg(re.similars.size)*0.1) from Rendezvous re)")
 	Collection<Rendezvous> getRendezvousesMostLinked();
 
 	/**
