@@ -9,6 +9,8 @@
  * TDG Licence, a copy of which you may download from 
  * http://www.tdg-seville.info/License.html
  -->
+ 
+
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
@@ -124,5 +126,8 @@
 		<property name="viewClass"
 			value="org.springframework.web.servlet.view.tiles2.TilesView" />
 	</bean>
+	
+	
+	
 
 </beans>
