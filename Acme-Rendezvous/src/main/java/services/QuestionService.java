@@ -113,7 +113,6 @@ public class QuestionService {
 		Question result;
 		User user;
 
-		Collection<Answer> answers;
 		Assert.isTrue(!rendezvous.getFinalMode());
 
 		user = (User) this.actorService.findActorByPrincipal();
@@ -121,18 +120,9 @@ public class QuestionService {
 		// We check that the rendezvous that is going to be saved is contained in the principal's created rendezvouses
 		Assert.isTrue(user.getCreatedRendezvouses().contains(rendezvous));
 
-		if (question.getId() != 0)
-			answers = this.answerService.getAnswersByQuestionId(question.getId());
-		else
-			answers = new HashSet<Answer>();
-
-		answers = new HashSet<Answer>();
-
 		result = this.questionRepository.save(question);
-		if (!answers.isEmpty())
-			// Updating questions of the answers the the question is saved.
-			for (final Answer a : answers)
-				a.setQuestion(result);
+
+		// Updating answers is not necessary because there is no way to reach this method if the questions have already some answers
 
 		// Updating rendezvous 
 		if (rendezvous.getQuestions().contains(question))
@@ -177,6 +167,44 @@ public class QuestionService {
 	// Other business methods --------------------------------------------------------
 
 	/**
+	 * This method reconstructs a pruned Question object received by paramenters
+	 * 
+	 * @param question
+	 * @param binding
+	 * @return reconstructed Question
+	 * 
+	 * @author Manu
+	 */
+	public Question reconstruct(final Question question, final BindingResult binding) {
+
+		Question result;
+		Rendezvous rendezvous;
+		User user;
+		Collection<Answer> answers;
+
+		if (question.getId() == 0) {
+			answers = new HashSet<Answer>();
+
+			result = question;
+
+			result.setAnswers(answers);
+		} else {
+			user = (User) this.actorService.findActorByPrincipal();
+			rendezvous = this.rendezvousService.getRendezvousByQuestion(question.getId());
+			Assert.isTrue(!rendezvous.getDeleted());
+			Assert.isTrue(!rendezvous.getFinalMode());
+			Assert.isTrue(!rendezvous.getAdultOnly() || this.actorService.checkUserIsAdult(user));
+
+			result = this.questionRepository.findOne(question.getId());
+
+			result.setAnswers(new HashSet<Answer>());
+			result.setText(question.getText());
+		}
+		this.validator.validate(result, binding);
+		return result;
+	}
+
+	/**
 	 * This method checks if the Rendezvous that contains the question in parameters is contained in the created Rendezvouses of the principal
 	 * 
 	 * @param question
@@ -196,82 +224,19 @@ public class QuestionService {
 	// Dashboard queries.
 
 	/**
-	 * Level A query 2 part 1/2
+	 * Level A query 2
 	 * 
-	 * @return The average of the number of answers to the questions per rendezvous as the first element of the array, total rendezvouses as the second element, and total answers as the third one.
+	 * @return The average and the standard deviation of the number of answers to the questions per rendezvous.
 	 * @author Juanmi
 	 */
-	public String[] getAverageAnswersPerRendezvous() {
-		final String[] result = {
-			"", "", ""
-		};
-		Float average;
-		Collection<Rendezvous> allRendezvouses;
-
-		Collection<Answer> allAnswers;
-
-		allRendezvouses = this.rendezvousService.findAll();
-		allAnswers = this.answerService.findAll();
-
-		average = new Float(allAnswers.size()) / new Float(allRendezvouses.size());
-
-		result[0] = average.toString();
-		result[1] = new Integer(allRendezvouses.size()).toString();
-		result[2] = new Integer(allAnswers.size()).toString();
-
-		return result;
-	}
-
-	//sqrt(sum(q.answers.size * q.answers.size) / count(q.answers.size) - (avg(q.answers.size) * avg(q.answers.size)))
-	/**
-	 * Level A query 2 part 2/2
-	 * 
-	 * @return The standard deviation of the number of answers to the questions per rendezvous.
-	 */
-	public String getStandardDeviationAnswersPerRendezvous() {
-		String[] averageTotalRendezvousesTotalAnswers = {
-			"", "", ""
-		};
-		Float average, totalRendezvouses, totalAnswers, standardDeviation;
+	public String getAnswersInfoFromQuestion() {
 		String result;
 
-		averageTotalRendezvousesTotalAnswers = this.getAverageAnswersPerRendezvous();
+		result = this.questionRepository.getAnswersInfoFromQuestion();
 
-		average = new Float(averageTotalRendezvousesTotalAnswers[0]);
-		totalRendezvouses = new Float(averageTotalRendezvousesTotalAnswers[1]);
-		totalAnswers = new Float(averageTotalRendezvousesTotalAnswers[2]);
-
-		standardDeviation = (float) ((Math.sqrt(totalAnswers * totalAnswers) / totalRendezvouses) - (average * average));
-
-		result = standardDeviation.toString();
+		Assert.notNull(result);
 
 		return result;
 	}
 
-	public Question reconstruct(final Question question, final BindingResult binding) {
-
-		Question result;
-		Rendezvous rendezvous;
-		User user;
-
-		if (question.getId() == 0) {
-			question.setAnswers(new HashSet<Answer>());
-			result = question;
-		} else {
-			user = (User) this.actorService.findActorByPrincipal();
-			rendezvous = this.rendezvousService.getRendezvousByQuestion(question.getId());
-			Assert.isTrue(!rendezvous.getDeleted());
-			Assert.isTrue(!rendezvous.getFinalMode());
-			Assert.isTrue(!rendezvous.getAdultOnly() || this.actorService.checkUserIsAdult(user));
-
-			result = this.questionRepository.findOne(question.getId());
-
-			result.setAnswers(new HashSet<Answer>());
-			result.setText(question.getText());
-
-			this.validator.validate(result, binding);
-		}
-
-		return result;
-	}
 }

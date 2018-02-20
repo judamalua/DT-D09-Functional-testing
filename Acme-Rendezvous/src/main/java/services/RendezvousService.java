@@ -3,12 +3,14 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -159,6 +161,7 @@ public class RendezvousService {
 		User user;
 		Actor actor;
 
+		Assert.isTrue(rendezvous.getMoment().after(new Date()));
 		actor = this.actorService.findActorByPrincipal();
 
 		if (rendezvous.getAdultOnly())
@@ -167,9 +170,18 @@ public class RendezvousService {
 		if (actor instanceof User) {
 			user = (User) this.actorService.findActorByPrincipal();
 
-			//rendezvous.getSimilars().remove(null);//Nedded to not have errors
+			if (rendezvous.getId() != 0)
+				Assert.isTrue(user.getCreatedRendezvouses().contains(rendezvous));
 
 			result = this.rendezvousRepository.save(rendezvous);
+
+			//Updating similars
+			for (final Rendezvous similar : rendezvous.getSimilars()) {
+				if (similar.getRendezvouses().contains(rendezvous))
+					similar.getRendezvouses().remove(rendezvous);
+				similar.getRendezvouses().add(result);
+				this.save(similar);
+			}
 
 			if (user.getCreatedRendezvouses().contains(rendezvous))   		//
 				user.getCreatedRendezvouses().remove(rendezvous);			//UPDATING USER
@@ -289,6 +301,20 @@ public class RendezvousService {
 			for (final Comment comment : new ArrayList<Comment>(rendezvous.getComments()))
 				this.commentService.deleteCommentFromRendezvous(comment);
 
+			// Updating users that RSVP rendezvous
+			for (final User rsvpUser : new ArrayList<User>(rendezvous.getUsers())) {
+				rsvpUser.getRsvpRendezvouses().remove(rendezvous);
+				this.userService.save(rsvpUser);
+				rendezvous.getUsers().remove(rsvpUser);
+			}
+
+			// Updating users that RSVP rendezvous
+			for (final Rendezvous similar : new ArrayList<Rendezvous>(rendezvous.getSimilars())) {
+				similar.getRendezvouses().remove(rendezvous);
+				this.save(similar);
+				rendezvous.getSimilars().remove(similar);
+			}
+
 			user.getCreatedRendezvouses().remove(rendezvous); // Deleting rendezvous from user list when an admin deletes a Rendezvous
 			this.actorService.save(user);
 
@@ -300,7 +326,6 @@ public class RendezvousService {
 		}
 
 	}
-
 	// Other business methods --------------------------------------------------
 
 	/**
@@ -312,12 +337,14 @@ public class RendezvousService {
 	 * @author Juanmi
 	 */
 	public Rendezvous reconstruct(final Rendezvous rendezvous, final BindingResult binding) {
+
 		Rendezvous result;
 
 		if (rendezvous.getId() == 0) {
 			User user;
 			Collection<Question> questions;
 			Collection<Rendezvous> similars;
+			Collection<Rendezvous> rendezvouses;
 			Collection<Announcement> announcements;
 			Collection<Comment> comments;
 			Collection<User> users;
@@ -327,6 +354,7 @@ public class RendezvousService {
 			announcements = new HashSet<Announcement>();
 			comments = new HashSet<Comment>();
 			users = new HashSet<User>();
+			rendezvouses = new HashSet<Rendezvous>();
 			user = (User) this.actorService.findActorByPrincipal();
 			users.add(user);
 			result = rendezvous;
@@ -334,14 +362,16 @@ public class RendezvousService {
 			if (similars == null)
 				similars = new HashSet<Rendezvous>();
 
+			similars.remove(null);
 			result.setQuestions(questions);
 			result.setAnnouncements(announcements);
 			result.setComments(comments);
 			result.setSimilars(similars);
 			result.setUsers(users);
+			result.setRendezvouses(rendezvouses);
+
 		} else {
 			result = this.rendezvousRepository.findOne(rendezvous.getId());
-			Collection<Rendezvous> similars;
 
 			// Checking that the rendezvous that is trying to be saved is not a final rendezvous
 			Assert.isTrue(!result.getFinalMode());
@@ -356,20 +386,12 @@ public class RendezvousService {
 			result.setAdultOnly(rendezvous.getAdultOnly());
 			if (rendezvous.getSimilars() == null)
 				result.setSimilars(new HashSet<Rendezvous>());
-			else if (rendezvous.getSimilars().size() > 1 && rendezvous.getSimilars().contains(null)) { // Checking if the user selected a rendezvous and ----
-				// If the user selected some similars rendezvous and the '------' option at the same time, we delete 'null' from the Rendezvous collection
-				similars = rendezvous.getSimilars();
-				similars.remove(null);
-				result.setSimilars(similars);
-				System.out.println(result.getSimilars());
-			} else {
+			else {
+				rendezvous.getSimilars().remove(null);
 				result.setSimilars(rendezvous.getSimilars());
-				System.out.println(result.getSimilars());
 			}
-
-			this.validator.validate(result, binding);
 		}
-
+		this.validator.validate(result, binding);
 		return result;
 	}
 	/**
@@ -512,6 +534,25 @@ public class RendezvousService {
 	}
 
 	/**
+	 * Return the list of not deleted rendezvouses paginated by the pageable and created by user
+	 * 
+	 * @param pageable
+	 * @param user
+	 * @return A page of Rendezvouses created by the user
+	 * @author MJ
+	 */
+	public Page<Rendezvous> findCreatedRendezvousesForDisplay(final User user, final Pageable pageable) {
+		Assert.notNull(pageable);
+		Assert.notNull(user);
+
+		Page<Rendezvous> result;
+
+		result = this.rendezvousRepository.findCreatedRendezvousesForDisplay(user.getId(), pageable);
+
+		return result;
+	}
+
+	/**
 	 * Return the list of not deleted rendezvouses paginated by the pageable and RSVP by user
 	 * 
 	 * @param pageable
@@ -549,78 +590,20 @@ public class RendezvousService {
 	}
 
 	/**
-	 * Level C query 4 part 1/2
-	 * 
-	 * @return The average of rendezvouses that are RSVPd per user as the first element of the array and RSVPed users as the second element.
-	 * @author Juanmi
-	 */
-	public String[] getAverageRSVPedPerUser() {
-		final String[] result = {
-			"", ""
-		};
-		Float average;
-
-		Collection<Rendezvous> allRendezvouses;
-		Collection<User> allUsers;
-
-		Float RSVPedUsers = 0F;
-		allRendezvouses = this.findAll();
-		allUsers = this.userService.findAll();
-
-		for (final Rendezvous rendezvous : allRendezvouses)
-			RSVPedUsers += new Float(rendezvous.getUsers().size() - 1);
-
-		average = RSVPedUsers / new Float(allUsers.size());
-
-		result[0] = average.toString();
-		result[1] = RSVPedUsers.toString();
-
-		return result;
-	}
-	//sqrt(sum(r.users.size * r.users.size) / count(r.users.size) - (avg(r.users.size) * avg(r.users.size)))
-	/**
-	 * Level C query 4 part 2/2
-	 * 
-	 * @return The standard deviation of rendezvouses that are RSVPd per user.
-	 */
-	public String getStandardDeviationRSVPedPerUser() {
-		String[] averageRSVPedUsers;
-		Float average, totalUsers, standardDeviation, RSVPedUsers;
-		String result;
-
-		averageRSVPedUsers = this.getAverageRSVPedPerUser();
-
-		average = new Float(averageRSVPedUsers[0]);
-		RSVPedUsers = new Float(averageRSVPedUsers[1]);
-
-		totalUsers = new Float(this.userService.findAll().size());
-
-		standardDeviation = (float) ((Math.sqrt(RSVPedUsers * RSVPedUsers) / totalUsers) - (average * average));
-
-		result = standardDeviation.toString();
-
-		return result;
-	}
-
-	/**
 	 * Level C query 5
 	 * 
 	 * @return The top-10 rendezvouses in terms of users who have RSVPd them.
 	 * @author Juanmi
 	 */
 	public Collection<Rendezvous> getTopTenRendezvouses() {
-		Collection<Rendezvous> allRendezvouses;
-		final Collection<Rendezvous> result = new HashSet<Rendezvous>();
+		Page<Rendezvous> allRendezvouses;
+		Collection<Rendezvous> result = new HashSet<Rendezvous>();
+		Pageable pageable;
 
-		allRendezvouses = this.rendezvousRepository.getTopRendezvouses();
+		pageable = new PageRequest(0, 10);
+		allRendezvouses = this.rendezvousRepository.getTopRendezvouses(pageable);
 
-		if (allRendezvouses.size() > 10) {
-			for (final Rendezvous rendezvous : allRendezvouses)
-				if (result.size() < 10)
-					result.add(rendezvous);
-
-		} else
-			result.addAll(allRendezvouses);
+		result = allRendezvouses.getContent();
 
 		return result;
 	}

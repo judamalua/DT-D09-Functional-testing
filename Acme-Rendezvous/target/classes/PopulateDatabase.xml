@@ -101,6 +101,10 @@
 			<list>
 			</list>
 		</property>
+		<property name="rsvpRendezvouses">
+			<list>
+			</list>
+		</property>
 		<property name="comments">
 			<list>
 			</list>
@@ -116,6 +120,10 @@
 		<property name="birthDate" value="1992/07/15" />
 		<property name="userAccount" ref="UserAccount4" />
 		<property name="createdRendezvouses">
+			<list>
+			</list>
+		</property>
+		<property name="rsvpRendezvouses">
 			<list>
 			</list>
 		</property>

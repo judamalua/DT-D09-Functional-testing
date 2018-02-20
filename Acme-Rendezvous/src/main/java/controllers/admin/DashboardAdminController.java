@@ -39,15 +39,14 @@ public class DashboardAdminController extends AbstractController {
 	@RequestMapping("/list")
 	public ModelAndView list() {
 		final ModelAndView result;
-		final String rendezvousesInfoFromUsers, ratioCreatedRendezvouses, usersInfoFromRendezvous, standardDeviationAnswersPerRendezvous, announcementsInfoFromRendezvous, questionsInfoFromRendezvous, standardDeviationRSVPedPerUser, averageRSVPedPerUser, averageAnswersPerRendezvous, repliesInfoFromComment;
+		final String rendezvousesInfoFromUsers, ratioCreatedRendezvouses, usersInfoFromRendezvous, announcementsInfoFromRendezvous, questionsInfoFromRendezvous, repliesInfoFromComment, RSVPedInfoFromRendezvous, answersInfoFromQuestion;
 		final Collection<Rendezvous> topTenRendezvouses, rendezvousesWithAnnouncementAboveSeventyFivePercent, rendezvousesMostLinked;
 
 		rendezvousesInfoFromUsers = this.userService.getRendezvousesInfoFromUsers();
 		ratioCreatedRendezvouses = this.userService.getRatioCreatedRendezvouses();
 
 		usersInfoFromRendezvous = this.rendezvousService.getUsersInfoFromRendezvous();
-		averageRSVPedPerUser = this.rendezvousService.getAverageRSVPedPerUser()[0];
-		standardDeviationRSVPedPerUser = this.rendezvousService.getStandardDeviationRSVPedPerUser();
+		RSVPedInfoFromRendezvous = this.userService.getRSVPedInfoFromRendezvous();
 		topTenRendezvouses = this.rendezvousService.getTopTenRendezvouses();
 
 		announcementsInfoFromRendezvous = this.rendezvousService.getAnnouncementsInfoFromRendezvous();
@@ -55,8 +54,7 @@ public class DashboardAdminController extends AbstractController {
 		rendezvousesMostLinked = this.rendezvousService.getRendezvousesMostLinked();
 
 		questionsInfoFromRendezvous = this.rendezvousService.getQuestionsInfoFromRendezvous();
-		averageAnswersPerRendezvous = this.questionService.getAverageAnswersPerRendezvous()[0];
-		standardDeviationAnswersPerRendezvous = this.questionService.getStandardDeviationAnswersPerRendezvous();
+		answersInfoFromQuestion = this.questionService.getAnswersInfoFromQuestion();
 
 		repliesInfoFromComment = this.commentService.getRepliesInfoFromComment();
 
@@ -69,8 +67,8 @@ public class DashboardAdminController extends AbstractController {
 		result.addObject("userRendezvousAverage", usersInfoFromRendezvous.split(",")[0]);
 		result.addObject("userRendezvousStandardDeviation", usersInfoFromRendezvous.split(",")[1]);
 
-		result.addObject("averageRSVPedPerUser", averageRSVPedPerUser);
-		result.addObject("standardDeviationRSVPedPerUser", standardDeviationRSVPedPerUser);
+		result.addObject("averageRSVPedPerUser", RSVPedInfoFromRendezvous.split(",")[0]);
+		result.addObject("standardDeviationRSVPedPerUser", RSVPedInfoFromRendezvous.split(",")[1]);
 
 		result.addObject("topTenRendezvouses", topTenRendezvouses);
 
@@ -83,8 +81,8 @@ public class DashboardAdminController extends AbstractController {
 		result.addObject("questionsRendezvousAverage", questionsInfoFromRendezvous.split(",")[0]);
 		result.addObject("questionsRendezvousStandardDeviation", questionsInfoFromRendezvous.split(",")[1]);
 
-		result.addObject("averageAnswersPerRendezvous", averageAnswersPerRendezvous);
-		result.addObject("standardDeviationAnswersPerRendezvous", standardDeviationAnswersPerRendezvous);
+		result.addObject("averageAnswersPerRendezvous", answersInfoFromQuestion.split(",")[0]);
+		result.addObject("standardDeviationAnswersPerRendezvous", answersInfoFromQuestion.split(",")[1]);
 
 		result.addObject("repliesCommentAverage", repliesInfoFromComment.split(",")[0]);
 		result.addObject("repliesCommentStandardDeviation", repliesInfoFromComment.split(",")[1]);

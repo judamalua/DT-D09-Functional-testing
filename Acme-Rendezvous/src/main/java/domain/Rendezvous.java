@@ -139,7 +139,7 @@ public class Rendezvous extends DomainEntity {
 	}
 
 	@NotNull
-	@ManyToMany(mappedBy = "rendezvous")
+	@ManyToMany(mappedBy = "rendezvouses")
 	public Collection<Rendezvous> getSimilars() {
 		return this.similars;
 	}
@@ -155,7 +155,7 @@ public class Rendezvous extends DomainEntity {
 		return this.rendezvouses;
 	}
 
-	public void setRendezvous(final Collection<Rendezvous> rendezvouses) {
+	public void setRendezvouses(final Collection<Rendezvous> rendezvouses) {
 		this.rendezvouses = rendezvouses;
 	}
 
