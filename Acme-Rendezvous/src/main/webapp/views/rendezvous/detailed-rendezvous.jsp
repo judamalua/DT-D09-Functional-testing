@@ -87,7 +87,9 @@
 <!-- Displaying similar rendezvouses -->
 <h4><spring:message code="rendezvous.similar.list"/></h4>
 <display:table name="${rendezvous.similars}" id="similar" requestURI="rendezvous/detailed-rendezvous.do" pagesize="${pagesize}">
-	<display:column property="name" title="${titleName}" sortable = "true"/>
+	<display:column title="${titleName}" sortable = "true">
+		<a href = "rendezvous/detailed-rendezvous.do?rendezvousId=${similar.id}&anonymous=${anonymous}"><jstl:out value ="${similar.name}"/></a>
+	</display:column>
 	<display:column property="description" title="${titleDescription}"/>
 	<display:column property="moment" title="${titleMoment}" format="${formatMoment}" sortable = "true"/>
 </display:table>	
