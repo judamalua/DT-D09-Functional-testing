@@ -167,77 +167,14 @@ public class QuestionService {
 	// Other business methods --------------------------------------------------------
 
 	/**
-	 * This method checks if the Rendezvous that contains the question in parameters is contained in the created Rendezvouses of the principal
+	 * This method reconstructs a pruned Question object received by paramenters
 	 * 
 	 * @param question
-	 * @author Juanmi
-	 */
-	public void checkUserCreatedRendezvousOfQuestion(final Question question) {
-		User user;
-		Rendezvous rendezvous;
-
-		user = (User) this.actorService.findActorByPrincipal();
-		rendezvous = this.rendezvousService.getRendezvousByQuestion(question.getId());
-
-		// Checking if user trying to delete this question is the creator of the Rendezvous
-		Assert.isTrue(user.getCreatedRendezvouses().contains(rendezvous));
-	}
-
-	// Dashboard queries.
-
-	/**
-	 * Level A query 2 part 1/2
+	 * @param binding
+	 * @return reconstructed Question
 	 * 
-	 * @return The average of the number of answers to the questions per rendezvous as the first element of the array, total rendezvouses as the second element, and total answers as the third one.
-	 * @author Juanmi
+	 * @author Manu
 	 */
-	public String[] getAverageAnswersPerRendezvous() {
-		final String[] result = {
-			"", "", ""
-		};
-		Float average;
-		Collection<Rendezvous> allRendezvouses;
-
-		Collection<Answer> allAnswers;
-
-		allRendezvouses = this.rendezvousService.findAll();
-		allAnswers = this.answerService.findAll();
-
-		average = new Float(allAnswers.size()) / new Float(allRendezvouses.size());
-
-		result[0] = average.toString();
-		result[1] = new Integer(allRendezvouses.size()).toString();
-		result[2] = new Integer(allAnswers.size()).toString();
-
-		return result;
-	}
-
-	//sqrt(sum(q.answers.size * q.answers.size) / count(q.answers.size) - (avg(q.answers.size) * avg(q.answers.size)))
-	/**
-	 * Level A query 2 part 2/2
-	 * 
-	 * @return The standard deviation of the number of answers to the questions per rendezvous.
-	 */
-	public String getStandardDeviationAnswersPerRendezvous() {
-		String[] averageTotalRendezvousesTotalAnswers = {
-			"", "", ""
-		};
-		Float average, totalRendezvouses, totalAnswers, standardDeviation;
-		String result;
-
-		averageTotalRendezvousesTotalAnswers = this.getAverageAnswersPerRendezvous();
-
-		average = new Float(averageTotalRendezvousesTotalAnswers[0]);
-		totalRendezvouses = new Float(averageTotalRendezvousesTotalAnswers[1]);
-		totalAnswers = new Float(averageTotalRendezvousesTotalAnswers[2]);
-
-		standardDeviation = (float) ((Math.sqrt(totalAnswers * totalAnswers) / totalRendezvouses) - (average * average));
-
-		result = standardDeviation.toString();
-
-		return result;
-	}
-
 	public Question reconstruct(final Question question, final BindingResult binding) {
 
 		Question result;
@@ -266,4 +203,40 @@ public class QuestionService {
 		this.validator.validate(result, binding);
 		return result;
 	}
+
+	/**
+	 * This method checks if the Rendezvous that contains the question in parameters is contained in the created Rendezvouses of the principal
+	 * 
+	 * @param question
+	 * @author Juanmi
+	 */
+	public void checkUserCreatedRendezvousOfQuestion(final Question question) {
+		User user;
+		Rendezvous rendezvous;
+
+		user = (User) this.actorService.findActorByPrincipal();
+		rendezvous = this.rendezvousService.getRendezvousByQuestion(question.getId());
+
+		// Checking if user trying to delete this question is the creator of the Rendezvous
+		Assert.isTrue(user.getCreatedRendezvouses().contains(rendezvous));
+	}
+
+	// Dashboard queries.
+
+	/**
+	 * Level A query 2
+	 * 
+	 * @return The average and the standard deviation of the number of answers to the questions per rendezvous.
+	 * @author Juanmi
+	 */
+	public String getAnswersInfoFromQuestion() {
+		String result;
+
+		result = this.questionRepository.getAnswersInfoFromQuestion();
+
+		Assert.notNull(result);
+
+		return result;
+	}
+
 }

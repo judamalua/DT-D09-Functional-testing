@@ -48,10 +48,12 @@
 <details>
 <summary><spring:message code="dashboard.top.ten.rendezvouses"/></summary>
 	
-	<display:table id = "row" name = "topTenRendezvouses">
+	<display:table id = "rendezvous" name = "topTenRendezvouses">
 		
 		<spring:message var = "titleRendezvous" code = "dashboard.rendezvous.title"/>
-		<display:column title = "${titleRendezvous}">${row.name}</display:column>
+		<display:column title = "${titleRendezvous}">${rendezvous.name}</display:column>
+		<spring:message var = "titleNumRSVP" code = "dashboard.rendezvous.numRSVP"/>
+		<display:column title = "${titleNumRSVP}">${rendezvous.users.size}</display:column>
 	
 	</display:table>
 </details><br/>
