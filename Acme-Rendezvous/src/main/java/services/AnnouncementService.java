@@ -130,8 +130,8 @@ public class AnnouncementService {
 			result.setTitle(announcement.getTitle());
 			result.setMoment(announcement.getMoment());
 
-			this.validator.validate(result, binding);
 		}
+		this.validator.validate(result, binding);
 		return result;
 	}
 }
