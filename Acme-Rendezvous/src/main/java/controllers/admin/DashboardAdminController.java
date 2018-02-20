@@ -39,15 +39,14 @@ public class DashboardAdminController extends AbstractController {
 	@RequestMapping("/list")
 	public ModelAndView list() {
 		final ModelAndView result;
-		final String rendezvousesInfoFromUsers, ratioCreatedRendezvouses, usersInfoFromRendezvous, standardDeviationAnswersPerRendezvous, announcementsInfoFromRendezvous, questionsInfoFromRendezvous, standardDeviationRSVPedPerUser, averageRSVPedPerUser, averageAnswersPerRendezvous, repliesInfoFromComment;
+		final String rendezvousesInfoFromUsers, ratioCreatedRendezvouses, usersInfoFromRendezvous, standardDeviationAnswersPerRendezvous, announcementsInfoFromRendezvous, questionsInfoFromRendezvous, averageAnswersPerRendezvous, repliesInfoFromComment, RSVPedInfoFromRendezvous;
 		final Collection<Rendezvous> topTenRendezvouses, rendezvousesWithAnnouncementAboveSeventyFivePercent, rendezvousesMostLinked;
 
 		rendezvousesInfoFromUsers = this.userService.getRendezvousesInfoFromUsers();
 		ratioCreatedRendezvouses = this.userService.getRatioCreatedRendezvouses();
 
 		usersInfoFromRendezvous = this.rendezvousService.getUsersInfoFromRendezvous();
-		averageRSVPedPerUser = this.rendezvousService.getAverageRSVPedPerUser()[0];
-		standardDeviationRSVPedPerUser = this.rendezvousService.getStandardDeviationRSVPedPerUser();
+		RSVPedInfoFromRendezvous = this.userService.getRSVPedInfoFromRendezvous();
 		topTenRendezvouses = this.rendezvousService.getTopTenRendezvouses();
 
 		announcementsInfoFromRendezvous = this.rendezvousService.getAnnouncementsInfoFromRendezvous();
@@ -69,8 +68,8 @@ public class DashboardAdminController extends AbstractController {
 		result.addObject("userRendezvousAverage", usersInfoFromRendezvous.split(",")[0]);
 		result.addObject("userRendezvousStandardDeviation", usersInfoFromRendezvous.split(",")[1]);
 
-		result.addObject("averageRSVPedPerUser", averageRSVPedPerUser);
-		result.addObject("standardDeviationRSVPedPerUser", standardDeviationRSVPedPerUser);
+		result.addObject("averageRSVPedPerUser", RSVPedInfoFromRendezvous.split(",")[0]);
+		result.addObject("standardDeviationRSVPedPerUser", RSVPedInfoFromRendezvous.split(",")[1]);
 
 		result.addObject("topTenRendezvouses", topTenRendezvouses);
 

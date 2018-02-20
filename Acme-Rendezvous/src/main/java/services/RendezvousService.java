@@ -522,6 +522,25 @@ public class RendezvousService {
 	}
 
 	/**
+	 * Return the list of not deleted rendezvouses paginated by the pageable and created by user
+	 * 
+	 * @param pageable
+	 * @param user
+	 * @return A page of Rendezvouses created by the user
+	 * @author MJ
+	 */
+	public Page<Rendezvous> findCreatedRendezvousesForDisplay(final User user, final Pageable pageable) {
+		Assert.notNull(pageable);
+		Assert.notNull(user);
+
+		Page<Rendezvous> result;
+
+		result = this.rendezvousRepository.findCreatedRendezvousesForDisplay(user.getId(), pageable);
+
+		return result;
+	}
+
+	/**
 	 * Return the list of not deleted rendezvouses paginated by the pageable and RSVP by user
 	 * 
 	 * @param pageable
@@ -554,60 +573,6 @@ public class RendezvousService {
 		result = this.rendezvousRepository.getUsersInfoFromRendezvous();
 
 		Assert.notNull(result);
-
-		return result;
-	}
-
-	/**
-	 * Level C query 4 part 1/2
-	 * 
-	 * @return The average of rendezvouses that are RSVPd per user as the first element of the array and RSVPed users as the second element.
-	 * @author Juanmi
-	 */
-	public String[] getAverageRSVPedPerUser() {
-		final String[] result = {
-			"", ""
-		};
-		Float average;
-
-		Collection<Rendezvous> allRendezvouses;
-		Collection<User> allUsers;
-
-		Float RSVPedUsers = 0F;
-		allRendezvouses = this.findAll();
-		allUsers = this.userService.findAll();
-
-		for (final Rendezvous rendezvous : allRendezvouses)
-			RSVPedUsers += new Float(rendezvous.getUsers().size() - 1);
-
-		average = RSVPedUsers / new Float(allUsers.size());
-
-		result[0] = average.toString();
-		result[1] = RSVPedUsers.toString();
-
-		return result;
-	}
-	//sqrt(sum(r.users.size * r.users.size) / count(r.users.size) - (avg(r.users.size) * avg(r.users.size)))
-	/**
-	 * Level C query 4 part 2/2
-	 * 
-	 * @return The standard deviation of rendezvouses that are RSVPd per user.
-	 */
-	public String getStandardDeviationRSVPedPerUser() {
-		String[] averageRSVPedUsers;
-		Float average, totalUsers, standardDeviation, RSVPedUsers;
-		String result;
-
-		averageRSVPedUsers = this.getAverageRSVPedPerUser();
-
-		average = new Float(averageRSVPedUsers[0]);
-		RSVPedUsers = new Float(averageRSVPedUsers[1]);
-
-		totalUsers = new Float(this.userService.findAll().size());
-
-		standardDeviation = (float) ((Math.sqrt(RSVPedUsers * RSVPedUsers) / totalUsers) - (average * average));
-
-		result = standardDeviation.toString();
 
 		return result;
 	}

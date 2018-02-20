@@ -253,4 +253,20 @@ public class UserService {
 
 		return result;
 	}
+
+	/**
+	 * Level C query 4
+	 * 
+	 * @return The average and the standard deviation of rendezvouses that are RSVPd per user.
+	 * @author Juanmi
+	 */
+	public String getRSVPedInfoFromRendezvous() {
+		String result;
+
+		result = this.userRepository.getRSVPedInfoFromRendezvous();
+
+		Assert.notNull(result);
+
+		return result;
+	}
 }

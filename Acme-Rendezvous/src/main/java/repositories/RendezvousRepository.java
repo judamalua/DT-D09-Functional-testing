@@ -35,8 +35,11 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select r from Rendezvous r where r.finalMode=true and r.deleted=false and r.adultOnly=false")
 	Page<Rendezvous> findFinalWithoutAdultRendezvouses(Pageable pageable);
 
-	@Query("select r from User u join u.createdRendezvouses r where u.id=?1 and r.finalMode=true")
+	@Query("select r from User u join u.createdRendezvouses r where u.id=?1")
 	Page<Rendezvous> findCreatedRendezvouses(int userId, Pageable pageable);
+
+	@Query("select r from User u join u.createdRendezvouses r where u.id=?1 and r.finalMode=true")
+	Page<Rendezvous> findCreatedRendezvousesForDisplay(int userId, Pageable pageable);
 
 	@Query("select r from Rendezvous r join r.users u where r.deleted=false and u.id=?1")
 	Page<Rendezvous> findRSVPRendezvouses(int userId, Pageable pageable);
@@ -51,16 +54,6 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	 */
 	@Query("select avg(r.users.size), sqrt(sum(r.users.size * r.users.size) / count(r.users.size) - (avg(r.users.size) * avg(r.users.size))) from Rendezvous r")
 	String getUsersInfoFromRendezvous();
-
-	/**
-	 * Level C query 4
-	 * 
-	 * @return The average and the standard deviation of rendezvouses that are RSVPd per user.
-	 * @author Juanmi
-	 */
-	//	@Query("select avg((r.users.size) - 1), sqrt(sum(((r.users.size) - 1) * ((r.users.size) - 1)) / count(((r.users.size) - 1)) - (avg(((r.users.size) - 1)) * avg(((r.users.size) - 1)))) from Rendezvous r")
-	//	String getRSVPedInfoFromRendezvous();
-	//TODO Correct
 
 	/**
 	 * Level C query 5
@@ -106,4 +99,5 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	 */
 	@Query("select avg(r.questions.size), sqrt(sum(r.questions.size * r.questions.size) / count(r.questions.size) - (avg(r.questions.size) * avg(r.questions.size))) from Rendezvous r")
 	String getQuestionsInfoFromRendezvous();
+
 }
