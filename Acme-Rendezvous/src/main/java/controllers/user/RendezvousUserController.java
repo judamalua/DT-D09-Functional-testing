@@ -135,7 +135,10 @@ public class RendezvousUserController extends AbstractController {
 				result = new ModelAndView("redirect:list.do");
 				result.addObject("userId", user.getId());
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(rendezvous, "rendezvous.commit.error");
+				if (oops.getMessage().contains("You must be over 18 to save a Rendezvous with adultOnly"))
+					result = this.createEditModelAndView(rendezvous, "rendezvous.adult.error");
+				else
+					result = this.createEditModelAndView(rendezvous, "rendezvous.commit.error");
 			}
 
 		return result;

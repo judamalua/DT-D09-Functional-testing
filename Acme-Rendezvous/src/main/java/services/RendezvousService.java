@@ -162,7 +162,7 @@ public class RendezvousService {
 		actor = this.actorService.findActorByPrincipal();
 
 		if (rendezvous.getAdultOnly())
-			Assert.isTrue(this.actorService.checkUserIsAdult(actor));
+			Assert.isTrue(this.actorService.checkUserIsAdult(actor), "You must be over 18 to save a Rendezvous with adultOnly");
 
 		if (actor instanceof User) {
 			user = (User) this.actorService.findActorByPrincipal();
