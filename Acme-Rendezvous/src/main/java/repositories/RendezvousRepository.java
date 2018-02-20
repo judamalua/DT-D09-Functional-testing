@@ -35,8 +35,11 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select r from Rendezvous r where r.finalMode=true and r.deleted=false and r.adultOnly=false")
 	Page<Rendezvous> findFinalWithoutAdultRendezvouses(Pageable pageable);
 
-	@Query("select r from User u join u.createdRendezvouses r where u.id=?1 and r.finalMode=true")
+	@Query("select r from User u join u.createdRendezvouses r where u.id=?1")
 	Page<Rendezvous> findCreatedRendezvouses(int userId, Pageable pageable);
+
+	@Query("select r from User u join u.createdRendezvouses r where u.id=?1 and r.finalMode=true")
+	Page<Rendezvous> findCreatedRendezvousesForDisplay(int userId, Pageable pageable);
 
 	@Query("select r from Rendezvous r join r.users u where r.deleted=false and u.id=?1")
 	Page<Rendezvous> findRSVPRendezvouses(int userId, Pageable pageable);
@@ -53,23 +56,13 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	String getUsersInfoFromRendezvous();
 
 	/**
-	 * Level C query 4
-	 * 
-	 * @return The average and the standard deviation of rendezvouses that are RSVPd per user.
-	 * @author Juanmi
-	 */
-	//	@Query("select avg((r.users.size) - 1), sqrt(sum(((r.users.size) - 1) * ((r.users.size) - 1)) / count(((r.users.size) - 1)) - (avg(((r.users.size) - 1)) * avg(((r.users.size) - 1)))) from Rendezvous r")
-	//	String getRSVPedInfoFromRendezvous();
-	//TODO Correct
-
-	/**
 	 * Level C query 5
 	 * 
 	 * @return The top rendezvouses in terms of users who have RSVPd them, if you want to get the top X, then you must get the first X results.
 	 * @author Juanmi
 	 */
 	@Query("select r from Rendezvous r order by r.users.size desc")
-	Collection<Rendezvous> getTopRendezvouses();
+	Page<Rendezvous> getTopRendezvouses(Pageable page);
 
 	/**
 	 * Level B query 1
@@ -86,7 +79,7 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	 * @return The rendezvouses whose number of announcements is above 75% the average number of announcements per rendezvous.
 	 * @author Juanmi
 	 */
-	@Query("select r from Rendezvous r where r.announcements.size >= (select avg(re.announcements.size)*0.75 from Rendezvous re)")
+	@Query("select r from Rendezvous r where r.announcements.size > (select avg(re.announcements.size)*0.75 from Rendezvous re)")
 	Collection<Rendezvous> getRendezvousesWithAnnouncementAboveSeventyFivePercent();
 
 	/**
@@ -95,7 +88,7 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	 * @return The rendezvouses that are linked to a number of rendezvouses that is greater than the average plus 10%.
 	 * @author Juanmi
 	 */
-	@Query("select r from Rendezvous r where r.similars.size >= (select avg(re.similars.size)+(avg(re.similars.size)*0.1) from Rendezvous re)")
+	@Query("select r from Rendezvous r where r.similars.size > (select avg(re.similars.size)+(avg(re.similars.size)*0.1) from Rendezvous re)")
 	Collection<Rendezvous> getRendezvousesMostLinked();
 
 	/**
@@ -106,4 +99,5 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	 */
 	@Query("select avg(r.questions.size), sqrt(sum(r.questions.size * r.questions.size) / count(r.questions.size) - (avg(r.questions.size) * avg(r.questions.size))) from Rendezvous r")
 	String getQuestionsInfoFromRendezvous();
+
 }

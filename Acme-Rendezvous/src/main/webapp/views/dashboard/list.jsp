@@ -7,6 +7,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 
 <details>
@@ -48,10 +49,12 @@
 <details>
 <summary><spring:message code="dashboard.top.ten.rendezvouses"/></summary>
 	
-	<display:table id = "row" name = "topTenRendezvouses">
-		
+	
+	<display:table id = "rendezvous" name = "topTenRendezvouses">
 		<spring:message var = "titleRendezvous" code = "dashboard.rendezvous.title"/>
-		<display:column title = "${titleRendezvous}">${row.name}</display:column>
+		<display:column title = "${titleRendezvous}">${rendezvous.name}</display:column>
+		<spring:message var = "titleNumRSVP" code = "dashboard.rendezvous.numRSVP"/>
+		<display:column title = "${titleNumRSVP}">${fn:length(rendezvous.users)}</display:column>
 	
 	</display:table>
 </details><br/>

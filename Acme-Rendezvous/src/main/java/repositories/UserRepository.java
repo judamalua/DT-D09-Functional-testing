@@ -33,4 +33,13 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("select sum(case when(u.createdRendezvouses.size>0) then 1.0 else 0.0 end)/count(u) from User u")
 	String getRatioCreatedRendezvouses();
 
+	/**
+	 * Level C query 4
+	 * 
+	 * @return The average and the standard deviation of rendezvouses that are RSVPd per user.
+	 * @author Juanmi
+	 */
+	@Query("select avg(u.rsvpRendezvouses.size), sqrt(sum(u.rsvpRendezvouses.size * u.rsvpRendezvouses.size) / count(u.rsvpRendezvouses.size) - (avg(u.rsvpRendezvouses.size) * avg(u.rsvpRendezvouses.size))) from User u")
+	String getRSVPedInfoFromRendezvous();
+
 }

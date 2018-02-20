@@ -125,7 +125,7 @@ public class UserController extends AbstractController {
 			rsvpPageable = new PageRequest(rsvpPage, configuration.getPageSize());
 			createdPageable = new PageRequest(createdRendezvousPage, configuration.getPageSize());
 
-			createdRendezvouses = this.rendezvousService.findCreatedRendezvouses(user, createdPageable);
+			createdRendezvouses = this.rendezvousService.findCreatedRendezvousesForDisplay(user, createdPageable);
 			rsvpRendezvouses = this.rendezvousService.findRSVPRendezvouses(user, rsvpPageable);
 
 			result.addObject("actor", user);

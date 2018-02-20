@@ -87,18 +87,18 @@
 <!-- Displaying similar rendezvouses -->
 <h4><spring:message code="rendezvous.similar.list"/></h4>
 <display:table name="${rendezvous.similars}" id="similar" requestURI="rendezvous/detailed-rendezvous.do" pagesize="${pagesize}">
-	<display:column property="name" title="${titleName}"/>
+	<display:column property="name" title="${titleName}" sortable = "true"/>
 	<display:column property="description" title="${titleDescription}"/>
-	<display:column property="moment" title="${titleMoment}" format="${formatMoment}"/>
+	<display:column property="moment" title="${titleMoment}" format="${formatMoment}" sortable = "true"/>
 </display:table>	
 <br/>
 
 <!-- Displaying announcements -->
 <h4><spring:message code="rendezvous.announcements.list"/></h4>
-<display:table name="${rendezvous.announcements}" id="announcement" requestURI="rendezvouse/detailed-rendezvous.do" pagesize="${pagesize}">
-	<display:column property="title" title="${titleAnnouncement}"/>
+<display:table name="${rendezvous.announcements}" id="announcement" requestURI="rendezvous/detailed-rendezvous.do" pagesize="${pagesize}">
+	<display:column property="title" title="${titleAnnouncement}" sortable = "true"/>
 	<display:column property="description" title="${descriptionAnnouncement}"/>
-	<display:column property="moment" title="${momentAnnouncement}" format="${formatMoment}"/>
+	<display:column property="moment" title="${momentAnnouncement}" format="${formatMoment}" sortable = "true"/>
 </display:table>	
 <br/>
 
@@ -119,6 +119,9 @@
 <jstl:forEach var="comment" items="${rendezvous.comments}">
  	<acme:showComment comment="${comment}" canUserComment="${userHasRVSPdRendezvous}" indent="0"/>
 </jstl:forEach>
+<jstl:if test="${fn:length(rendezvous.comments) == 0}">
+	<spring:message code = "rendezvous.comments.empty"/>
+</jstl:if>
 <br/>
 <!--
 <display:table name="${rendezvous.comments}" id="comment" requestURI="rendezvous/detailed-rendezvous.do" pagesize="10">

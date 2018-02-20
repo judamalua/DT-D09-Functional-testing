@@ -181,8 +181,9 @@ public class UserService {
 			result.setEmail(user.getEmail());
 			result.setBirthDate(user.getBirthDate());
 
-			this.validator.validate(result, binding);
 		}
+
+		this.validator.validate(result, binding);
 
 		return result;
 	}
@@ -247,6 +248,22 @@ public class UserService {
 		String result;
 
 		result = this.userRepository.getRatioCreatedRendezvouses();
+
+		Assert.notNull(result);
+
+		return result;
+	}
+
+	/**
+	 * Level C query 4
+	 * 
+	 * @return The average and the standard deviation of rendezvouses that are RSVPd per user.
+	 * @author Juanmi
+	 */
+	public String getRSVPedInfoFromRendezvous() {
+		String result;
+
+		result = this.userRepository.getRSVPedInfoFromRendezvous();
 
 		Assert.notNull(result);
 

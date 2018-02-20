@@ -44,7 +44,7 @@ public class AnnouncementService {
 		Announcement result;
 
 		result = new Announcement();
-		result.setMoment(new Date(System.currentTimeMillis() - 1000));
+		//		result.setMoment(new Date(System.currentTimeMillis() - 1000));
 
 		return result;
 	}
@@ -122,9 +122,10 @@ public class AnnouncementService {
 	public Announcement reconstruct(final Announcement announcement, final BindingResult binding) {
 		Announcement result;
 
-		if (announcement.getId() == 0)
+		if (announcement.getId() == 0) {
 			result = announcement;
-		else {
+			result.setMoment(new Date(System.currentTimeMillis() - 1000));
+		} else {
 			result = this.announcementRepository.findOne(announcement.getId());
 			result.setDescription(announcement.getDescription());
 			result.setTitle(announcement.getTitle());
