@@ -3,6 +3,7 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 
 import javax.transaction.Transactional;
@@ -159,6 +160,7 @@ public class RendezvousService {
 		User user;
 		Actor actor;
 
+		Assert.isTrue(rendezvous.getMoment().after(new Date()));
 		actor = this.actorService.findActorByPrincipal();
 
 		if (rendezvous.getAdultOnly())
@@ -167,9 +169,18 @@ public class RendezvousService {
 		if (actor instanceof User) {
 			user = (User) this.actorService.findActorByPrincipal();
 
-			//rendezvous.getSimilars().remove(null);//Nedded to not have errors
+			if (rendezvous.getId() != 0)
+				Assert.isTrue(user.getCreatedRendezvouses().contains(rendezvous));
 
 			result = this.rendezvousRepository.save(rendezvous);
+
+			//Updating similars
+			for (final Rendezvous similar : rendezvous.getSimilars()) {
+				if (similar.getRendezvouses().contains(rendezvous))
+					similar.getRendezvouses().remove(rendezvous);
+				similar.getRendezvouses().add(result);
+				this.save(similar);
+			}
 
 			if (user.getCreatedRendezvouses().contains(rendezvous))   		//
 				user.getCreatedRendezvouses().remove(rendezvous);			//UPDATING USER
@@ -337,6 +348,7 @@ public class RendezvousService {
 			if (similars == null)
 				similars = new HashSet<Rendezvous>();
 
+			similars.remove(null);
 			result.setQuestions(questions);
 			result.setAnnouncements(announcements);
 			result.setComments(comments);
@@ -346,7 +358,6 @@ public class RendezvousService {
 
 		} else {
 			result = this.rendezvousRepository.findOne(rendezvous.getId());
-			Collection<Rendezvous> similars;
 
 			// Checking that the rendezvous that is trying to be saved is not a final rendezvous
 			Assert.isTrue(!result.getFinalMode());
@@ -361,15 +372,9 @@ public class RendezvousService {
 			result.setAdultOnly(rendezvous.getAdultOnly());
 			if (rendezvous.getSimilars() == null)
 				result.setSimilars(new HashSet<Rendezvous>());
-			else if (rendezvous.getSimilars().size() > 1 && rendezvous.getSimilars().contains(null)) { // Checking if the user selected a rendezvous and ----
-				// If the user selected some similars rendezvous and the '------' option at the same time, we delete 'null' from the Rendezvous collection
-				similars = rendezvous.getSimilars();
-				similars.remove(null);
-				result.setSimilars(similars);
-				System.out.println(result.getSimilars());
-			} else {
+			else {
+				rendezvous.getSimilars().remove(null);
 				result.setSimilars(rendezvous.getSimilars());
-				System.out.println(result.getSimilars());
 			}
 
 			this.validator.validate(result, binding);
