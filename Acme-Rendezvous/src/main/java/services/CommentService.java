@@ -39,6 +39,9 @@ public class CommentService {
 	@Autowired
 	private Validator			validator;
 
+	@Autowired
+	private UserService			userService;
+
 
 	// Simple CRUD methods --------------------------------------------------
 
@@ -167,11 +170,11 @@ public class CommentService {
 		Assert.isTrue(comment.getId() != 0);
 
 		User user;
-		Rendezvous rendezvous;
+		final Rendezvous rendezvous;
 
 		user = this.getUserFromComment(comment);
 		user.getComments().remove(comment);
-		this.actorService.save(user);
+		this.userService.save(user);
 
 		rendezvous = this.rendezvousService.getRendezvousByCommentary(comment.getId());
 		rendezvous.getComments().remove(comment);
@@ -179,6 +182,16 @@ public class CommentService {
 
 		this.commentRepository.delete(comment);
 
+	}
+
+	public void deleteCommentFromRendezvous2(final Rendezvous rendezvous) {
+		Assert.notNull(rendezvous);
+		Collection<Comment> comments;
+
+		comments = rendezvous.getComments();
+
+		for (final Comment c : comments)
+			this.delete(c);
 	}
 	//Queries ----------------------------------------------
 	/**
