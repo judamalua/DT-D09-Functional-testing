@@ -149,12 +149,13 @@ public class UserService {
 		if (user.getId() == 0) {
 
 			Collection<Comment> comments;
-			Collection<Rendezvous> createdRendezvouses;
+			Collection<Rendezvous> createdRendezvouses, RSVPedRendezvouses;
 			UserAccount userAccount;
 			Collection<Authority> authorities;
 			Authority authority;
 
 			createdRendezvouses = new HashSet<Rendezvous>();
+			RSVPedRendezvouses = new HashSet<Rendezvous>();
 			comments = new HashSet<Comment>();
 			userAccount = user.getUserAccount();
 			authorities = new HashSet<Authority>();
@@ -168,6 +169,7 @@ public class UserService {
 
 			result.setCreatedRendezvouses(createdRendezvouses);
 			result.setComments(comments);
+			result.setRsvpRendezvouses(RSVPedRendezvouses);
 
 		} else {
 			result = this.userRepository.findOne(user.getId());
