@@ -44,7 +44,6 @@ public class CommentAdministratorController extends AbstractController {
 	public ModelAndView deleteComment(@RequestParam final int commentId) {
 		ModelAndView result;
 		Comment comment, father;
-		final Comment reply;
 		Rendezvous rendezvous;
 
 		comment = this.commentService.findOne(commentId);

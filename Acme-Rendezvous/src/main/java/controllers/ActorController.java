@@ -10,8 +10,6 @@
 
 package controllers;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -27,7 +25,6 @@ import security.Authority;
 import services.ActorService;
 import services.UserService;
 import domain.Actor;
-import domain.Administrator;
 import domain.User;
 
 @Controller
@@ -66,49 +63,6 @@ public class ActorController extends AbstractController {
 		return result;
 	}
 
-	//Saving --------------------------------------------------------------------
-	@RequestMapping(value = "/edit-admin", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@ModelAttribute("actor") @Valid final Administrator actor, final BindingResult binding) {
-		ModelAndView result;
-
-		if (binding.hasErrors()) {
-			result = new ModelAndView("actor/edit");
-			result.addObject("actor", actor);
-			result.addObject("message", "actor.params.error");
-		} else
-			try {
-				this.actorService.save(actor);
-				result = new ModelAndView("redirect:/welcome/index.do");
-			} catch (final Throwable oops) {
-				result = new ModelAndView("actor/edit");
-				result.addObject("actor", actor);
-				result.addObject("message", "actor.params.error");
-			}
-
-		return result;
-	}
-
-	//Saving --------------------------------------------------------------------
-	@RequestMapping(value = "/edit-user", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@ModelAttribute("actor") @Valid final User actor, final BindingResult binding) {
-		ModelAndView result;
-
-		if (binding.hasErrors()) {
-			result = new ModelAndView("actor/edit");
-			result.addObject("actor", actor);
-			result.addObject("message", "actor.params.error");
-		} else
-			try {
-				this.actorService.save(actor);
-				result = new ModelAndView("redirect:/welcome/index.do");
-			} catch (final Throwable oops) {
-				result = new ModelAndView("actor/edit");
-				result.addObject("actor", actor);
-				result.addObject("message", "actor.params.error");
-			}
-
-		return result;
-	}
 	// Displaying  ---------------------------------------------------------------		
 
 	/**

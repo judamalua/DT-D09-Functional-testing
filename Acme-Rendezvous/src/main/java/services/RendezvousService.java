@@ -376,10 +376,8 @@ public class RendezvousService {
 				rendezvous.getSimilars().remove(null);
 				result.setSimilars(rendezvous.getSimilars());
 			}
-
-			this.validator.validate(result, binding);
 		}
-
+		this.validator.validate(result, binding);
 		return result;
 	}
 	/**

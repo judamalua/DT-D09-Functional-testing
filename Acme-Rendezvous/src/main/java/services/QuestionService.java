@@ -262,10 +262,8 @@ public class QuestionService {
 
 			result.setAnswers(new HashSet<Answer>());
 			result.setText(question.getText());
-
-			this.validator.validate(result, binding);
 		}
-
+		this.validator.validate(result, binding);
 		return result;
 	}
 }
