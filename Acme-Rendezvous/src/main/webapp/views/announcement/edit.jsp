@@ -18,7 +18,7 @@
 	
 	<p><em><spring:message code = "form.required.params"/></em></p>
 	
-	<acme:textbox code="announcement.title" path="title"/>
+	<acme:textbox code="announcement.title" path="title" required = "true"/>
 	
 	<acme:textarea code="announcement.description" path="description" required = "true"/>
 	
@@ -30,6 +30,6 @@
 		
 	</jstl:if>
 	
-	<acme:cancel url="announcement/list.do" code="announcement.cancel"/>
+	<acme:cancel url="rendezvous/detailed-rendezvous.do?rendezvousId=${rendezvousId}&anonymous=false" code="announcement.cancel"/>
 
 </form:form>

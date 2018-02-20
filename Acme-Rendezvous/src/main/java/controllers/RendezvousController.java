@@ -99,7 +99,7 @@ public class RendezvousController extends AbstractController {
 	// Detailing ---------------------------------------------------------------		
 
 	@RequestMapping("/detailed-rendezvous")
-	public ModelAndView detailing(@RequestParam final int rendezvousId, @RequestParam final boolean anonymous) {
+	public ModelAndView detailing(@RequestParam final int rendezvousId, @RequestParam(defaultValue = "true") final boolean anonymous) {
 		ModelAndView result;
 		Rendezvous rendezvous;
 		Collection<User> users;
