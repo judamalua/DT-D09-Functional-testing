@@ -130,10 +130,16 @@ public class QuestionUserController extends AbstractController {
 	// Saving -------------------------------------------------------------------
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@RequestParam final int rendezvousId, @Valid final Question question, final BindingResult binding) {
+	public ModelAndView save(@RequestParam final int rendezvousId, @Valid Question question, final BindingResult binding) {
 		ModelAndView result;
 		Rendezvous rendezvous;
 
+		try {
+			question = this.questionService.reconstruct(question, binding);
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:misc/403");
+			return result;
+		}
 		if (binding.hasErrors()) {
 			result = this.createEditModelAndView(question, "question.params.error");
 			result.addObject("rendezvousId", rendezvousId);
@@ -155,9 +161,15 @@ public class QuestionUserController extends AbstractController {
 	// Deleting ------------------------------------------------------------------------
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(@RequestParam final int rendezvousId, final Question question, final BindingResult binding) {
+	public ModelAndView delete(@RequestParam final int rendezvousId, Question question, final BindingResult binding) {
 		ModelAndView result;
 
+		try {
+			question = this.questionService.reconstruct(question, binding);
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:misc/403");
+			return result;
+		}
 		try {
 			this.questionService.delete(question);
 			result = new ModelAndView("redirect:list.do?rendezvousId=" + rendezvousId);

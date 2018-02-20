@@ -9,6 +9,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.QuestionRepository;
 import domain.Actor;
@@ -32,7 +34,8 @@ public class QuestionService {
 	private ActorService		actorService;
 	@Autowired
 	private RendezvousService	rendezvousService;
-
+	@Autowired
+	private Validator			validator;
 	@Autowired
 	private AnswerService		answerService;
 
@@ -49,8 +52,12 @@ public class QuestionService {
 		this.actorService.checkUserLogin();
 
 		Question result;
+		//		Collection<Answer> answers;
 
 		result = new Question();
+		//		answers = new HashSet<>();
+
+		//		result.setAnswers(answers);
 
 		return result;
 	}
@@ -206,7 +213,6 @@ public class QuestionService {
 		allRendezvouses = this.rendezvousService.findAll();
 		allAnswers = this.answerService.findAll();
 
-
 		average = new Float(allAnswers.size()) / new Float(allRendezvouses.size());
 
 		result[0] = average.toString();
@@ -238,6 +244,33 @@ public class QuestionService {
 		standardDeviation = (float) ((Math.sqrt(totalAnswers * totalAnswers) / totalRendezvouses) - (average * average));
 
 		result = standardDeviation.toString();
+
+		return result;
+	}
+
+	public Question reconstruct(final Question question, final BindingResult binding) {
+
+		Question result;
+		Rendezvous rendezvous;
+		User user;
+
+		if (question.getId() == 0) {
+			question.setAnswers(new HashSet<Answer>());
+			result = question;
+		} else {
+			user = (User) this.actorService.findActorByPrincipal();
+			rendezvous = this.rendezvousService.getRendezvousByQuestion(question.getId());
+			Assert.isTrue(!rendezvous.getDeleted());
+			Assert.isTrue(!rendezvous.getFinalMode());
+			Assert.isTrue(!rendezvous.getAdultOnly() || this.actorService.checkUserIsAdult(user));
+
+			result = this.questionRepository.findOne(question.getId());
+
+			result.setAnswers(new HashSet<Answer>());
+			result.setText(question.getText());
+
+			this.validator.validate(result, binding);
+		}
 
 		return result;
 	}

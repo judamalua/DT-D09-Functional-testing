@@ -8,12 +8,10 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -126,7 +124,7 @@ public class Rendezvous extends DomainEntity {
 	private Collection<Announcement>	announcements;
 	private Collection<Comment>			comments;
 	private Collection<User>			users;
-	private Rendezvous					rendezvous;
+	private Collection<Rendezvous>		rendezvouses;
 
 
 	@NotNull
@@ -141,7 +139,7 @@ public class Rendezvous extends DomainEntity {
 	}
 
 	@NotNull
-	@OneToMany(mappedBy = "rendezvous")
+	@ManyToMany(mappedBy = "rendezvous")
 	public Collection<Rendezvous> getSimilars() {
 		return this.similars;
 	}
@@ -151,14 +149,14 @@ public class Rendezvous extends DomainEntity {
 
 	}
 
-	@Valid
-	@ManyToOne(optional = true)
-	public Rendezvous getRendezvous() {
-		return this.rendezvous;
+	@NotNull
+	@ManyToMany
+	public Collection<Rendezvous> getRendezvouses() {
+		return this.rendezvouses;
 	}
 
-	public void setRendezvous(final Rendezvous rendezvous) {
-		this.rendezvous = rendezvous;
+	public void setRendezvous(final Collection<Rendezvous> rendezvouses) {
+		this.rendezvouses = rendezvouses;
 	}
 
 	@NotNull
