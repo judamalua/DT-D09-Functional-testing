@@ -181,8 +181,9 @@ public class UserService {
 			result.setEmail(user.getEmail());
 			result.setBirthDate(user.getBirthDate());
 
-			this.validator.validate(result, binding);
 		}
+
+		this.validator.validate(result, binding);
 
 		return result;
 	}
