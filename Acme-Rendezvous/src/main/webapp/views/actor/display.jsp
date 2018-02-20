@@ -84,6 +84,13 @@
 				<spring:message code="rendezvous.deleted" />
 			</display:column>
 		</jstl:if>
+		
+		<display:column>
+			<jstl:if test="${rendezvous.adultOnly}">
+				<img src="images/18.png" />
+				<spring:message code="rendezvous.adultOnly" />
+			</jstl:if>
+		</display:column>
 
 		<security:authorize access="hasRole('ADMIN')">
 			<display:column>
@@ -140,6 +147,13 @@
 				<spring:message code="rendezvous.deleted" />
 			</display:column>
 		</jstl:if>
+		
+		<display:column>
+			<jstl:if test="${rendezvous.adultOnly}">
+				<img src="images/18.png" />
+				<spring:message code="rendezvous.adultOnly" />
+			</jstl:if>
+		</display:column>
 
 		<security:authorize access="hasRole('ADMIN')">
 			<display:column>

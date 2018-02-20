@@ -105,14 +105,14 @@ public class RendezvousController extends AbstractController {
 		Collection<User> users;
 		Actor actor;
 		User user;
-		boolean userHasCreatedRendezvous = false;
-		boolean userHasRVSPdRendezvous = false;
+		boolean userHasCreatedRendezvous = false, userHasRVSPdRendezvous = false;
 
 		try {
 			result = new ModelAndView("rendezvous/detailed-rendezvous");
 			rendezvous = this.rendezvousService.findOne(rendezvousId);
 
 			if (!anonymous) {
+				this.actorService.checkUserLogin();
 				actor = this.actorService.findActorByPrincipal();
 
 				if (!this.actorService.checkUserIsAdult(actor))

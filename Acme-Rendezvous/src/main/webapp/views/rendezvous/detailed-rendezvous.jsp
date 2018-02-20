@@ -92,6 +92,13 @@
 	</display:column>
 	<display:column property="description" title="${titleDescription}"/>
 	<display:column property="moment" title="${titleMoment}" format="${formatMoment}" sortable = "true"/>
+	
+	<display:column>
+		<jstl:if test="${rendezvous.adultOnly}">
+			<img src="images/18.png" />
+			<spring:message code="rendezvous.adultOnly" />
+		</jstl:if>
+	</display:column>
 </display:table>	
 <br/>
 
