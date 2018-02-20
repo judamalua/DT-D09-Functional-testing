@@ -4,12 +4,15 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.CommentRepository;
 import domain.Comment;
@@ -32,6 +35,9 @@ public class CommentService {
 
 	@Autowired
 	private ActorService		actorService;
+
+	@Autowired
+	private Validator			validator;
 
 
 	// Simple CRUD methods --------------------------------------------------
@@ -220,6 +226,26 @@ public class CommentService {
 
 		Assert.notNull(result);
 
+		return result;
+	}
+
+	public Comment reconstruct(final Comment comment, final BindingResult binding) {
+		Comment result;
+		final Collection<Comment> comments;
+
+		if (comment.getId() == 0) {
+			comments = new HashSet<Comment>();
+			comment.setComments(comments);
+			result = comment;
+		} else {
+			result = this.commentRepository.findOne(comment.getId());
+
+			result.setText(comment.getText());
+			result.setPictureUrl(comment.getPictureUrl());
+			result.setMoment(comment.getMoment());
+
+			this.validator.validate(result, binding);
+		}
 		return result;
 	}
 }

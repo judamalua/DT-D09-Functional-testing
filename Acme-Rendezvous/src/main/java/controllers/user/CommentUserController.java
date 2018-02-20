@@ -63,6 +63,7 @@ public class CommentUserController extends AbstractController {
 		try {
 			comment = this.commentService.create();
 			rendezvous = this.rendezvousService.findOneForReplies(rendezvousId);
+			Assert.isTrue(!rendezvous.getDeleted());
 
 			user = (User) this.actorService.findActorByPrincipal();
 			Assert.isTrue(rendezvous.getUsers().contains(user));
@@ -100,6 +101,7 @@ public class CommentUserController extends AbstractController {
 
 			//This code and the assert below cheks that only an user that RVSPd the rendezvous can reply to its comments.
 			rendezvous = this.rendezvousService.getRendezvousByCommentary(replied.getId());
+			Assert.isTrue(!rendezvous.getDeleted());
 			fatherComment = replied;
 			while (rendezvous == null) {
 				fatherComment = this.commentService.getFatherCommentFromReply(fatherComment);
@@ -128,7 +130,7 @@ public class CommentUserController extends AbstractController {
 	 * @author Antonio
 	 */
 	@RequestMapping(value = "/reply", method = RequestMethod.POST, params = "save")
-	public ModelAndView reply(@Valid final Comment comment, final BindingResult binding, @RequestParam final int repliedId) {
+	public ModelAndView reply(@Valid Comment comment, final BindingResult binding, @RequestParam final int repliedId) {
 		ModelAndView result;
 		Comment replied, saved, fatherComment;
 		User user;
@@ -137,7 +139,7 @@ public class CommentUserController extends AbstractController {
 		replied = this.commentService.findOne(repliedId);
 
 		rendezvous = this.rendezvousService.getRendezvousByCommentary(replied.getId());
-
+		comment = this.commentService.reconstruct(comment, binding);
 		if (binding.hasErrors())
 			result = this.replyModelAndView(comment, replied, rendezvous);
 		else
@@ -180,14 +182,14 @@ public class CommentUserController extends AbstractController {
 	 * @author Antonio
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView edit(@Valid final Comment comment, final BindingResult binding, @RequestParam final int rendezvousId) {
+	public ModelAndView edit(@Valid Comment comment, final BindingResult binding, @RequestParam final int rendezvousId) {
 		ModelAndView result;
 		Rendezvous rendezvous;
 		Comment saved;
 		User user;
 
 		rendezvous = this.rendezvousService.findOneForReplies(rendezvousId);
-
+		comment = this.commentService.reconstruct(comment, binding);
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(comment, rendezvous.getId());
 		else

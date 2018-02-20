@@ -17,7 +17,7 @@
 	<form:hidden path="version"/>
 	<input type="hidden" name="rendezvousId" id="rendezvousId" value="${rendezvousId}"/>
 	
-	<acme:textarea code="question.text" path="text"/>
+	<acme:textarea code="question.text" path="text" required = "true"/>
 	
 	<acme:submit name="save" code="question.save"/>
 		

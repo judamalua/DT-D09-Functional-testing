@@ -26,21 +26,18 @@
 </h4>
 <br />
 
-<spring:message code="actor.postalAddress" />
-:
+<strong><spring:message code="actor.postalAddress" />:</strong>
 <jstl:out value="${actor.postalAddress}" />
 <br />
-<spring:message code="actor.phoneNumber" />
-:
+<strong><spring:message code="actor.phoneNumber" />:</strong>
 <jstl:out value="${actor.phoneNumber}" />
 <br />
-<spring:message code="actor.email" />
-:
+<strong><spring:message code="actor.email" />:</strong>
 <jstl:out value="${actor.email}" />
 <br />
-<spring:message code="actor.birthDate" />
-:
+<strong><spring:message code="actor.birthDate" />:</strong>
 <fmt:formatDate value="${actor.birthDate}" pattern="${birthDateFormat}" />
+<br />
 <br />
 
 <security:authorize access="!hasRole('ADMIN')">

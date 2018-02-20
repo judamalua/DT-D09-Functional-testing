@@ -9,6 +9,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.AnnouncementRepository;
 import security.Authority;
@@ -30,6 +32,8 @@ public class AnnouncementService {
 	private UserService				userService;
 	@Autowired
 	private ActorService			actorService;
+	@Autowired
+	private Validator				validator;
 
 
 	// Supporting services --------------------------------------------------
@@ -40,7 +44,7 @@ public class AnnouncementService {
 		Announcement result;
 
 		result = new Announcement();
-		result.setMoment(new Date(System.currentTimeMillis() + 10));
+		result.setMoment(new Date(System.currentTimeMillis() - 1000));
 
 		return result;
 	}
@@ -73,7 +77,7 @@ public class AnnouncementService {
 
 		if (announcement.getVersion() == 0)
 			//The announcement moment is actual when the announcement is created 
-			announcement.setMoment(new Date(System.currentTimeMillis() + 10));
+			announcement.setMoment(new Date(System.currentTimeMillis() - 1000));
 		//Rendezvous rend = rendezvousService.getRendezvousByAnnouncement(announcement.getId());
 		Announcement result;
 
@@ -113,5 +117,21 @@ public class AnnouncementService {
 
 		this.announcementRepository.delete(announcement);
 
+	}
+
+	public Announcement reconstruct(final Announcement announcement, final BindingResult binding) {
+		Announcement result;
+
+		if (announcement.getId() == 0)
+			result = announcement;
+		else {
+			result = this.announcementRepository.findOne(announcement.getId());
+			result.setDescription(announcement.getDescription());
+			result.setTitle(announcement.getTitle());
+			result.setMoment(announcement.getMoment());
+
+			this.validator.validate(result, binding);
+		}
+		return result;
 	}
 }

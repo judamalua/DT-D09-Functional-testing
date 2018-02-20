@@ -18,7 +18,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -116,13 +115,16 @@ public class RendezvousController extends AbstractController {
 			if (!anonymous) {
 				actor = this.actorService.findActorByPrincipal();
 
-				/**
-				 * Age control
-				 */
-				if (rendezvous.getAdultOnly()) {//Checks if there is the user is listing logged
-					actor = this.actorService.findActorByPrincipal();
-					Assert.isTrue(this.actorService.checkUserIsAdult(actor));//The age must be 18 or more
-				}
+				if (!this.actorService.checkUserIsAdult(actor))
+
+					/**
+					 * Age control
+					 */
+					if (rendezvous.getAdultOnly()) {//Checks if there is the user is listing logged
+						actor = this.actorService.findActorByPrincipal();
+						if (!this.actorService.checkUserIsAdult(actor))
+							result = new ModelAndView("redirect:misc/adultOnly");
+					}
 
 				if (actor instanceof User) {
 					user = (User) actor;

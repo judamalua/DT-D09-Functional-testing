@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.RendezvousRepository;
 import domain.Actor;
@@ -44,6 +46,9 @@ public class RendezvousService {
 	@Autowired
 	private CommentService			commentService;
 
+	@Autowired
+	private Validator				validator;
+
 
 	// Simple CRUD methods --------------------------------------------------
 
@@ -57,29 +62,29 @@ public class RendezvousService {
 	 */
 	public Rendezvous create() {
 		Rendezvous result;
-		User user;
-		final Collection<Question> questions;
+		//		User user;
+		//		final Collection<Question> questions;
 		final Collection<Rendezvous> similars;
-		final Collection<Announcement> announcements;
-		final Collection<Comment> comments;
-		final Collection<User> users;
-
-		questions = new HashSet<Question>();
+		//		final Collection<Announcement> announcements;
+		//		final Collection<Comment> comments;
+		//		final Collection<User> users;
+		//
+		//		questions = new HashSet<Question>();
 		similars = new HashSet<Rendezvous>();
-		announcements = new HashSet<Announcement>();
-		comments = new HashSet<Comment>();
-		users = new HashSet<User>();
-
-		user = (User) this.actorService.findActorByPrincipal();
-		users.add(user);
+		//		announcements = new HashSet<Announcement>();
+		//		comments = new HashSet<Comment>();
+		//		users = new HashSet<User>();
+		//
+		//		user = (User) this.actorService.findActorByPrincipal();
+		//		users.add(user);
 
 		result = new Rendezvous();
 
-		result.setQuestions(questions);
-		result.setAnnouncements(announcements);
-		result.setComments(comments);
+		//		result.setQuestions(questions);
+		//		result.setAnnouncements(announcements);
+		//		result.setComments(comments);
 		result.setSimilars(similars);
-		result.setUsers(users);
+		//		result.setUsers(users);
 
 		return result;
 
@@ -155,10 +160,14 @@ public class RendezvousService {
 		Actor actor;
 
 		actor = this.actorService.findActorByPrincipal();
+
+		if (rendezvous.getAdultOnly())
+			Assert.isTrue(this.actorService.checkUserIsAdult(actor), "You must be over 18 to save a Rendezvous with adultOnly");
+
 		if (actor instanceof User) {
 			user = (User) this.actorService.findActorByPrincipal();
 
-			rendezvous.getSimilars().remove(null);//Nedded to not have errors
+			//rendezvous.getSimilars().remove(null);//Nedded to not have errors
 
 			result = this.rendezvousRepository.save(rendezvous);
 
@@ -290,6 +299,83 @@ public class RendezvousService {
 			this.save(rendezvous);
 		}
 
+	}
+
+	// Other business methods --------------------------------------------------
+
+	/**
+	 * This method reconstructs a pruned Rendezvous passed from a form jsp
+	 * 
+	 * @param rendezvous
+	 * @param binding
+	 * @return the reconstructed Rendezvous
+	 * @author Juanmi
+	 */
+	public Rendezvous reconstruct(final Rendezvous rendezvous, final BindingResult binding) {
+
+		Rendezvous result;
+
+		if (rendezvous.getId() == 0) {
+			User user;
+			Collection<Question> questions;
+			Collection<Rendezvous> similars;
+			Collection<Rendezvous> rendezvouses;
+			Collection<Announcement> announcements;
+			Collection<Comment> comments;
+			Collection<User> users;
+
+			questions = new HashSet<Question>();
+			similars = rendezvous.getSimilars();
+			announcements = new HashSet<Announcement>();
+			comments = new HashSet<Comment>();
+			users = new HashSet<User>();
+			rendezvouses = new HashSet<Rendezvous>();
+			user = (User) this.actorService.findActorByPrincipal();
+			users.add(user);
+			result = rendezvous;
+
+			if (similars == null)
+				similars = new HashSet<Rendezvous>();
+
+			result.setQuestions(questions);
+			result.setAnnouncements(announcements);
+			result.setComments(comments);
+			result.setSimilars(similars);
+			result.setUsers(users);
+			result.setRendezvouses(rendezvouses);
+
+		} else {
+			result = this.rendezvousRepository.findOne(rendezvous.getId());
+			Collection<Rendezvous> similars;
+
+			// Checking that the rendezvous that is trying to be saved is not a final rendezvous
+			Assert.isTrue(!result.getFinalMode());
+
+			result.setName(rendezvous.getName());
+			result.setDescription(rendezvous.getDescription());
+			result.setMoment(rendezvous.getMoment());
+			result.setPictureUrl(rendezvous.getPictureUrl());
+			result.setGpsCoordinates(rendezvous.getGpsCoordinates());
+			result.setFinalMode(rendezvous.getFinalMode());
+			result.setDeleted(rendezvous.getDeleted());
+			result.setAdultOnly(rendezvous.getAdultOnly());
+			if (rendezvous.getSimilars() == null)
+				result.setSimilars(new HashSet<Rendezvous>());
+			else if (rendezvous.getSimilars().size() > 1 && rendezvous.getSimilars().contains(null)) { // Checking if the user selected a rendezvous and ----
+				// If the user selected some similars rendezvous and the '------' option at the same time, we delete 'null' from the Rendezvous collection
+				similars = rendezvous.getSimilars();
+				similars.remove(null);
+				result.setSimilars(similars);
+				System.out.println(result.getSimilars());
+			} else {
+				result.setSimilars(rendezvous.getSimilars());
+				System.out.println(result.getSimilars());
+			}
+
+			this.validator.validate(result, binding);
+		}
+
+		return result;
 	}
 	/**
 	 * 

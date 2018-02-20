@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -22,6 +23,7 @@ public class Configuration extends DomainEntity {
 	private Integer	pageSize;
 
 
+	@SafeHtml
 	@NotBlank
 	public String getTerms_eng() {
 		return this.terms_eng;
@@ -31,6 +33,7 @@ public class Configuration extends DomainEntity {
 		this.terms_eng = terms_eng;
 	}
 
+	@SafeHtml
 	@NotBlank
 	public String getTerms_es() {
 		return this.terms_es;
@@ -40,6 +43,7 @@ public class Configuration extends DomainEntity {
 		this.terms_es = terms_es;
 	}
 
+	@SafeHtml
 	@NotBlank
 	public String getCookies_eng() {
 		return this.cookies_eng;
@@ -49,6 +53,7 @@ public class Configuration extends DomainEntity {
 		this.cookies_eng = cookies_eng;
 	}
 
+	@SafeHtml
 	@NotBlank
 	public String getCookies_es() {
 		return this.cookies_es;

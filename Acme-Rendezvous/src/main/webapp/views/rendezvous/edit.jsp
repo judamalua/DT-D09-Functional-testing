@@ -27,10 +27,6 @@
 
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
-	<form:hidden path="questions"/>
-	<form:hidden path="announcements"/>
-	<form:hidden path="comments"/>
-	<form:hidden path="users"/>
 
 	<acme:textbox code="rendezvous.name" path="name" required="true"/>
 	<acme:textarea code="rendezvous.description" path="description" required="true"/>

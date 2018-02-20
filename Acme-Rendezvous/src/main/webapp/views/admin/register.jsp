@@ -13,7 +13,6 @@
 	
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
-	<form:hidden path="userAccount.authorities"/>
 	
 	<p><em><spring:message code = "form.required.params"/></em></p>
 	

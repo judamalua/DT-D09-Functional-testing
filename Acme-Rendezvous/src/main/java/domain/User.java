@@ -7,6 +7,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
@@ -20,6 +21,7 @@ public class User extends Actor {
 
 	// Relationships ----------------------------------------------------------
 	private Collection<Rendezvous>	createdRendezvouses;
+	private Collection<Rendezvous>	rsvpRendezvouses;
 	private Collection<Comment>		comments;
 
 
@@ -42,6 +44,16 @@ public class User extends Actor {
 	public void setComments(final Collection<Comment> comments) {
 		this.comments = comments;
 
+	}
+
+	@NotNull
+	@ManyToMany(mappedBy = "users")
+	public Collection<Rendezvous> getRsvpRendezvouses() {
+		return this.rsvpRendezvouses;
+	}
+
+	public void setRsvpRendezvouses(final Collection<Rendezvous> rsvpRendezvouses) {
+		this.rsvpRendezvouses = rsvpRendezvouses;
 	}
 
 }

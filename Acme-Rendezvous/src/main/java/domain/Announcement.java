@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -38,6 +39,7 @@ public class Announcement extends DomainEntity {
 		this.moment = moment;
 	}
 
+	@SafeHtml
 	@NotBlank
 	public String getTitle() {
 		return this.title;
@@ -47,6 +49,7 @@ public class Announcement extends DomainEntity {
 		this.title = title;
 	}
 
+	@SafeHtml
 	@NotBlank
 	public String getDescription() {
 		return this.description;
