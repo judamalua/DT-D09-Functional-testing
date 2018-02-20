@@ -300,6 +300,20 @@ public class RendezvousService {
 			for (final Comment comment : new ArrayList<Comment>(rendezvous.getComments()))
 				this.commentService.deleteCommentFromRendezvous(comment);
 
+			// Updating users that RSVP rendezvous
+			for (final User rsvpUser : new ArrayList<User>(rendezvous.getUsers())) {
+				rsvpUser.getRsvpRendezvouses().remove(rendezvous);
+				this.userService.save(rsvpUser);
+				rendezvous.getUsers().remove(rsvpUser);
+			}
+
+			// Updating users that RSVP rendezvous
+			for (final Rendezvous similar : new ArrayList<Rendezvous>(rendezvous.getSimilars())) {
+				similar.getRendezvouses().remove(rendezvous);
+				this.save(similar);
+				rendezvous.getSimilars().remove(similar);
+			}
+
 			user.getCreatedRendezvouses().remove(rendezvous); // Deleting rendezvous from user list when an admin deletes a Rendezvous
 			this.actorService.save(user);
 
@@ -311,7 +325,6 @@ public class RendezvousService {
 		}
 
 	}
-
 	// Other business methods --------------------------------------------------
 
 	/**
