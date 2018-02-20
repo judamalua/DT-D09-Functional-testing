@@ -312,12 +312,14 @@ public class RendezvousService {
 	 * @author Juanmi
 	 */
 	public Rendezvous reconstruct(final Rendezvous rendezvous, final BindingResult binding) {
+
 		Rendezvous result;
 
 		if (rendezvous.getId() == 0) {
 			User user;
 			Collection<Question> questions;
 			Collection<Rendezvous> similars;
+			Collection<Rendezvous> rendezvouses;
 			Collection<Announcement> announcements;
 			Collection<Comment> comments;
 			Collection<User> users;
@@ -327,6 +329,7 @@ public class RendezvousService {
 			announcements = new HashSet<Announcement>();
 			comments = new HashSet<Comment>();
 			users = new HashSet<User>();
+			rendezvouses = new HashSet<Rendezvous>();
 			user = (User) this.actorService.findActorByPrincipal();
 			users.add(user);
 			result = rendezvous;
@@ -339,6 +342,8 @@ public class RendezvousService {
 			result.setComments(comments);
 			result.setSimilars(similars);
 			result.setUsers(users);
+			result.setRendezvouses(rendezvouses);
+
 		} else {
 			result = this.rendezvousRepository.findOne(rendezvous.getId());
 			Collection<Rendezvous> similars;
