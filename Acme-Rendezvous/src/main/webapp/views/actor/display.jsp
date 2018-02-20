@@ -68,7 +68,7 @@
 		<display:column property="name" title="${titleName}" sortable="true" />
 		<display:column property="description" title="${titleDescription}" />
 		<display:column property="moment" title="${titleMoment}"
-			format="${formatMoment}" sortable="true" />
+			format="${formatDate}" sortable="true" />
 		<display:column>
 			<a
 				href="rendezvous/detailed-rendezvous.do?rendezvousId=${rendezvous.id}&anonymous=${anonymous}">
@@ -124,7 +124,7 @@
 		<display:column property="description" title="${titleDescription}"
 			sortable="true" />
 		<display:column property="moment" title="${titleMoment}"
-			format="${formatMoment}" />
+			format="${formatDate}" />
 		<display:column>
 			<a
 				href="rendezvous/detailed-rendezvous.do?rendezvousId=${rsvpRendezvous.id}&anonymous=${anonymous}">
