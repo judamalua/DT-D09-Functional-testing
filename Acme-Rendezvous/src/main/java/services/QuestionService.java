@@ -113,7 +113,6 @@ public class QuestionService {
 		Question result;
 		User user;
 
-		Collection<Answer> answers;
 		Assert.isTrue(!rendezvous.getFinalMode());
 
 		user = (User) this.actorService.findActorByPrincipal();
@@ -121,18 +120,9 @@ public class QuestionService {
 		// We check that the rendezvous that is going to be saved is contained in the principal's created rendezvouses
 		Assert.isTrue(user.getCreatedRendezvouses().contains(rendezvous));
 
-		if (question.getId() != 0)
-			answers = this.answerService.getAnswersByQuestionId(question.getId());
-		else
-			answers = new HashSet<Answer>();
-
-		answers = new HashSet<Answer>();
-
 		result = this.questionRepository.save(question);
-		if (!answers.isEmpty())
-			// Updating questions of the answers the the question is saved.
-			for (final Answer a : answers)
-				a.setQuestion(result);
+
+		// Updating answers is not necessary because there is no way to reach this method if the questions have already some answers
 
 		// Updating rendezvous 
 		if (rendezvous.getQuestions().contains(question))
@@ -253,10 +243,14 @@ public class QuestionService {
 		Question result;
 		Rendezvous rendezvous;
 		User user;
+		Collection<Answer> answers;
 
 		if (question.getId() == 0) {
-			question.setAnswers(new HashSet<Answer>());
+			answers = new HashSet<Answer>();
+
 			result = question;
+
+			result.setAnswers(answers);
 		} else {
 			user = (User) this.actorService.findActorByPrincipal();
 			rendezvous = this.rendezvousService.getRendezvousByQuestion(question.getId());

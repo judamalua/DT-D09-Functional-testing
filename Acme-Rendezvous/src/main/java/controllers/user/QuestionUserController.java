@@ -3,8 +3,6 @@ package controllers.user;
 
 import java.util.Collection;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -130,7 +128,7 @@ public class QuestionUserController extends AbstractController {
 	// Saving -------------------------------------------------------------------
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@RequestParam final int rendezvousId, @Valid Question question, final BindingResult binding) {
+	public ModelAndView save(@RequestParam final int rendezvousId, Question question, final BindingResult binding) {
 		ModelAndView result;
 		Rendezvous rendezvous;
 
