@@ -117,10 +117,8 @@ public class AdministratorService {
 			result.setPhoneNumber(admin.getPhoneNumber());
 			result.setEmail(admin.getEmail());
 			result.setBirthDate(admin.getBirthDate());
-
-			this.validator.validate(result, binding);
 		}
-
+		this.validator.validate(result, binding);
 		return result;
 	}
 }
