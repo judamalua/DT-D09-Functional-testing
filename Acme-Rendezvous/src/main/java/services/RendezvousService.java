@@ -290,7 +290,7 @@ public class RendezvousService {
 		if (actor instanceof Administrator) {
 
 			// Deleting Announcements of the Rendezvous that is about to be deleted
-			for (final Announcement announcement : rendezvous.getAnnouncements())
+			for (final Announcement announcement : new ArrayList<Announcement>(rendezvous.getAnnouncements()))
 				this.announcementService.delete(announcement);
 
 			// Deleting Questions of the Rendezvous that is about to be deleted

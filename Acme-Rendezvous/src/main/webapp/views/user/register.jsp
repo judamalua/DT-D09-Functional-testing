@@ -9,6 +9,8 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<script type="text/javascript" src="scripts/checkboxTermsAndConditions.js"></script>
+
 <p><em><spring:message code = "form.required.params"/></em></p>
 
 <form:form id = "form" action="actor/register.do" modelAttribute ="user">
@@ -33,10 +35,18 @@
 	<acme:password code="user.password" path="userAccount.password" required="true"/>
 	
 	<acme:confirmPassword name="confirmPassword" code="user.confirm.password" required = "true"/>
+	
+	
+	<input type="checkbox" name="check" id="check">
+		<label for="check">
+			<spring:message code="register.login.terms&conditions1"/><a href = "law/termsAndConditions.do" target="_blank"><spring:message code="register.login.terms&conditions2"/></a>
+		</label>
+	
 
 	<div>
 	<acme:submit name="save" code="user.save"/>
 	<acme:cancel url="/" code="user.cancel" />
 	</div>
+	
 
 </form:form>

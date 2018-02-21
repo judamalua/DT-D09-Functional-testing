@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 
+ * tiles_es.xml
+ *
+ * Copyright (C) 2017 Universidad de Sevilla
+ * 
+ * The use of this project is hereby constrained to the conditions of the 
+ * TDG Licence, a copy of which you may download from 
+ * http://www.tdg-seville.info/License.html
+ -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+      
+<tiles-definitions>
+
+	<definition name="law/termsAndConditions" extends="master.page">	
+		<put-attribute name="title" value="Términos y Condiciones" />
+		<put-attribute name="body" value="/views/law/termsAndConditions.jsp" />
+	</definition>
+	
+	<definition name="law/commercialRegister" extends="master.page">	
+		<put-attribute name="title" value="Registro comercial" />
+		<put-attribute name="body" value="/views/law/commercialRegister.jsp" />
+	</definition>
+	
+</tiles-definitions>
