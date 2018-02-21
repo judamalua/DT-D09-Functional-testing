@@ -19,12 +19,12 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<script src="scripts/commentUserAjax.js"></script>
+<!--<script src="scripts/commentUserAjax.js"></script>
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 	getCommentUsers();
 	}, false);
-</script>
+</script>-->
 
 <!-- Variable declaration -->
 <spring:message code="master.page.moment.format" var="formatMoment"/>

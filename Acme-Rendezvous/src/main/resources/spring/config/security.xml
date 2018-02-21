@@ -38,6 +38,10 @@
  		<security:intercept-url pattern="/comment/ajax/name.do" access="permitAll" requires-channel="https" /> 
  		<security:intercept-url pattern="/comment/ajax/surname.do" access="permitAll" requires-channel="https" /> 
 		<security:intercept-url pattern="/comment/ajax/id.do" access="permitAll" requires-channel="https" />
+		
+		
+ 		<security:intercept-url pattern="/cookie/ajax/es.do" access="permitAll" requires-channel="https" /> 
+		<security:intercept-url pattern="/cookie/ajax/en.do" access="permitAll" requires-channel="https" />
 
 		<security:intercept-url pattern="/views/misc/index.jsp" access="permitAll" requires-channel="https"/>
 
