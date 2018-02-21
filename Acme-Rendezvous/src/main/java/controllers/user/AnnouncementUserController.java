@@ -3,7 +3,6 @@ package controllers.user;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,7 +46,7 @@ public class AnnouncementUserController extends AbstractController {
 	@RequestMapping(value = "/list")
 	public ModelAndView list() {
 		ModelAndView result;
-		final Collection<Announcement> announcements = new HashSet<Announcement>();
+		final Collection<Announcement> announcements = new ArrayList<Announcement>();
 		final Collection<Rendezvous> rdvs = new ArrayList<Rendezvous>();
 		Collection<Rendezvous> rendezvouses;
 		User user;
@@ -56,10 +55,15 @@ public class AnnouncementUserController extends AbstractController {
 			result = new ModelAndView("announcement/list");
 			user = (User) this.actorService.findActorByPrincipal();
 			rendezvouses = user.getRsvpRendezvouses();
-			rdvs.addAll(rendezvouses);
 
-			for (final Rendezvous rd : rendezvouses)
+			for (final Rendezvous rd : rendezvouses) {
+				final Collection<Announcement> a = rd.getAnnouncements();
 				announcements.addAll(rd.getAnnouncements());
+				final int n = a.size();
+				if (!a.isEmpty())
+					for (int i = 0; i < n; i++)
+						rdvs.add(rd);
+			}
 
 			result.addObject("announcements", announcements);
 			result.addObject("rdvs", rdvs);
