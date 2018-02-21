@@ -87,18 +87,37 @@
 <!-- Displaying similar rendezvouses -->
 <h4><spring:message code="rendezvous.similar.list"/></h4>
 <display:table name="${rendezvous.similars}" id="similar" requestURI="rendezvous/detailed-rendezvous.do" pagesize="${pagesize}">
-	<display:column property="name" title="${titleName}"/>
+	<display:column title="${titleName}" sortable = "true">
+		<a href = "rendezvous/detailed-rendezvous.do?rendezvousId=${similar.id}&anonymous=${anonymous}"><jstl:out value ="${similar.name}"/></a>
+	</display:column>
 	<display:column property="description" title="${titleDescription}"/>
-	<display:column property="moment" title="${titleMoment}" format="${formatMoment}"/>
+	<display:column property="moment" title="${titleMoment}" format="${formatMoment}" sortable = "true"/>
+	
+	<display:column>
+		<jstl:if test="${rendezvous.adultOnly}">
+			<img src="images/18.png" />
+			<spring:message code="rendezvous.adultOnly" />
+		</jstl:if>
+	</display:column>
 </display:table>	
 <br/>
 
 <!-- Displaying announcements -->
 <h4><spring:message code="rendezvous.announcements.list"/></h4>
-<display:table name="${rendezvous.announcements}" id="announcement" requestURI="rendezvouse/detailed-rendezvous.do" pagesize="${pagesize}">
-	<display:column property="title" title="${titleAnnouncement}"/>
+<display:table name="${rendezvous.announcements}" id="announcement" requestURI="rendezvous/detailed-rendezvous.do" pagesize="${pagesize}">
+	<display:column property="title" title="${titleAnnouncement}" sortable = "true"/>
 	<display:column property="description" title="${descriptionAnnouncement}"/>
-	<display:column property="moment" title="${momentAnnouncement}" format="${formatMoment}"/>
+	<display:column property="moment" title="${momentAnnouncement}" format="${formatMoment}" sortable = "true"/>
+	<security:authorize access="hasRole('ADMIN')">
+	<display:column>
+		<a
+			href="announcement/admin/delete.do?announcementId=${announcement.id}">
+			<button class="btn">
+				<spring:message code="announcement.delete" />
+			</button>
+		</a>
+	</display:column>
+	</security:authorize>
 </display:table>	
 <br/>
 
@@ -119,51 +138,11 @@
 <jstl:forEach var="comment" items="${rendezvous.comments}">
  	<acme:showComment comment="${comment}" canUserComment="${userHasRVSPdRendezvous}" indent="0"/>
 </jstl:forEach>
+<jstl:if test="${fn:length(rendezvous.comments) == 0}">
+	<spring:message code = "rendezvous.comments.empty"/>
+</jstl:if>
 <br/>
-<!--
-<display:table name="${rendezvous.comments}" id="comment" requestURI="rendezvous/detailed-rendezvous.do" pagesize="10">
-	<display:column title="${pictureComment}">
-		<jstl:if test="${not empty comment.pictureUrl}">
-			<img src="${comment.pictureUrl}" width="150" height="150">
-		</jstl:if>
-	</display:column>
-	<display:column property="text" title="${textComment}"/>
-	<display:column property="moment" title="${momentComment}" format="${formatMoment}"/>
-	<display:column title="${repliesComment}">
-		<jstl:if test="${comment.comments != null and fn:length(comment.comments)>0}">
-			<a href="comment/listFromComment.do?commentId=${comment.id}">
-				<button class="btn">
-					<spring:message code="rendezvous.comment.comments"/>
-				</button>
-			</a>
-		</jstl:if>
-	</display:column>
-		<spring:message code="comment.user" var = "commentUser" />
-	<display:column title="${commentUser}">
-		<jstl:out value="${commentUsers[comment_rowNum-1].name}"></jstl:out>
-	</display:column>
-	<jstl:if test="${userHasRVSPdRendezvous}">	
-		<display:column title="${replyComment}">
-			<a href="comment/user/reply.do?commentId=${comment.id}">
-			<button class="btn">
-				<spring:message code="rendezvous.comment.reply"/>
-			</button>
-		</a>
-		</display:column>
-	</jstl:if>
-	
-	<security:authorize access="hasRole('ADMIN')"> 
-		<display:column>
-			<a href="comment/admin/delete.do?commentId=${comment.id}">
-				<button class="btn">
-					<spring:message code="rendezvous.delete"/>
-				</button>
-			</a>
-		</display:column>
-	</security:authorize>
-</display:table>	
-<br/>
-  -->
+
 <!-- Link to attendants -->
 <jstl:if test="${rendezvous.finalMode and !rendezvous.deleted}">
 	<a href="answer/user/list.do?rendezvousId=${rendezvous.id}">

@@ -39,6 +39,9 @@ public class CommentService {
 	@Autowired
 	private Validator			validator;
 
+	@Autowired
+	private UserService			userService;
+
 
 	// Simple CRUD methods --------------------------------------------------
 
@@ -108,13 +111,48 @@ public class CommentService {
 	 * @return Comment
 	 * @author Antonio
 	 */
-	public Comment save(final Comment comment) {
+	public Comment save(final Comment comment, final Rendezvous rendezvous) {
 
 		Assert.notNull(comment);
 
 		Comment result;
+		User user;
 
+		user = (User) this.actorService.findActorByPrincipal();
 		result = this.commentRepository.save(comment);
+
+		rendezvous.getComments().add(result);
+		this.rendezvousService.comment(rendezvous);
+
+		user.getComments().add(result);
+		this.userService.save(user);
+
+		return result;
+
+	}
+
+	/**
+	 * This method saves a comment passed as a param into the database.
+	 * 
+	 * @param comment
+	 * @return Comment
+	 * @author Antonio
+	 */
+	public Comment reply(final Comment replied, final Comment reply) {
+
+		Assert.notNull(replied);
+
+		Comment result;
+		User user;
+
+		user = (User) this.actorService.findActorByPrincipal();
+		result = this.commentRepository.save(reply);
+
+		replied.getComments().add(result);
+		this.commentRepository.save(replied);
+
+		user.getComments().add(result);
+		this.userService.save(user);
 
 		return result;
 
@@ -149,7 +187,7 @@ public class CommentService {
 
 		if (fatherComment != null) {
 			fatherComment.getComments().remove(comment);
-			this.save(fatherComment);
+			this.save(fatherComment, rendezvous);
 		}
 
 		this.commentRepository.delete(comment);
@@ -167,11 +205,11 @@ public class CommentService {
 		Assert.isTrue(comment.getId() != 0);
 
 		User user;
-		Rendezvous rendezvous;
+		final Rendezvous rendezvous;
 
 		user = this.getUserFromComment(comment);
 		user.getComments().remove(comment);
-		this.actorService.save(user);
+		this.userService.save(user);
 
 		rendezvous = this.rendezvousService.getRendezvousByCommentary(comment.getId());
 		rendezvous.getComments().remove(comment);
@@ -179,6 +217,16 @@ public class CommentService {
 
 		this.commentRepository.delete(comment);
 
+	}
+
+	public void deleteCommentFromRendezvous2(final Rendezvous rendezvous) {
+		Assert.notNull(rendezvous);
+		Collection<Comment> comments;
+
+		comments = rendezvous.getComments();
+
+		for (final Comment c : comments)
+			this.delete(c);
 	}
 	//Queries ----------------------------------------------
 	/**
@@ -231,15 +279,17 @@ public class CommentService {
 
 	public Comment reconstruct(final Comment comment, final BindingResult binding) {
 		Comment result;
+		User user;
 		final Collection<Comment> comments;
 
 		if (comment.getId() == 0) {
+			user = (User) this.actorService.findActorByPrincipal();
 			comments = new HashSet<Comment>();
 			comment.setComments(comments);
+			comment.setUser(user);
 			result = comment;
 		} else {
 			result = this.commentRepository.findOne(comment.getId());
-
 			result.setText(comment.getText());
 			result.setPictureUrl(comment.getPictureUrl());
 			result.setMoment(comment.getMoment());

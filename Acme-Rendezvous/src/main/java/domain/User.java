@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -36,7 +35,7 @@ public class User extends Actor {
 	}
 
 	@NotNull
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user")
 	public Collection<Comment> getComments() {
 		return this.comments;
 	}

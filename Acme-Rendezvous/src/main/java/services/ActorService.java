@@ -10,6 +10,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.Years;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -176,6 +177,20 @@ public class ActorService {
 		actor = this.findActorByPrincipal();
 
 		Assert.notNull(actor);
+	}
+
+	/**
+	 * This method checks if there is someone logged in the system
+	 * 
+	 * @return true if there is someone logged, false otherwise
+	 * @author Juanmi
+	 */
+	public boolean getLogged() {
+		boolean result;
+
+		result = SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
+
+		return result;
 	}
 
 	/**

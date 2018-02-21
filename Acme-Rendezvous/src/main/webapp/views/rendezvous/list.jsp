@@ -67,6 +67,13 @@
 			<spring:message code="rendezvous.deleted" />
 		</jstl:if>
 	</display:column>
+	
+	<display:column>
+		<jstl:if test="${rendezvous.adultOnly}">
+			<img src="images/18.png" />
+			<spring:message code="rendezvous.adultOnly" />
+		</jstl:if>
+	</display:column>
 
 	<security:authorize access="hasRole('ADMIN')">
 		<display:column>

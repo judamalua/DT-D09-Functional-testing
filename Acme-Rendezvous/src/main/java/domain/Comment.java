@@ -6,8 +6,8 @@ import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -67,10 +67,11 @@ public class Comment extends DomainEntity {
 
 	// Relationships ----------------------------------------------------------
 	private Collection<Comment>	comments;
+	private User				user;
 
 
 	@Valid
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany
 	public Collection<Comment> getComments() {
 		return this.comments;
 	}
@@ -78,6 +79,16 @@ public class Comment extends DomainEntity {
 	public void setComments(final Collection<Comment> comments) {
 		this.comments = comments;
 
+	}
+
+	@Valid
+	@ManyToOne(optional = false)
+	public User getUser() {
+		return this.user;
+	}
+
+	public void setUser(final User user) {
+		this.user = user;
 	}
 
 }

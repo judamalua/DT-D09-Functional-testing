@@ -11,11 +11,9 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <display:table name="announcements" id="announcement"
-	requestURI="announcement/user/list.do" pagesize="${pagesize}"
+	requestURI="announcement/user/list.do" defaultsort="1" defaultorder="descending" pagesize="${pagesize}"
 	class="displayTag">
 	
-	<!-- Rendezvous Id sent by controller -->
-
 	<spring:message code="announcement.moment.format" var="momentFormat" />
 	<spring:message code="announcement.moment" var="announcementMoment" />
 	<display:column property="moment" title="${announcementMoment}"
@@ -23,17 +21,11 @@
 
 	<spring:message code="announcement.title" var="title" />
 	<display:column property="title" title="${title}" sortable="false" />
+	
 	<spring:message code="announcement.description" var="description" />
 	<display:column property="description" title="${description}" sortable="false" />
 
-	<display:column>
-		<a
-			href="announcement/user/delete.do?announcementId=${announcement.id}">
-			<button class="btn">
-				<spring:message code="announcement.delete" />
-			</button>
-		</a>
-	</display:column>
+	
 
 </display:table>
 
