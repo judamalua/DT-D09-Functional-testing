@@ -82,7 +82,7 @@ public class RendezvousController extends AbstractController {
 					rendezvouses = this.rendezvousService.findFinalWithoutAdultRendezvouses(pageable);
 			} else
 				//If no one is logged then list all final Rendezvouses
-				rendezvouses = this.rendezvousService.findFinalRendezvouses(pageable);
+				rendezvouses = this.rendezvousService.findFinalWithoutAdultRendezvouses(pageable);
 
 			result.addObject("rendezvouses", rendezvouses.getContent());
 			result.addObject("requestURI", "rendezvous/list.do");
