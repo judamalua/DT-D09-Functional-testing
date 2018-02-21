@@ -37,10 +37,10 @@
 	<acme:confirmPassword name="confirmPassword" code="user.confirm.password" required = "true"/>
 	
 	
-	<input type="checkbox" name="check" id="check">
-		<label for="check">
-			<spring:message code="register.login.terms&conditions1"/><a href = "law/termsAndConditions.do" target="_blank"><spring:message code="register.login.terms&conditions2"/></a>
-		</label>
+	<p>
+		<input type="checkbox" name="check" id="check">
+		<spring:message code="register.login.terms&conditions1"/><a href = "law/termsAndConditions.do" target="_blank"><spring:message code="register.login.terms&conditions2"/></a>
+	</p>
 	
 
 	<div>
