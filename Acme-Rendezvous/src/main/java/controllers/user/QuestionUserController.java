@@ -135,7 +135,7 @@ public class QuestionUserController extends AbstractController {
 		try {
 			question = this.questionService.reconstruct(question, binding);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:misc/403");
+			result = new ModelAndView("redirect:/misc/403");
 			return result;
 		}
 		if (binding.hasErrors()) {
@@ -165,7 +165,7 @@ public class QuestionUserController extends AbstractController {
 		try {
 			question = this.questionService.reconstruct(question, binding);
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:misc/403");
+			result = new ModelAndView("redirect:/misc/403");
 			return result;
 		}
 		try {

@@ -108,6 +108,16 @@
 	<display:column property="title" title="${titleAnnouncement}" sortable = "true"/>
 	<display:column property="description" title="${descriptionAnnouncement}"/>
 	<display:column property="moment" title="${momentAnnouncement}" format="${formatMoment}" sortable = "true"/>
+	<security:authorize access="hasRole('ADMIN')">
+	<display:column>
+		<a
+			href="announcement/admin/delete.do?announcementId=${announcement.id}">
+			<button class="btn">
+				<spring:message code="announcement.delete" />
+			</button>
+		</a>
+	</display:column>
+	</security:authorize>
 </display:table>	
 <br/>
 
