@@ -111,6 +111,7 @@ public class UserController extends AbstractController {
 		Pageable rsvpPageable, createdPageable;
 		Configuration configuration;
 		try {
+
 			if (!anonymous)
 				this.actorService.checkUserLogin();
 			result = new ModelAndView("actor/display");
@@ -138,7 +139,7 @@ public class UserController extends AbstractController {
 			result.addObject("rsvpPageNum", rsvpRendezvouses.getTotalPages());
 			result.addObject("createdPageNum", createdRendezvouses.getTotalPages());
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:misc/403");
+			result = new ModelAndView("redirect:/misc/403");
 		}
 
 		return result;

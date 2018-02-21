@@ -87,9 +87,18 @@
 <!-- Displaying similar rendezvouses -->
 <h4><spring:message code="rendezvous.similar.list"/></h4>
 <display:table name="${rendezvous.similars}" id="similar" requestURI="rendezvous/detailed-rendezvous.do" pagesize="${pagesize}">
-	<display:column property="name" title="${titleName}" sortable = "true"/>
+	<display:column title="${titleName}" sortable = "true">
+		<a href = "rendezvous/detailed-rendezvous.do?rendezvousId=${similar.id}&anonymous=${anonymous}"><jstl:out value ="${similar.name}"/></a>
+	</display:column>
 	<display:column property="description" title="${titleDescription}"/>
 	<display:column property="moment" title="${titleMoment}" format="${formatMoment}" sortable = "true"/>
+	
+	<display:column>
+		<jstl:if test="${rendezvous.adultOnly}">
+			<img src="images/18.png" />
+			<spring:message code="rendezvous.adultOnly" />
+		</jstl:if>
+	</display:column>
 </display:table>	
 <br/>
 
@@ -99,6 +108,16 @@
 	<display:column property="title" title="${titleAnnouncement}" sortable = "true"/>
 	<display:column property="description" title="${descriptionAnnouncement}"/>
 	<display:column property="moment" title="${momentAnnouncement}" format="${formatMoment}" sortable = "true"/>
+	<security:authorize access="hasRole('ADMIN')">
+	<display:column>
+		<a
+			href="announcement/admin/delete.do?announcementId=${announcement.id}">
+			<button class="btn">
+				<spring:message code="announcement.delete" />
+			</button>
+		</a>
+	</display:column>
+	</security:authorize>
 </display:table>	
 <br/>
 

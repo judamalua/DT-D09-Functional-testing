@@ -53,7 +53,7 @@ public class AnnouncementUserController extends AbstractController {
 
 			result = new ModelAndView("announcement/list");
 			user = (User) this.actorService.findActorByPrincipal();
-			rendezvouses = user.getCreatedRendezvouses();
+			rendezvouses = user.getRsvpRendezvouses();
 
 			for (final Rendezvous rd : rendezvouses)
 				announcements.addAll(rd.getAnnouncements());
@@ -146,45 +146,45 @@ public class AnnouncementUserController extends AbstractController {
 
 	// Deleting ------------------------------------------------------------------------
 
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(@RequestParam final int rendezvousId, final Announcement announcement, final BindingResult binding) {
-		ModelAndView result;
-
-		try {
-			this.announcementService.delete(announcement);
-			result = new ModelAndView("redirect:list.do?rendezvousId=" + rendezvousId);
-
-		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(announcement, "announcement.commit.error");
-			result.addObject("rendezvousId", rendezvousId);
-		}
-
-		return result;
-	}
-
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public ModelAndView delete(@RequestParam("announcementId") final int announcementId) {
-
-		Announcement announcement;
-		ModelAndView result;
-		final User user = (User) this.actorService.findActorByPrincipal();
-		try {
-			announcement = this.announcementService.findOne(announcementId);			//Checks that the rendezvous is valid
-			Assert.notNull(announcement);
-
-			final Rendezvous rendezvous = this.rendezvousService.getRendezvousByAnnouncement(announcement.getId());
-			final User userCreator = this.userService.getCreatorUser(rendezvous.getId());
-			Assert.isTrue(userCreator.equals(user));
-
-			this.announcementService.delete(announcement);
-			result = new ModelAndView("redirect:/announcement/user/list.do");
-		} catch (final Throwable oops) {
-			//If any error is made during whole process, it will make the user go to the 403 page
-			result = new ModelAndView("redirect:/misc/403");
-		}
-
-		return result;
-	}
+//	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
+//	public ModelAndView delete(@RequestParam final int rendezvousId, final Announcement announcement, final BindingResult binding) {
+//		ModelAndView result;
+//
+//		try {
+//			this.announcementService.delete(announcement);
+//			result = new ModelAndView("redirect:list.do?rendezvousId=" + rendezvousId);
+//
+//		} catch (final Throwable oops) {
+//			result = this.createEditModelAndView(announcement, "announcement.commit.error");
+//			result.addObject("rendezvousId", rendezvousId);
+//		}
+//
+//		return result;
+//	}
+//
+//	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+//	public ModelAndView delete(@RequestParam("announcementId") final int announcementId) {
+//
+//		Announcement announcement;
+//		ModelAndView result;
+//		final User user = (User) this.actorService.findActorByPrincipal();
+//		try {
+//			announcement = this.announcementService.findOne(announcementId);			//Checks that the rendezvous is valid
+//			Assert.notNull(announcement);
+//
+//			final Rendezvous rendezvous = this.rendezvousService.getRendezvousByAnnouncement(announcement.getId());
+//			final User userCreator = this.userService.getCreatorUser(rendezvous.getId());
+//			Assert.isTrue(userCreator.equals(user));
+//
+//			this.announcementService.delete(announcement);
+//			result = new ModelAndView("redirect:/announcement/user/list.do");
+//		} catch (final Throwable oops) {
+//			//If any error is made during whole process, it will make the user go to the 403 page
+//			result = new ModelAndView("redirect:/misc/403");
+//		}
+//
+//		return result;
+//	}
 
 	// Ancillary methods --------------------------------------------------
 

@@ -14,11 +14,13 @@
 <%@ attribute name="canUserComment" required="true"%>
 <%@ attribute name="indent" required="true"%>
 <%-- Definition --%>
+<spring:message code="master.page.moment.format.out" var="formatMoment"/>
 <div style="border-left: 1px solid black; border-top: 1px solid black; text-indent: ${indent}px; float:clear;">
 <div >
 <p hidden="true" class="commentId">${comment.id}</p>
 <h4>${comment.text}</h4>
-<p>${comment.moment}
+
+<p><fmt:formatDate pattern="${formatMoment}" value="${comment.moment}" />
 <a id="commentUser${comment.id}id" href="#"><i id="commentUser${comment.id}name"></i> <i id="commentUser${comment.id}surname"></i></a>
 </p>
 <jstl:if test="${not empty comment.pictureUrl}">

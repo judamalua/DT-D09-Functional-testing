@@ -105,14 +105,14 @@ public class RendezvousController extends AbstractController {
 		Collection<User> users;
 		Actor actor;
 		User user;
-		boolean userHasCreatedRendezvous = false;
-		boolean userHasRVSPdRendezvous = false;
+		boolean userHasCreatedRendezvous = false, userHasRVSPdRendezvous = false;
 
 		try {
 			result = new ModelAndView("rendezvous/detailed-rendezvous");
 			rendezvous = this.rendezvousService.findOne(rendezvousId);
 
 			if (!anonymous) {
+				this.actorService.checkUserLogin();
 				actor = this.actorService.findActorByPrincipal();
 
 				if (!this.actorService.checkUserIsAdult(actor))
@@ -123,7 +123,7 @@ public class RendezvousController extends AbstractController {
 					if (rendezvous.getAdultOnly()) {//Checks if there is the user is listing logged
 						actor = this.actorService.findActorByPrincipal();
 						if (!this.actorService.checkUserIsAdult(actor))
-							result = new ModelAndView("redirect:misc/adultOnly");
+							result = new ModelAndView("redirect:/misc/adultOnly");
 					}
 
 				if (actor instanceof User) {
@@ -146,7 +146,7 @@ public class RendezvousController extends AbstractController {
 			result.addObject("commentUsers", users);
 
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:misc/403");
+			result = new ModelAndView("redirect:/misc/403");
 		}
 
 		return result;
