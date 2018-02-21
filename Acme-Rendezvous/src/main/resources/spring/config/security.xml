@@ -55,6 +55,7 @@
 		<security:intercept-url pattern="/actor/display.do" access="isAuthenticated()" requires-channel="https"  />
 		<security:intercept-url pattern="actor/user/register.do" access="permitAll" requires-channel="https" /> 
 		<security:intercept-url pattern="/rendezvous/user/**" access="hasRole('USER')" requires-channel="https" /> 
+		<security:intercept-url pattern="/similar/user/**" access="hasRole('USER')" requires-channel="https" /> 
 		
 		<security:intercept-url pattern="/actor/user/edit.do" access="hasRole('USER')" requires-channel="https" /> 
 		<security:intercept-url pattern="/actor/admin/edit.do" access="hasRole('ADMIN')" requires-channel="https" /> 

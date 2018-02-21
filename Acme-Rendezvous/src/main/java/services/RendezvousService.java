@@ -394,6 +394,36 @@ public class RendezvousService {
 		this.validator.validate(result, binding);
 		return result;
 	}
+
+	/**
+	 * This method reconstructs a pruned Rendezvous passed from a form jsp
+	 * 
+	 * @param rendezvous
+	 * @param binding
+	 * @return the reconstructed Rendezvous
+	 * @author Juanmi
+	 */
+	public Rendezvous reconstructSimilar(final Rendezvous similar, final BindingResult binding) {
+
+		Rendezvous result;
+
+		result = this.rendezvousRepository.findOne(similar.getId());
+
+		//Updating the similars
+		for (final Rendezvous savedSimilar : result.getSimilars()) {
+			savedSimilar.getRendezvouses().remove(similar);
+			this.save(savedSimilar);
+		}
+
+		if (similar.getSimilars() == null)
+			result.setSimilars(new HashSet<Rendezvous>());
+		else {
+			similar.getSimilars().remove(null);
+			result.setSimilars(similar.getSimilars());
+		}
+		this.validator.validate(result, binding);
+		return result;
+	}
 	/**
 	 * 
 	 * This method returns the Rendezvous that has the question which id its provided

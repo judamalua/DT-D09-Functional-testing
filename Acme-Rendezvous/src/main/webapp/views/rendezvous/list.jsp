@@ -18,7 +18,7 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <!-- Variable declaration -->
 <spring:message code="rendezvous.name" var="titleName" />
@@ -44,22 +44,34 @@
 
 <!-- Display -->
 <display:table name="rendezvouses" id="rendezvous"
-	requestURI="${requestUri}">
+	requestURI="${requestURI}">
 
 	<display:column property="name" title="${titleName}" />
 	<display:column property="description" title="${titleDescription}" />
 	<display:column property="moment" title="${titleMoment}"
 		format="${formatMoment}" />
 	<display:column>
-		<acme:button url="rendezvous/detailed-rendezvous.do?rendezvousId=${rendezvous.id}&anonymous=${anonymous}" code="rendezvous.details"/>
+		<acme:button
+			url="rendezvous/detailed-rendezvous.do?rendezvousId=${rendezvous.id}&anonymous=${anonymous}"
+			code="rendezvous.details" />
 	</display:column>
 
-	<display:column>
-		<jstl:if test="${!rendezvous.finalMode and !rendezvous.deleted and rendezvous.moment>currentDate}">
-			<acme:button url="rendezvous/user/edit.do?rendezvousId=${rendezvous.id}" code="rendezvous.edit"/>
-		</jstl:if>
-	</display:column>
-
+	<jstl:if test="${requestURI==\"rendezvous/user/list.do\"}">
+		<display:column>
+			<jstl:if
+				test="${!rendezvous.finalMode and !rendezvous.deleted and rendezvous.moment>currentDate}">
+				<acme:button
+					url="rendezvous/user/edit.do?rendezvousId=${rendezvous.id}"
+					code="rendezvous.edit" />
+			</jstl:if>
+			<jstl:if
+				test="${rendezvous.finalMode and !rendezvous.deleted and rendezvous.moment>currentDate}">
+				<acme:button
+					url="similar/user/edit.do?rendezvousId=${rendezvous.id}"
+					code="rendezvous.edit" />
+			</jstl:if>
+		</display:column>
+	</jstl:if>
 
 	<display:column>
 		<jstl:if test="${rendezvous.deleted}">
@@ -67,7 +79,7 @@
 			<spring:message code="rendezvous.deleted" />
 		</jstl:if>
 	</display:column>
-	
+
 	<display:column>
 		<jstl:if test="${rendezvous.adultOnly}">
 			<img src="images/18.png" />
@@ -77,7 +89,9 @@
 
 	<security:authorize access="hasRole('ADMIN')">
 		<display:column>
-			<acme:button url="rendezvous/admin/delete.do?rendezvousId=${rendezvous.id}" code="rendezvous.delete"/>
+			<acme:button
+				url="rendezvous/admin/delete.do?rendezvousId=${rendezvous.id}"
+				code="rendezvous.delete" />
 		</display:column>
 	</security:authorize>
 
@@ -86,5 +100,5 @@
 <!-- Creating a new rendezvous -->
 
 <jstl:if test="${not anonymous}">
-	<acme:button url="rendezvous/user/create.do" code="rendezvous.create"/>
+	<acme:button url="rendezvous/user/create.do" code="rendezvous.create" />
 </jstl:if>
