@@ -82,7 +82,7 @@ public class RendezvousController extends AbstractController {
 					rendezvouses = this.rendezvousService.findFinalWithoutAdultRendezvouses(pageable);
 			} else
 				//If no one is logged then list all final Rendezvouses
-				rendezvouses = this.rendezvousService.findFinalRendezvouses(pageable);
+				rendezvouses = this.rendezvousService.findFinalWithoutAdultRendezvouses(pageable);
 
 			result.addObject("rendezvouses", rendezvouses.getContent());
 			result.addObject("requestURI", "rendezvous/list.do");
@@ -123,7 +123,7 @@ public class RendezvousController extends AbstractController {
 					if (rendezvous.getAdultOnly()) {//Checks if there is the user is listing logged
 						actor = this.actorService.findActorByPrincipal();
 						if (!this.actorService.checkUserIsAdult(actor))
-							result = new ModelAndView("redirect:misc/adultOnly");
+							result = new ModelAndView("redirect:/misc/adultOnly");
 					}
 
 				if (actor instanceof User) {
@@ -146,7 +146,7 @@ public class RendezvousController extends AbstractController {
 			result.addObject("commentUsers", users);
 
 		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:misc/403");
+			result = new ModelAndView("redirect:/misc/403");
 		}
 
 		return result;

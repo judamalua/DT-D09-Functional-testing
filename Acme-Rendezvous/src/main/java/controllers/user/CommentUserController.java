@@ -153,13 +153,7 @@ public class CommentUserController extends AbstractController {
 
 				Assert.isTrue(rendezvous.getUsers().contains(user));
 
-				saved = this.commentService.save(comment);
-
-				replied.getComments().add(saved);
-				this.commentService.save(replied);
-
-				user.getComments().add(saved);
-				this.userService.save(user);
+				saved = this.commentService.reply(replied, comment);
 
 				result = new ModelAndView("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvous.getId() + "&anonymous=false");
 			} catch (final Throwable oops) {
@@ -196,13 +190,13 @@ public class CommentUserController extends AbstractController {
 				user = (User) this.actorService.findActorByPrincipal();
 				Assert.isTrue(rendezvous.getUsers().contains(user));
 
-				saved = this.commentService.save(comment);
+				saved = this.commentService.save(comment, rendezvous);
 
-				rendezvous.getComments().add(saved);
-				this.rendezvousService.comment(rendezvous);
-
-				user.getComments().add(saved);
-				this.userService.save(user);
+				//				rendezvous.getComments().add(saved);
+				//				this.rendezvousService.comment(rendezvous);
+				//
+				//				user.getComments().add(saved);
+				//				this.userService.save(user);
 
 				result = new ModelAndView("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvous.getId() + "&anonymous=false");
 			} catch (final Throwable oops) {

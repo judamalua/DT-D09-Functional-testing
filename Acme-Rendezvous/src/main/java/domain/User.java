@@ -35,7 +35,7 @@ public class User extends Actor {
 	}
 
 	@NotNull
-	@OneToMany
+	@OneToMany(mappedBy = "user")
 	public Collection<Comment> getComments() {
 		return this.comments;
 	}
