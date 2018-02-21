@@ -140,6 +140,8 @@
 				</button>
 			</a>
 		</display:column>
+		
+		
 
 		<jstl:if test="${rsvpRendezvous.deleted}">
 			<display:column>
@@ -149,11 +151,13 @@
 		</jstl:if>
 		
 		<display:column>
-			<jstl:if test="${rendezvous.adultOnly}">
+			<jstl:if test="${rsvpRendezvous.adultOnly}">
 				<img src="images/18.png" />
 				<spring:message code="rendezvous.adultOnly" />
 			</jstl:if>
 		</display:column>
+		
+	
 
 		<security:authorize access="hasRole('ADMIN')">
 			<display:column>

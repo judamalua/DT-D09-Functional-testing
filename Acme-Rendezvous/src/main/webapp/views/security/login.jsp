@@ -15,22 +15,13 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <form:form action="j_spring_security_check" modelAttribute="credentials">
 
-	<form:label path="username">
-		<spring:message code="security.username" />
-	</form:label>
-	<form:input path="username" />	
-	<form:errors class="error" path="username" />
-	<br />
+	<acme:textbox code="security.username" path="username"/>
 
-	<form:label path="password">
-		<spring:message code="security.password" />
-	</form:label>
-	<form:password path="password" />	
-	<form:errors class="error" path="password" />
-	<br />
+	<acme:password code="security.password" path="password"/>
 	
 	<jstl:if test="${showError == true}">
 		<div class="error">
@@ -38,6 +29,6 @@
 		</div>
 	</jstl:if>
 	
-	<input class = "btn" type="submit" value="<spring:message code="security.login" />" />
+	<acme:submit name="" code="security.login"/>
 	
 </form:form>

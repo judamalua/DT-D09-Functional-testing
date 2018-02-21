@@ -27,6 +27,6 @@
 
 <%-- Definition --%>
 
-<button type="submit" name="${name}" class="btn">
+<button type="submit" name="${name}" class="btn" id = "submit">
 	<spring:message code="${code}" />
 </button>

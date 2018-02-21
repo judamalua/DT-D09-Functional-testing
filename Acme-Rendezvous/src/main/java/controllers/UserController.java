@@ -110,8 +110,8 @@ public class UserController extends AbstractController {
 		Page<Rendezvous> createdRendezvouses;
 		Pageable rsvpPageable, createdPageable;
 		Configuration configuration;
-		try {
 
+		try {
 			if (!anonymous)
 				this.actorService.checkUserLogin();
 			result = new ModelAndView("actor/display");

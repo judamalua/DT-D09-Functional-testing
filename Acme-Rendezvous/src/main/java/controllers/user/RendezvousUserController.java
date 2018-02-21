@@ -11,7 +11,6 @@
 package controllers.user;
 
 import java.util.Collection;
-import java.util.Date;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,7 +105,6 @@ public class RendezvousUserController extends AbstractController {
 			Assert.isTrue(user.getCreatedRendezvouses().contains(rendezvous));
 			result = this.createEditModelAndView(rendezvous);
 			result.addObject("rendezvous", rendezvous);
-			
 
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/misc/403");
@@ -192,11 +190,11 @@ public class RendezvousUserController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final Rendezvous rendezvous) {
 		ModelAndView result;
 		result = this.createEditModelAndView(rendezvous, null);
-		
+
 		//Se le pasa el parametro adult que indicara si el usuario es mayor a 18 años
-		User user = (User) this.actorService.findActorByPrincipal();
+		final User user = (User) this.actorService.findActorByPrincipal();
 		result.addObject("adult", user.getBirthDate().before((new DateTime()).minusYears(18).toDate()));
-		
+
 		return result;
 	}
 
@@ -206,10 +204,12 @@ public class RendezvousUserController extends AbstractController {
 
 		result = new ModelAndView("rendezvous/edit");
 		similars = this.rendezvousService.findFinalRendezvouses();
+		similars.remove(rendezvous);
 
 		result.addObject("message", messageCode);
 		result.addObject("rendezvouses", similars);
 		result.addObject("rendezvous", rendezvous);
+		result.addObject("requestURI", "rendezvous/user/edit.do");
 
 		return result;
 
