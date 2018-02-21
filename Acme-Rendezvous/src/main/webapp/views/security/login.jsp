@@ -29,7 +29,6 @@
 		</div>
 	</jstl:if>
 	
-	
 	<acme:submit name="" code="security.login"/>
 	
 </form:form>
