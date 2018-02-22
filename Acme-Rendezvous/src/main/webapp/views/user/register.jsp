@@ -11,12 +11,15 @@
 
 <script type="text/javascript" src="scripts/checkboxTermsAndConditions.js"></script>
 
+<div class="row">
 <p><em><spring:message code = "form.required.params"/></em></p>
 
-<form:form id = "form" action="actor/register.do" modelAttribute ="user">
+<form:form id = "form" action="actor/register.do" modelAttribute ="user" class="col s12">
+
 	
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
+	
 	
 	<acme:textbox code="user.name" path="name" required="true"/>
 	
@@ -25,21 +28,20 @@
 	<acme:textbox code="user.phoneNumber" path="phoneNumber"/>
 	
 	<acme:textbox code="user.postalAddress" path="postalAddress"/>
-	
+
 	<acme:textbox code="user.email" path="email" required="true"/>
 	
 	<acme:textbox code="user.birthDate" path="birthDate" placeholder="dd/MM/yyyy" required="true"/>
 	
 	<acme:textbox code="user.username" path="userAccount.username" required="true"/>
-	
+
 	<acme:password code="user.password" path="userAccount.password" required="true"/>
 	
 	<acme:confirmPassword name="confirmPassword" code="user.confirm.password" required = "true"/>
 	
-	
 	<p>
 		<input type="checkbox" name="check" id="check">
-		<spring:message code="register.login.terms&conditions1"/><a href = "law/termsAndConditions.do" target="_blank"><spring:message code="register.login.terms&conditions2"/></a>
+		<label for="check"><spring:message code="register.login.terms&conditions1"/><a href = "law/termsAndConditions.do" target="_blank"><spring:message code="register.login.terms&conditions2"/></a></label>
 	</p>
 	
 
@@ -50,3 +52,4 @@
 	
 
 </form:form>
+</div>

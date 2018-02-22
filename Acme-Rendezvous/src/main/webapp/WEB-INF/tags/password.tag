@@ -33,9 +33,13 @@
 
 
 <div>
+	<div class="row">
+	<div class="input-field col s3">
 	<form:label path="${path}">
 		<spring:message code="${code}" /><jstl:if test="${required}">*</jstl:if>
 	</form:label>
 	<form:password path="${path}"/>
 	<form:errors path="${path}" cssClass="error" />
+	</div>
+	</div>
 </div>

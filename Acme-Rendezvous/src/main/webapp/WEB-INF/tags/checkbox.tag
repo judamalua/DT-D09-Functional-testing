@@ -34,9 +34,12 @@
 <%-- Definition --%>
 
 <div>
-	<form:label path="${path}">
+	<%-- <form:label path="${path}">
 		<spring:message code="${code}" />
-	</form:label>	
-	<form:checkbox path="${path}" />	
+	</form:label> --%>	
+	
+	<form:checkbox path="${path}" id = "check" name = "check"/>	
 	<form:errors path="${path}" cssClass="error" />
+	<label for = "check"><spring:message code="${code}" /></label>
+	
 </div>	

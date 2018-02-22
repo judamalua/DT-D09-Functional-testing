@@ -45,6 +45,7 @@
 <%-- Definition --%>
 
 <div>
+	<div class="input-field col s3">
 	<form:label path="${path}">
 		<spring:message code="${code}" />
 	</form:label>	
@@ -53,6 +54,8 @@
 		<form:options items="${items}" itemValue="id" itemLabel="${itemLabel}" />
 	</form:select>
 	<form:errors path="${path}" cssClass="error" />
+	</div>
+	
 </div>
 
 

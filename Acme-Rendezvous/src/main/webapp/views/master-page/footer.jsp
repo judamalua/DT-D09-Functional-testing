@@ -15,10 +15,11 @@
 
 <jsp:useBean id="date" class="java.util.Date" />
 
-<div class = "footer">
+
+
 
 <script src="scripts/cookieAjax.js"></script>
-<hr />
+<br />
 <script type="text/javascript">
 window.onload = function() {
 	  checkCookie();
@@ -26,8 +27,14 @@ window.onload = function() {
 
 </script>
 <div class="cookies"></div>
+<footer class = page-footer>
+<div class = "footer-copyright">
+<div class="container">
 <strong>Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Acme Inc.</strong>
-<br/>
-<a href = "law/termsAndConditions.do"><spring:message code = "master.page.terms&conditions"/></a>
-<div><spring:message code = "icons.license.one"/> <a href="https://www.flaticon.com/authors/flat-icons" title="Flat Icons">Flat Icons</a> <spring:message code = "icons.license.two"/> <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> <spring:message code = "icons.license.three"/> <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+
+<%-- <a href = "law/termsAndConditions.do"><spring:message code = "master.page.terms&conditions"/></a> --%>
+<%-- <div><spring:message code = "icons.license.one"/> <a href="https://www.flaticon.com/authors/flat-icons" title="Flat Icons">Flat Icons</a> <spring:message code = "icons.license.two"/> <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> <spring:message code = "icons.license.three"/> <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> --%>
+ <a class="grey-text text-lighten-4 right" href="law/termsAndConditions.do"><spring:message code = "master.page.terms&conditions"/></a>
 </div>
+</div>
+</footer>

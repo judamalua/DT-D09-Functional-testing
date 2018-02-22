@@ -26,18 +26,29 @@
 
 <link rel="shortcut icon" href="favicon.ico"/> 
 
+
+
+
+
+<script type="text/javascript" src="scripts/materialize.js"></script>
 <script type="text/javascript" src="scripts/jquery.js"></script>
 <script type="text/javascript" src="scripts/jquery-ui.js"></script>
 <script type="text/javascript" src="scripts/jmenu.js"></script>
+
+
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/2.0.4/css/bootstrap.min.css"> <!-- BOOTSTRAP 2.0.4 -->
-<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"> --><!-- MATERIALIZE -->
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/2.0.4/css/bootstrap.min.css"> --> <!-- BOOTSTRAP 2.0.4 -->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"><!-- MATERIALIZE -->
+
 <!-- <script type="text/javascript"
 	src="scripts/locales/bootstrap-datetimepicker.es.js" charset="UTF-8"></script> -->
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/2.0.4/js/bootstrap.min.js"></script> <!-- BOOTSTRAP 2.0.4 -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script> --> <!-- MATERIALIZE -->
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/2.0.4/js/bootstrap.min.js"></script> --> <!-- BOOTSTRAP 2.0.4 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script> <!-- MATERIALIZE -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> <!-- MATERIALIZE ICONS -->
+
 <link rel="stylesheet" href="styles/common.css" type="text/css">
 <link rel="stylesheet" href="styles/jmenu.css" media="screen"
 	type="text/css" />
@@ -45,6 +56,8 @@
 <!-- <link rel="stylesheet" href="styles/style.css" type="text/css"> -->
 <!-- <link rel="stylesheet" href="styles/bootstrap-datetimepicker.css"
 	type="text/css"> -->
+
+
 
 <title><tiles:insertAttribute name="title" ignore="true" /></title>
 
@@ -77,6 +90,7 @@
 		<tiles:insertAttribute name="header" />
 	</div>
 	<div class = "body">
+	
 		<h1>
 			<tiles:insertAttribute name="title" />
 		</h1>
@@ -85,10 +99,11 @@
 			<br />
 			<span class="message"><spring:message code="${message}" /></span>
 		</jstl:if>	
+		
 	</div>
-	<div>
+	
 		<tiles:insertAttribute name="footer" />
-	</div>
+	
 
 </body>
 </html>

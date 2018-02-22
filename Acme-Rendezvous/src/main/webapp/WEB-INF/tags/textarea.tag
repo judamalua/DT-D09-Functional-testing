@@ -38,9 +38,13 @@
 <%-- Definition --%>
 
 <div class="form-group">
+	<div class="row">
+	<div class="input-field col s3">
 	<form:label path="${path}">
 		<spring:message code="${code}" /><jstl:if test="${required}">*</jstl:if>
 	</form:label>
-	<form:textarea path="${path}" readonly="${readonly}" />
+	<form:textarea path="${path}" readonly="${readonly}" class="materialize-textarea"/>
 	<form:errors path="${path}" cssClass="error" />
+	</div>
+	</div>
 </div>

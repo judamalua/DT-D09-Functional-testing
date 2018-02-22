@@ -29,6 +29,7 @@
 <p>
 	<em><spring:message code="form.required.params" /></em>
 </p>
+<div class="row">
 <form:form action="${requestURI}" modelAttribute="rendezvous">
 
 	<form:hidden path="id" />
@@ -42,7 +43,7 @@
 			placeholder="${momentPlaceholder}" />
 		<acme:textbox code="rendezvous.pictureUrl" path="pictureUrl" />
 		<acme:textbox code="rendezvous.gpsCoordinates" path="gpsCoordinates"
-			placeholder="${gpsPlaceholder}" required="true" />7
+			placeholder="${gpsPlaceholder}" required="true" />
 	</jstl:if>
 	<acme:select code="rendezvous.similars" path="similars"
 		items="${rendezvouses}" itemLabel="name" multiple="true" />
@@ -61,3 +62,4 @@
 	<acme:cancel url="rendezvous/user/list.do" code="rendezvous.cancel" />
 
 </form:form>
+</div>

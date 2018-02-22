@@ -53,6 +53,7 @@
 .body{
 	position: relative;
 	margin-left: 1%;
+	font-weight: 100;
 }
 
 summary{
@@ -147,4 +148,24 @@ input, select{
 body{
 	background-color: #fffaf0;
 	font-family:'Raleway';
+}
+
+/* Footer staying on the bottom */
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.body{
+	 flex: 1 0 auto;
+}
+
+/*Nav and footer Materialize color*/
+nav{
+	background-color: #26a69a;
+}
+
+.page-footer{
+	background-color: #26a69a;
 }

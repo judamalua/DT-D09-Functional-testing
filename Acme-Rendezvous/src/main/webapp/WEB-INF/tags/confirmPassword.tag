@@ -33,8 +33,12 @@
 
 
 <div>
+	<div class="row">
+	<div class="input-field col s3">
 	<label for = "${name}">
 		<spring:message code="${code}" /><jstl:if test="${required}">*</jstl:if>
 	</label>
 	<input type = "password" name="${name}" />
+	</div>
+	</div>
 </div>

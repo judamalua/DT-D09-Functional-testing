@@ -42,9 +42,13 @@
 <%-- Definition --%>
 
 <div>
+	<div class="row">
+	<div class="input-field col s3">
 	<form:label path="${path}">
 		<spring:message code="${code}" /><jstl:if test="${required}">*</jstl:if>
 	</form:label>	
 	<form:input path="${path}" readonly="${readonly}" placeholder="${placeholder}"/>	
 	<form:errors path="${path}" cssClass="error" />
+	</div>
+	</div>
 </div>	
