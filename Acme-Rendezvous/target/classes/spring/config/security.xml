@@ -96,7 +96,6 @@
 		<security:intercept-url pattern="/configuration/admin/**" access="hasRole('ADMIN')" />
 		
 		<security:intercept-url pattern="/law/termsAndConditions.do" access="permitAll" requires-channel="https" />
-		<security:intercept-url pattern="/law/commercialRegister.do" access="permitAll" requires-channel="https" />
 			
 
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
