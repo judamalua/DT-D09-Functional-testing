@@ -294,7 +294,7 @@ public class RendezvousService {
 				this.announcementService.delete(announcement);
 
 			// Deleting Questions of the Rendezvous that is about to be deleted
-			for (final Question question : rendezvous.getQuestions())
+			for (final Question question : new ArrayList<Question>(rendezvous.getQuestions()))
 				this.questionService.delete(question);
 
 			// Deleting Comments of the Rendezvous that is about to be deleted
