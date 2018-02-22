@@ -24,6 +24,7 @@ import services.ActorService;
 import services.ConfigurationService;
 import services.RendezvousService;
 import services.UserService;
+import domain.Actor;
 import domain.Configuration;
 import domain.Rendezvous;
 import domain.User;
@@ -106,14 +107,18 @@ public class UserController extends AbstractController {
 		@RequestParam(defaultValue = "0") final int createdRendezvousPage) {
 		ModelAndView result;
 		User user;
+		Actor principal;
 		Page<Rendezvous> rsvpRendezvouses;
 		Page<Rendezvous> createdRendezvouses;
 		Pageable rsvpPageable, createdPageable;
 		Configuration configuration;
 
 		try {
-			if (!anonymous)
+			if (!anonymous) {
 				this.actorService.checkUserLogin();
+				principal = this.actorService.findActorByPrincipal();
+			} else
+				principal = null;
 			result = new ModelAndView("actor/display");
 			if (actorId != null)
 				user = this.userService.findOne(actorId);
@@ -126,9 +131,13 @@ public class UserController extends AbstractController {
 			rsvpPageable = new PageRequest(rsvpPage, configuration.getPageSize());
 			createdPageable = new PageRequest(createdRendezvousPage, configuration.getPageSize());
 
-			createdRendezvouses = this.rendezvousService.findCreatedRendezvousesForDisplay(user, createdPageable);
-			rsvpRendezvouses = this.rendezvousService.findRSVPRendezvouses(user, rsvpPageable);
-
+			if (!anonymous && this.actorService.checkUserIsAdult(principal)) {
+				createdRendezvouses = this.rendezvousService.findCreatedRendezvousesForDisplay(user, createdPageable);
+				rsvpRendezvouses = this.rendezvousService.findRSVPRendezvouses(user, rsvpPageable);
+			} else {
+				createdRendezvouses = this.rendezvousService.findCreatedRendezvousesForDisplayNotAdult(user, createdPageable);
+				rsvpRendezvouses = this.rendezvousService.findRSVPRendezvousesNotAdult(user, rsvpPageable);
+			}
 			result.addObject("actor", user);
 			result.addObject("anonymous", anonymous);
 			result.addObject("rsvpRendezvouses", rsvpRendezvouses);

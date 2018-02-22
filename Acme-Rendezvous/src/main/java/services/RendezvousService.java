@@ -601,6 +601,44 @@ public class RendezvousService {
 		return result;
 	}
 
+	/**
+	 * Return the list of not deleted rendezvouses paginated by the pageable and created by user whithout adult contents
+	 * 
+	 * @param pageable
+	 * @param user
+	 * @return A page of Rendezvouses created by the user
+	 * @author MJ
+	 */
+	public Page<Rendezvous> findCreatedRendezvousesForDisplayNotAdult(final User user, final Pageable pageable) {
+		Assert.notNull(pageable);
+		Assert.notNull(user);
+
+		Page<Rendezvous> result;
+
+		result = this.rendezvousRepository.findCreatedRendezvousesForDisplayNotAdult(user.getId(), pageable);
+
+		return result;
+	}
+
+	/**
+	 * Return the list of not deleted rendezvouses paginated by the pageable and RSVP by user whithout adult contents
+	 * 
+	 * @param pageable
+	 * @param user
+	 * @return A page of Rendezvouses RSVP by the user
+	 * @author MJ
+	 */
+	public Page<Rendezvous> findRSVPRendezvousesNotAdult(final User user, final Pageable pageable) {
+		Assert.notNull(pageable);
+		Assert.notNull(user);
+
+		Page<Rendezvous> result;
+
+		result = this.rendezvousRepository.findRSVPRendezvousesNotAdult(user.getId(), pageable);
+
+		return result;
+	}
+
 	// Dashboard queries.
 
 	/**
