@@ -69,7 +69,6 @@
 		<security:intercept-url pattern="actor/admin/register.do" access="hasRole('ADMIN')" requires-channel="https"  />
 		<security:intercept-url pattern="actor/admin/edit.do" access="hasRole('ADMIN')" requires-channel="https"  />
 		
-		<security:intercept-url pattern="/comment/administrator/delete.do" access="hasRole('ADMIN')" requires-channel="https"  /> 
 		<security:intercept-url pattern="/comment/user/create.do" access="hasRole('USER')" requires-channel="https" /> 
 		<security:intercept-url pattern="/comment/user/edit.do" access="hasRole('USER')" requires-channel="https" /> 
 		<security:intercept-url pattern="/comment/user/reply.do" access="hasRole('USER')" requires-channel="https" /> 
