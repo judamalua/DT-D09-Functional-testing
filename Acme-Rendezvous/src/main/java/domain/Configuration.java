@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.SafeHtml;
 
 @Entity
@@ -16,32 +17,10 @@ public class Configuration extends DomainEntity {
 	// Constructors -----------------------------------------------------------
 
 	// Attributes -------------------------------------------------------------
-	private String	terms_eng;
-	private String	terms_es;
 	private String	cookies_eng;
 	private String	cookies_es;
 	private Integer	pageSize;
 
-
-	@SafeHtml
-	@NotBlank
-	public String getTerms_eng() {
-		return this.terms_eng;
-	}
-
-	public void setTerms_eng(final String terms_eng) {
-		this.terms_eng = terms_eng;
-	}
-
-	@SafeHtml
-	@NotBlank
-	public String getTerms_es() {
-		return this.terms_es;
-	}
-
-	public void setTerms_es(final String terms_es) {
-		this.terms_es = terms_es;
-	}
 
 	@SafeHtml
 	@NotBlank
@@ -64,6 +43,7 @@ public class Configuration extends DomainEntity {
 	}
 
 	@NotNull
+	@Range(min = 1)
 	public Integer getPageSize() {
 		return this.pageSize;
 	}
