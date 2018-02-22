@@ -49,9 +49,9 @@
 		items="${rendezvouses}" itemLabel="name" multiple="true" />
 		
 	<jstl:if test="${rendezvous.finalMode== null or !rendezvous.finalMode}">
-		<acme:checkbox code="rendezvous.finalMode" path="finalMode" />
+		<div><acme:checkbox code="rendezvous.finalMode" path="finalMode" /></div>
 		<jstl:if test="${adult}">
-			<acme:checkbox code="rendezvous.adultOnly" path="adultOnly" />
+			<div><<acme:checkbox code="rendezvous.adultOnly" path="adultOnly" /></div>
 		</jstl:if>
 	</jstl:if>
 	<acme:submit name="save" code="rendezvous.save" />
