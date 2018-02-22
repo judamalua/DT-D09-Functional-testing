@@ -50,7 +50,7 @@
 <summary><spring:message code="dashboard.top.ten.rendezvouses"/></summary>
 	
 	
-	<display:table id = "rendezvous" name = "topTenRendezvouses">
+	<display:table id = "rendezvous" name = "topTenRendezvouses" requestURI="dashboard/admin/list.do" pagesize="${pagesize}">
 		<spring:message var = "titleRendezvous" code = "dashboard.rendezvous.title"/>
 		<display:column title = "${titleRendezvous}">${rendezvous.name}</display:column>
 		<spring:message var = "titleNumRSVP" code = "dashboard.rendezvous.numRSVP"/>
@@ -69,7 +69,7 @@
 <details>
 <summary><spring:message code="dashboard.rendezvouses.above.seventyfive"/></summary>
 	
-	<display:table id = "row" name = "rendezvousesWithAnnouncementAboveSeventyFivePercent">
+	<display:table id = "row" name = "rendezvousesWithAnnouncementAboveSeventyFivePercent" requestURI="dashboard/admin/list.do" pagesize="${pagesize}">
 		
 		<spring:message var = "titleRendezvous" code = "dashboard.rendezvous.title"/>
 		<display:column title = "${titleRendezvous}">${row.name}</display:column>
@@ -80,7 +80,7 @@
 <details>
 <summary><spring:message code="dashboard.rendezvous.most.linked"/></summary>
 	
-	<display:table id = "row" name = "rendezvousesMostLinked">
+	<display:table id = "row" name = "rendezvousesMostLinked" requestURI="dashboard/admin/list.do" pagesize="${pagesize}">
 		
 		<spring:message var = "titleRendezvous" code = "dashboard.rendezvous.title"/>
 		<display:column title = "${titleRendezvous}">${row.name}</display:column>

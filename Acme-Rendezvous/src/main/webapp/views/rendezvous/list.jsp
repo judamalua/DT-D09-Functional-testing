@@ -33,7 +33,7 @@
 	<!-- Pagination -->
 	<span class="pagebanner"> <jstl:forEach begin="1"
 			end="${pageNum}" var="index">
-			<a href="${requestURI}?&pageage=${index-1}&anonymous=${anonymous}">
+			<a href="${requestURI}?&page=${index-1}&anonymous=${anonymous}">
 				<jstl:out value="${index}" />
 			</a>
 			<jstl:if test="${index!=pageNum}">,</jstl:if>

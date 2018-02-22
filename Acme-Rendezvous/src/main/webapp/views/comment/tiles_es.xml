@@ -20,15 +20,4 @@
 		<put-attribute name="title" value="Escribe un comentario" />
 		<put-attribute name="body" value="/views/comment/edit.jsp" />
 	</definition>
-	
-	<definition name="comment/list" extends="master.page">	
-		<put-attribute name="title" value="Lista de comentarios" />
-		<put-attribute name="body" value="/views/comment/list.jsp" />
-	</definition>
-	
-	<definition name="comment/display" extends="master.page">	
-		<put-attribute name="title" value="Mostrar comentario" />
-		<put-attribute name="body" value="/views/comment/display.jsp" />
-	</definition>
-	
 </tiles-definitions>

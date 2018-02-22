@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
 import services.CommentService;
 import services.RendezvousService;
-import services.UserService;
 import domain.Comment;
 import domain.Rendezvous;
 import domain.User;
@@ -32,9 +31,6 @@ public class CommentController extends AbstractController {
 
 	@Autowired
 	private ActorService		actorService;
-
-	@Autowired
-	private UserService			userService;
 
 
 	// Constructors -----------------------------------------------------------
