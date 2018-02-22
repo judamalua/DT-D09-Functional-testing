@@ -11,17 +11,6 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-
-<p>
-	<strong><spring:message code="configuration.terms_eng" /></strong>
-	<jstl:out value="${configuration.terms_eng}" />
-</p>
-
-<p>
-	<strong><spring:message code="configuration.terms_es" /></strong>
-	<jstl:out value="${configuration.terms_es}" />
-</p>
-
 <p>
 	<strong><spring:message code="configuration.cookies_eng" /></strong>
 	<jstl:out value="${configuration.cookies_eng}" />

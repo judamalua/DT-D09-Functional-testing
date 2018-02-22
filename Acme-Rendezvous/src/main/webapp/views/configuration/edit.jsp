@@ -28,10 +28,6 @@
 	<form:hidden path="version" />
 	
 	<p><em><spring:message code = "configuration.all.fields.required"/></em></p>
-
-	<acme:textarea code="configuration.terms_eng" path="terms_eng"/>
-	
-	<acme:textarea code="configuration.terms_es" path="terms_es"/>
 	
 	<acme:textarea code="configuration.cookies_eng" path="cookies_eng"/>
 	
