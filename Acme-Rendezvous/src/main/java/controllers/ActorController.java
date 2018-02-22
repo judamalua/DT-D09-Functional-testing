@@ -127,6 +127,7 @@ public class ActorController extends AbstractController {
 		Authority auth;
 
 		user = this.userService.reconstruct(user, binding);
+
 		if (binding.hasErrors())
 			result = this.createEditModelAndViewRegister(user, "user.params.error");
 		else

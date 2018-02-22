@@ -126,11 +126,13 @@ public class UserController extends AbstractController {
 				user = (User) this.actorService.findActorByPrincipal();
 
 			Assert.notNull(user);
+
 			//Getting pages of collections
 			configuration = this.configurationService.findConfiguration();
 			rsvpPageable = new PageRequest(rsvpPage, configuration.getPageSize());
 			createdPageable = new PageRequest(createdRendezvousPage, configuration.getPageSize());
 
+			//Controlling the adult content
 			if (!anonymous && this.actorService.checkUserIsAdult(principal)) {
 				createdRendezvouses = this.rendezvousService.findCreatedRendezvousesForDisplay(user, createdPageable);
 				rsvpRendezvouses = this.rendezvousService.findRSVPRendezvouses(user, rsvpPageable);
@@ -143,7 +145,7 @@ public class UserController extends AbstractController {
 			result.addObject("rsvpRendezvouses", rsvpRendezvouses);
 			result.addObject("createdRendezvouses", createdRendezvouses);
 
-			result.addObject("createdRendezvousPage", rsvpRendezvouses.getNumber());
+			result.addObject("createdRendezvousPage", createdRendezvouses.getNumber());
 			result.addObject("rsvpPage", rsvpRendezvouses.getNumber());
 			result.addObject("rsvpPageNum", rsvpRendezvouses.getTotalPages());
 			result.addObject("createdPageNum", createdRendezvouses.getTotalPages());

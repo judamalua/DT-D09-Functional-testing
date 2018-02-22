@@ -137,7 +137,10 @@ public class ActorAdminController extends AbstractController {
 	public ModelAndView updateAdministrator(@ModelAttribute("actor") Administrator admin, final BindingResult binding) {
 		ModelAndView result;
 
-		admin = this.administratorService.reconstruct(admin, binding);
+		try {
+			admin = this.administratorService.reconstruct(admin, binding);
+		} catch (final Throwable oops) { //Not delete
+		}
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(admin, "actor.params.error");
 		else
