@@ -38,6 +38,10 @@
  		<security:intercept-url pattern="/comment/ajax/name.do" access="permitAll" requires-channel="https" /> 
  		<security:intercept-url pattern="/comment/ajax/surname.do" access="permitAll" requires-channel="https" /> 
 		<security:intercept-url pattern="/comment/ajax/id.do" access="permitAll" requires-channel="https" />
+		
+		
+ 		<security:intercept-url pattern="/cookie/ajax/es.do" access="permitAll" requires-channel="https" /> 
+		<security:intercept-url pattern="/cookie/ajax/en.do" access="permitAll" requires-channel="https" />
 
 		<security:intercept-url pattern="/views/misc/index.jsp" access="permitAll" requires-channel="https"/>
 
@@ -55,6 +59,7 @@
 		<security:intercept-url pattern="/actor/display.do" access="isAuthenticated()" requires-channel="https"  />
 		<security:intercept-url pattern="actor/user/register.do" access="permitAll" requires-channel="https" /> 
 		<security:intercept-url pattern="/rendezvous/user/**" access="hasRole('USER')" requires-channel="https" /> 
+		<security:intercept-url pattern="/similar/user/**" access="hasRole('USER')" requires-channel="https" /> 
 		
 		<security:intercept-url pattern="/actor/user/edit.do" access="hasRole('USER')" requires-channel="https" /> 
 		<security:intercept-url pattern="/actor/admin/edit.do" access="hasRole('ADMIN')" requires-channel="https" /> 
@@ -90,6 +95,9 @@
 		<security:intercept-url pattern="/dashboard/admin/**" access="hasRole('ADMIN')" />
 		
 		<security:intercept-url pattern="/configuration/admin/**" access="hasRole('ADMIN')" />
+		
+		<security:intercept-url pattern="/law/termsAndConditions.do" access="permitAll" requires-channel="https" />
+		<security:intercept-url pattern="/law/commercialRegister.do" access="permitAll" requires-channel="https" />
 			
 
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />

@@ -19,7 +19,6 @@
 <div
 	style="border-left: 1px solid black; border-top: 1px solid black; text-indent: ${indent}px; float:clear;">
 	<div>
-		<p hidden="true" class="commentId">${comment.id}</p>
 		<h4>${comment.text}</h4>
 
 		<p>

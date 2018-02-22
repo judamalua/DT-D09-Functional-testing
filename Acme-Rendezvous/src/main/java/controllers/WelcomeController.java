@@ -13,10 +13,14 @@ package controllers;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import services.ConfigurationService;
+import domain.Configuration;
 
 @Controller
 @RequestMapping("/welcome")
@@ -27,6 +31,11 @@ public class WelcomeController extends AbstractController {
 	public WelcomeController() {
 		super();
 	}
+
+
+	@Autowired
+	ConfigurationService	configurationService;
+
 
 	// Index ------------------------------------------------------------------		
 
@@ -42,6 +51,9 @@ public class WelcomeController extends AbstractController {
 		result = new ModelAndView("welcome/index");
 		result.addObject("name", name);
 		result.addObject("moment", moment);
+		final Configuration configuration = this.configurationService.findConfiguration();
+		result.addObject("cookies_es", configuration.getCookies_es());
+		result.addObject("cookies_en", configuration.getCookies_eng());
 
 		return result;
 	}
