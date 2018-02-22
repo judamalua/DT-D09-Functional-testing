@@ -9,6 +9,7 @@
  */
 
 .rendezvousPhoto{
+	
 	width: 10%;
 	height: 10%;
 }
@@ -41,7 +42,7 @@
 .crop img {
     width: 100%;
     height: auto;
-    margin: -15% 0 0 0;
+    margin: -18% 0 0 0;
 }
 
 .paginacion{
