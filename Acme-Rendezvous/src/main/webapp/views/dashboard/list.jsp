@@ -10,17 +10,22 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 
-<details>
-<summary><spring:message code="dashboard.rendezvous.user"/></summary><br/>
+<ul class="collapsible popout" data-collapsible="accordion">
 
+<li class = "dashboard-expander">
+<div class="collapsible-header"><spring:message code="dashboard.rendezvous.user"/></div>
+
+<div class="collapsible-body"><span>
 <p class = "element"><b><spring:message code="dashboard.average"/>:</b> <jstl:out value="${rendezvousUserAverage == \"null\" ? 0 : rendezvousUserAverage}"></jstl:out></p>
 
 <p class = "element"><b><spring:message code="dashboard.standardDeviation"/>:</b> <jstl:out value="${rendezvousUserStandardDeviation == \"null\" ? 0 : rendezvousUserStandardDeviation}"></jstl:out></p>
-</details><br/>
+</span></div>
+</li>
 
-<details>
-<summary><spring:message code="dashboard.users.create.ratio"/></summary><br/>
+<li class = "dashboard-expander">
+<div class="collapsible-header"><spring:message code="dashboard.users.create.ratio"/></div>
 
+<div class="collapsible-body"><span>
 <p class = "element"><b><spring:message code="dashboard.ratio"/>:</b> <jstl:out value="${ratioCreatedRendezvouses == \"null\" ? 0 : ratioCreatedRendezvouses}"></jstl:out></p>
 <div class = "ratio element">
 <div class="progress progress-striped
@@ -29,27 +34,34 @@
        style="width: ${ratioCreatedRendezvouses*100}%;"><jstl:out value="${ratioCreatedRendezvouses*100}%" /></div>
 </div>
 </div>
-</details><br/>
+</span></div>
+</li>
 
 
-<details>
-<summary><spring:message code="dashboard.user.rendezvous.info"/></summary><br/>
+
+<li class = "dashboard-expander">
+<div class="collapsible-header"><spring:message code="dashboard.user.rendezvous.info"/></div>
+
+<div class="collapsible-body"><span>
 <p class = "element"><b><spring:message code="dashboard.average"/>:</b> <jstl:out value="${userRendezvousAverage == \"null\" ? 0 : userRendezvousAverage}"></jstl:out></p>
 
 <p class = "element"><b><spring:message code="dashboard.standardDeviation"/>:</b> <jstl:out value="${userRendezvousStandardDeviation == \"null\" ? 0 : userRendezvousStandardDeviation}"></jstl:out></p>
-</details><br/>
+</span></div>
+</li>
 
-<details>
-<summary><spring:message code="dashboard.RSVP.user"/></summary><br/>
+<li class = "dashboard-expander">
+<div class="collapsible-header"><spring:message code="dashboard.RSVP.user"/></div>
+<div class="collapsible-body"><span>
 <p class = "element"><b><spring:message code="dashboard.average"/>:</b> <jstl:out value="${averageRSVPedPerUser == \"null\" ? 0 : averageRSVPedPerUser}"></jstl:out></p>
 
 <p class = "element"><b><spring:message code="dashboard.standardDeviation"/>:</b> <jstl:out value="${standardDeviationRSVPedPerUser == \"null\" ? 0 : standardDeviationRSVPedPerUser}"></jstl:out></p>
-</details><br/>
+</span></div>
+</li>
 
-<details>
-<summary><spring:message code="dashboard.top.ten.rendezvouses"/></summary>
+<li class = "dashboard-expander">
+<div class="collapsible-header"><spring:message code="dashboard.top.ten.rendezvouses"/></div>
 	
-	
+<div class="collapsible-body"><span>	
 	<display:table id = "rendezvous" name = "topTenRendezvouses" requestURI="dashboard/admin/list.do" pagesize="${pagesize}">
 		<spring:message var = "titleRendezvous" code = "dashboard.rendezvous.title"/>
 		<display:column title = "${titleRendezvous}">${rendezvous.name}</display:column>
@@ -57,54 +69,68 @@
 		<display:column title = "${titleNumRSVP}">${fn:length(rendezvous.users)}</display:column>
 	
 	</display:table>
-</details><br/>
+</span></div>
+</li>
 
-<details>
-<summary><spring:message code="dashboard.announcements.rendezvous"/></summary><br/>
+<li class = "dashboard-expander">
+<div class="collapsible-header"><spring:message code="dashboard.announcements.rendezvous"/></div>
+<div class="collapsible-body"><span>	
 <p class = "element"><b><spring:message code="dashboard.average"/>:</b> <jstl:out value="${announcementsRendezvousAverage == \"null\" ? 0 : announcementsRendezvousAverage}"></jstl:out></p>
 
 <p class = "element"><b><spring:message code="dashboard.standardDeviation"/>:</b> <jstl:out value="${announcementsRendezvousStandardDeviation == \"null\" ? 0 : announcementsRendezvousStandardDeviation}"></jstl:out></p>
-</details><br/>
+</span></div>
+</li>
 
-<details>
-<summary><spring:message code="dashboard.rendezvouses.above.seventyfive"/></summary>
-	
+<li class = "dashboard-expander">
+<div class="collapsible-header"><spring:message code="dashboard.rendezvouses.above.seventyfive"/></div>
+	<div class="collapsible-body"><span>
 	<display:table id = "row" name = "rendezvousesWithAnnouncementAboveSeventyFivePercent" requestURI="dashboard/admin/list.do" pagesize="${pagesize}">
 		
 		<spring:message var = "titleRendezvous" code = "dashboard.rendezvous.title"/>
 		<display:column title = "${titleRendezvous}">${row.name}</display:column>
 	
 	</display:table>
-</details><br/>
+</span></div>
+</li>
 
-<details>
-<summary><spring:message code="dashboard.rendezvous.most.linked"/></summary>
+<li class = "dashboard-expander">
+<div class="collapsible-header"><spring:message code="dashboard.rendezvous.most.linked"/></div>
 	
+	<div class="collapsible-body"><span>
 	<display:table id = "row" name = "rendezvousesMostLinked" requestURI="dashboard/admin/list.do" pagesize="${pagesize}">
 		
 		<spring:message var = "titleRendezvous" code = "dashboard.rendezvous.title"/>
 		<display:column title = "${titleRendezvous}">${row.name}</display:column>
 	
 	</display:table>
-</details><br/>
+</span></div>
+</li>
 
-<details>
-<summary><spring:message code="dashboard.questions.rendezvous"/></summary><br/>
+<li class = "dashboard-expander">
+<div class="collapsible-header"><spring:message code="dashboard.questions.rendezvous"/></div>
+<div class="collapsible-body"><span>
 <p class = "element"><b><spring:message code="dashboard.average"/>:</b> <jstl:out value="${questionsRendezvousAverage == \"null\" ? 0 : questionsRendezvousAverage}"></jstl:out></p>
 
 <p class = "element"><b><spring:message code="dashboard.standardDeviation"/>:</b> <jstl:out value="${questionsRendezvousStandardDeviation == \"null\" ? 0 : questionsRendezvousStandardDeviation}"></jstl:out></p>
-</details><br/>
+</span></div>
+</li>
 
-<details>
-<summary><spring:message code="dashboard.answers.rendezvous"/></summary><br/>
+<li class = "dashboard-expander">
+<div class="collapsible-header"><spring:message code="dashboard.answers.rendezvous"/></div>
+<div class="collapsible-body"><span>
 <p class = "element"><b><spring:message code="dashboard.average"/>:</b> <jstl:out value="${averageAnswersPerRendezvous == \"null\" ? 0 : averageAnswersPerRendezvous}"></jstl:out></p>
 
 <p class = "element"><b><spring:message code="dashboard.standardDeviation"/>:</b> <jstl:out value="${standardDeviationAnswersPerRendezvous == \"null\" ? 0 : standardDeviationAnswersPerRendezvous}"></jstl:out></p>
-</details><br/>
+</span></div>
+</li>
 
-<details>
-<summary><spring:message code="dashboard.replies.comment"/></summary><br/>
+<li class = "dashboard-expander">
+<div class="collapsible-header"><spring:message code="dashboard.replies.comment"/></div>
+<div class="collapsible-body"><span>
 <p class = "element"><b><spring:message code="dashboard.average"/>:</b> <jstl:out value="${repliesCommentAverage == \"null\" ? 0 : repliesCommentAverage}"></jstl:out></p>
 
 <p class = "element"><b><spring:message code="dashboard.standardDeviation"/>:</b> <jstl:out value="${repliesCommentStandardDeviation == \"null\" ? 0 : repliesCommentStandardDeviation}"></jstl:out></p>
-</details><br/>
+</span></div>
+</li>
+
+</ul>

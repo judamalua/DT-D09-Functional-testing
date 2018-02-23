@@ -170,9 +170,6 @@ public class RendezvousService {
 		if (actor instanceof User) {
 			user = (User) this.actorService.findActorByPrincipal();
 
-			if (rendezvous.getId() != 0)
-				Assert.isTrue(user.getCreatedRendezvouses().contains(rendezvous));
-
 			result = this.rendezvousRepository.save(rendezvous);
 
 			//Updating similars

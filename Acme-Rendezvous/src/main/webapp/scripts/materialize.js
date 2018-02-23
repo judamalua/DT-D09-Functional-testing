@@ -9,4 +9,17 @@ $(document).ready(function() {
 
 	});
 
+	$('select').each(function() {
+
+		var name = $(this).attr('name');
+		$('[name="' + '_' + name + '"]').remove();
+
+	});
+
+	$('table').each(function() {
+
+		$(this).attr('class', 'striped');
+
+	});
+
 });

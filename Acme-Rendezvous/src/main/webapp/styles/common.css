@@ -161,6 +161,14 @@ body {
 	 flex: 1 0 auto;
 }
 
+.dashboard-expander{
+	background-color: #fff;
+}
+
+.pagination li.active {
+	background-color: #26a69a;
+}
+
 /*Nav and footer Materialize color*/
 nav{
 	background-color: #26a69a;
@@ -168,4 +176,8 @@ nav{
 
 .page-footer{
 	background-color: #26a69a;
+}
+
+.cleared-div{
+	clear: both;
 }

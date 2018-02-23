@@ -46,14 +46,13 @@
 
 <div>
 	<div class="input-field col s3">
-	<form:label path="${path}">
-		<spring:message code="${code}" />
-	</form:label>	
-	<form:select id="${id}" path="${path}" onchange="${onchange}" multiple="${multiple}">
-		<form:option value="0" label="----" selected="selected"/>		
+		
+	<form:select id="${id}" path="${path}" onchange="${onchange}" multiple="${multiple}">	
+		<option value="" disabled selected><spring:message code = "master.page.select.message"/></option>	
 		<form:options items="${items}" itemValue="id" itemLabel="${itemLabel}" />
 	</form:select>
 	<form:errors path="${path}" cssClass="error" />
+	<label for = "${id}"><spring:message code="${code}" /></label>
 	</div>
 	
 </div>

@@ -134,6 +134,9 @@ public class RendezvousUserController extends AbstractController {
 				rendezvous.setFinalMode(!rendezvous.getFinalMode());
 				user = (User) this.actorService.findActorByPrincipal();
 
+				if (rendezvous.getId() != 0)
+					Assert.isTrue(user.getCreatedRendezvouses().contains(rendezvous));
+
 				this.rendezvousService.save(rendezvous);
 
 				result = new ModelAndView("redirect:list.do");

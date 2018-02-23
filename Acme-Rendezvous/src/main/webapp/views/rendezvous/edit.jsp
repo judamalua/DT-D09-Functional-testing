@@ -47,13 +47,18 @@
 	</jstl:if>
 	<acme:select code="rendezvous.similars" path="similars"
 		items="${rendezvouses}" itemLabel="name" multiple="true" />
-		
+
+	
+	<div class = "cleared-div">
 	<jstl:if test="${rendezvous.finalMode== null or !rendezvous.finalMode}">
-		<div><acme:checkbox code="rendezvous.finalMode" path="finalMode" /></div>
+		<acme:checkbox code="rendezvous.finalMode" path="finalMode" id = "finalMode" />
 		<jstl:if test="${adult}">
-			<div><<acme:checkbox code="rendezvous.adultOnly" path="adultOnly" /></div>
+			<acme:checkbox code="rendezvous.adultOnly" path="adultOnly" id = "adultOnly"/>
 		</jstl:if>
 	</jstl:if>
+	</div>	
+	<br/>
+	
 	<acme:submit name="save" code="rendezvous.save" />
 	<jstl:if test="${rendezvous.id!=0}">
 		<acme:delete clickCode="rendezvous.confirm.delete" name="delete"

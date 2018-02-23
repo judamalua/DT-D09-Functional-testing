@@ -9,6 +9,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <!-- Variables -->
 <spring:message code="master.page.moment.format" var="formatDate" />
@@ -46,19 +47,9 @@
 		<spring:message code="actor.createdRendezvouses" />
 	</h4>
 
-	<jstl:if test="${createdPageNum!=0}">
-		<!-- Pagination -->
-		<span class="pagebanner"> <jstl:forEach begin="1"
-				end="${createdPageNum}" var="createdRendezvousIndex">
-				<a
-					href="user/display.do?actorId=${actor.id}&anonymous=${anonymous}&rsvpPage=${rsvpPage}&createdRendezvousPage=${createdRendezvousIndex-1}">
-					<jstl:out value="${createdRendezvousIndex}" />
-				</a>
-				<jstl:if test="${createdRendezvousIndex!=rsvpPageNum}">,</jstl:if>
-			</jstl:forEach>
-		</span>
-	</jstl:if>
+	
 	<!-- Pagination -->
+	<acme:pagination pageNum="${createdPageNum}" requestURI="user/display.do?actorId=${actor.id}&anonymous=${anonymous}&rsvpPage=${rsvpPage}&createdRendezvousPage=" page = "${createdPage}"/>
 
 	<display:table name="${createdRendezvouses}" id="rendezvous"
 		requestURI="user/display.do">
@@ -110,19 +101,9 @@
 		<spring:message code="actor.rsvpRendezvouses" />
 	</h4>
 
-	<jstl:if test="${rsvpPageNum!=0}">
-		<!-- Pagination -->
-		<span class="pagebanner"> <jstl:forEach begin="1"
-				end="${rsvpPageNum}" var="rsvpIndex">
-				<a
-					href="user/display.do?actorId=${actor.id}&anonymous=${anonymous}&rsvpPage=${rsvpIndex-1}&createdRendezvousPage=${createdRendezvousPage}">
-					<jstl:out value="${rsvpIndex}" />
-				</a>
-				<jstl:if test="${rsvpIndex!=rsvpPageNum}">,</jstl:if>
-			</jstl:forEach> <br />
-		</span>
-	</jstl:if>
 	<!-- Pagination -->
+	
+	<acme:pagination pageNum="${rsvpPageNum}" requestURI="user/display.do?actorId=${actor.id}&anonymous=${anonymous}&createdRendezvousPage=${rsvpPage}&rsvpPage=" page = "${rsvpPage}"/>
 
 	<display:table name="${rsvpRendezvouses}" id="rsvpRendezvous"
 		requestURI="user/display.do">

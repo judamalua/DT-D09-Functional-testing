@@ -24,6 +24,7 @@
  
 <%@ attribute name="path" required="true" %>
 <%@ attribute name="code" required="true" %>
+<%@ attribute name="id" required="true" %>
 
 <%@ attribute name="readonly" required="false" %>
 
@@ -38,8 +39,8 @@
 		<spring:message code="${code}" />
 	</form:label> --%>	
 	
-	<form:checkbox path="${path}" id = "check" name = "check"/>	
+	<form:checkbox path="${path}" id = "${id}" name = "check"/>	
 	<form:errors path="${path}" cssClass="error" />
-	<label for = "check"><spring:message code="${code}" /></label>
-	
+	<label for = "${id}"><spring:message code="${code}" /></label>
 </div>	
+
