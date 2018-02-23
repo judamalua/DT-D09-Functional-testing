@@ -80,6 +80,7 @@
 		<security:intercept-url pattern="/announcement/admin/delete.do" access="hasRole('ADMIN')" requires-channel="https" /> 
 		<security:intercept-url pattern="/announcement/user/create.do" access="hasRole('USER')" requires-channel="https" /> 
 		<security:intercept-url pattern="/announcement/user/list.do" access="hasRole('USER')" requires-channel="https" />
+		<security:intercept-url pattern="/announcement/user/list-created.do" access="hasRole('USER')" requires-channel="https" />
 		<security:intercept-url pattern="/announcement/user/edit.do" access="hasRole('USER')" requires-channel="https" /> 
 		<security:intercept-url pattern="/announcement/user/delete.do" access="hasRole('USER')" requires-channel="https" /> 
 	

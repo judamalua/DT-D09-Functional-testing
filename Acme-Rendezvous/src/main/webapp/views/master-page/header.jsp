@@ -84,6 +84,99 @@
 		</security:authorize>
 
 		<security:authorize access="isAuthenticated()">
+<div class="navbar">
+	<a class="brand" href="#">&#160;&#160;Acme&#160;<img width = "24" src = "images/teamwork.png"/>&#160;Rendezvous</a>
+	<div class="navbar-inner">
+		<div class="container">
+				
+
+			<ul class="nav">
+				<!-- id="jMenu" -->
+				<!-- Do not forget the "fNiv" class for the first level links !! -->
+
+				<security:authorize access="hasRole('USER')">
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown"><img src = "images/menu.png"/> <spring:message
+								code="master.page.user" /><span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li class="arrow"></li>
+							<li><a href="rendezvous/user/list.do"><spring:message
+										code="master.page.createdRendezvous" /></a></li>
+
+							<li><a href="announcement/user/list-created.do"><spring:message
+										code="master.page.announcementsCreated" /></a></li>
+							
+						</ul></li>
+							<li><a href="announcement/user/list.do"><spring:message
+										code="master.page.announcements" /></a></li>
+				</security:authorize>
+
+				<security:authorize access="hasRole('ADMIN')">
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown"><img src = "images/menu.png"/> <spring:message
+								code="master.page.admin" /><span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li class="arrow"></li>
+							<li><a href="actor/admin/register.do"><spring:message
+										code="master.page.createAdmin" /></a></li>
+							<li><a href="dashboard/admin/list.do"><spring:message
+										code="master.page.dashboardList" /></a></li>
+							<li><a href="configuration/admin/list.do"><spring:message
+										code="master.page.configuration" /></a></li>
+						</ul>
+						
+								
+						</li>
+				</security:authorize>
+
+				<security:authorize access="isAnonymous()">
+					<li><a class="fNiv" href="security/login.do"><img src = "images/login.png"/> <spring:message
+								code="master.page.login" /></a></li>
+					<li><a class="fNiv" href="actor/register.do"><img src = "images/register.png"/> <spring:message
+								code="master.page.registerUser" /></a></li>
+					<li><a class="fNiv" href="rendezvous/list.do?anonymous=true"><img src = "images/rendezvouses.png"/> <spring:message
+								code="master.page.rendevouzList" /></a></li>
+					<li><a class="fNiv" href="user/list.do?anonymous=true"><img src = "images/users.png"/> <spring:message
+								code="master.page.userList" /></a></li>
+								</ul>
+				</security:authorize>
+
+				<security:authorize access="isAuthenticated()">
+
+					<li><a class="fNiv" href="rendezvous/list.do?anonymous=false"><img src = "images/rendezvouses.png"/> <spring:message
+								code="master.page.rendevouzList" /></a></li>
+					<li><a class="fNiv" href="user/list.do?anonymous=false"><img src = "images/users.png"/> <spring:message
+								code="master.page.userList" /></a></li>
+					
+						</ul>
+						<ul class = "nav pull-right">
+							<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown"><img src = "images/settings.png"/> <security:authentication
+								property="principal.username" /><span class="caret"></span>
+					</a>
+						<ul class="dropdown-menu">
+							<li class="arrow"></li>
+							<security:authorize access="hasRole('ADMIN')">
+							<li><a href="actor/admin/edit.do"><spring:message
+										code="master.page.actorEdit" /></a></li>
+							<li><a href="actor/display.do"><spring:message
+										code="master.page.actorProfile" /></a></li>
+							</security:authorize>
+							<security:authorize access="hasRole('USER')">
+							<li><a href="actor/user/edit.do"><spring:message
+										code="master.page.actorEdit" /></a></li>
+							<li><a href="user/display.do?anonymous=false"><spring:message
+										code="master.page.actorProfile" /></a></li>
+							</security:authorize>
+							<li><a href="j_spring_security_logout"><spring:message
+										code="master.page.logout" /> </a></li>
+						</ul></li>
+						</ul>
+				</security:authorize>
+			
+		</div>
+	</div>
+</div>
 
 			<li><a class="fNiv" href="rendezvous/list.do?anonymous=false">
 					<spring:message code="master.page.rendevouzList" />
