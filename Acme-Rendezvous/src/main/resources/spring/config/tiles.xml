@@ -33,6 +33,7 @@
 		<value>/views/dashboard/tiles.xml</value>
 		<value>/views/configuration/tiles.xml</value>
 		<value>/views/law/tiles.xml</value>
+		<value>/views/cookie/tiles.xml</value>
 	</util:list>
 
 </beans>

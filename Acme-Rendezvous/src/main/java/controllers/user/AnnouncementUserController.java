@@ -73,6 +73,33 @@ public class AnnouncementUserController extends AbstractController {
 
 		return result;
 	}
+	
+	@RequestMapping(value = "/list-created")
+	public ModelAndView listcreated() {
+		ModelAndView result;
+		final Collection<Announcement> announcements = new ArrayList<Announcement>();
+		Collection<Rendezvous> rendezvouses;
+		User user;
+		try {
+
+			result = new ModelAndView("announcement/list-created");
+			user = (User) this.actorService.findActorByPrincipal();
+			rendezvouses = user.getCreatedRendezvouses();
+
+			for (final Rendezvous rd : rendezvouses) {
+	
+				announcements.addAll(rd.getAnnouncements());
+	
+			}
+
+			result.addObject("announcements", announcements);
+			
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/misc/403");
+		}
+
+		return result;
+	}
 	// Editing ---------------------------------------------------------
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)

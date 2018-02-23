@@ -20,7 +20,7 @@ public class CookieController {
 
 	@RequestMapping(value = "/policy", method = RequestMethod.GET)
 	public ModelAndView policy() {
-		return new ModelAndView("");
+		return new ModelAndView("cookie/policy");
 	}
 
 	@RequestMapping(value = "/ajax/es", method = RequestMethod.GET)

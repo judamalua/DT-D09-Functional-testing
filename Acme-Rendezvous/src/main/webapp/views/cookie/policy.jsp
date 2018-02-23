@@ -16,9 +16,27 @@
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 
 <br/>
-<h3><strong><spring:message code="termsAndConditions.first" /></strong></h3>
+<h3><strong><spring:message code="cookies.first" /></strong></h3>
 <div>
-<spring:message code="termsAndConditions.firstText" />
+<spring:message code="cookies.firsttext" />
 </div>
 <br/>
+<h3><strong><spring:message code="cookies.second" /></strong></h3>
+<div>
+<spring:message code="cookies.secondtext" />
+</div>
+<h4><spring:message code="cookies.third" /></h4>
+<div>
+<spring:message code="cookies.thirdtext" />
+</div>
+<h4><spring:message code="cookies.forth" /></h4>
+<div>
+<spring:message code="cookies.forthtext" />
+</div>
+<h4><spring:message code="cookies.fifth" /></h4>
+<div>
+<spring:message code="cookies.fifthtext" />
+</div>
+
+
 
