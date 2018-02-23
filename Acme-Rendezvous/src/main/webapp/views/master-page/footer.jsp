@@ -35,7 +35,7 @@ window.onload = function() {
 <%-- <a href = "law/termsAndConditions.do"><spring:message code = "master.page.terms&conditions"/></a> --%>
 <%-- <div><spring:message code = "icons.license.one"/> <a href="https://www.flaticon.com/authors/flat-icons" title="Flat Icons">Flat Icons</a> <spring:message code = "icons.license.two"/> <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> <spring:message code = "icons.license.three"/> <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> --%>
  <a class="grey-text text-lighten-4 right" href="law/termsAndConditions.do"><spring:message code = "master.page.terms&conditions"/></a>
- <a class="grey-text text-lighten-4 right" href="cookie/policy.do"><spring:message code = "master.page.cookiePolicy"/></a>
+ <br/><a class="grey-text text-lighten-4 right" href="cookie/policy.do"><spring:message code = "master.page.cookiePolicy"/></a>
 
 </div>
 </div>
