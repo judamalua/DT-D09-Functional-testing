@@ -51,3 +51,15 @@
 <spring:message code="termsAndConditions.seventhText" />
 </div>
 <br/>
+
+<h3><strong><spring:message code="termsAndConditions.eigth" /></strong></h3>
+<div>
+<spring:message code="termsAndConditions.eigthText" />
+</div>
+<br/>
+
+<h3><strong><spring:message code="termsAndConditions.nineth" /></strong></h3>
+<div>
+<spring:message code="termsAndConditions.ninethText" />
+</div>
+<br/>

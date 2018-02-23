@@ -40,10 +40,8 @@
 <br />
 <br />
 
-<security:authorize access="!hasRole('ADMIN')">
-
-	<!-- Display created Rendezvouses-->
-
+<!-- Display created Rendezvouses-->
+<jstl:if test="${createdRendezvouses!=null}">
 	<h4>
 		<spring:message code="actor.createdRendezvouses" />
 	</h4>
@@ -84,7 +82,7 @@
 				<spring:message code="rendezvous.deleted" />
 			</display:column>
 		</jstl:if>
-		
+
 		<display:column>
 			<jstl:if test="${rendezvous.adultOnly}">
 				<img src="images/18.png" />
@@ -104,8 +102,10 @@
 
 	</display:table>
 	<br />
+</jstl:if>
 
-	<!-- Display created Rendezvouses-->
+<jstl:if test="${rsvpRendezvouses!=null}">
+	<!-- Display RSVP Rendezvouses-->
 	<h4>
 		<spring:message code="actor.rsvpRendezvouses" />
 	</h4>
@@ -140,8 +140,8 @@
 				</button>
 			</a>
 		</display:column>
-		
-		
+
+
 
 		<jstl:if test="${rsvpRendezvous.deleted}">
 			<display:column>
@@ -149,15 +149,15 @@
 				<spring:message code="rendezvous.deleted" />
 			</display:column>
 		</jstl:if>
-		
+
 		<display:column>
 			<jstl:if test="${rsvpRendezvous.adultOnly}">
 				<img src="images/18.png" />
 				<spring:message code="rendezvous.adultOnly" />
 			</jstl:if>
 		</display:column>
-		
-	
+
+
 
 		<security:authorize access="hasRole('ADMIN')">
 			<display:column>
@@ -171,4 +171,4 @@
 		</security:authorize>
 
 	</display:table>
-</security:authorize>
+</jstl:if>

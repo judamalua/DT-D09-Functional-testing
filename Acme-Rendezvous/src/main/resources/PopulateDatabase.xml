@@ -225,10 +225,8 @@
 	<!-- %%%% Configuration %%%% -->
 	
 	<bean id="Configuration" class="domain.Configuration">
-		<property name="terms_eng" value="Terms in english" />
-		<property name="terms_es" value="Términos en español " />
-		<property name="cookies_eng" value="Cookies in english" />
-		<property name="cookies_es" value="Cookies en español" />
-		<property name="pageSize" value="10" />
+		<property name="cookies_eng" value="This page uses cookies for its internal operations, by continuing, we will assume that you accept these cookies." />
+		<property name="cookies_es" value="Esta pagina usa cookies para realizar su correcto funcionamiento, si continúa navegando, asumiremos que acepta estas cookies." />
+		<property name="pageSize" value="5" />
 	</bean>
 </beans>

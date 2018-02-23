@@ -6,18 +6,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import services.ConfigurationService;
 
 @Controller
-@RequestMapping("/cookie/ajax")
-public class CookieAjaxController {
+@RequestMapping("/cookie")
+public class CookieController {
 
 	@Autowired
 	ConfigurationService	configurationService;
 
 
-	@RequestMapping(value = "/es", method = RequestMethod.GET)
+	@RequestMapping(value = "/policy", method = RequestMethod.GET)
+	public ModelAndView policy() {
+		return new ModelAndView("");
+	}
+
+	@RequestMapping(value = "/ajax/es", method = RequestMethod.GET)
 	public @ResponseBody
 	String es() {
 		String result;
@@ -28,7 +34,7 @@ public class CookieAjaxController {
 		}
 		return result;
 	}
-	@RequestMapping(value = "/en", method = RequestMethod.GET)
+	@RequestMapping(value = "/ajax/en", method = RequestMethod.GET)
 	public @ResponseBody
 	String en() {
 		String result;

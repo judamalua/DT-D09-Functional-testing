@@ -71,8 +71,10 @@ public class ActorUserController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView updateUser(@ModelAttribute("actor") User user, final BindingResult binding) {
 		ModelAndView result;
-
-		user = this.userService.reconstruct(user, binding);
+		try {
+			user = this.userService.reconstruct(user, binding);
+		} catch (final Throwable oops) {//Not delete
+		}
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(user, "user.params.error");
 		else

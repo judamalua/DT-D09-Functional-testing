@@ -18,13 +18,4 @@ public class LawController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping("/commercialRegister")
-	public ModelAndView commercialRegister() {
-		ModelAndView result;
-
-		result = new ModelAndView("law/commercialRegister");
-
-		return result;
-	}
-
 }

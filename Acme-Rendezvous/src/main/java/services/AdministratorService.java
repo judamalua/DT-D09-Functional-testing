@@ -119,6 +119,7 @@ public class AdministratorService {
 			result.setBirthDate(admin.getBirthDate());
 		}
 		this.validator.validate(result, binding);
+
 		return result;
 	}
 }

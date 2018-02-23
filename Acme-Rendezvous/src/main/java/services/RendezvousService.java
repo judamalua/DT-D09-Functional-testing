@@ -294,7 +294,7 @@ public class RendezvousService {
 				this.announcementService.delete(announcement);
 
 			// Deleting Questions of the Rendezvous that is about to be deleted
-			for (final Question question : rendezvous.getQuestions())
+			for (final Question question : new ArrayList<Question>(rendezvous.getQuestions()))
 				this.questionService.delete(question);
 
 			// Deleting Comments of the Rendezvous that is about to be deleted
@@ -597,6 +597,44 @@ public class RendezvousService {
 		Page<Rendezvous> result;
 
 		result = this.rendezvousRepository.findRSVPRendezvouses(user.getId(), pageable);
+
+		return result;
+	}
+
+	/**
+	 * Return the list of not deleted rendezvouses paginated by the pageable and created by user whithout adult contents
+	 * 
+	 * @param pageable
+	 * @param user
+	 * @return A page of Rendezvouses created by the user
+	 * @author MJ
+	 */
+	public Page<Rendezvous> findCreatedRendezvousesForDisplayNotAdult(final User user, final Pageable pageable) {
+		Assert.notNull(pageable);
+		Assert.notNull(user);
+
+		Page<Rendezvous> result;
+
+		result = this.rendezvousRepository.findCreatedRendezvousesForDisplayNotAdult(user.getId(), pageable);
+
+		return result;
+	}
+
+	/**
+	 * Return the list of not deleted rendezvouses paginated by the pageable and RSVP by user whithout adult contents
+	 * 
+	 * @param pageable
+	 * @param user
+	 * @return A page of Rendezvouses RSVP by the user
+	 * @author MJ
+	 */
+	public Page<Rendezvous> findRSVPRendezvousesNotAdult(final User user, final Pageable pageable) {
+		Assert.notNull(pageable);
+		Assert.notNull(user);
+
+		Page<Rendezvous> result;
+
+		result = this.rendezvousRepository.findRSVPRendezvousesNotAdult(user.getId(), pageable);
 
 		return result;
 	}

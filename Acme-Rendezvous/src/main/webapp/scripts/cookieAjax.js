@@ -21,11 +21,13 @@ function showCookieMessage() {
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			if (language == "es") {
-				document.getElementsByClassName("cookies")[0].innerHTML = '<h4 style="border: 1px solid black; background-color: white;">' + this.responseText
-						+ ' <button onClick="acceptCookies();" class="btn">Aceptar las cookies</button></h4>';
+				document.getElementsByClassName("cookies")[0].innerHTML = '<h4 style="border: 1px solid black; background-color: white;">'
+						+ this.responseText
+						+ ' Para más información: <a href="/Acme-Rendezvous/cookie/policy.do">Política de cookies</a> <button onClick="acceptCookies();" class="btn">Aceptar las cookies</button></h4>';
 			} else {
-				document.getElementsByClassName("cookies")[0].innerHTML = '<h4 style="border: 1px solid black; background-color: white;">' + this.responseText
-						+ ' <button onClick="acceptCookies();" class="btn">Accept cookies</button></h4>';
+				document.getElementsByClassName("cookies")[0].innerHTML = '<h4 style="border: 1px solid black; background-color: white;">'
+						+ this.responseText
+						+ ' More information: <a href="/Acme-Rendezvous/cookie/policy.do">Cookie policy</a> <button onClick="acceptCookies();" class="btn">Accept cookies</button></h4>';
 			}
 		}
 	};
