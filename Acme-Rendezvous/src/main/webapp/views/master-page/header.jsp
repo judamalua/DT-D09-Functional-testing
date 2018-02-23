@@ -38,10 +38,12 @@
 							<li><a href="rendezvous/user/list.do"><spring:message
 										code="master.page.createdRendezvous" /></a></li>
 
-							<li><a href="announcement/user/list.do"><spring:message
-										code="master.page.announcements" /></a></li>
+							<li><a href="announcement/user/list-created.do"><spring:message
+										code="master.page.announcementsCreated" /></a></li>
 							
 						</ul></li>
+							<li><a href="announcement/user/list.do"><spring:message
+										code="master.page.announcements" /></a></li>
 				</security:authorize>
 
 				<security:authorize access="hasRole('ADMIN')">
