@@ -9,7 +9,6 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<br/>
 <h3><strong><spring:message code="termsAndConditions.first" /></strong></h3>
 <div>
 <spring:message code="termsAndConditions.firstText" />
