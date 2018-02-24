@@ -55,10 +55,11 @@ public class RendezvousController extends AbstractController {
 		super();
 	}
 
-	// Listing  ---------------------------------------------------------------		
+	// Listing  ---------------------------------------------------------------    
 
 	@RequestMapping("/list")
 	public ModelAndView list(@RequestParam(defaultValue = "0") final int page, @RequestParam final boolean anonymous) {
+
 		ModelAndView result;
 		Page<Rendezvous> rendezvouses;
 		Pageable pageable;
@@ -96,7 +97,7 @@ public class RendezvousController extends AbstractController {
 
 		return result;
 	}
-	// Detailing ---------------------------------------------------------------		
+	// Detailing ---------------------------------------------------------------       
 
 	@RequestMapping("/detailed-rendezvous")
 	public ModelAndView detailing(@RequestParam final int rendezvousId, @RequestParam(defaultValue = "true") final boolean anonymous) {
