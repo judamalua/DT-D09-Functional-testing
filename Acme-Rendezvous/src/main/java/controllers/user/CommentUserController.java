@@ -1,8 +1,6 @@
 
 package controllers.user;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -15,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
 import services.CommentService;
 import services.RendezvousService;
-import services.UserService;
 import controllers.AbstractController;
 import domain.Comment;
 import domain.Rendezvous;
@@ -34,9 +31,6 @@ public class CommentUserController extends AbstractController {
 
 	@Autowired
 	private ActorService		actorService;
-
-	@Autowired
-	private UserService			userService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -129,9 +123,9 @@ public class CommentUserController extends AbstractController {
 	 * @author Antonio
 	 */
 	@RequestMapping(value = "/reply", method = RequestMethod.POST, params = "save")
-	public ModelAndView reply(@Valid Comment comment, final BindingResult binding, @RequestParam final int repliedId) {
+	public ModelAndView reply(Comment comment, final BindingResult binding, @RequestParam final int repliedId) {
 		ModelAndView result;
-		Comment replied, saved, fatherComment;
+		Comment replied, fatherComment;
 		User user;
 		Rendezvous rendezvous;
 
@@ -153,7 +147,7 @@ public class CommentUserController extends AbstractController {
 
 				Assert.isTrue(rendezvous.getUsers().contains(user));
 
-				saved = this.commentService.reply(replied, comment);
+				this.commentService.reply(replied, comment);
 
 				result = new ModelAndView("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvous.getId() + "&anonymous=false");
 			} catch (final Throwable oops) {
@@ -161,7 +155,6 @@ public class CommentUserController extends AbstractController {
 			}
 		return result;
 	}
-
 	//Edit-----------------------------------------------------------
 
 	/**
@@ -175,10 +168,9 @@ public class CommentUserController extends AbstractController {
 	 * @author Antonio
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView edit(@Valid Comment comment, final BindingResult binding, @RequestParam final int rendezvousId) {
+	public ModelAndView edit(Comment comment, final BindingResult binding, @RequestParam final int rendezvousId) {
 		ModelAndView result;
 		Rendezvous rendezvous;
-		Comment saved;
 		User user;
 
 		rendezvous = this.rendezvousService.findOneForReplies(rendezvousId);
@@ -190,13 +182,7 @@ public class CommentUserController extends AbstractController {
 				user = (User) this.actorService.findActorByPrincipal();
 				Assert.isTrue(rendezvous.getUsers().contains(user));
 
-				saved = this.commentService.save(comment, rendezvous);
-
-				//				rendezvous.getComments().add(saved);
-				//				this.rendezvousService.comment(rendezvous);
-				//
-				//				user.getComments().add(saved);
-				//				this.userService.save(user);
+				this.commentService.save(comment, rendezvous);
 
 				result = new ModelAndView("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvous.getId() + "&anonymous=false");
 			} catch (final Throwable oops) {

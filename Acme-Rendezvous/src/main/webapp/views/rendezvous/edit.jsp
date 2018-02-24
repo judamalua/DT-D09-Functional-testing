@@ -57,10 +57,8 @@
 		</jstl:if>
 	</jstl:if>
 	</div>	
-	<br/>
-	
 	<acme:submit name="save" code="rendezvous.save" />
-	<jstl:if test="${rendezvous.id!=0}">
+	<jstl:if test="${rendezvous.id!=0 and !rendezvous.finalMode}">
 		<acme:delete clickCode="rendezvous.confirm.delete" name="delete"
 			code="rendezvous.delete" />
 	</jstl:if>
