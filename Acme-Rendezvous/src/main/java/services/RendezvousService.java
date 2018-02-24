@@ -144,7 +144,7 @@ public class RendezvousService {
 		User user;
 		Actor actor;
 
-		Assert.isTrue(rendezvous.getMoment().after(new Date()));
+		Assert.isTrue(rendezvous.getMoment().after(new Date()), "Must be in future");
 		actor = this.actorService.findActorByPrincipal();
 
 		if (rendezvous.getAdultOnly())

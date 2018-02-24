@@ -26,9 +26,6 @@
 				<bean class="security.Authority">
 					<property name="authority" value="ADMIN" />
 				</bean>
-				<bean class="security.Authority">
-					<property name="authority" value="USER" />
-				</bean>
 			</list>
 		</property>
 	</bean>

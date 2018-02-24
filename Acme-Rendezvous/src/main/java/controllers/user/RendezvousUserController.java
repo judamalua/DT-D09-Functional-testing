@@ -143,6 +143,8 @@ public class RendezvousUserController extends AbstractController {
 			} catch (final Throwable oops) {
 				if (oops.getMessage().contains("You must be over 18 to save a Rendezvous with adultOnly"))
 					result = this.createEditModelAndView(rendezvous, "rendezvous.adult.error");
+				else if (oops.getMessage().contains("Must be in future"))
+					result = this.createEditModelAndView(rendezvous, "rendezvous.future.error");
 				else
 					result = this.createEditModelAndView(rendezvous, "rendezvous.commit.error");
 			}
