@@ -14,6 +14,7 @@
 <%@ attribute name="comment" required="true" type="domain.Comment"%>
 <%@ attribute name="canUserComment" required="true"%>
 <%@ attribute name="indent" required="true"%>
+<%@ attribute name="anonymous" required="false"%>
 <%-- Definition --%>
 <spring:message code="master.page.moment.format.out" var="formatMoment" />
 <div
@@ -23,7 +24,7 @@
 
 		<p>
 			<fmt:formatDate pattern="${formatMoment}" value="${comment.moment}" />
-			<a href="user/display.do?actorId=${comment.user.id}">
+			<a href="user/display.do?actorId=${comment.user.id}&anonymous=${anonymous}">
 				<jstl:out value="${comment.user.userAccount.username}" />
 			</a>
 		</p>
@@ -55,7 +56,7 @@
 			</summary>
 			<jstl:forEach var="replyComment" items="${comment.comments}">
 				<acme:showComment comment="${replyComment}"
-					canUserComment="${canUserComment}" indent="${indent+30}" />
+					canUserComment="${canUserComment}" indent="${indent+30}" anonymous="${anonymous}"/>
 			</jstl:forEach>
 		</details>
 	</jstl:if>

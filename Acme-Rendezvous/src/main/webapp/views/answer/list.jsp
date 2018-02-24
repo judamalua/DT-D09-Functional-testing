@@ -6,12 +6,12 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <h2><spring:message code="answer.list.creator"/></h2>
-<h3><a href="user/display.do?actorId=${creator.id}&anonymous=true">${creator.surname}, ${creator.name}</a></h3>
+<h3><a href="user/display.do?actorId=${creator.id}&anonymous=${anonymous}">${creator.surname}, ${creator.name}</a></h3>
 
 <h2><spring:message code="answer.list.users"/></h2>
 <jstl:forEach var="userAndAnswers" items="${usersAndAnswers}">
 	<details>
-  		<summary><a href="user/display.do?actorId=${userAndAnswers.key.id}&anonymous=true">${userAndAnswers.key.surname}, ${userAndAnswers.key.name}</a></summary>
+  		<summary><a href="user/display.do?actorId=${userAndAnswers.key.id}&anonymous=${anonymous}">${userAndAnswers.key.surname}, ${userAndAnswers.key.name}</a></summary>
   		<jstl:forEach var="answer" items="${userAndAnswers.value}">
   			<h4>${answer.question.text}</h4>
   			<p>${answer.text}</p>

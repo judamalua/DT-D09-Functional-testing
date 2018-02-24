@@ -34,12 +34,6 @@
 		<security:intercept-url pattern="/scripts/**" access="permitAll" requires-channel="https" /> 
 		<security:intercept-url pattern="/styles/**" access="permitAll" requires-channel="https" /> 
 		
-		
- 		<security:intercept-url pattern="/comment/ajax/name.do" access="permitAll" requires-channel="https" /> 
- 		<security:intercept-url pattern="/comment/ajax/surname.do" access="permitAll" requires-channel="https" /> 
-		<security:intercept-url pattern="/comment/ajax/id.do" access="permitAll" requires-channel="https" />
-		
-		
  		<security:intercept-url pattern="/cookie/policy.do" access="permitAll" requires-channel="https" />
  		<security:intercept-url pattern="/cookie/ajax/es.do" access="permitAll" requires-channel="https" /> 
 		<security:intercept-url pattern="/cookie/ajax/en.do" access="permitAll" requires-channel="https" />
@@ -56,7 +50,7 @@
 		<security:intercept-url pattern="/rendezvous/detailed-rendezvous.do" access="permitAll" requires-channel="https" /> 
 		<security:intercept-url pattern="/user/list.do" access="permitAll" requires-channel="https" /> 
 		<security:intercept-url pattern="/user/display.do" access="permitAll" requires-channel="https" /> 
-		<security:intercept-url pattern="/answer/user/list.do" access="permitAll" requires-channel="https" /> 
+		<security:intercept-url pattern="/answer/list.do" access="permitAll" requires-channel="https" /> 
 		<security:intercept-url pattern="/actor/display.do" access="isAuthenticated()" requires-channel="https"  />
 		<security:intercept-url pattern="actor/user/register.do" access="permitAll" requires-channel="https" /> 
 		<security:intercept-url pattern="/rendezvous/user/**" access="hasRole('USER')" requires-channel="https" /> 
