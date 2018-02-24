@@ -39,8 +39,8 @@
                     <li><a href="rendezvous/user/list.do"><spring:message
                                 code="master.page.createdRendezvous" /></a></li>
                     <li class="divider"></li>
-                    <li><a href="announcement/user/list.do"><spring:message
-                                code="master.page.announcements" /></a></li>
+                    <li><a href="announcement/user/list-created.do"><spring:message
+                                code="master.page.announcementsCreated" /></a></li>
                 </ul>
 
                 <!-- Dropdown Trigger -->
@@ -76,6 +76,8 @@
                 <li><a class="fNiv" href="rendezvous/list.do?anonymous=true">
                         <spring:message code="master.page.rendevouzList" />
                 </a></li>
+                <li><a href="announcement/user/list.do"><spring:message
+                                code="master.page.announcementsList" /></a></li>
                 <li><a class="fNiv" href="user/list.do?anonymous=true"> <spring:message
                             code="master.page.userList" /></a></li>
         </ul>
@@ -85,6 +87,8 @@
             <li><a class="fNiv" href="rendezvous/list.do?anonymous=false">
                     <spring:message code="master.page.rendevouzList" />
             </a></li>
+            <li><a href="announcement/user/list.do"><spring:message
+                                code="master.page.announcementsList" /></a></li>
             <li><a class="fNiv" href="user/list.do?anonymous=false"><spring:message
                         code="master.page.userList" /></a></li>
 
