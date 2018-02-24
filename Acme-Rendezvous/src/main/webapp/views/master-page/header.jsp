@@ -47,6 +47,9 @@
                 <li><a class="dropdown-button" href="#!"
                     data-activates="dropdownUserFunctions"><spring:message
                             code="master.page.user" /><i class="material-icons right">arrow_drop_down</i></a></li>
+                            
+                <li><a href="announcement/user/list.do"><spring:message
+                                code="master.page.announcementsList" /></a></li>
 
             </security:authorize>
 
@@ -76,8 +79,6 @@
                 <li><a class="fNiv" href="rendezvous/list.do?anonymous=true">
                         <spring:message code="master.page.rendevouzList" />
                 </a></li>
-                <li><a href="announcement/user/list.do"><spring:message
-                                code="master.page.announcementsList" /></a></li>
                 <li><a class="fNiv" href="user/list.do?anonymous=true"> <spring:message
                             code="master.page.userList" /></a></li>
         </ul>
@@ -87,8 +88,6 @@
             <li><a class="fNiv" href="rendezvous/list.do?anonymous=false">
                     <spring:message code="master.page.rendevouzList" />
             </a></li>
-            <li><a href="announcement/user/list.do"><spring:message
-                                code="master.page.announcementsList" /></a></li>
             <li><a class="fNiv" href="user/list.do?anonymous=false"><spring:message
                         code="master.page.userList" /></a></li>
 

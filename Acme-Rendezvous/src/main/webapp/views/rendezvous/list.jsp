@@ -92,6 +92,6 @@
 
 <!-- Creating a new rendezvous -->
 
-<jstl:if test="${not anonymous}">
+<security:authorize access="hasRole('USER')">
 	<acme:button url="rendezvous/user/create.do" code="rendezvous.create" />
-</jstl:if>
+</security:authorize>
