@@ -21,16 +21,16 @@
 	style="border-left: 1px solid black; border-top: 1px solid black; text-indent: ${indent}px; float:clear;">
 	<div>
 		<h4>${comment.text}</h4>
-
+		<jstl:if test="${not empty comment.pictureUrl}">
+			<img class="materialboxed" data-caption="${comment.text}" width="250" src="${comment.pictureUrl}">
+		</jstl:if>
 		<p>
 			<fmt:formatDate pattern="${formatMoment}" value="${comment.moment}" />
 			<a href="user/display.do?actorId=${comment.user.id}&anonymous=${anonymous}">
 				<jstl:out value="${comment.user.userAccount.username}" />
 			</a>
 		</p>
-		<jstl:if test="${not empty comment.pictureUrl}">
-			<img class="materialboxed" data-caption="${comment.text}" width="250" src="${comment.pictureUrl}">
-		</jstl:if>
+
 	</div>
 	<div>
 		<jstl:if test="${canUserComment}">
