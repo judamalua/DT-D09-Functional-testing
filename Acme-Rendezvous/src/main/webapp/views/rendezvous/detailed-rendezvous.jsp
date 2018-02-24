@@ -21,12 +21,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<!--<script src="scripts/commentUserAjax.js"></script>
-<script>
-	document.addEventListener('DOMContentLoaded', function() {
-	getCommentUsers();
-	}, false);
-</script>-->
 
 <!-- Variable declaration -->
 <spring:message code="master.page.moment.format" var="formatMoment" />
@@ -57,9 +51,9 @@
 
 
 <!-- Display -->
-<img src="${rendezvous.pictureUrl}" alt="${rendezvous.name}"
-	class="rendezvousPhoto" />
-
+<jstl:if test="${rendezvous.pictureUrl != \"\"}">
+	<img class="materialboxed" data-caption="${rendezvous.name}" width="250" src="${rendezvous.pictureUrl}">
+</jstl:if>
 <h2>
 	<jstl:out value="${rendezvous.name}" />
 </h2>
