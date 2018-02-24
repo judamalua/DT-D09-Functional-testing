@@ -125,7 +125,6 @@ public class Rendezvous extends DomainEntity {
 	private Collection<Announcement>	announcements;
 	private Collection<Comment>			comments;
 	private Collection<User>			users;
-	private Collection<Rendezvous>		rendezvouses;
 
 
 	@NotNull
@@ -140,7 +139,7 @@ public class Rendezvous extends DomainEntity {
 	}
 
 	@NotNull
-	@ManyToMany(mappedBy = "rendezvouses")
+	@ManyToMany
 	public Collection<Rendezvous> getSimilars() {
 		return this.similars;
 	}
@@ -148,16 +147,6 @@ public class Rendezvous extends DomainEntity {
 	public void setSimilars(final Collection<Rendezvous> similars) {
 		this.similars = similars;
 
-	}
-
-	@NotNull
-	@ManyToMany
-	public Collection<Rendezvous> getRendezvouses() {
-		return this.rendezvouses;
-	}
-
-	public void setRendezvouses(final Collection<Rendezvous> rendezvouses) {
-		this.rendezvouses = rendezvouses;
 	}
 
 	@NotNull
