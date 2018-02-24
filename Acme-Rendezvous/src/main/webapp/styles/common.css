@@ -107,11 +107,11 @@ summary{
 }
 
 .btn{
-	font-family:'Raleway';
+	/* font-family:'Raleway'; */
 }
 
 textarea{
-	font-family:'Raleway';
+	/* font-family:'Raleway'; */
 }
 
 .navbar .brand{
@@ -142,12 +142,13 @@ textarea{
 }
 
 input, select{
-	font-family:'Raleway';
+	/* font-family:'Raleway'; */
 }
 
 body{
 	background-color: #fffaf0;
 	font-family:'Raleway';
+	
 }
 
 /* Footer staying on the bottom */
