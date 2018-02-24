@@ -175,7 +175,7 @@
 <!-- Displaying comments -->
 <jstl:forEach var="comment" items="${rendezvous.comments}">
 	<acme:showComment comment="${comment}"
-		canUserComment="${userHasRVSPdRendezvous}" indent="0" />
+		canUserComment="${userHasRVSPdRendezvous}" indent="0" anonymous="${anonymous}"/>
 </jstl:forEach>
 <jstl:if test="${fn:length(rendezvous.comments) == 0}">
 	<spring:message code="rendezvous.comments.empty" />
@@ -184,7 +184,7 @@
 
 <!-- Link to attendants -->
 <jstl:if test="${rendezvous.finalMode and !rendezvous.deleted}">
-	<a href="answer/user/list.do?rendezvousId=${rendezvous.id}">
+	<a href="answer/list.do?rendezvousId=${rendezvous.id}">
 		<button class="btn">
 			<spring:message code="rendezvous.answer.list" />
 		</button>

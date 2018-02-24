@@ -28,7 +28,7 @@
 	
 	<spring:message code="announcement.rendezvous.name" var="name" />
 	<display:column title="${name}">
-	<a href = "rendezvous/detailed-rendezvous.do?rendezvousId=${rdvs[announcement_rowNum-1].id}">
+	<a href = "rendezvous/detailed-rendezvous.do?rendezvousId=${rdvs[announcement_rowNum-1].id}&anonymous=false">
 	<jstl:out value="${rdvs[announcement_rowNum-1].name}"></jstl:out>
 	</a>	
 	</display:column>
