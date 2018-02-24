@@ -137,7 +137,5 @@
 </nav>
 
 <p></p>
-<div class="lang">
-	<a href="?language=en">en</a> | <a href="?language=es">es</a>
-</div>
+
 

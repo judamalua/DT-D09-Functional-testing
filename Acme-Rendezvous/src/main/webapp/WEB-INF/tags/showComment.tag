@@ -28,7 +28,7 @@
 			</a>
 		</p>
 		<jstl:if test="${not empty comment.pictureUrl}">
-			<img src="${comment.pictureUrl}" width="150" height="150" />
+			<img class="materialboxed" data-caption="${comment.text}" width="250" src="${comment.pictureUrl}">
 		</jstl:if>
 	</div>
 	<div>
