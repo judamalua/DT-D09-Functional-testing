@@ -19,6 +19,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+
 <!-- Variables -->
 <spring:message code="rendezvous.moment.placeholder"
 	var="momentPlaceholder" />

@@ -208,3 +208,7 @@ nav{
 .card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating){
 	color: #f5f5f5;
 }
+
+.dropdown-content {
+    overflow-y:auto !important;
+}

@@ -29,7 +29,8 @@
 
 
 
-
+<!-- <link href="path/to/select2.min.css" rel="stylesheet" /> -->
+<!-- <script src="path/to/select2.min.js"></script> -->
 
 <script type="text/javascript" src="scripts/jquery.js"></script>
 <script type="text/javascript" src="scripts/jquery-ui.js"></script>
