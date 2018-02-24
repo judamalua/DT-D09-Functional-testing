@@ -204,3 +204,7 @@ nav{
 .slider-text{
 	text-shadow: 2px 2px 5px black;
 }
+
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating){
+	color: #f5f5f5;
+}

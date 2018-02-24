@@ -69,14 +69,14 @@
 
 		<jstl:if test="${rendezvous.deleted}">
 			<display:column>
-				<img src="images/deleted-rendezvous.png" />
+				<i class="material-icons">delete</i>
 				<spring:message code="rendezvous.deleted" />
 			</display:column>
 		</jstl:if>
 
 		<display:column>
 			<jstl:if test="${rendezvous.adultOnly}">
-				<img src="images/18.png" />
+				<i class="material-icons">do_not_disturb</i>
 				<spring:message code="rendezvous.adultOnly" />
 			</jstl:if>
 		</display:column>
@@ -126,14 +126,14 @@
 
 		<jstl:if test="${rsvpRendezvous.deleted}">
 			<display:column>
-				<img src="images/deleted-rendezvous.png" />
+				<i class="material-icons">delete</i>
 				<spring:message code="rendezvous.deleted" />
 			</display:column>
 		</jstl:if>
 
 		<display:column>
 			<jstl:if test="${rsvpRendezvous.adultOnly}">
-				<img src="images/18.png" />
+				<i class="material-icons">do_not_disturb</i>
 				<spring:message code="rendezvous.adultOnly" />
 			</jstl:if>
 		</display:column>
