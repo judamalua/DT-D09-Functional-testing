@@ -21,13 +21,13 @@ function showCookieMessage() {
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			if (language == "es") {
-				document.getElementsByClassName("cookies")[0].innerHTML = '<div class="row"><div class="col s12 m6"><div class="card blue-grey darken-1"><div class="card-content white-text"><span class="card-title">Sobre las cookies</span><p>'
+				document.getElementsByClassName("cookies")[0].innerHTML = '<div class="row"><div class="col s12 m6"><div class="card red darken-4"><div class="card-content white-text"><span class="card-title">Sobre las cookies</span><p>'
 						+ this.responseText
 						+ '</p></div><div class="card-action"><a href="/Acme-Rendezvous/cookie/policy.do">Política de cookies</a><a href="javascript:void(0);" onClick="acceptCookies();">Aceptar las cookies </a></div></div></div></div>';
 			} else {
-				document.getElementsByClassName("cookies")[0].innerHTML = '<div class="row"><div class="col s12 m6"><div class="card blue-grey darken-1"><div class="card-content white-text"><span class="card-title">About cookies</span><p>'
+				document.getElementsByClassName("cookies")[0].innerHTML = '<div class="row"><div class="col s12 m6"><div class="card red darken-4"><div class="card-content white-text"><span class="card-title">About cookies</span><p>'
 						+ this.responseText
-						+ '</p></div><div class="card-action"><a href="/Acme-Rendezvous/cookie/policy.do">Cookie policy</a><a href="#" onClick="javascript:void(0);">Accept cookies </a></div></div></div></div>';
+						+ '</p></div><div class="card-action"><a href="/Acme-Rendezvous/cookie/policy.do">Cookie policy</a><a href="javascript:void(0);" onClick="acceptCookies();">Accept cookies </a></div></div></div></div>';
 			}
 		}
 	};

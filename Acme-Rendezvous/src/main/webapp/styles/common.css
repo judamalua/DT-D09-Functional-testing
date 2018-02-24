@@ -53,6 +53,7 @@
 .body{
 	position: relative;
 	margin-left: 1%;
+	margin-right: 1%;
 	font-weight: 100;
 }
 
@@ -107,11 +108,16 @@ summary{
 }
 
 .btn{
-	font-family:'Raleway';
+	/* font-family:'Raleway'; */
+	background-color: #c62828;
+}
+
+.btn:hover{
+	background-color: #e53935;
 }
 
 textarea{
-	font-family:'Raleway';
+	/* font-family:'Raleway'; */
 }
 
 .navbar .brand{
@@ -142,12 +148,13 @@ textarea{
 }
 
 input, select{
-	font-family:'Raleway';
+	/* font-family:'Raleway'; */
 }
 
 body{
-	background-color: #fffaf0;
+	background-color: #f5f5f5;/*#fffaf0*/
 	font-family:'Raleway';
+	
 }
 
 /* Footer staying on the bottom */
@@ -166,18 +173,34 @@ body {
 }
 
 .pagination li.active {
-	background-color: #26a69a;
+	background-color: #b71c1c;
 }
 
 /*Nav and footer Materialize color*/
 nav{
-	background-color: #26a69a;
+	background-color: #b71c1c;
 }
 
 .page-footer{
-	background-color: #26a69a;
+	background-color: #b71c1c;
 }
 
 .cleared-div{
 	clear: both;
+}
+
+.slider .indicators .indicator-item.active{
+	background-color: #c62828;
+}
+
+
+.slider .indicators .indicator-item{
+	background-color: #f5f5f5;
+}
+   
+.slider-image{
+	filter: brightness(50%);
+}
+.slider-text{
+	text-shadow: 2px 2px 5px black;
 }
