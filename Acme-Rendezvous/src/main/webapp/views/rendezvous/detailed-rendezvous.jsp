@@ -52,7 +52,9 @@
 
 <!-- Display -->
 <jstl:if test="${rendezvous.pictureUrl != \"\"}">
-	<img class="materialboxed" data-caption="${rendezvous.name}" width="250" src="${rendezvous.pictureUrl}">
+	<div class="parallax-container">
+      <div class="parallax"><img src="${rendezvous.pictureUrl}"></div>
+    </div>
 </jstl:if>
 <h2>
 	<jstl:out value="${rendezvous.name}" />
