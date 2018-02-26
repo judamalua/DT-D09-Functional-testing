@@ -48,7 +48,7 @@
 			code="rendezvous.details" />
 	</display:column>
 
-	<jstl:if test="${requestURI==\"rendezvous/user/list.do\"}">
+	<jstl:if test="${requestURI==\"rendezvous/user/list.do\" and rendezvous.moment>=currentDate}">
 		<display:column>
 			<jstl:if
 				test="${!rendezvous.finalMode and !rendezvous.deleted and rendezvous.moment>currentDate}">

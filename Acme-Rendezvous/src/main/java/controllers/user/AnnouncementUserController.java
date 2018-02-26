@@ -3,6 +3,7 @@ package controllers.user;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -136,20 +137,23 @@ public class AnnouncementUserController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int announcementId) {
 		ModelAndView result;
 		Announcement announcement;
-		int rendezvousId;
+		Rendezvous rendezvous;
+		final User user;
 
 		try {
 			announcement = this.announcementService.findOne(announcementId);
 			Assert.notNull(announcement);
-			rendezvousId = this.rendezvousService.getRendezvousByAnnouncement(announcementId).getId();
+			rendezvous = this.rendezvousService.getRendezvousByAnnouncement(announcementId);
+
+			Assert.isTrue(rendezvous.getMoment().after(new Date()));
 
 			//Check the user rsvp that rendezvous.
 			//TODO: Make a global method for all classes for this purpose
-			final User user = (User) this.actorService.findActorByPrincipal();
+			user = (User) this.actorService.findActorByPrincipal();
 			this.rendezvousService.getRendezvousByAnnouncement(announcementId).getUsers().contains(user);
 
 			result = this.createEditModelAndView(announcement);
-			result.addObject("rendezvousId", rendezvousId);
+			result.addObject("rendezvousId", rendezvous.getId());
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/misc/403");
 		}

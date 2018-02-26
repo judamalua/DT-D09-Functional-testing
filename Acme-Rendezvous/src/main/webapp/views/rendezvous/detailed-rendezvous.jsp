@@ -53,8 +53,10 @@
 <!-- Display -->
 <jstl:if test="${rendezvous.pictureUrl != \"\"}">
 	<div class="parallax-container">
-      <div class="parallax"><img src="${rendezvous.pictureUrl}"></div>
-    </div>
+		<div class="parallax">
+			<img src="${rendezvous.pictureUrl}">
+		</div>
+	</div>
 </jstl:if>
 <h2>
 	<jstl:out value="${rendezvous.name}" />
@@ -84,7 +86,8 @@
 
 <!-- Button for joining the rendezvous -->
 <security:authorize access="hasRole('USER')">
-	<jstl:if test="${!userHasRVSPdRendezvous && !anonymous && rendezvous.moment > now}">
+	<jstl:if
+		test="${!userHasRVSPdRendezvous && !anonymous && rendezvous.moment > currentDate}">
 		<a href="answer/user/edit.do?rendezvousId=${rendezvous.id}">
 			<button class="btn">
 				<spring:message code="rendezvous.join" />
@@ -141,12 +144,7 @@
 		format="${formatMoment}" sortable="true" />
 	<security:authorize access="hasRole('ADMIN')">
 		<display:column>
-			<a
-				href="announcement/admin/delete.do?announcementId=${announcement.id}">
-				<button class="btn">
-					<spring:message code="announcement.delete" />
-				</button>
-			</a>
+			<acme:button url="announcement/admin/delete.do?announcementId=${announcement.id}" code="announcement.delete"/>
 		</display:column>
 	</security:authorize>
 </display:table>
@@ -160,18 +158,16 @@
 <jstl:if
 	test="${!anonymous && userHasRVSPdRendezvous and !rendezvous.deleted}">
 	<br />
-	<a href="comment/user/create.do?rendezvousId=${rendezvous.id}">
-		<button class="btn">
-			<spring:message code="rendezvous.comment.create" />
-		</button>
-	</a>
+	<acme:button url="comment/user/create.do?rendezvousId=${rendezvous.id}"
+		code="rendezvous.comment.create" />
 	<br />
 </jstl:if>
 
 <!-- Displaying comments -->
 <jstl:forEach var="comment" items="${rendezvous.comments}">
 	<acme:showComment comment="${comment}"
-		canUserComment="${userHasRVSPdRendezvous}" indent="0" anonymous="${anonymous}" rendezvousId="${rendezvous.id}"/>
+		canUserComment="${userHasRVSPdRendezvous}" indent="0"
+		anonymous="${anonymous}" rendezvousId="${rendezvous.id}" />
 </jstl:forEach>
 <jstl:if test="${fn:length(rendezvous.comments) == 0}">
 	<spring:message code="rendezvous.comments.empty" />
@@ -180,28 +176,20 @@
 
 <!-- Link to attendants -->
 <jstl:if test="${rendezvous.finalMode and !rendezvous.deleted}">
-	<a href="answer/list.do?rendezvousId=${rendezvous.id}">
-		<button class="btn">
-			<spring:message code="rendezvous.answer.list" />
-		</button>
-	</a>
+	<acme:button url="answer/list.do?rendezvousId=${rendezvous.id}" code="rendezvous.answer.list"/>
 </jstl:if>
 <security:authorize access="hasRole('USER')">
 	<jstl:if test="${userHasCreatedRendezvous and !rendezvous.deleted}">
 		<br />
 		<!-- Link to questions -->
-		<a href="question/user/list.do?rendezvousId=${rendezvous.id}">
-			<button class="btn">
-				<spring:message code="rendezvous.question.list" />
-			</button>
-		</a>
+		<acme:button url="question/user/list.do?rendezvousId=${rendezvous.id}" code="rendezvous.question.list"/>
 
 		<!-- Create a new announcement -->
 		<br />
-		<a href="announcement/user/create.do?rendezvousId=${rendezvous.id}">
-			<button class="btn">
-				<spring:message code="rendezvous.announcement.create" />
-			</button>
-		</a>
+		<jstl:if test="${rendezvous.moment>=currentDate}">
+			<acme:button
+				url="announcement/user/create.do?rendezvousId=${rendezvous.id}"
+				code="rendezvous.announcement.create" />
+		</jstl:if>
 	</jstl:if>
 </security:authorize>
