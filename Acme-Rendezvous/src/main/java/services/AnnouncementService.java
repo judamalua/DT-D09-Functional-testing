@@ -39,16 +39,26 @@ public class AnnouncementService {
 	// Supporting services --------------------------------------------------
 
 	// Simple CRUD methods --------------------------------------------------
-
+	/**
+	 * Create a new entity of an Announcement
+	 * 
+	 * @return a entity of an Announcement
+	 * @author MJ
+	 */
 	public Announcement create() {
 		Announcement result;
 
 		result = new Announcement();
-		//		result.setMoment(new Date(System.currentTimeMillis() - 1000));
 
 		return result;
 	}
 
+	/**
+	 * Get all the Announcement in the system
+	 * 
+	 * @return the list of all Announcements in the system
+	 * @author MJ
+	 */
 	public Collection<Announcement> findAll() {
 
 		Collection<Announcement> result;
@@ -61,6 +71,15 @@ public class AnnouncementService {
 
 	}
 
+	/**
+	 * 
+	 * Get the Announcement with id announcementId
+	 * 
+	 * @param announcementId
+	 * 
+	 * @return an Announcement with id equals to announcementId
+	 * @author MJ
+	 */
 	public Announcement findOne(final int announcementId) {
 
 		Announcement result;
@@ -71,28 +90,44 @@ public class AnnouncementService {
 
 	}
 
+	/**
+	 * Save the param announcement into the Rendezvous with id rendezvousId
+	 * 
+	 * @param announcement
+	 * @param rendezvousId
+	 * 
+	 * @return the saved entity of announcement
+	 * @author MJ
+	 */
 	public Announcement save(final Announcement announcement, final Integer rendezvousId) {
 
 		assert announcement != null;
+		Announcement result;
+		final Rendezvous rendezvous;
 
 		if (announcement.getVersion() == 0)
 			//The announcement moment is actual when the announcement is created 
 			announcement.setMoment(new Date(System.currentTimeMillis() - 1000));
 		//Rendezvous rend = rendezvousService.getRendezvousByAnnouncement(announcement.getId());
-		Announcement result;
 
 		result = this.announcementRepository.save(announcement);
 
 		if (announcement.getVersion() == 0) {
-			final Rendezvous rend = this.rendezvousService.findOne(rendezvousId);
-			rend.getAnnouncements().add(result);
-			this.rendezvousService.save(rend);
+			rendezvous = this.rendezvousService.findOne(rendezvousId);
+			rendezvous.getAnnouncements().add(result);
+			this.rendezvousService.save(rendezvous);
 		}
 
 		return result;
 
 	}
 
+	/**
+	 * Delete the announcement passed as parameter
+	 * 
+	 * @param announcement
+	 * @author MJ
+	 */
 	public void delete(final Announcement announcement) {
 
 		assert announcement != null;
@@ -119,6 +154,15 @@ public class AnnouncementService {
 
 	}
 
+	/**
+	 * Reconstruct the Announcement passed as parameter
+	 * 
+	 * @param announcement
+	 * @param binding
+	 * 
+	 * @return The reconstructed Announcement
+	 * @author MJ
+	 */
 	public Announcement reconstruct(final Announcement announcement, final BindingResult binding) {
 		Announcement result;
 
@@ -130,8 +174,8 @@ public class AnnouncementService {
 			result.setDescription(announcement.getDescription());
 			result.setTitle(announcement.getTitle());
 			result.setMoment(announcement.getMoment());
-
 		}
+
 		this.validator.validate(result, binding);
 		return result;
 	}

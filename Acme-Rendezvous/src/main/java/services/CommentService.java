@@ -15,6 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.CommentRepository;
+import domain.Actor;
+import domain.Administrator;
 import domain.Comment;
 import domain.Rendezvous;
 import domain.User;
@@ -116,19 +118,36 @@ public class CommentService {
 		Assert.notNull(comment);
 
 		Comment result;
+		Actor actor;
 		User user;
 
-		user = (User) this.actorService.findActorByPrincipal();
+		actor = this.actorService.findActorByPrincipal();
 		result = this.commentRepository.save(comment);
 
-		rendezvous.getComments().add(result);
-		this.rendezvousService.comment(rendezvous);
-
-		user.getComments().add(result);
-		this.userService.save(user);
+		if (rendezvous != null) {
+			rendezvous.getComments().add(result);
+			this.rendezvousService.comment(rendezvous);
+		}
+		if (actor instanceof User) {
+			user = (User) actor;
+			user.getComments().add(result);
+			this.userService.save(user);
+		} else {
+			user = this.getUserFromComment(comment);
+			user.getComments().remove(comment);
+			user.getComments().add(result);
+			this.userService.save(user);
+		}
 
 		return result;
 
+	}
+	public Comment save(final Comment comment) {
+		Comment result;
+
+		result = this.save(comment, null);
+
+		return result;
 	}
 
 	/**
@@ -168,30 +187,48 @@ public class CommentService {
 	public void delete(final Comment comment) {
 		Assert.notNull(comment);
 		Assert.isTrue(comment.getId() != 0);
+		Assert.isTrue(this.commentRepository.exists(comment.getId()));
 
+		Actor administrator;
+
+		administrator = this.actorService.findActorByPrincipal();
+		Assert.isTrue(administrator instanceof Administrator);
+
+		this.deleteCommentRecursive(comment);
+	}
+
+	public void deleteCommentRecursive(final Comment comment) {
+		User user, replyUser;
 		Rendezvous rendezvous;
-		User user;
 		Comment fatherComment;
 
-		rendezvous = this.rendezvousService.getRendezvousByCommentary(comment.getId());
 		user = this.getUserFromComment(comment);
 		fatherComment = this.getFatherCommentFromReply(comment);
+		rendezvous = this.rendezvousService.getRendezvousByCommentary(comment.getId());
 
-		user.getComments().remove(comment);
-		this.actorService.save(user);
-
-		if (rendezvous != null) {
-			rendezvous.getComments().remove(comment);
-			this.rendezvousService.save(rendezvous);
+		for (final Comment childrenComment : new HashSet<Comment>(comment.getComments())) {
+			replyUser = this.getUserFromComment(childrenComment);
+			if (childrenComment.getComments().size() == 0) {
+				replyUser.getComments().remove(childrenComment);
+				this.userService.save(replyUser);
+				comment.getComments().remove(childrenComment);
+				this.save(comment);
+				this.commentRepository.delete(childrenComment);
+			} else
+				this.deleteCommentRecursive(childrenComment);
 		}
 
 		if (fatherComment != null) {
 			fatherComment.getComments().remove(comment);
-			this.save(fatherComment, rendezvous);
+			this.save(fatherComment);
+
+		} else if (fatherComment == null && rendezvous != null) {
+			rendezvous.getComments().remove(comment);
+			this.rendezvousService.save(rendezvous);
 		}
-
+		user.getComments().remove(comment);
+		this.userService.save(user);
 		this.commentRepository.delete(comment);
-
 	}
 
 	/**

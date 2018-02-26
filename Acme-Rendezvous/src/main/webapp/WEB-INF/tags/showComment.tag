@@ -13,6 +13,7 @@
 <%-- Attributes --%>
 <%@ attribute name="comment" required="true" type="domain.Comment"%>
 <%@ attribute name="canUserComment" required="true"%>
+<%@ attribute name="rendezvousId" required="true"%>
 <%@ attribute name="indent" required="true"%>
 <%@ attribute name="anonymous" required="false"%>
 <%-- Definition --%>
@@ -41,7 +42,7 @@
 			</a>
 		</jstl:if>
 		<security:authorize access="hasRole('ADMIN')">
-			<a href="comment/admin/delete.do?commentId=${comment.id}">
+			<a href="comment/admin/delete.do?commentId=${comment.id}&rendezvousId=${rendezvousId}">
 				<button class="btn">
 					<spring:message code="rendezvous.delete" />
 				</button>
@@ -56,7 +57,7 @@
 			</summary>
 			<jstl:forEach var="replyComment" items="${comment.comments}">
 				<acme:showComment comment="${replyComment}"
-					canUserComment="${canUserComment}" indent="${indent+30}" anonymous="${anonymous}"/>
+					canUserComment="${canUserComment}" indent="${indent+30}" anonymous="${anonymous}" rendezvousId="${rendezvousId}"/>
 			</jstl:forEach>
 		</details>
 	</jstl:if>

@@ -42,12 +42,18 @@ public class AnnouncementUserController extends AbstractController {
 
 
 	// Listing ----------------------------------------------------
-
+	/**
+	 * List the announcements of RSVP Rendezvouses
+	 * 
+	 * @return a ModelAndView object with all the announcements of the RSVP Rendezvouses
+	 * @author MJ
+	 */
 	@RequestMapping(value = "/list")
 	public ModelAndView list() {
 		ModelAndView result;
 		final Collection<Announcement> announcements = new ArrayList<Announcement>();
-		final Collection<Rendezvous> rdvs = new ArrayList<Rendezvous>();
+		final Collection<Rendezvous> associatedRendezvouses = new ArrayList<Rendezvous>();
+		Collection<Announcement> rendezvousAnnouncements;
 		Collection<Rendezvous> rendezvouses;
 		User user;
 		try {
@@ -56,29 +62,40 @@ public class AnnouncementUserController extends AbstractController {
 			user = (User) this.actorService.findActorByPrincipal();
 			rendezvouses = user.getRsvpRendezvouses();
 
-			for (final Rendezvous rd : rendezvouses) {
-				final Collection<Announcement> a = rd.getAnnouncements();
-				announcements.addAll(rd.getAnnouncements());
-				final int n = a.size();
-				if (!a.isEmpty())
-					for (int i = 0; i < n; i++)
-						rdvs.add(rd);
+			/**
+			 * Adding the associated rendezvouses to an announcement
+			 */
+			for (final Rendezvous rendezvous : rendezvouses) {
+				rendezvousAnnouncements = rendezvous.getAnnouncements();
+				announcements.addAll(rendezvous.getAnnouncements());
+				if (!rendezvousAnnouncements.isEmpty())
+					for (int i = 0; i < rendezvousAnnouncements.size(); i++)
+						associatedRendezvouses.add(rendezvous);
 			}
 
 			result.addObject("announcements", announcements);
-			result.addObject("rdvs", rdvs);
+			result.addObject("requestURI", "announcement/user/list.do");
+			result.addObject("associatedRendezvouses", associatedRendezvouses);
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/misc/403");
 		}
 
 		return result;
 	}
-	
+
+	/**
+	 * List the announcements of created Rendezvouses
+	 * 
+	 * @return a ModelAndView object with all the announcements of the created Rendezvouses
+	 * @author MJ
+	 */
 	@RequestMapping(value = "/list-created")
 	public ModelAndView listcreated() {
 		ModelAndView result;
 		final Collection<Announcement> announcements = new ArrayList<Announcement>();
 		Collection<Rendezvous> rendezvouses;
+		final Collection<Rendezvous> associatedRendezvouses = new ArrayList<Rendezvous>();
+		Collection<Announcement> rendezvousAnnouncements;
 		User user;
 		try {
 
@@ -86,14 +103,20 @@ public class AnnouncementUserController extends AbstractController {
 			user = (User) this.actorService.findActorByPrincipal();
 			rendezvouses = user.getCreatedRendezvouses();
 
-			for (final Rendezvous rd : rendezvouses) {
-	
-				announcements.addAll(rd.getAnnouncements());
-	
+			/**
+			 * Adding the associated rendezvouses to an announcement
+			 */
+			for (final Rendezvous rendezvous : rendezvouses) {
+				rendezvousAnnouncements = rendezvous.getAnnouncements();
+				announcements.addAll(rendezvous.getAnnouncements());
+				if (!rendezvousAnnouncements.isEmpty())
+					for (int i = 0; i < rendezvousAnnouncements.size(); i++)
+						associatedRendezvouses.add(rendezvous);
 			}
-
 			result.addObject("announcements", announcements);
-			
+			result.addObject("requestURI", "announcement/user/list-created.do");
+			result.addObject("associatedRendezvouses", associatedRendezvouses);
+
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/misc/403");
 		}
@@ -102,6 +125,13 @@ public class AnnouncementUserController extends AbstractController {
 	}
 	// Editing ---------------------------------------------------------
 
+	/**
+	 * Gets the form to edit a existing Announcement
+	 * 
+	 * @param announcementId
+	 * @return a ModelAndView object with the form of an Announcement
+	 * @author MJ
+	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int announcementId) {
 		ModelAndView result;
@@ -113,7 +143,7 @@ public class AnnouncementUserController extends AbstractController {
 			Assert.notNull(announcement);
 			rendezvousId = this.rendezvousService.getRendezvousByAnnouncement(announcementId).getId();
 
-			//Check the user rspv that rendezvous.
+			//Check the user rsvp that rendezvous.
 			//TODO: Make a global method for all classes for this purpose
 			final User user = (User) this.actorService.findActorByPrincipal();
 			this.rendezvousService.getRendezvousByAnnouncement(announcementId).getUsers().contains(user);
@@ -128,7 +158,15 @@ public class AnnouncementUserController extends AbstractController {
 	}
 
 	// Creating ---------------------------------------------------------
-
+	/**
+	 * 
+	 * Gets the form to create a new Announcement associated to the Rendezvous with id rendezvousId
+	 * 
+	 * @param rendezvousId
+	 * @return a ModelAndView object with a form to create a new Announcement assocated to
+	 *         the Rendezvous with id rendezvousId
+	 * @author MJ
+	 */
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam final int rendezvousId) {
 		ModelAndView result;
@@ -155,7 +193,16 @@ public class AnnouncementUserController extends AbstractController {
 	}
 
 	// Saving -------------------------------------------------------------------
-
+	/**
+	 * Saves the Announcement passed as parameter into the rendezvous with id rendezvousId
+	 * 
+	 * @param rendezvousId
+	 * @param announcement
+	 * @param binding
+	 * 
+	 * @return a ModelAndView object with an error if exists or with a list of RSVP Rendezvouses
+	 * @author MJ
+	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@RequestParam final int rendezvousId, Announcement announcement, final BindingResult binding) {
 		ModelAndView result;
@@ -177,48 +224,6 @@ public class AnnouncementUserController extends AbstractController {
 
 		return result;
 	}
-
-	// Deleting ------------------------------------------------------------------------
-
-	//	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	//	public ModelAndView delete(@RequestParam final int rendezvousId, final Announcement announcement, final BindingResult binding) {
-	//		ModelAndView result;
-	//
-	//		try {
-	//			this.announcementService.delete(announcement);
-	//			result = new ModelAndView("redirect:list.do?rendezvousId=" + rendezvousId);
-	//
-	//		} catch (final Throwable oops) {
-	//			result = this.createEditModelAndView(announcement, "announcement.commit.error");
-	//			result.addObject("rendezvousId", rendezvousId);
-	//		}
-	//
-	//		return result;
-	//	}
-	//
-	//	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	//	public ModelAndView delete(@RequestParam("announcementId") final int announcementId) {
-	//
-	//		Announcement announcement;
-	//		ModelAndView result;
-	//		final User user = (User) this.actorService.findActorByPrincipal();
-	//		try {
-	//			announcement = this.announcementService.findOne(announcementId);			//Checks that the rendezvous is valid
-	//			Assert.notNull(announcement);
-	//
-	//			final Rendezvous rendezvous = this.rendezvousService.getRendezvousByAnnouncement(announcement.getId());
-	//			final User userCreator = this.userService.getCreatorUser(rendezvous.getId());
-	//			Assert.isTrue(userCreator.equals(user));
-	//
-	//			this.announcementService.delete(announcement);
-	//			result = new ModelAndView("redirect:/announcement/user/list.do");
-	//		} catch (final Throwable oops) {
-	//			//If any error is made during whole process, it will make the user go to the 403 page
-	//			result = new ModelAndView("redirect:/misc/403");
-	//		}
-	//
-	//		return result;
-	//	}
 
 	// Ancillary methods --------------------------------------------------
 

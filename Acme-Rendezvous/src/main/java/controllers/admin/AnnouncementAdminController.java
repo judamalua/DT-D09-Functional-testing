@@ -1,8 +1,6 @@
 
 package controllers.admin;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -11,11 +9,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ActorService;
 import services.AnnouncementService;
 import services.ConfigurationService;
 import services.RendezvousService;
-import services.UserService;
 import controllers.AbstractController;
 import domain.Announcement;
 import domain.Rendezvous;
@@ -34,20 +30,22 @@ public class AnnouncementAdminController extends AbstractController {
 	ConfigurationService	configurationService;
 
 
-	
-
-
-
-
 	// Deleting ------------------------------------------------------------------------
 
+	/**
+	 * Delete the announcement with id announcementId
+	 * 
+	 * @param announcementId
+	 * @return a ModelAndView with error if any or to the detailedView of the rendezvous
+	 * @author MJ
+	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public ModelAndView delete(@RequestParam("announcementId") final int announcementId) {
 
 		Announcement announcement;
 		ModelAndView result;
 		Rendezvous rendezvous;
-		
+
 		try {
 			announcement = this.announcementService.findOne(announcementId);			//Checks that the rendezvous is valid
 			rendezvous = this.rendezvousService.getRendezvousByAnnouncement(announcement.getId());
@@ -61,7 +59,5 @@ public class AnnouncementAdminController extends AbstractController {
 
 		return result;
 	}
-
-	
 
 }

@@ -1,823 +1,853 @@
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"> 
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
- <!-- %%%%%%  domain.Announcement %%%%%% --> 
-<bean id="Announcement1" class="domain.Announcement"> 
-<property name="moment" value="2018/02/01 08:00" />  
-<property name="title" value="This is announcement number 1" /> 
-<property name="description" value="This is the description regarding the announcement number 1" /> 
-</bean>
-<bean id="Announcement2" class="domain.Announcement"> 
-<property name="moment" value="2018/02/01 08:00" /> 
-<property name="title" value="This is announcement number 2" /> 
-<property name="description" value="This is the description regarding the announcement number 2" /> 
-</bean>
-<bean id="Announcement3" class="domain.Announcement"> 
-<property name="moment" value="2018/02/01 08:00" /> 
-<property name="title" value="This is announcement number 3" /> 
-<property name="description" value="This is the description regarding the announcement number 3" /> 
-</bean>
-<bean id="Announcement4" class="domain.Announcement"> 
-<property name="moment" value="2018/02/01 08:00" /> 
-<property name="title" value="Announcement 1" /> 
-<property name="description" value="Event will start at 19:00pm" /> 
-</bean>
-<bean id="Announcement5" class="domain.Announcement"> 
-<property name="moment" value="2018/02/01 08:00" /> 
-<property name="title" value="Announcement 2" /> 
-<property name="description" value="Announcement description 3" /> 
-</bean>
-<bean id="Announcement6" class="domain.Announcement"> 
-<property name="moment" value="2018/02/01 08:00" /> 
-<property name="title" value="Important" /> 
-<property name="description" value="There will be a holiday camp next month." /> 
-</bean>
-<bean id="Announcement7" class="domain.Announcement"> 
-<property name="moment" value="2018/02/01 08:00" /> 
-<property name="title" value="Hello everyone" /> 
-<property name="description" value="This activity will take place at ETSII, Seville." /> 
-</bean>
-<bean id="Announcement8" class="domain.Announcement"> 
-<property name="moment" value="2018/02/01 08:00" /> 
-<property name="title" value="Suspension" /> 
-<property name="description" value="Finally we will suspend this activity." /> 
-</bean>
-<bean id="Announcement9" class="domain.Announcement"> 
-<property name="moment" value="2018/02/01 08:00" /> 
-<property name="title" value="We are back!" /> 
-<property name="description" value="Hi everyone, we are back again!" /> 
-</bean>
+	<!-- %%%%%% domain.Announcement %%%%%% -->
+	<bean id="Announcement1" class="domain.Announcement">
+		<property name="moment" value="2018/02/01 08:00" />
+		<property name="title" value="This is announcement number 1" />
+		<property name="description"
+			value="This is the description regarding the announcement number 1" />
+	</bean>
+	<bean id="Announcement2" class="domain.Announcement">
+		<property name="moment" value="2018/02/01 08:00" />
+		<property name="title" value="This is announcement number 2" />
+		<property name="description"
+			value="This is the description regarding the announcement number 2" />
+	</bean>
+	<bean id="Announcement3" class="domain.Announcement">
+		<property name="moment" value="2018/02/01 08:00" />
+		<property name="title" value="This is announcement number 3" />
+		<property name="description"
+			value="This is the description regarding the announcement number 3" />
+	</bean>
+	<bean id="Announcement4" class="domain.Announcement">
+		<property name="moment" value="2018/02/01 08:00" />
+		<property name="title" value="Announcement 1" />
+		<property name="description" value="Event will start at 19:00pm" />
+	</bean>
+	<bean id="Announcement5" class="domain.Announcement">
+		<property name="moment" value="2018/02/01 08:00" />
+		<property name="title" value="Announcement 2" />
+		<property name="description" value="Announcement description 3" />
+	</bean>
+	<bean id="Announcement6" class="domain.Announcement">
+		<property name="moment" value="2018/02/01 08:00" />
+		<property name="title" value="Important" />
+		<property name="description" value="There will be a holiday camp next month." />
+	</bean>
+	<bean id="Announcement7" class="domain.Announcement">
+		<property name="moment" value="2018/02/01 08:00" />
+		<property name="title" value="Hello everyone" />
+		<property name="description"
+			value="This activity will take place at ETSII, Seville." />
+	</bean>
+	<bean id="Announcement8" class="domain.Announcement">
+		<property name="moment" value="2018/02/01 08:00" />
+		<property name="title" value="Suspension" />
+		<property name="description" value="Finally we will suspend this activity." />
+	</bean>
+	<bean id="Announcement9" class="domain.Announcement">
+		<property name="moment" value="2018/02/01 08:00" />
+		<property name="title" value="We are back!" />
+		<property name="description" value="Hi everyone, we are back again!" />
+	</bean>
 
- <!-- %%%%%%  security.UserAccount %%%%%% --> 
-<bean id="UserAccount1" class="security.UserAccount"> 
-<property name="username" value="admin" /> 
-<property name="password" value="21232f297a57a5a743894a0e4a801fc3" /> 
-<property name="authorities" > 
-<list> 
-<bean class="security.Authority"> 
- <property name="authority" value="ADMIN" /> 
- </bean><bean class="security.Authority"> 
- <property name="authority" value="USER" /> 
- </bean></list> 
-</property> 
-</bean>
-<bean id="UserAccount2" class="security.UserAccount"> 
-<property name="username" value="admin1" /> 
-<property name="password" value="e00cf25ad42683b3df678c61f42c6bda" /> 
-<property name="authorities" > 
-<list> 
-<bean class="security.Authority"> 
- <property name="authority" value="ADMIN" /> 
- </bean></list> 
-</property> 
-</bean>
-<bean id="UserAccount3" class="security.UserAccount"> 
-<property name="username" value="user1" /> 
-<property name="password" value="24c9e15e52afc47c225b757e7bee1f9d" /> 
-<property name="authorities" > 
-<list> 
-<bean class="security.Authority"> 
- <property name="authority" value="USER" /> 
- </bean></list> 
-</property> 
-</bean>
-<bean id="UserAccount4" class="security.UserAccount"> 
-<property name="username" value="user2" /> 
-<property name="password" value="7e58d63b60197ceb55a1c487989a3720" /> 
-<property name="authorities" > 
-<list> 
-<bean class="security.Authority"> 
- <property name="authority" value="USER" /> 
- </bean></list> 
-</property> 
-</bean>
-<bean id="UserAccount5" class="security.UserAccount"> 
-<property name="username" value="user3" /> 
-<property name="password" value="92877af70a45fd6a2ed7fe81e1236b78" /> 
-<property name="authorities" > 
-<list> 
-<bean class="security.Authority"> 
- <property name="authority" value="USER" /> 
- </bean></list> 
-</property> 
-</bean>
-<bean id="UserAccount6" class="security.UserAccount"> 
-<property name="username" value="user4" /> 
-<property name="password" value="3f02ebe3d7929b091e3d8ccfde2f3bc6" /> 
-<property name="authorities" > 
-<list> 
-<bean class="security.Authority"> 
- <property name="authority" value="USER" /> 
- </bean></list> 
-</property> 
-</bean>
-<bean id="UserAccount7" class="security.UserAccount"> 
-<property name="username" value="user5" /> 
-<property name="password" value="0a791842f52a0acfbb3a783378c066b8" /> 
-<property name="authorities" > 
-<list> 
-<bean class="security.Authority"> 
- <property name="authority" value="USER" /> 
- </bean></list> 
-</property> 
-</bean>
-<bean id="UserAccount8" class="security.UserAccount"> 
-<property name="username" value="user6" /> 
-<property name="password" value="affec3b64cf90492377a8114c86fc093" /> 
-<property name="authorities" > 
-<list> 
-<bean class="security.Authority"> 
- <property name="authority" value="USER" /> 
- </bean></list> 
-</property> 
-</bean>
-<bean id="UserAccount9" class="security.UserAccount"> 
-<property name="username" value="user7" /> 
-<property name="password" value="3e0469fb134991f8f75a2760e409c6ed" /> 
-<property name="authorities" > 
-<list> 
-<bean class="security.Authority"> 
- <property name="authority" value="USER" /> 
- </bean></list> 
-</property> 
-</bean>
-<bean id="UserAccount10" class="security.UserAccount"> 
-<property name="username" value="user8" /> 
-<property name="password" value="7668f673d5669995175ef91b5d171945" /> 
-<property name="authorities" > 
-<list> 
-<bean class="security.Authority"> 
- <property name="authority" value="USER" /> 
- </bean></list> 
-</property> 
-</bean>
-
-
- <!-- %%%%%%  domain.Administrator %%%%%% --> 
-<bean id="Administrator1" class="domain.Administrator"> 
-<property name="name" value="Super" /> 
-<property name="surname" value="Super" /> 
-<property name="email" value="super@mail.com" /> 
-<property name="birthDate" value="1995/10/03 00:00" /> 
-<property name="userAccount" ref="UserAccount1" /> 
-</bean>
-<bean id="Administrator2" class="domain.Administrator"> 
-<property name="name" value="Administrator 1" /> 
-<property name="surname" value="Administrator" /> 
-<property name="email" value="administrator1@mail.com" /> 
-<property name="birthDate" value="1987/04/11 00:00" /> 
-<property name="userAccount" ref="UserAccount2" /> 
-</bean>
-<!-- %%%%%%  domain.Rendezvous %%%%%% --> 
-<bean id="Rendezvous1" class="domain.Rendezvous"> 
-<property name="name" value="Meeting of friends" /> 
-<property name="description" value="Have fun meeting people with your same tastes." /> 
-<property name="moment" value="2018/02/24 21:00" /> 
-<property name="pictureUrl" value="http://www.chippendaleschool.com/wp-content/uploads/2017/07/Friends-3.jpg" /> 
-<property name="gpsCoordinates" value="37.35,-5.99" /> 
-<property name="finalMode" value="true" /> 
-<property name="deleted" value="false" /> 
-<property name="adultOnly" value="false" /> 
-<property name="questions" > 
-<list> 
-<ref bean="Question1" /> 
-<ref bean="Question2" /> 
-<ref bean="Question3" /> 
-<ref bean="Question4" /> 
-<ref bean="Question5" /> 
-<ref bean="Question6" /> 
-</list> 
-</property> 
-<property name="similars" > 
-<list> 
-<ref bean="Rendezvous2" /> 
-<ref bean="Rendezvous3" /> 
-<ref bean="Rendezvous4" /> 
-<ref bean="Rendezvous5" /> 
-<ref bean="Rendezvous6" /> 
-<ref bean="Rendezvous7" /> 
-</list> 
-</property> 
-<property name="announcements" > 
-<list> 
-<ref bean="Announcement3" /> 
-<ref bean="Announcement4" /> 
-<ref bean="Announcement5" /> 
-<ref bean="Announcement6" /> 
-<ref bean="Announcement7" /> 
-<ref bean="Announcement8" /> 
-<ref bean="Announcement9" /> 
-</list> 
-</property> 
-<property name="comments" > 
-<list> 
-<ref bean="Comment7" /> 
-</list> 
-</property> 
-<property name="users" > 
-<list> 
-<ref bean="User1" />
-</list> 
-</property> 
-</bean>
-<bean id="Rendezvous2" class="domain.Rendezvous"> 
-<property name="name" value=" Meeting of Alcoholics Anonymous" /> 
-<property name="description" value="Talk about your problems with alcohol in a relaxed and friendly environment.
-Attention: Do not bring alcohol." /> 
-<property name="moment" value="2018/01/24 11:00" /> 
-<property name="pictureUrl" value="http://static1.squarespace.com/static/58d23d9629687f0926cb2f63/58d2b89eb3db2bda82b966dc/59c3926864b05fb1d244b153/1506338828991/alcoholicos-anonimos.jpeg" /> 
-<property name="gpsCoordinates" value="37.35,-5.99" /> 
-<property name="finalMode" value="true" /> 
-<property name="deleted" value="false" /> 
-<property name="adultOnly" value="true" /> 
-<property name="questions" > 
-<list> 
-</list> 
-</property> 
-<property name="similars" > 
-<list> 
-</list> 
-</property> 
-<property name="announcements" > 
-<list> 
-<ref bean="Announcement1" /> 
-<ref bean="Announcement2" /> 
-</list> 
-</property> 
-<property name="comments" > 
-<list> 
-</list> 
-</property> 
-<property name="users" > 
-<list> 
-<ref bean="User1" /> 
-</list> 
-</property> 
-</bean>
-<bean id="Rendezvous3" class="domain.Rendezvous"> 
-<property name="name" value=" Blind Dating" /> 
-<property name="description" value="Find your soulmate with us." /> 
-<property name="moment" value="2018/03/4 08:00" /> 
-<property name="pictureUrl" value="https://swoonproduction.s3.amazonaws.com/media/original_images/love-romance-heart-sunset-hands-shutterstock.jpg" /> 
-<property name="gpsCoordinates" value="37.35,-5.99" /> 
-<property name="finalMode" value="true" /> 
-<property name="deleted" value="false" /> 
-<property name="adultOnly" value="true" /> 
-<property name="questions" > 
-<list> 
-</list> 
-</property> 
-<property name="similars" > 
-<list> 
-</list> 
-</property> 
-<property name="announcements" > 
-<list> 
-</list> 
-</property> 
-<property name="comments" > 
-<list> 
-</list> 
-</property> 
-<property name="users" > 
-<list> 
-<ref bean="User1" /> 
-<ref bean="User2" /> 
-<ref bean="User3" /> 
-<ref bean="User4" /> 
-<ref bean="User7" /> 
-</list> 
-</property> 
-</bean>
-<bean id="Rendezvous4" class="domain.Rendezvous"> 
-<property name="name" value="Table games" /> 
-<property name="description" value="Play some table games with us." /> 
-<property name="moment" value="2018/11/12 14:00" /> 
-<property name="pictureUrl" value="http://enseriopod.com/wp-content/uploads/2016/03/Board-Games.jpg" /> 
-<property name="gpsCoordinates" value="37.35,-5.99" /> 
-<property name="finalMode" value="true" /> 
-<property name="deleted" value="false" /> 
-<property name="adultOnly" value="false" /> 
-<property name="questions" > 
-<list> 
-</list> 
-</property> 
-<property name="similars" > 
-<list> 
-</list> 
-</property> 
-<property name="announcements" > 
-<list> 
-</list> 
-</property> 
-<property name="comments" > 
-<list> 
-<ref bean="Comment8" /> 
-</list> 
-</property> 
-<property name="users" > 
-<list> 
-<ref bean="User1" /> 
-<ref bean="User2" /> 
-<ref bean="User3" /> 
-<ref bean="User4" /> 
-<ref bean="User7" /> 
-</list> 
-</property> 
-</bean>
-<bean id="Rendezvous5" class="domain.Rendezvous"> 
-<property name="name" value="Cooking class" /> 
-<property name="description" value="Learn how to do a fried egg." /> 
-<property name="moment" value="2018/9/1 16:00" /> 
-<property name="pictureUrl" value="https://png.pngtree.com/element_origin_min_pic/16/12/22/4aff2fe0a34cc2c996b9107157806a59.jpg" /> 
-<property name="gpsCoordinates" value="37.35,-5.99" /> 
-<property name="finalMode" value="true" /> 
-<property name="deleted" value="false" /> 
-<property name="adultOnly" value="false" /> 
-<property name="questions" > 
-<list> 
-</list> 
-</property> 
-<property name="similars" > 
-<list> 
-</list> 
-</property> 
-<property name="announcements" > 
-<list> 
-</list> 
-</property> 
-<property name="comments" > 
-<list> 
-<ref bean="Comment9" /> 
-</list> 
-</property> 
-<property name="users" > 
-<list> 
-<ref bean="User1" /> 
-<ref bean="User2" /> 
-<ref bean="User3" /> 
-<ref bean="User4" /> 
-<ref bean="User7" /> 
-</list> 
-</property> 
-</bean>
-<bean id="Rendezvous6" class="domain.Rendezvous"> 
-<property name="name" value="Karaoke" /> 
-<property name="description" value="Sing with us, get fun with us." /> 
-<property name="moment" value="2018/3/7 21:00" /> 
-<property name="pictureUrl" value="http://www.onfiesta.com/wp-content/uploads/2016/11/alquilar-karaoke-en-navarra.jpg" /> 
-<property name="gpsCoordinates" value="37.35,-5.99" /> 
-<property name="finalMode" value="true" /> 
-<property name="deleted" value="false" /> 
-<property name="adultOnly" value="false" /> 
-<property name="questions" > 
-<list> 
-</list> 
-</property> 
-<property name="similars" > 
-<list> 
-</list> 
-</property> 
-<property name="announcements" > 
-<list> 
-</list> 
-</property> 
-<property name="comments" > 
-<list> 
-<ref bean="Comment11" /> 
-</list> 
-</property> 
-<property name="users" > 
-<list> 
-<ref bean="User1" /> 
-</list> 
-</property> 
-</bean>
-<bean id="Rendezvous7" class="domain.Rendezvous"> 
-<property name="name" value="James Bond club fans" /> 
-<property name="description" value="Do you love James Bond?, Come with us!" /> 
-<property name="moment" value="2018/08/24 22:00" /> 
-<property name="pictureUrl" value="https://ep01.epimg.net/cultura/imagenes/2017/09/08/television/1504868027_671081_1504868319_noticia_normal.jpg" /> 
-<property name="gpsCoordinates" value="37.35,-5.99" /> 
-<property name="finalMode" value="true" /> 
-<property name="deleted" value="false" /> 
-<property name="adultOnly" value="false" /> 
-<property name="questions" > 
-<list> 
-</list> 
-</property> 
-<property name="similars" > 
-<list> 
-<ref bean="Rendezvous3" /> 
-<ref bean="Rendezvous4" /> 
-<ref bean="Rendezvous5" /> 
-</list> 
-</property> 
-<property name="announcements" > 
-<list> 
-</list> 
-</property> 
-<property name="comments" > 
-<list> 
-</list> 
-</property> 
-<property name="users" > 
-<list> 
-<ref bean="User1" /> 
-</list> 
-</property> 
-</bean>
- <!-- %%%%%%  domain.User %%%%%% --> 
-<bean id="User1" class="domain.User"> 
-<property name="createdRendezvouses" > 
-<list> 
-<ref bean="Rendezvous1" /> 
-<ref bean="Rendezvous2" /> 
-<ref bean="Rendezvous3" /> 
-<ref bean="Rendezvous4" /> 
-<ref bean="Rendezvous5" /> 
-<ref bean="Rendezvous6" /> 
-<ref bean="Rendezvous7" /> 
-</list> 
-</property> 
-<property name="rsvpRendezvouses" > 
-<list> 
-<ref bean="Rendezvous1" /> 
-<ref bean="Rendezvous2" /> 
-<ref bean="Rendezvous3" /> 
-<ref bean="Rendezvous4" /> 
-<ref bean="Rendezvous5" /> 
-<ref bean="Rendezvous6" /> 
-<ref bean="Rendezvous7" /> 
-</list> 
-</property> 
-<property name="comments" > 
-<list> 
-<ref bean="Comment1" /> 
-<ref bean="Comment2" /> 
-<ref bean="Comment5" /> 
-<ref bean="Comment7" /> 
-<ref bean="Comment8" /> 
-<ref bean="Comment9" /> 
-<ref bean="Comment10" /> 
-<ref bean="Comment11" /> 
-<ref bean="Comment12" /> 
-</list> 
-</property> 
-<property name="name" value="User 1" /> 
-<property name="surname" value="User" /> 
-<property name="postalAddress" value="San Antion Spurs Street" /> 
-<property name="phoneNumber" value="635587789" /> 
-<property name="email" value="user1@mail.com" /> 
-<property name="birthDate" value="1987/04/11 00:00" /> 
-<property name="userAccount" ref="UserAccount3" /> 
-</bean>
-<bean id="User2" class="domain.User"> 
-<property name="createdRendezvouses" > 
-<list> 
-</list> 
-</property> 
-<property name="rsvpRendezvouses" > 
-<list> 
-<ref bean="Rendezvous3" /> 
-<ref bean="Rendezvous4" /> 
-<ref bean="Rendezvous5" /> 
-</list> 
-</property> 
-<property name="comments" > 
-<list> 
-<ref bean="Comment3" /> 
-<ref bean="Comment4" /> 
-<ref bean="Comment6" /> 
-</list> 
-</property> 
-<property name="name" value="User 2" /> 
-<property name="surname" value="User " /> 
-<property name="postalAddress" value="Okklahoma Thunder Street" /> 
-<property name="phoneNumber" value="635582389" /> 
-<property name="email" value="user2@mail.com" /> 
-<property name="birthDate" value="1992/07/15 00:00" /> 
-<property name="userAccount" ref="UserAccount4" /> 
-</bean>
-<bean id="User3" class="domain.User"> 
-<property name="createdRendezvouses" > 
-<list> 
-</list> 
-</property> 
-<property name="rsvpRendezvouses" > 
-<list> 
-<ref bean="Rendezvous3" /> 
-<ref bean="Rendezvous4" /> 
-<ref bean="Rendezvous5" /> 
-</list> 
-</property> 
-<property name="comments" > 
-<list> 
-</list> 
-</property> 
-<property name="name" value="Prudencio" /> 
-<property name="surname" value="Cezar Marian" /> 
-<property name="postalAddress" value="Address Rue 30" /> 
-<property name="phoneNumber" value="680010101" /> 
-<property name="email" value="email.user3@gmail.com" /> 
-<property name="birthDate" value="1990/07/07 00:00" /> 
-<property name="userAccount" ref="UserAccount5" /> 
-</bean>
-<bean id="User4" class="domain.User"> 
-<property name="createdRendezvouses" > 
-<list> 
-</list> 
-</property> 
-<property name="rsvpRendezvouses" > 
-<list> 
-<ref bean="Rendezvous3" /> 
-<ref bean="Rendezvous4" /> 
-<ref bean="Rendezvous5" /> 
-</list> 
-</property> 
-<property name="comments" > 
-<list> 
-</list> 
-</property> 
-<property name="name" value="Rafinha" /> 
-<property name="surname" value="Max Wayra" /> 
-<property name="postalAddress" value="Address Rue 31" /> 
-<property name="phoneNumber" value="680010101" /> 
-<property name="email" value="email.user4@gmail.com" /> 
-<property name="birthDate" value="1991/07/07 00:00" /> 
-<property name="userAccount" ref="UserAccount6" /> 
-</bean>
-<bean id="User5" class="domain.User"> 
-<property name="createdRendezvouses" > 
-<list> 
-</list> 
-</property> 
-<property name="rsvpRendezvouses" > 
-<list> 
-</list> 
-</property> 
-<property name="comments" > 
-<list> 
-</list> 
-</property> 
-<property name="name" value="Herald" /> 
-<property name="surname" value="Eugenio Razvan" /> 
-<property name="postalAddress" value="Address Rue 33" /> 
-<property name="phoneNumber" value="610010103" /> 
-<property name="email" value="email.user5@gmail.com" /> 
-<property name="birthDate" value="2000/07/07 00:00" /> 
-<property name="userAccount" ref="UserAccount7" /> 
-</bean>
-<bean id="User6" class="domain.User"> 
-<property name="createdRendezvouses" > 
-<list> 
-</list> 
-</property> 
-<property name="rsvpRendezvouses" > 
-<list> 
-</list> 
-</property> 
-<property name="comments" > 
-<list> 
-</list> 
-</property> 
-<property name="name" value="David" /> 
-<property name="surname" value="Victor Leopoldo" /> 
-<property name="postalAddress" value="Address Rue 30" /> 
-<property name="phoneNumber" value="680010122" /> 
-<property name="email" value="email.user6@gmail.com" /> 
-<property name="birthDate" value="1990/07/07 00:00" /> 
-<property name="userAccount" ref="UserAccount8" /> 
-</bean>
-<bean id="User7" class="domain.User"> 
-<property name="createdRendezvouses" > 
-<list> 
-</list> 
-</property> 
-<property name="rsvpRendezvouses" > 
-<list> 
-<ref bean="Rendezvous3" /> 
-<ref bean="Rendezvous4" /> 
-<ref bean="Rendezvous5" /> 
-</list> 
-</property> 
-<property name="comments" > 
-<list> 
-</list> 
-</property> 
-<property name="name" value="Wyn" /> 
-<property name="surname" value="Lockie Syed" /> 
-<property name="postalAddress" value="Address Rue 101" /> 
-<property name="phoneNumber" value="680010126" /> 
-<property name="email" value="email.user7@gmail.com" /> 
-<property name="birthDate" value="1991/07/07 00:00" /> 
-<property name="userAccount" ref="UserAccount9" /> 
-</bean>
-<bean id="User8" class="domain.User"> 
-<property name="createdRendezvouses" > 
-<list> 
-</list> 
-</property> 
-<property name="rsvpRendezvouses" > 
-<list> 
-</list> 
-</property> 
-<property name="comments" > 
-<list> 
-</list> 
-</property> 
-<property name="name" value="Valentin" /> 
-<property name="surname" value="Berwyn" /> 
-<property name="postalAddress" value="Postal Address SN" /> 
-<property name="phoneNumber" value="Venyamin" /> 
-<property name="email" value="email.user8@gmail.com" /> 
-<property name="birthDate" value="2011/07/03 00:00" /> 
-<property name="userAccount" ref="UserAccount10" /> 
-</bean>
+	<!-- %%%%%% security.UserAccount %%%%%% -->
+	<bean id="UserAccount1" class="security.UserAccount">
+		<property name="username" value="admin" />
+		<property name="password" value="21232f297a57a5a743894a0e4a801fc3" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="ADMIN" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="UserAccount2" class="security.UserAccount">
+		<property name="username" value="admin1" />
+		<property name="password" value="e00cf25ad42683b3df678c61f42c6bda" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="ADMIN" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="UserAccount3" class="security.UserAccount">
+		<property name="username" value="user1" />
+		<property name="password" value="24c9e15e52afc47c225b757e7bee1f9d" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="UserAccount4" class="security.UserAccount">
+		<property name="username" value="user2" />
+		<property name="password" value="7e58d63b60197ceb55a1c487989a3720" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="UserAccount5" class="security.UserAccount">
+		<property name="username" value="user3" />
+		<property name="password" value="92877af70a45fd6a2ed7fe81e1236b78" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="UserAccount6" class="security.UserAccount">
+		<property name="username" value="user4" />
+		<property name="password" value="3f02ebe3d7929b091e3d8ccfde2f3bc6" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="UserAccount7" class="security.UserAccount">
+		<property name="username" value="user5" />
+		<property name="password" value="0a791842f52a0acfbb3a783378c066b8" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="UserAccount8" class="security.UserAccount">
+		<property name="username" value="user6" />
+		<property name="password" value="affec3b64cf90492377a8114c86fc093" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="UserAccount9" class="security.UserAccount">
+		<property name="username" value="user7" />
+		<property name="password" value="3e0469fb134991f8f75a2760e409c6ed" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="UserAccount10" class="security.UserAccount">
+		<property name="username" value="user8" />
+		<property name="password" value="7668f673d5669995175ef91b5d171945" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
 
 
+	<!-- %%%%%% domain.Administrator %%%%%% -->
+	<bean id="Administrator1" class="domain.Administrator">
+		<property name="name" value="Super" />
+		<property name="surname" value="Super" />
+		<property name="email" value="super@mail.com" />
+		<property name="birthDate" value="1995/10/03 00:00" />
+		<property name="userAccount" ref="UserAccount1" />
+	</bean>
+	<bean id="Administrator2" class="domain.Administrator">
+		<property name="name" value="Administrator 1" />
+		<property name="surname" value="Administrator" />
+		<property name="email" value="administrator1@mail.com" />
+		<property name="birthDate" value="1987/04/11 00:00" />
+		<property name="userAccount" ref="UserAccount2" />
+	</bean>
+	<!-- %%%%%% domain.Rendezvous %%%%%% -->
+	<bean id="Rendezvous1" class="domain.Rendezvous">
+		<property name="name" value="Meeting of friends" />
+		<property name="description"
+			value="Have fun meeting people with your same tastes." />
+		<property name="moment" value="2018/02/24 21:00" />
+		<property name="pictureUrl"
+			value="http://www.chippendaleschool.com/wp-content/uploads/2017/07/Friends-3.jpg" />
+		<property name="gpsCoordinates" value="37.35,-5.99" />
+		<property name="finalMode" value="true" />
+		<property name="deleted" value="false" />
+		<property name="adultOnly" value="false" />
+		<property name="questions">
+			<list>
+				<ref bean="Question1" />
+				<ref bean="Question2" />
+				<ref bean="Question3" />
+				<ref bean="Question4" />
+				<ref bean="Question5" />
+				<ref bean="Question6" />
+			</list>
+		</property>
+		<property name="similars">
+			<list>
+				<ref bean="Rendezvous2" />
+				<ref bean="Rendezvous3" />
+				<ref bean="Rendezvous4" />
+				<ref bean="Rendezvous5" />
+				<ref bean="Rendezvous6" />
+				<ref bean="Rendezvous7" />
+			</list>
+		</property>
+		<property name="announcements">
+			<list>
+				<ref bean="Announcement3" />
+				<ref bean="Announcement4" />
+				<ref bean="Announcement5" />
+				<ref bean="Announcement6" />
+				<ref bean="Announcement7" />
+				<ref bean="Announcement8" />
+				<ref bean="Announcement9" />
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+				<ref bean="Comment7" />
+			</list>
+		</property>
+		<property name="users">
+			<list>
+				<ref bean="User1" />
+			</list>
+		</property>
+	</bean>
+	<bean id="Rendezvous2" class="domain.Rendezvous">
+		<property name="name" value=" Meeting of Alcoholics Anonymous" />
+		<property name="description"
+			value="Talk about your problems with alcohol in a relaxed and friendly environment.
+Attention: Do not bring alcohol." />
+		<property name="moment" value="2018/01/24 11:00" />
+		<property name="pictureUrl"
+			value="http://static1.squarespace.com/static/58d23d9629687f0926cb2f63/58d2b89eb3db2bda82b966dc/59c3926864b05fb1d244b153/1506338828991/alcoholicos-anonimos.jpeg" />
+		<property name="gpsCoordinates" value="37.35,-5.99" />
+		<property name="finalMode" value="true" />
+		<property name="deleted" value="false" />
+		<property name="adultOnly" value="true" />
+		<property name="questions">
+			<list>
+			</list>
+		</property>
+		<property name="similars">
+			<list>
+			</list>
+		</property>
+		<property name="announcements">
+			<list>
+				<ref bean="Announcement1" />
+				<ref bean="Announcement2" />
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="users">
+			<list>
+				<ref bean="User1" />
+			</list>
+		</property>
+	</bean>
+	<bean id="Rendezvous3" class="domain.Rendezvous">
+		<property name="name" value=" Blind Dating" />
+		<property name="description" value="Find your soulmate with us." />
+		<property name="moment" value="2018/03/4 08:00" />
+		<property name="pictureUrl"
+			value="https://swoonproduction.s3.amazonaws.com/media/original_images/love-romance-heart-sunset-hands-shutterstock.jpg" />
+		<property name="gpsCoordinates" value="37.35,-5.99" />
+		<property name="finalMode" value="true" />
+		<property name="deleted" value="false" />
+		<property name="adultOnly" value="true" />
+		<property name="questions">
+			<list>
+			</list>
+		</property>
+		<property name="similars">
+			<list>
+			</list>
+		</property>
+		<property name="announcements">
+			<list>
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="users">
+			<list>
+				<ref bean="User1" />
+				<ref bean="User2" />
+				<ref bean="User3" />
+				<ref bean="User4" />
+				<ref bean="User7" />
+			</list>
+		</property>
+	</bean>
+	<bean id="Rendezvous4" class="domain.Rendezvous">
+		<property name="name" value="Table games" />
+		<property name="description" value="Play some table games with us." />
+		<property name="moment" value="2018/11/12 14:00" />
+		<property name="pictureUrl"
+			value="http://enseriopod.com/wp-content/uploads/2016/03/Board-Games.jpg" />
+		<property name="gpsCoordinates" value="37.35,-5.99" />
+		<property name="finalMode" value="true" />
+		<property name="deleted" value="false" />
+		<property name="adultOnly" value="false" />
+		<property name="questions">
+			<list>
+			</list>
+		</property>
+		<property name="similars">
+			<list>
+			</list>
+		</property>
+		<property name="announcements">
+			<list>
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+				<ref bean="Comment8" />
+			</list>
+		</property>
+		<property name="users">
+			<list>
+				<ref bean="User1" />
+				<ref bean="User2" />
+				<ref bean="User3" />
+				<ref bean="User4" />
+				<ref bean="User7" />
+			</list>
+		</property>
+	</bean>
+	<bean id="Rendezvous5" class="domain.Rendezvous">
+		<property name="name" value="Cooking class" />
+		<property name="description" value="Learn how to do a fried egg." />
+		<property name="moment" value="2018/9/1 16:00" />
+		<property name="pictureUrl"
+			value="https://png.pngtree.com/element_origin_min_pic/16/12/22/4aff2fe0a34cc2c996b9107157806a59.jpg" />
+		<property name="gpsCoordinates" value="37.35,-5.99" />
+		<property name="finalMode" value="true" />
+		<property name="deleted" value="false" />
+		<property name="adultOnly" value="false" />
+		<property name="questions">
+			<list>
+			</list>
+		</property>
+		<property name="similars">
+			<list>
+			</list>
+		</property>
+		<property name="announcements">
+			<list>
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+				<ref bean="Comment9" />
+			</list>
+		</property>
+		<property name="users">
+			<list>
+				<ref bean="User1" />
+				<ref bean="User2" />
+				<ref bean="User3" />
+				<ref bean="User4" />
+				<ref bean="User7" />
+			</list>
+		</property>
+	</bean>
+	<bean id="Rendezvous6" class="domain.Rendezvous">
+		<property name="name" value="Karaoke" />
+		<property name="description" value="Sing with us, get fun with us." />
+		<property name="moment" value="2018/3/7 21:00" />
+		<property name="pictureUrl"
+			value="http://www.onfiesta.com/wp-content/uploads/2016/11/alquilar-karaoke-en-navarra.jpg" />
+		<property name="gpsCoordinates" value="37.35,-5.99" />
+		<property name="finalMode" value="true" />
+		<property name="deleted" value="false" />
+		<property name="adultOnly" value="false" />
+		<property name="questions">
+			<list>
+			</list>
+		</property>
+		<property name="similars">
+			<list>
+			</list>
+		</property>
+		<property name="announcements">
+			<list>
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+				<ref bean="Comment11" />
+			</list>
+		</property>
+		<property name="users">
+			<list>
+				<ref bean="User1" />
+			</list>
+		</property>
+	</bean>
+	<bean id="Rendezvous7" class="domain.Rendezvous">
+		<property name="name" value="James Bond club fans" />
+		<property name="description" value="Do you love James Bond?, Come with us!" />
+		<property name="moment" value="2018/08/24 22:00" />
+		<property name="pictureUrl"
+			value="https://ep01.epimg.net/cultura/imagenes/2017/09/08/television/1504868027_671081_1504868319_noticia_normal.jpg" />
+		<property name="gpsCoordinates" value="37.35,-5.99" />
+		<property name="finalMode" value="true" />
+		<property name="deleted" value="false" />
+		<property name="adultOnly" value="false" />
+		<property name="questions">
+			<list>
+			</list>
+		</property>
+		<property name="similars">
+			<list>
+				<ref bean="Rendezvous3" />
+				<ref bean="Rendezvous4" />
+				<ref bean="Rendezvous5" />
+			</list>
+		</property>
+		<property name="announcements">
+			<list>
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="users">
+			<list>
+				<ref bean="User1" />
+			</list>
+		</property>
+	</bean>
+	<!-- %%%%%% domain.User %%%%%% -->
+	<bean id="User1" class="domain.User">
+		<property name="createdRendezvouses">
+			<list>
+				<ref bean="Rendezvous1" />
+				<ref bean="Rendezvous2" />
+				<ref bean="Rendezvous3" />
+				<ref bean="Rendezvous4" />
+				<ref bean="Rendezvous5" />
+				<ref bean="Rendezvous6" />
+				<ref bean="Rendezvous7" />
+			</list>
+		</property>
+		<property name="rsvpRendezvouses">
+			<list>
+				<ref bean="Rendezvous1" />
+				<ref bean="Rendezvous2" />
+				<ref bean="Rendezvous3" />
+				<ref bean="Rendezvous4" />
+				<ref bean="Rendezvous5" />
+				<ref bean="Rendezvous6" />
+				<ref bean="Rendezvous7" />
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+				<ref bean="Comment1" />
+				<ref bean="Comment2" />
+				<ref bean="Comment5" />
+				<ref bean="Comment7" />
+				<ref bean="Comment8" />
+				<ref bean="Comment9" />
+				<ref bean="Comment10" />
+				<ref bean="Comment11" />
+				<ref bean="Comment12" />
+			</list>
+		</property>
+		<property name="name" value="User 1" />
+		<property name="surname" value="User" />
+		<property name="postalAddress" value="San Antion Spurs Street" />
+		<property name="phoneNumber" value="635587789" />
+		<property name="email" value="user1@mail.com" />
+		<property name="birthDate" value="1987/04/11 00:00" />
+		<property name="userAccount" ref="UserAccount3" />
+	</bean>
+	<bean id="User2" class="domain.User">
+		<property name="createdRendezvouses">
+			<list>
+			</list>
+		</property>
+		<property name="rsvpRendezvouses">
+			<list>
+				<ref bean="Rendezvous3" />
+				<ref bean="Rendezvous4" />
+				<ref bean="Rendezvous5" />
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+				<ref bean="Comment3" />
+				<ref bean="Comment4" />
+				<ref bean="Comment6" />
+			</list>
+		</property>
+		<property name="name" value="User 2" />
+		<property name="surname" value="User " />
+		<property name="postalAddress" value="Okklahoma Thunder Street" />
+		<property name="phoneNumber" value="635582389" />
+		<property name="email" value="user2@mail.com" />
+		<property name="birthDate" value="1992/07/15 00:00" />
+		<property name="userAccount" ref="UserAccount4" />
+	</bean>
+	<bean id="User3" class="domain.User">
+		<property name="createdRendezvouses">
+			<list>
+			</list>
+		</property>
+		<property name="rsvpRendezvouses">
+			<list>
+				<ref bean="Rendezvous3" />
+				<ref bean="Rendezvous4" />
+				<ref bean="Rendezvous5" />
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="name" value="Prudencio" />
+		<property name="surname" value="Cezar Marian" />
+		<property name="postalAddress" value="Address Rue 30" />
+		<property name="phoneNumber" value="680010101" />
+		<property name="email" value="email.user3@gmail.com" />
+		<property name="birthDate" value="1990/07/07 00:00" />
+		<property name="userAccount" ref="UserAccount5" />
+	</bean>
+	<bean id="User4" class="domain.User">
+		<property name="createdRendezvouses">
+			<list>
+			</list>
+		</property>
+		<property name="rsvpRendezvouses">
+			<list>
+				<ref bean="Rendezvous3" />
+				<ref bean="Rendezvous4" />
+				<ref bean="Rendezvous5" />
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="name" value="Rafinha" />
+		<property name="surname" value="Max Wayra" />
+		<property name="postalAddress" value="Address Rue 31" />
+		<property name="phoneNumber" value="680010101" />
+		<property name="email" value="email.user4@gmail.com" />
+		<property name="birthDate" value="1991/07/07 00:00" />
+		<property name="userAccount" ref="UserAccount6" />
+	</bean>
+	<bean id="User5" class="domain.User">
+		<property name="createdRendezvouses">
+			<list>
+			</list>
+		</property>
+		<property name="rsvpRendezvouses">
+			<list>
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="name" value="Herald" />
+		<property name="surname" value="Eugenio Razvan" />
+		<property name="postalAddress" value="Address Rue 33" />
+		<property name="phoneNumber" value="610010103" />
+		<property name="email" value="email.user5@gmail.com" />
+		<property name="birthDate" value="2000/07/07 00:00" />
+		<property name="userAccount" ref="UserAccount7" />
+	</bean>
+	<bean id="User6" class="domain.User">
+		<property name="createdRendezvouses">
+			<list>
+			</list>
+		</property>
+		<property name="rsvpRendezvouses">
+			<list>
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="name" value="David" />
+		<property name="surname" value="Victor Leopoldo" />
+		<property name="postalAddress" value="Address Rue 30" />
+		<property name="phoneNumber" value="680010122" />
+		<property name="email" value="email.user6@gmail.com" />
+		<property name="birthDate" value="1990/07/07 00:00" />
+		<property name="userAccount" ref="UserAccount8" />
+	</bean>
+	<bean id="User7" class="domain.User">
+		<property name="createdRendezvouses">
+			<list>
+			</list>
+		</property>
+		<property name="rsvpRendezvouses">
+			<list>
+				<ref bean="Rendezvous3" />
+				<ref bean="Rendezvous4" />
+				<ref bean="Rendezvous5" />
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="name" value="Wyn" />
+		<property name="surname" value="Lockie Syed" />
+		<property name="postalAddress" value="Address Rue 101" />
+		<property name="phoneNumber" value="680010126" />
+		<property name="email" value="email.user7@gmail.com" />
+		<property name="birthDate" value="1991/07/07 00:00" />
+		<property name="userAccount" ref="UserAccount9" />
+	</bean>
+	<bean id="User8" class="domain.User">
+		<property name="createdRendezvouses">
+			<list>
+			</list>
+		</property>
+		<property name="rsvpRendezvouses">
+			<list>
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="name" value="Valentin" />
+		<property name="surname" value="Berwyn" />
+		<property name="postalAddress" value="Postal Address SN" />
+		<property name="phoneNumber" value="Venyamin" />
+		<property name="email" value="email.user8@gmail.com" />
+		<property name="birthDate" value="2011/07/03 00:00" />
+		<property name="userAccount" ref="UserAccount10" />
+	</bean>
 
- <!-- %%%%%%  domain.Comment %%%%%% --> 
-<bean id="Comment1" class="domain.Comment"> 
-<property name="moment" value="2018/02/01 08:00" /> 
-<property name="text" value="This is comment number 1" /> 
-<property name="pictureUrl" value="https://vignette.wikia.nocookie.net/unturned-bunker/images/0/0a/Meaning-of-vault-boy-thumbs-up-jpg.jpg" /> 
-<property name="comments" > 
-<list> 
-<ref bean="Comment2" /> 
-<ref bean="Comment3" /> 
-</list> 
-</property> 
-<property name="user" ref="User1" /> 
-</bean>
-<bean id="Comment2" class="domain.Comment"> 
-<property name="moment" value="2018/02/01 08:00" /> 
-<property name="text" value="This is a reply for comment 1" /> 
-<property name="pictureUrl" value="https://www.emojirequest.com/images/ThumbsDownEmoji.jpg" /> 
-<property name="comments" > 
-<list> 
-</list> 
-</property> 
-<property name="user" ref="User1" /> 
-</bean>
-<bean id="Comment3" class="domain.Comment"> 
-<property name="moment" value="2018/02/01 08:00" /> 
-<property name="text" value="This is the second reply for comment 1" /> 
-<property name="comments" > 
-<list> 
-</list> 
-</property> 
-<property name="user" ref="User2" /> 
-</bean>
-<bean id="Comment4" class="domain.Comment"> 
-<property name="moment" value="2018/02/01 08:00" /> 
-<property name="text" value="This is comment number 2" /> 
-<property name="pictureUrl" value="http://amhersttimes.com/wp-content/uploads/2014/02/comment-300x300.jpg" /> 
-<property name="comments" > 
-<list> 
-<ref bean="Comment5" /> 
-</list> 
-</property> 
-<property name="user" ref="User2" /> 
-</bean>
-<bean id="Comment5" class="domain.Comment"> 
-<property name="moment" value="2018/02/01 08:00" /> 
-<property name="text" value="This is the first reply for comment 2" /> 
-<property name="pictureUrl" value="http://www.elcorreogallego.es/img/noticias/20180102/love01_822381_manual.jpg" /> 
-<property name="comments" > 
-<list> 
-<ref bean="Comment6" /> 
-</list> 
-</property> 
-<property name="user" ref="User1" /> 
-</bean>
-<bean id="Comment6" class="domain.Comment"> 
-<property name="moment" value="2018/02/01 08:00" /> 
-<property name="text" value="This is a reply for the reply for comment 2" /> 
-<property name="pictureUrl" value="http://www.ronaldo7.net/news/2014/03/806-benzema-and-cristiano-ronaldo-having-a-laugh.jpg" /> 
-<property name="comments" > 
-<list> 
-</list> 
-</property> 
-<property name="user" ref="User2" /> 
-</bean>
-<bean id="Comment7" class="domain.Comment"> 
-<property name="moment" value="2018/02/01 08:00" /> 
-<property name="text" value="I love James Bond" /> 
-<property name="pictureUrl" value="" /> 
-<property name="comments" > 
-<list> 
-</list> 
-</property> 
-<property name="user" ref="User1" /> 
-</bean>
-<bean id="Comment8" class="domain.Comment"> 
-<property name="moment" value="2018/02/01 08:00" /> 
-<property name="text" value="I'm Jungle Speed professional player" /> 
-<property name="pictureUrl" value="" /> 
-<property name="comments" > 
-<list> 
-</list> 
-</property> 
-<property name="user" ref="User1" /> 
-</bean>
-<bean id="Comment9" class="domain.Comment"> 
-<property name="moment" value="2018/02/01 08:00" /> 
-<property name="text" value="I know how to put a pizza in a microwave :D" /> 
-<property name="pictureUrl" value="" /> 
-<property name="comments" > 
-<list> 
-<ref bean="Comment10" /> 
-</list> 
-</property> 
-<property name="user" ref="User1" /> 
-</bean>
-<bean id="Comment10" class="domain.Comment"> 
-<property name="moment" value="2018/02/01 08:00" /> 
-<property name="text" value="You are useless :c" /> 
-<property name="pictureUrl" value="" /> 
-<property name="comments" > 
-<list> 
-</list> 
-</property> 
-<property name="user" ref="User1" /> 
-</bean>
-<bean id="Comment11" class="domain.Comment"> 
-<property name="moment" value="2018/02/01 08:00" /> 
-<property name="text" value="Show must go on !!" /> 
-<property name="pictureUrl" value="" /> 
-<property name="comments" > 
-<list> 
-<ref bean="Comment12" /> 
-</list> 
-</property> 
-<property name="user" ref="User1" /> 
-</bean>
-<bean id="Comment12" class="domain.Comment"> 
-<property name="moment" value="2018/02/01 08:00" /> 
-<property name="text" value="Yeah" /> 
-<property name="pictureUrl" value="" /> 
-<property name="comments" > 
-<list> 
-</list> 
-</property> 
-<property name="user" ref="User1" /> 
-</bean>
 
 
- <!-- %%%%%%  domain.Question %%%%%% --> 
-<bean id="Question1" class="domain.Question"> 
-<property name="text" value="Where are you from?" /> 
-<property name="answers" > 
-<list> 
-</list> 
-</property> 
-</bean>
-<bean id="Question2" class="domain.Question"> 
-<property name="text" value="
-What are your hobbies?" /> 
-<property name="answers" > 
-<list> 
-</list> 
-</property> 
-</bean>
-<bean id="Question3" class="domain.Question"> 
-<property name="text" value="Are you married?" /> 
-<property name="answers" > 
-<list> 
-</list> 
-</property> 
-</bean>
-<bean id="Question4" class="domain.Question"> 
-<property name="text" value="
-Have you committed any crime?" /> 
-<property name="answers" > 
-<list> 
-</list> 
-</property> 
-</bean>
-<bean id="Question5" class="domain.Question"> 
-<property name="text" value="Are you disabled?" /> 
-<property name="answers" > 
-<list> 
-</list> 
-</property> 
-</bean>
-<bean id="Question6" class="domain.Question"> 
-<property name="text" value="Have you any allergies?" /> 
-<property name="answers" > 
-<list> 
-</list> 
-</property> 
-</bean>
+	<!-- %%%%%% domain.Comment %%%%%% -->
+	<bean id="Comment1" class="domain.Comment">
+		<property name="moment" value="2018/02/01 08:00" />
+		<property name="text" value="This is comment number 1" />
+		<property name="pictureUrl"
+			value="https://vignette.wikia.nocookie.net/unturned-bunker/images/0/0a/Meaning-of-vault-boy-thumbs-up-jpg.jpg" />
+		<property name="comments">
+			<list>
+				<ref bean="Comment2" />
+				<ref bean="Comment3" />
+			</list>
+		</property>
+		<property name="user" ref="User1" />
+	</bean>
+	<bean id="Comment2" class="domain.Comment">
+		<property name="moment" value="2018/02/01 08:00" />
+		<property name="text" value="This is a reply for comment 1" />
+		<property name="pictureUrl"
+			value="https://www.emojirequest.com/images/ThumbsDownEmoji.jpg" />
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="user" ref="User1" />
+	</bean>
+	<bean id="Comment3" class="domain.Comment">
+		<property name="moment" value="2018/02/01 08:00" />
+		<property name="text" value="This is the second reply for comment 1" />
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="user" ref="User2" />
+	</bean>
+	<bean id="Comment4" class="domain.Comment">
+		<property name="moment" value="2018/02/01 08:00" />
+		<property name="text" value="This is comment number 2" />
+		<property name="pictureUrl"
+			value="http://amhersttimes.com/wp-content/uploads/2014/02/comment-300x300.jpg" />
+		<property name="comments">
+			<list>
+				<ref bean="Comment5" />
+			</list>
+		</property>
+		<property name="user" ref="User2" />
+	</bean>
+	<bean id="Comment5" class="domain.Comment">
+		<property name="moment" value="2018/02/01 08:00" />
+		<property name="text" value="This is the first reply for comment 2" />
+		<property name="pictureUrl"
+			value="http://www.elcorreogallego.es/img/noticias/20180102/love01_822381_manual.jpg" />
+		<property name="comments">
+			<list>
+				<ref bean="Comment6" />
+			</list>
+		</property>
+		<property name="user" ref="User1" />
+	</bean>
+	<bean id="Comment6" class="domain.Comment">
+		<property name="moment" value="2018/02/01 08:00" />
+		<property name="text" value="This is a reply for the reply for comment 2" />
+		<property name="pictureUrl"
+			value="http://www.ronaldo7.net/news/2014/03/806-benzema-and-cristiano-ronaldo-having-a-laugh.jpg" />
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="user" ref="User2" />
+	</bean>
+	<bean id="Comment7" class="domain.Comment">
+		<property name="moment" value="2018/02/01 08:00" />
+		<property name="text" value="I love James Bond" />
+		<property name="pictureUrl" value="" />
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="user" ref="User1" />
+	</bean>
+	<bean id="Comment8" class="domain.Comment">
+		<property name="moment" value="2018/02/01 08:00" />
+		<property name="text" value="I'm Jungle Speed professional player" />
+		<property name="pictureUrl" value="" />
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="user" ref="User1" />
+	</bean>
+	<bean id="Comment9" class="domain.Comment">
+		<property name="moment" value="2018/02/01 08:00" />
+		<property name="text" value="I know how to put a pizza in a microwave :D" />
+		<property name="pictureUrl" value="" />
+		<property name="comments">
+			<list>
+				<ref bean="Comment10" />
+			</list>
+		</property>
+		<property name="user" ref="User1" />
+	</bean>
+	<bean id="Comment10" class="domain.Comment">
+		<property name="moment" value="2018/02/01 08:00" />
+		<property name="text" value="You are useless :c" />
+		<property name="pictureUrl" value="" />
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="user" ref="User1" />
+	</bean>
+	<bean id="Comment11" class="domain.Comment">
+		<property name="moment" value="2018/02/01 08:00" />
+		<property name="text" value="Show must go on !!" />
+		<property name="pictureUrl" value="" />
+		<property name="comments">
+			<list>
+				<ref bean="Comment12" />
+			</list>
+		</property>
+		<property name="user" ref="User1" />
+	</bean>
+	<bean id="Comment12" class="domain.Comment">
+		<property name="moment" value="2018/02/01 08:00" />
+		<property name="text" value="Yeah" />
+		<property name="pictureUrl" value="" />
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="user" ref="User1" />
+	</bean>
+
+
+	<!-- %%%%%% domain.Question %%%%%% -->
+	<bean id="Question1" class="domain.Question">
+		<property name="text" value="Where are you from?" />
+		<property name="answers">
+			<list>
+			</list>
+		</property>
+	</bean>
+	<bean id="Question2" class="domain.Question">
+		<property name="text" value="
+What are your hobbies?" />
+		<property name="answers">
+			<list>
+			</list>
+		</property>
+	</bean>
+	<bean id="Question3" class="domain.Question">
+		<property name="text" value="Are you married?" />
+		<property name="answers">
+			<list>
+			</list>
+		</property>
+	</bean>
+	<bean id="Question4" class="domain.Question">
+		<property name="text" value="
+Have you committed any crime?" />
+		<property name="answers">
+			<list>
+			</list>
+		</property>
+	</bean>
+	<bean id="Question5" class="domain.Question">
+		<property name="text" value="Are you disabled?" />
+		<property name="answers">
+			<list>
+			</list>
+		</property>
+	</bean>
+	<bean id="Question6" class="domain.Question">
+		<property name="text" value="Have you any allergies?" />
+		<property name="answers">
+			<list>
+			</list>
+		</property>
+	</bean>
 
 
 
 	<!-- %%%% Configuration %%%% -->
-	
+
 	<bean id="Configuration" class="domain.Configuration">
-		<property name="cookies_eng" value="This page uses cookies for its internal operations, by continuing, we will assume that you accept these cookies." />
-		<property name="cookies_es" value="Esta pagina usa cookies para realizar su correcto funcionamiento, si continúa navegando, asumiremos que acepta estas cookies." />
+		<property name="cookies_eng"
+			value="This page uses cookies for its internal operations, by continuing, we will assume that you accept these cookies." />
+		<property name="cookies_es"
+			value="Esta pagina usa cookies para realizar su correcto funcionamiento, si continúa navegando, asumiremos que acepta estas cookies." />
 		<property name="pageSize" value="5" />
 	</bean>
 </beans>

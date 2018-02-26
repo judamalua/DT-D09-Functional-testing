@@ -11,9 +11,9 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <display:table name="announcements" id="announcement"
-	requestURI="announcement/user/list.do" defaultsort="1" defaultorder="descending" pagesize="${pagesize}"
-	class="displayTag">
-	
+	requestURI="${requestURI}" defaultsort="1" defaultorder="descending"
+	pagesize="${pagesize}" class="displayTag">
+
 	<spring:message code="announcement.moment.format" var="momentFormat" />
 	<spring:message code="announcement.moment" var="announcementMoment" />
 	<display:column property="moment" title="${announcementMoment}"
@@ -21,20 +21,23 @@
 
 	<spring:message code="announcement.title" var="title" />
 	<display:column property="title" title="${title}" sortable="false" />
-	
-	<spring:message code="announcement.description" var="description" />
-	<display:column property="description" title="${description}" sortable="false" />
 
-	
+	<spring:message code="announcement.description" var="description" />
+	<display:column property="description" title="${description}"
+		sortable="false" />
+
+
 	<spring:message code="announcement.rendezvous.name" var="name" />
 	<display:column title="${name}">
-	<a href = "rendezvous/detailed-rendezvous.do?rendezvousId=${rdvs[announcement_rowNum-1].id}&anonymous=false">
-	<jstl:out value="${rdvs[announcement_rowNum-1].name}"></jstl:out>
-	</a>	
+		<a
+			href="rendezvous/detailed-rendezvous.do?rendezvousId=${associatedRendezvouses[announcement_rowNum-1].id}&anonymous=false">
+			<jstl:out
+				value="${associatedRendezvouses[announcement_rowNum-1].name}"></jstl:out>
+		</a>
 	</display:column>
-	
 
-	
+
+
 
 </display:table>
 

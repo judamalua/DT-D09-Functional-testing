@@ -171,7 +171,7 @@
 <!-- Displaying comments -->
 <jstl:forEach var="comment" items="${rendezvous.comments}">
 	<acme:showComment comment="${comment}"
-		canUserComment="${userHasRVSPdRendezvous}" indent="0" anonymous="${anonymous}"/>
+		canUserComment="${userHasRVSPdRendezvous}" indent="0" anonymous="${anonymous}" rendezvousId="${rendezvous.id}"/>
 </jstl:forEach>
 <jstl:if test="${fn:length(rendezvous.comments) == 0}">
 	<spring:message code="rendezvous.comments.empty" />
