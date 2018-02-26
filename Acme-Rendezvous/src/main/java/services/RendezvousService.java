@@ -469,7 +469,6 @@ public class RendezvousService {
 		Page<Rendezvous> result;
 
 		result = this.rendezvousRepository.findFinalRendezvouses(pageable);
-
 		return result;
 	}
 
