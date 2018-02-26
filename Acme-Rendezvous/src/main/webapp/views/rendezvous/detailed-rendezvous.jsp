@@ -84,7 +84,7 @@
 
 <!-- Button for joining the rendezvous -->
 <security:authorize access="hasRole('USER')">
-	<jstl:if test="${!userHasRVSPdRendezvous && !anonymous}">
+	<jstl:if test="${!userHasRVSPdRendezvous && !anonymous && rendezvous.moment > now}">
 		<a href="answer/user/edit.do?rendezvousId=${rendezvous.id}">
 			<button class="btn">
 				<spring:message code="rendezvous.join" />

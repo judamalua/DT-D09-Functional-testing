@@ -49,7 +49,7 @@
 
 	
 	<!-- Pagination -->
-	<acme:pagination pageNum="${createdPageNum}" requestURI="user/display.do?actorId=${actor.id}&anonymous=${anonymous}&rsvpPage=${rsvpPage}&createdRendezvousPage=" page = "${createdPage}"/>
+	<acme:pagination pageNum="${createdPageNum}" requestURI="user/display.do?actorId=${actor.id}&anonymous=${anonymous}&rsvpPage=${rsvpPage}&createdRendezvousPage=" page = "${createdRendezvousPage}"/>
 
 	<display:table name="${createdRendezvouses}" id="rendezvous"
 		requestURI="user/display.do">
@@ -103,7 +103,7 @@
 
 	<!-- Pagination -->
 	
-	<acme:pagination pageNum="${rsvpPageNum}" requestURI="user/display.do?actorId=${actor.id}&anonymous=${anonymous}&createdRendezvousPage=${rsvpPage}&rsvpPage=" page = "${rsvpPage}"/>
+	<acme:pagination pageNum="${rsvpPageNum}" requestURI="user/display.do?actorId=${actor.id}&anonymous=${anonymous}&createdRendezvousPage=${createdPage}&rsvpPage=" page = "${rsvpPage}"/>
 
 	<display:table name="${rsvpRendezvouses}" id="rsvpRendezvous"
 		requestURI="user/display.do">
