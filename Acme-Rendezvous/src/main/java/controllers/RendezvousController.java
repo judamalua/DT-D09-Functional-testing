@@ -12,6 +12,7 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -133,8 +134,11 @@ public class RendezvousController extends AbstractController {
 					userHasCreatedRendezvous = user.getCreatedRendezvouses().contains(rendezvous);
 					userHasRVSPdRendezvous = rendezvous.getUsers().contains(user);
 				}
-			}
-
+			} else if (rendezvous.getAdultOnly())
+				result = new ModelAndView("redirect:/misc/adultOnly");
+			if (rendezvous.getAdultOnly())
+				for (final Rendezvous similar : new HashSet<Rendezvous>(rendezvous.getSimilars()))
+					rendezvous.getSimilars().remove(similar);
 			users = new ArrayList<>();
 
 			for (final Comment comment : rendezvous.getComments())

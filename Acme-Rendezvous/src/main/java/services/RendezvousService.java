@@ -253,10 +253,13 @@ public class RendezvousService {
 
 		Actor actor;
 		User user;
+		Collection<Rendezvous> rendezvousContainsThis;
 
 		Assert.isTrue(this.rendezvousRepository.exists(rendezvous.getId()));
 		actor = this.actorService.findActorByPrincipal();
 		user = this.userService.getCreatorUser(rendezvous.getId());
+		rendezvousContainsThis = new HashSet<Rendezvous>();
+		rendezvousContainsThis = this.findRendezvousContains(rendezvous);
 
 		if (actor instanceof Administrator) {
 
@@ -279,9 +282,12 @@ public class RendezvousService {
 				rendezvous.getUsers().remove(rsvpUser);
 			}
 
-			// Updating users that RSVP rendezvous
-			for (final Rendezvous similar : new ArrayList<Rendezvous>(rendezvous.getSimilars()))
-				rendezvous.getSimilars().remove(similar);
+			//Updating Rendezvouses with the rendezvous in his similar list
+			for (final Rendezvous associatedRedezvous : rendezvousContainsThis) {
+				associatedRedezvous.getSimilars().remove(rendezvous);
+				this.save(associatedRedezvous);
+			}
+			rendezvous.getSimilars().clear();
 
 			user.getCreatedRendezvouses().remove(rendezvous); // Deleting rendezvous from user list when an admin deletes a Rendezvous
 			this.actorService.save(user);
@@ -295,6 +301,14 @@ public class RendezvousService {
 
 	}
 	// Other business methods --------------------------------------------------
+
+	public Collection<Rendezvous> findRendezvousContains(final Rendezvous rendezvous) {
+		Collection<Rendezvous> result;
+
+		result = this.rendezvousRepository.findRendezvousContains(rendezvous.getId());
+
+		return result;
+	}
 
 	/**
 	 * This method reconstructs a pruned Rendezvous passed from a form jsp
