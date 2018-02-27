@@ -197,6 +197,12 @@ public class CommentService {
 		this.deleteCommentRecursive(comment);
 	}
 
+	/**
+	 * Delete the comment and all his descendence
+	 * 
+	 * @param comment
+	 * @author MJ
+	 */
 	public void deleteCommentRecursive(final Comment comment) {
 		User user, replyUser;
 		Rendezvous rendezvous;
@@ -208,63 +214,33 @@ public class CommentService {
 
 		for (final Comment childrenComment : new HashSet<Comment>(comment.getComments())) {
 			replyUser = this.getUserFromComment(childrenComment);
-			if (childrenComment.getComments().size() == 0) {
+			if (childrenComment.getComments().size() == 0) {//If there is no children, the comment must be deleted
 				replyUser.getComments().remove(childrenComment);
 				this.userService.save(replyUser);
 				comment.getComments().remove(childrenComment);
 				this.save(comment);
 				this.commentRepository.delete(childrenComment);
 			} else
+				//In other case call again
 				this.deleteCommentRecursive(childrenComment);
 		}
 
+		//When every children is deleted, ther delete the current element from father
 		if (fatherComment != null) {
 			fatherComment.getComments().remove(comment);
 			this.save(fatherComment);
 
-		} else if (fatherComment == null && rendezvous != null) {
+		} else if (fatherComment == null && rendezvous != null) {//If is the root commentary then remove from rendezvous
 			rendezvous.getComments().remove(comment);
 			this.rendezvousService.save(rendezvous);
 		}
-		user.getComments().remove(comment);
-		this.userService.save(user);
-		this.commentRepository.delete(comment);
-	}
-
-	/**
-	 * This method deletes a comment passed as a param. It's only useful when deleting a rendezvous.
-	 * 
-	 * @param comment
-	 * @author Antonio
-	 */
-	public void deleteCommentFromRendezvous(final Comment comment) {
-		Assert.notNull(comment);
-		Assert.isTrue(comment.getId() != 0);
-
-		User user;
-		final Rendezvous rendezvous;
-
-		user = this.getUserFromComment(comment);
+		//Update user
 		user.getComments().remove(comment);
 		this.userService.save(user);
 
-		rendezvous = this.rendezvousService.getRendezvousByCommentary(comment.getId());
-		rendezvous.getComments().remove(comment);
-		this.rendezvousService.save(rendezvous);
-
 		this.commentRepository.delete(comment);
-
 	}
 
-	public void deleteCommentFromRendezvous2(final Rendezvous rendezvous) {
-		Assert.notNull(rendezvous);
-		Collection<Comment> comments;
-
-		comments = rendezvous.getComments();
-
-		for (final Comment c : comments)
-			this.delete(c);
-	}
 	//Queries ----------------------------------------------
 	/**
 	 * This method returns the user that wrote a comment, passed as a param.

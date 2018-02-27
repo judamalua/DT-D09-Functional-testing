@@ -103,7 +103,7 @@ public class AnnouncementService {
 
 		assert announcement != null;
 		Announcement result;
-		final Rendezvous rendezvous;
+		Rendezvous rendezvous;
 
 		if (announcement.getVersion() == 0)
 			//The announcement moment is actual when the announcement is created 

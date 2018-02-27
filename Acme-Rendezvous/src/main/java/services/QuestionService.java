@@ -52,12 +52,8 @@ public class QuestionService {
 		this.actorService.checkUserLogin();
 
 		Question result;
-		//		Collection<Answer> answers;
 
 		result = new Question();
-		//		answers = new HashSet<>();
-
-		//		result.setAnswers(answers);
 
 		return result;
 	}
@@ -121,8 +117,6 @@ public class QuestionService {
 		Assert.isTrue(user.getCreatedRendezvouses().contains(rendezvous));
 
 		result = this.questionRepository.save(question);
-
-		// Updating answers is not necessary because there is no way to reach this method if the questions have already some answers
 
 		// Updating rendezvous 
 		if (rendezvous.getQuestions().contains(question))

@@ -273,7 +273,7 @@ public class RendezvousService {
 
 			// Deleting Comments of the Rendezvous that is about to be deleted
 			for (final Comment comment : new ArrayList<Comment>(rendezvous.getComments()))
-				this.commentService.deleteCommentFromRendezvous(comment);
+				this.commentService.delete(comment);
 
 			// Updating users that RSVP rendezvous
 			for (final User rsvpUser : new ArrayList<User>(rendezvous.getUsers())) {

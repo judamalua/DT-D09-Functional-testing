@@ -48,17 +48,20 @@ public class UserService {
 		User result;
 		final Collection<Comment> comments;
 		final Collection<Rendezvous> createdRendezvouses;
+		final UserAccount userAccount;
+		final Collection<Authority> auth;
+		final Authority authority;
 
 		result = new User();
 
-		final UserAccount ua = new UserAccount();
-		final Collection<Authority> auth = new HashSet<Authority>();
-		final Authority a = new Authority();
-		a.setAuthority(Authority.USER);
-		auth.add(a);
-		ua.setAuthorities(auth);
+		userAccount = new UserAccount();
+		auth = new HashSet<Authority>();
+		authority = new Authority();
+		authority.setAuthority(Authority.USER);
+		auth.add(authority);
+		userAccount.setAuthorities(auth);
 
-		result.setUserAccount(ua);
+		result.setUserAccount(userAccount);
 
 		createdRendezvouses = new HashSet<Rendezvous>();
 		comments = new HashSet<Comment>();
