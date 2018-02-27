@@ -204,8 +204,8 @@ public class AnnouncementUserController extends AbstractController {
 	 * @param announcement
 	 * @param binding
 	 * 
-	 * @return a ModelAndView object with an error if exists or with a list of RSVP Rendezvouses
-	 * @author MJ
+	 * @return a ModelAndView object with an error if exists or with a list of Announcements
+	 * @author Ale
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@RequestParam final int rendezvousId, Announcement announcement, final BindingResult binding) {
@@ -219,7 +219,7 @@ public class AnnouncementUserController extends AbstractController {
 			try {
 
 				this.announcementService.save(announcement, rendezvousId);
-				result = new ModelAndView("redirect:list.do?rendezvousId=" + rendezvousId);
+				result = new ModelAndView("redirect:list.do");
 
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(announcement, "announcement.commit.error");
