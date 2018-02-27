@@ -122,7 +122,11 @@ public class AnswerService {
 	 * @return The collection of answers
 	 */
 	public Collection<Answer> getAnswersByQuestionId(final int questionId) {
-		final Collection<Answer> result = this.answerRepository.getAnswersByQuestionId(questionId);
+		Assert.isTrue(questionId != 0);
+		Collection<Answer> result;
+
+		result = this.answerRepository.getAnswersByQuestionId(questionId);
+
 		return result;
 	}
 
@@ -135,7 +139,11 @@ public class AnswerService {
 	 * @return The collection of answers
 	 */
 	public Collection<Answer> getAnswersByUserId(final int userId) {
-		final Collection<Answer> result = this.answerRepository.getAnswersByUserId(userId);
+		Assert.isTrue(userId != 0);
+		final Collection<Answer> result;
+
+		result = this.answerRepository.getAnswersByUserId(userId);
+
 		return result;
 	}
 
@@ -150,7 +158,11 @@ public class AnswerService {
 	 * @return The answer
 	 */
 	public Answer getAnswerByUserIdAndQuestionId(final int userId, final int questionId) {
-		final Answer result = this.answerRepository.getAnswerByUserIdAndQuestionId(userId, questionId);
+		Assert.isTrue(userId != 0 && questionId != 0);
+		Answer result;
+
+		result = this.answerRepository.getAnswerByUserIdAndQuestionId(userId, questionId);
+
 		return result;
 	}
 
