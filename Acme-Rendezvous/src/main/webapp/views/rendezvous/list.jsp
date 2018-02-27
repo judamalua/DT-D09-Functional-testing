@@ -30,7 +30,8 @@
 	pattern="yyyy-MM-dd HH:mm" />
 
 <!-- Pagination -->
-<acme:pagination requestURI = "${requestURI}?anonymous=${anonymous}&page=" pageNum = "${pageNum}" page = "${page}"/>
+<acme:pagination requestURI="${requestURI}?anonymous=${anonymous}&page="
+	pageNum="${pageNum}" page="${page}" />
 
 
 <!-- Display -->
@@ -38,18 +39,20 @@
 <display:table name="rendezvouses" id="rendezvous"
 	requestURI="${requestURI}">
 
-	<display:column property="name" title="${titleName}" sortable = "true"/>
+	<display:column property="name" title="${titleName}" sortable="true" />
 	<display:column property="description" title="${titleDescription}" />
 	<display:column property="moment" title="${titleMoment}"
-		format="${formatMoment}" sortable = "true"/>
+		format="${formatMoment}" sortable="true" />
 	<display:column>
 		<acme:button
 			url="rendezvous/detailed-rendezvous.do?rendezvousId=${rendezvous.id}&anonymous=${anonymous}"
 			code="rendezvous.details" />
 	</display:column>
 
-	<jstl:if test="${requestURI==\"rendezvous/user/list.do\" and rendezvous.moment>=currentDate}">
-		<display:column>
+
+	<display:column>
+		<jstl:if
+			test="${requestURI==\"rendezvous/user/list.do\" and rendezvous.moment>=currentDate}">
 			<jstl:if
 				test="${!rendezvous.finalMode and !rendezvous.deleted and rendezvous.moment>currentDate}">
 				<acme:button
@@ -62,8 +65,9 @@
 					url="similar/user/edit.do?rendezvousId=${rendezvous.id}"
 					code="rendezvous.edit" />
 			</jstl:if>
-		</display:column>
-	</jstl:if>
+		</jstl:if>
+	</display:column>
+
 
 	<display:column>
 		<jstl:if test="${rendezvous.deleted}">

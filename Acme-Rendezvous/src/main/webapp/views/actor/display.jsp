@@ -103,7 +103,7 @@
 
 	<!-- Pagination -->
 	
-	<acme:pagination pageNum="${rsvpPageNum}" requestURI="user/display.do?actorId=${actor.id}&anonymous=${anonymous}&createdRendezvousPage=${createdPage}&rsvpPage=" page = "${rsvpPage}"/>
+	<acme:pagination pageNum="${rsvpPageNum}" requestURI="user/display.do?actorId=${actor.id}&anonymous=${anonymous}&createdRendezvousPage=${createdRendezvousPage}&rsvpPage=" page = "${rsvpPage}"/>
 
 	<display:table name="${rsvpRendezvouses}" id="rsvpRendezvous"
 		requestURI="user/display.do">

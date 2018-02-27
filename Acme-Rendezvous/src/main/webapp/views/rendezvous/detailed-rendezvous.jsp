@@ -122,8 +122,8 @@
 		format="${formatMoment}" sortable="true" />
 
 	<display:column>
-		<jstl:if test="${rendezvous.adultOnly}">
-			<img src="images/18.png" />
+		<jstl:if test="${similar.adultOnly}">
+			<i class="material-icons">do_not_disturb</i>
 			<spring:message code="rendezvous.adultOnly" />
 		</jstl:if>
 	</display:column>

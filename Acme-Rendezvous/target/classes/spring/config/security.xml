@@ -80,16 +80,16 @@
 		<security:intercept-url pattern="/announcement/user/delete.do" access="hasRole('USER')" requires-channel="https" /> 
 	
 		
-		<security:intercept-url pattern="/answer/user/edit.do" access="hasRole('USER')" />
-		<security:intercept-url pattern="/answer/user/delete.do" access="hasRole('USER')" /> 
+		<security:intercept-url pattern="/answer/user/edit.do" access="hasRole('USER')" requires-channel="https"/>
+		<security:intercept-url pattern="/answer/user/delete.do" access="hasRole('USER')" requires-channel="https"/> 
 		
-		<security:intercept-url pattern="/question/user/**" access="hasRole('USER')" />
+		<security:intercept-url pattern="/question/user/**" access="hasRole('USER')" requires-channel="https"/>
 		
-		<security:intercept-url pattern="/rendezvous/admin/**" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/rendezvous/admin/**" access="hasRole('ADMIN')" requires-channel="https"/>
 		
-		<security:intercept-url pattern="/dashboard/admin/**" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/dashboard/admin/**" access="hasRole('ADMIN')" requires-channel="https"/>
 		
-		<security:intercept-url pattern="/configuration/admin/**" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/configuration/admin/**" access="hasRole('ADMIN')" requires-channel="https"/>
 		
 		<security:intercept-url pattern="/law/termsAndConditions.do" access="permitAll" requires-channel="https" />
 			

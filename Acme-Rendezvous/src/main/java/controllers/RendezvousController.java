@@ -117,16 +117,20 @@ public class RendezvousController extends AbstractController {
 				this.actorService.checkUserLogin();
 				actor = this.actorService.findActorByPrincipal();
 
-				if (!this.actorService.checkUserIsAdult(actor))
+				/**
+				 * Age control
+				 */
+				if (rendezvous.getAdultOnly()) {//Checks if there is the user is listing logged
+					actor = this.actorService.findActorByPrincipal();
+					if (!this.actorService.checkUserIsAdult(actor))
+						result = new ModelAndView("redirect:/misc/adultOnly");
+				}
 
-					/**
-					 * Age control
-					 */
-					if (rendezvous.getAdultOnly()) {//Checks if there is the user is listing logged
-						actor = this.actorService.findActorByPrincipal();
-						if (!this.actorService.checkUserIsAdult(actor))
-							result = new ModelAndView("redirect:/misc/adultOnly");
-					}
+				//If the user not is adult then the adult similars must be removed
+				if (!this.actorService.checkUserIsAdult(actor))
+					for (final Rendezvous similar : new HashSet<Rendezvous>(rendezvous.getSimilars()))
+						if (similar.getAdultOnly())
+							rendezvous.getSimilars().remove(similar);
 
 				if (actor instanceof User) {
 					user = (User) actor;
@@ -136,9 +140,11 @@ public class RendezvousController extends AbstractController {
 				}
 			} else if (rendezvous.getAdultOnly())
 				result = new ModelAndView("redirect:/misc/adultOnly");
-			if (rendezvous.getAdultOnly())
+			else
+				//If there is no user then the adult similars must be removed
 				for (final Rendezvous similar : new HashSet<Rendezvous>(rendezvous.getSimilars()))
-					rendezvous.getSimilars().remove(similar);
+					if (similar.getAdultOnly())
+						rendezvous.getSimilars().remove(similar);
 			users = new ArrayList<>();
 
 			for (final Comment comment : rendezvous.getComments())
