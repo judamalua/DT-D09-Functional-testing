@@ -82,6 +82,13 @@
 			<spring:message code="rendezvous.adultOnly" />
 		</jstl:if>
 	</display:column>
+	
+	<display:column>
+		<jstl:if test="${!rendezvous.finalMode && !rendezvous.deleted}">
+			<i class = "material-icons">mode_edit</i>
+			<spring:message code = "rendezvous.list.draft"/>
+		</jstl:if>
+	</display:column>
 
 
 	<display:column>
