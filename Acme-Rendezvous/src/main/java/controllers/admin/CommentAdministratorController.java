@@ -40,9 +40,8 @@ public class CommentAdministratorController extends AbstractController {
 		ModelAndView result;
 		Comment comment;
 
-		comment = this.commentService.findOne(commentId);
-
 		try {
+			comment = this.commentService.findOne(commentId);
 			this.commentService.delete(comment);
 
 			result = new ModelAndView("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvousId + "&anonymous=false");

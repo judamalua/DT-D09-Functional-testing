@@ -156,8 +156,11 @@ public class RendezvousUserController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(Rendezvous rendezvous, final BindingResult binding) {
 		ModelAndView result;
-
-		rendezvous = this.rendezvousService.reconstruct(rendezvous, binding);
+		try {
+			rendezvous = this.rendezvousService.reconstruct(rendezvous, binding);
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/misc/403");
+		}
 		try {
 			this.rendezvousService.delete(rendezvous);
 			result = new ModelAndView("redirect:list.do");

@@ -34,7 +34,6 @@ public class AbstractController {
 	 * @author Juanmi
 	 */
 	@ModelAttribute(value = "pagesize")
-	//@RequestMapping(method = RequestMethod.POST)
 	public Integer pagesize() {
 		Integer result;
 

@@ -104,10 +104,11 @@ public class SimilarUserController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final Rendezvous similar) {
 		ModelAndView result;
+		User user;
 		result = this.createEditModelAndView(similar, null);
 
 		//Se le pasa el parametro adult que indicara si el usuario es mayor a 18 años
-		final User user = (User) this.actorService.findActorByPrincipal();
+		user = (User) this.actorService.findActorByPrincipal();
 		result.addObject("adult", user.getBirthDate().before((new DateTime()).minusYears(18).toDate()));
 
 		return result;

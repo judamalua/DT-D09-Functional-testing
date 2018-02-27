@@ -62,8 +62,9 @@ public class AnswerUserController {
 	public ModelAndView edit(@RequestParam final int rendezvousId) {
 		ModelAndView result;
 		Rendezvous rendezvous;
-		final User user = (User) (this.actorService.findActorByPrincipal());
+		User user;
 		try {
+			user = (User) (this.actorService.findActorByPrincipal());
 			rendezvous = this.rendezvousService.findOne(rendezvousId);			//Checks that the rendezvous is valid
 			Assert.notNull(rendezvous);
 			Assert.isTrue(rendezvous.getFinalMode());							//Checks that the rendezvous is in final mode
@@ -100,8 +101,9 @@ public class AnswerUserController {
 	public ModelAndView save(@RequestParam("answers") final List<String> answers, @RequestParam("rendezvousId") final int rendezvousId) {
 		Rendezvous rendezvous;
 		ModelAndView result;
-		final User user = (User) (this.actorService.findActorByPrincipal());
+		User user;
 		try {
+			user = (User) (this.actorService.findActorByPrincipal());
 			rendezvous = this.rendezvousService.findOne(rendezvousId);			//Checks that the rendezvous is valid
 			Assert.notNull(rendezvous);
 			Assert.isTrue(rendezvous.getFinalMode());							//Checks that the rendezvous is in final mode

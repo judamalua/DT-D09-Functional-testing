@@ -126,8 +126,11 @@ public class ActorController extends AbstractController {
 		ModelAndView result;
 		Authority auth;
 
-		user = this.userService.reconstruct(user, binding);
-
+		try {
+			user = this.userService.reconstruct(user, binding);
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/misc/403");
+		}
 		if (binding.hasErrors())
 			result = this.createEditModelAndViewRegister(user, "user.params.error");
 		else
