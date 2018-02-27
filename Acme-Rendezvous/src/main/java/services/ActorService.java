@@ -82,16 +82,21 @@ public class ActorService {
 	public Administrator createAdmin() {
 		Administrator result;
 
+		UserAccount userAccount;
+		Collection<Authority> authorities;
+		Authority authority;
+
 		result = new Administrator();
 
-		final UserAccount ua = new UserAccount();
-		final Collection<Authority> auth = new HashSet<Authority>();
-		final Authority a = new Authority();
-		a.setAuthority(Authority.ADMIN);
-		auth.add(a);
-		ua.setAuthorities(auth);
+		userAccount = new UserAccount();
+		authorities = new HashSet<Authority>();
+		authority = new Authority();
 
-		result.setUserAccount(ua);
+		authority.setAuthority(Authority.ADMIN);
+		authorities.add(authority);
+		userAccount.setAuthorities(authorities);
+
+		result.setUserAccount(userAccount);
 
 		return result;
 	}
