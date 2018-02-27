@@ -28,7 +28,7 @@
 	<form:hidden path="version"/>
 	<form:hidden path="moment"/>
 
-	<acme:textarea code="comment.text" path="text"/>
+	<acme:textarea code="comment.text" path="text" required="true"/>
 	<acme:textbox code="comment.pictureUrl" path="pictureUrl"/>
 
 	<acme:submit name="save" code="comment.save"/>

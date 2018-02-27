@@ -129,14 +129,19 @@ public class CommentUserController extends AbstractController {
 		User user;
 		Rendezvous rendezvous;
 
+		try {
+			comment = this.commentService.reconstruct(comment, binding);
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/misc/403");
+		}
 		replied = this.commentService.findOne(repliedId);
-
 		rendezvous = this.rendezvousService.getRendezvousByCommentary(replied.getId());
-		comment = this.commentService.reconstruct(comment, binding);
+
 		if (binding.hasErrors())
 			result = this.replyModelAndView(comment, replied, rendezvous);
 		else
 			try {
+
 				user = (User) this.actorService.findActorByPrincipal();
 				rendezvous = this.rendezvousService.getRendezvousByCommentary(replied.getId());
 				fatherComment = replied;

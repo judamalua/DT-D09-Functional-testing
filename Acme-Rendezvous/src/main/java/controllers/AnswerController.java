@@ -62,9 +62,10 @@ public class AnswerController {
 		ModelAndView result;
 		Rendezvous rendezvous;
 		Actor actor;
+
 		try {
 			actor = this.actorService.findActorByPrincipal();
-		} catch (final Exception e) {
+		} catch (final Throwable oops) {
 			actor = null;
 		}
 		try {

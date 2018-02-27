@@ -99,8 +99,11 @@ public class ActorAdminController extends AbstractController {
 	public ModelAndView registerAdministrator(@ModelAttribute("admin") Administrator admin, final BindingResult binding, @RequestParam("confirmPassword") final String confirmPassword) {
 		ModelAndView result;
 		Authority auth;
-
-		admin = this.administratorService.reconstruct(admin, binding);
+		try {
+			admin = this.administratorService.reconstruct(admin, binding);
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/misc/403");
+		}
 		if (binding.hasErrors())
 			result = this.createEditModelAndViewRegister(admin, "admin.params.error");
 		else
