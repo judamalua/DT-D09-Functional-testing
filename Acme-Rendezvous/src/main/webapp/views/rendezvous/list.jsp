@@ -83,13 +83,15 @@
 		</jstl:if>
 	</display:column>
 
-	<security:authorize access="hasRole('ADMIN')">
-		<display:column>
+
+	<display:column>
+		<security:authorize access="hasRole('ADMIN')">
 			<acme:button
 				url="rendezvous/admin/delete.do?rendezvousId=${rendezvous.id}"
 				code="rendezvous.delete" />
-		</display:column>
-	</security:authorize>
+		</security:authorize>
+	</display:column>
+
 
 </display:table>
 
