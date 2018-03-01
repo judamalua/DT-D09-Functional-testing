@@ -201,7 +201,6 @@
 				<ref bean="Question3" />
 				<ref bean="Question4" />
 				<ref bean="Question5" />
-				<ref bean="Question6" />
 			</list>
 		</property>
 		<property name="similars">
@@ -450,6 +449,39 @@ Attention: Do not bring alcohol." />
 			</list>
 		</property>
 	</bean>
+		<bean id="Rendezvous8" class="domain.Rendezvous">
+		<property name="name" value="Ofuf" />
+		<property name="description" value="I love Amazon" />
+		<property name="moment" value="2018/08/24 22:00" />
+		<property name="pictureUrl"
+			value="https://ep01.epimg.net/cultura/imagenes/2017/09/08/television/1504868027_671081_1504868319_noticia_normal.jpg" />
+		<property name="gpsCoordinates" value="37.35,-5.99" />
+		<property name="finalMode" value="false" />
+		<property name="deleted" value="false" />
+		<property name="adultOnly" value="false" />
+		<property name="questions">
+			<list>
+				<ref bean="Question6" />
+			</list>
+		</property>
+		<property name="similars">
+			<list>
+			</list>
+		</property>
+		<property name="announcements">
+			<list>
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="users">
+			<list>
+				<ref bean="User1" />
+			</list>
+		</property>
+	</bean>
 	<!-- %%%%%% domain.User %%%%%% -->
 	<bean id="User1" class="domain.User">
 		<property name="createdRendezvouses">
@@ -461,6 +493,7 @@ Attention: Do not bring alcohol." />
 				<ref bean="Rendezvous5" />
 				<ref bean="Rendezvous6" />
 				<ref bean="Rendezvous7" />
+				<ref bean="Rendezvous8" />
 			</list>
 		</property>
 		<property name="rsvpRendezvouses">
@@ -472,6 +505,7 @@ Attention: Do not bring alcohol." />
 				<ref bean="Rendezvous5" />
 				<ref bean="Rendezvous6" />
 				<ref bean="Rendezvous7" />
+				<ref bean="Rendezvous8" />
 			</list>
 		</property>
 		<property name="comments">
