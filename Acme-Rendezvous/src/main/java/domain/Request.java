@@ -51,7 +51,7 @@ public class Request extends DomainEntity {
 
 	// Relationships ----------------------------------------------------------
 	private CreditCard	creditCard;
-	private Service		service;
+	private DomainService		service;
 
 
 	@Valid
@@ -66,11 +66,11 @@ public class Request extends DomainEntity {
 
 	@Valid
 	@ManyToOne(optional = false)
-	public Service getService() {
-		return this.Service;
+	public DomainService getService() {
+		return this.service;
 	}
 
-	public void setService(final Service service) {
+	public void setService(final DomainService service) {
 		this.service = service;
 	}
 }
