@@ -36,16 +36,16 @@ public class Manager extends Actor {
 
 
 	// Relationships ----------------------------------------------------------
-	private Collection<Service>	services;
+	private Collection<DomainService>	services;
 
 
 	@NotNull
 	@OneToMany
-	public Collection<Service> getServices() {
+	public Collection<DomainService> getServices() {
 		return this.services;
 	}
 
-	public void setServices(final Collection<Service> services) {
+	public void setServices(final Collection<DomainService> services) {
 		this.services = services;
 	}
 
