@@ -15,6 +15,7 @@ import org.springframework.validation.Validator;
 import repositories.ManagerRepository;
 import security.Authority;
 import security.UserAccount;
+import domain.DomainService;
 import domain.Manager;
 
 @Service
