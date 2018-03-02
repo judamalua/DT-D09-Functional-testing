@@ -41,6 +41,9 @@
 					<li class="divider"></li>
 					<li><a href="announcement/user/list-created.do"><spring:message
 								code="master.page.announcementsCreated" /></a></li>
+					<li class="divider"></li>
+					<li><a href="request/user/list.do"><spring:message
+								code="master.page.requestCreated" /></a></li>
 				</ul>
 
 				<!-- Dropdown Trigger -->

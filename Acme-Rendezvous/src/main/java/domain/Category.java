@@ -48,7 +48,7 @@ public class Category extends DomainEntity {
 
 	// Relationships ----------------------------------------------------------
 	private Collection<DomainService>	services;
-	private Category			fatherCategory;
+	private Category					fatherCategory;
 
 
 	@NotNull
@@ -61,9 +61,8 @@ public class Category extends DomainEntity {
 		this.services = services;
 	}
 
-	@NotNull
 	@Valid
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = true)
 	public Category getFatherCategory() {
 		return this.fatherCategory;
 	}
