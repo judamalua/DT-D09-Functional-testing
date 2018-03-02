@@ -24,7 +24,7 @@ public class Request extends DomainEntity {
 
 	// Attributes -------------------------------------------------------------
 	private String	comment;
-	private Date	momment;
+	private Date	moment;
 
 
 	@SafeHtml
@@ -40,18 +40,18 @@ public class Request extends DomainEntity {
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
-	public Date getMomment() {
-		return this.momment;
+	public Date getMoment() {
+		return this.moment;
 	}
 
-	public void setMomment(final Date momment) {
-		this.momment = momment;
+	public void setMoment(final Date moment) {
+		this.moment = moment;
 	}
 
 
 	// Relationships ----------------------------------------------------------
-	private CreditCard	creditCard;
-	private DomainService		service;
+	private CreditCard		creditCard;
+	private DomainService	service;
 
 
 	@Valid
