@@ -34,6 +34,7 @@
 		<value>/views/configuration/messages</value>
 		<value>/views/law/messages</value>
 		<value>/views/cookie/messages</value>
+		<value>/views/request/messages</value>
 	</util:list>
 
 </beans>
