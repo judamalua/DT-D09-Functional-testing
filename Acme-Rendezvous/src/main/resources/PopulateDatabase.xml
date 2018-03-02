@@ -165,8 +165,224 @@
 			</list>
 		</property>
 	</bean>
-
-
+	
+	<bean id="UserAccount11" class="security.UserAccount">
+		<property name="username" value="manager1" />
+		<property name="password" value="c240642ddef994358c96da82c0361a58" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="UserAccount12" class="security.UserAccount">
+		<property name="username" value="manager2" />
+		<property name="password" value="8df5127cd164b5bc2d2b78410a7eea0c" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="UserAccount13" class="security.UserAccount">
+		<property name="username" value="manager3" />
+		<property name="password" value="2d3a5db4a2a9717b43698520a8de57d0" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="UserAccount14" class="security.UserAccount">
+		<property name="username" value="manager4" />
+		<property name="password" value="e1ec6fc941af3ba79a4ac5242dd39735" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="UserAccount15" class="security.UserAccount">
+		<property name="username" value="manager5" />
+		<property name="password" value="029cb1d27c0b9c551703ccba2591c334" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="UserAccount16" class="security.UserAccount">
+		<property name="username" value="manager6" />
+		<property name="password" value="46bae9ead851e0f288529e6322f4fd77" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="UserAccount17" class="security.UserAccount">
+		<property name="username" value="manager7" />
+		<property name="password" value="cc544735a88ba804fdd65113230c6e32" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="UserAccount18" class="security.UserAccount">
+		<property name="username" value="manager8" />
+		<property name="password" value="d23c835597b48c694269b6a7590dc5b1" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+		<!-- %%%%%% domain.Manager %%%%%% -->
+	<bean id="Manager1" class="domain.Manager">
+		<property name="vat" value="ESABC-1234" />
+		<property name="services">
+			<list>
+			
+			</list>
+		</property>
+		<property name="name" value="Manager 1" />
+		<property name="surname" value="Manager" />
+		<property name="postalAddress" value="Central Park" />
+		<property name="phoneNumber" value="687236954" />
+		<property name="email" value="manager1@mail.com" />
+		<property name="birthDate" value="1988/07/11 00:00" />
+		<property name="userAccount" ref="UserAccount11" />
+	</bean>
+	<bean id="Manager2" class="domain.Manager">
+		<property name="vat" value="ES1234-ABC" />
+		<property name="services">
+			<list>
+			
+			</list>
+		</property>
+		<property name="name" value="Manager 2" />
+		<property name="surname" value="Manager" />
+		<property name="postalAddress" value="Staples Center" />
+		<property name="phoneNumber" value="954258736" />
+		<property name="email" value="manager2@mail.com" />
+		<property name="birthDate" value="1990/07/22 00:00" />
+		<property name="userAccount" ref="UserAccount12" />
+	</bean>
+	<bean id="Manager3" class="domain.Manager">
+		<property name="vat" value="ESMAN-0003" />
+		<property name="services">
+			<list>
+			
+			</list>
+		</property>
+		<property name="name" value="Manager 3" />
+		<property name="surname" value="Manager" />
+		<property name="postalAddress" value="Nervión Plaza" />
+		<property name="phoneNumber" value="687236954" />
+		<property name="email" value="manager3@mail.com" />
+		<property name="birthDate" value="1988/07/11 00:00" />
+		<property name="userAccount" ref="UserAccount13" />
+	</bean>
+	<bean id="Manager4" class="domain.Manager">
+		<property name="vat" value="ESMAN-0004" />
+		<property name="services">
+			<list>
+			
+			</list>
+		</property>
+		<property name="name" value="Manager 4" />
+		<property name="surname" value="Manager" />
+		<property name="postalAddress" value="Nervión Plaza" />
+		<property name="phoneNumber" value="651478236" />
+		<property name="email" value="manager4@mail.com" />
+		<property name="birthDate" value="2001/01/11 00:00" />
+		<property name="userAccount" ref="UserAccount14" />
+	</bean>
+	<bean id="Manager5" class="domain.Manager">
+		<property name="vat" value="ESMAN-0005" />
+		<property name="services">
+			<list>
+			
+			</list>
+		</property>
+		<property name="name" value="Manager 5" />
+		<property name="surname" value="Manager" />
+		<property name="postalAddress" value="Las Vegas" />
+		<property name="phoneNumber" value="65874321" />
+		<property name="email" value="manager5@mail.com" />
+		<property name="birthDate" value="2006/08/24 00:00" />
+		<property name="userAccount" ref="UserAccount15" />
+	</bean>
+	<bean id="Manager6" class="domain.Manager">
+		<property name="vat" value="ESMAN-0006" />
+		<property name="services">
+			<list>
+			
+			</list>
+		</property>
+		<property name="name" value="Manager 6" />
+		<property name="surname" value="Manager" />
+		<property name="postalAddress" value="San Pablo" />
+		<property name="phoneNumber" value="65874321" />
+		<property name="email" value="manager6@mail.com" />
+		<property name="birthDate" value="1996/11/07 00:00" />
+		<property name="userAccount" ref="UserAccount16" />
+	</bean>
+	<bean id="Manager7" class="domain.Manager">
+		<property name="vat" value="ESMAN-0007" />
+		<property name="services">
+			<list>
+			
+			</list>
+		</property>
+		<property name="name" value="Manager 7" />
+		<property name="surname" value="Manager" />
+		<property name="postalAddress" value="Las Ramblas, Barcelona" />
+		<property name="phoneNumber" value="973654288" />
+		<property name="email" value="manager7@mail.com" />
+		<property name="birthDate" value="1992/05/03 00:00" />
+		<property name="userAccount" ref="UserAccount17" />
+	</bean>
+	<bean id="Manager8" class="domain.Manager">
+		<property name="vat" value="ESMAN-0008" />
+		<property name="services">
+			<list>
+			
+			</list>
+		</property>
+		<property name="name" value="Manager 8" />
+		<property name="surname" value="Manager" />
+		<property name="postalAddress" value="Old Trafford, Manchester" />
+		<property name="phoneNumber" value="65874321" />
+		<property name="email" value="manager8@mail.com" />
+		<property name="birthDate" value="1981/04/29 00:00" />
+		<property name="userAccount" ref="UserAccount18" />
+	</bean>
 	<!-- %%%%%% domain.Administrator %%%%%% -->
 	<bean id="Administrator1" class="domain.Administrator">
 		<property name="name" value="Super" />
