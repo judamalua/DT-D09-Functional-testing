@@ -52,17 +52,21 @@ public class RequestUserController extends AbstractController {
 		ModelAndView result;
 		Collection<Request> requests;
 		Rendezvous rendezvous;
+		String requestURI;
 
 		try {
-			if (rendezvousId == null)
+			if (rendezvousId == null) {
 				requests = this.requestService.getAllRequestFromUserPrincipal();
-			else {
+				requestURI = "request/user/list.do";
+			} else {
 				rendezvous = this.rendezvousService.findOne(rendezvousId);
 				requests = rendezvous.getRequests();
+				requestURI = "request/user/list.do?rendezvousId=" + rendezvousId;
 			}
 
 			result = new ModelAndView("request/list");
 			result.addObject("requests", requests);
+			result.addObject("requestURI", requestURI);
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/misc/403");
 		}

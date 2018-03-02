@@ -27,15 +27,15 @@
 <spring:message code="request.comment" var="titleComment" />
 
 
-<display:table name="requests" id="request" requestURI="${requestURI}">
+<display:table name="requests" id="row" requestURI="${requestURI}">
 	
 	<display:column title="${titleService}" >
-		<jstl:out value="${request.service.name}"/>
+		<jstl:out value="${row.service.name}"/>
 	</display:column>
 	
 	<security:authorize access="hasRole('USER')">
 		<display:column title="${titleCreditCard}">
-			<a href="creditCard/user/display.do?creditCardId=${request.creditCard.id}"><jstl:out value="${request.creditCard.number}"/></a>
+			<a href="creditCard/user/display.do?creditCardId=${row.creditCard.id}"><jstl:out value="${row.creditCard.number}"/></a>
 		</display:column>
 	</security:authorize>
 	

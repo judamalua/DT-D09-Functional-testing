@@ -93,17 +93,15 @@
 		
 		<security:intercept-url pattern="/law/termsAndConditions.do" access="permitAll" requires-channel="https" />
 		
-<<<<<<< HEAD
 		<security:intercept-url pattern="/request/user/create.do" access="hasRole('USER')" requires-channel="https" />
 		<security:intercept-url pattern="/request/user/edit.do" access="hasRole('USER')" requires-channel="https" />
 		<security:intercept-url pattern="/request/user/list.do" access="hasRole('USER')" requires-channel="https" />
-=======
+		
 		<security:intercept-url pattern="/service/list.do" access="permitAll" requires-channel="https" />
 		<security:intercept-url pattern="/service/manager/**" access="hasRole('MANAGER')" requires-channel="https" />
 		
 		<security:intercept-url pattern="/category/list.do" access="permitAll" requires-channel="https" />
 		<security:intercept-url pattern="/service/admin/**" access="hasRole('ADMIN')" requires-channel="https" />
->>>>>>> development
 			
 
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
