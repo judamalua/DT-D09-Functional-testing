@@ -7,6 +7,8 @@ import java.util.HashSet;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -33,9 +35,6 @@ public class ServiceService {
 	private CategoryService		categoryService;
 
 	@Autowired
-	private RequestService		requestService;
-
-	@Autowired
 	private ActorService		actorService;
 
 	@Autowired
@@ -46,7 +45,12 @@ public class ServiceService {
 
 
 	// Simple CRUD methods --------------------------------------------------
-
+	/**
+	 * Create a new instance of an Service
+	 * 
+	 * @return a new instance of Service
+	 * @author MJ
+	 */
 	public DomainService create() {
 		DomainService result;
 
@@ -54,6 +58,13 @@ public class ServiceService {
 
 		return result;
 	}
+
+	/**
+	 * Get all the entities of Service in the database
+	 * 
+	 * @return a collection of Service saved in the database
+	 * @author MJ
+	 */
 	public Collection<DomainService> findAll() {
 
 		Collection<DomainService> result;
@@ -66,6 +77,13 @@ public class ServiceService {
 
 	}
 
+	/**
+	 * Get the Service with id serviceId
+	 * 
+	 * @param serviceId
+	 * @return the Service with the id passed as parameter
+	 * @author MJ
+	 */
 	public DomainService findOne(final int serviceId) {
 
 		DomainService result;
@@ -76,6 +94,13 @@ public class ServiceService {
 
 	}
 
+	/**
+	 * Saves the Service in the database
+	 * 
+	 * @param service
+	 * @return the saved Service in the database
+	 * @author MJ
+	 */
 	public DomainService save(final DomainService service) {
 
 		assert service != null;
@@ -94,12 +119,6 @@ public class ServiceService {
 			this.categoryService.save(category);
 		}
 
-		//Updating requests
-		for (final Request request : new HashSet<Request>(service.getRequests())) {
-			request.setService(result);
-			this.requestService.save(request);
-		}
-
 		//Updating manager
 		manager.getServices().remove(service);
 		manager.getServices().add(result);
@@ -107,6 +126,12 @@ public class ServiceService {
 		return result;
 	}
 
+	/**
+	 * Delete from database the Service passed as parameter
+	 * 
+	 * @param service
+	 * @author MJ
+	 */
 	public void delete(final DomainService service) {
 
 		assert service != null;
@@ -133,8 +158,33 @@ public class ServiceService {
 
 	}
 
+	/**
+	 * Gets a page of not cancelled services
+	 * 
+	 * @param pageable
+	 * @return the services not cancelled
+	 * @author MJ
+	 */
+	public Page<DomainService> findNotCancelledServices(final Pageable pageable) {
+		Assert.notNull(pageable);
+
+		Page<DomainService> result;
+
+		result = this.serviceRepository.findNotCancelledServices(pageable);
+
+		return result;
+	}
+
 	// Other business methods
 
+	/**
+	 * Recontruct the Service whith his errors in the binding if exists
+	 * 
+	 * @param service
+	 * @param binding
+	 * @return The service reconstructed
+	 * @author MJ
+	 */
 	public DomainService reconstruct(final DomainService service, final BindingResult binding) {
 		DomainService result = null;
 
