@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.RequestRepository;
+import domain.CreditCard;
+import domain.Rendezvous;
 import domain.Request;
+import domain.User;
 
 @Service
 @Transactional
@@ -22,8 +25,19 @@ public class RequestService {
 	@Autowired
 	private RequestRepository	requestRepository;
 
-
 	// Supporting services --------------------------------------------------
+	@Autowired
+	private RendezvousService	rendezvousService;
+
+	@Autowired
+	private CreditCardService	creditCardService;
+
+	@Autowired
+	private ActorService		actorService;
+
+	@Autowired
+	private UserService			userService;
+
 
 	// Simple CRUD methods --------------------------------------------------
 	/**
@@ -81,7 +95,47 @@ public class RequestService {
 	}
 
 	/**
-	 * This method saves a request passed as a param into the database.
+	 * This method saves a request passed as a param into the database. It also refresh the
+	 * requests list of the rendezvous, and saves the credit card into the system.
+	 * 
+	 * @param request
+	 *            , rendezvousId
+	 * @return Request
+	 * @author Antonio
+	 */
+	public Request saveNewRequest(final Request request, final int rendezvousId) {
+		Assert.notNull(request);
+		Assert.notNull(request.getCreditCard());
+		Assert.isTrue(rendezvousId != 0);
+
+		Request result;
+		Date now;
+		Rendezvous rendezvous;
+		CreditCard creditCard;
+
+		//Checks that the User connected is the owner of the rendezvous
+		this.checkRendezvousBelongsToPrincipal(rendezvousId);
+
+		rendezvous = this.rendezvousService.findOne(rendezvousId);
+
+		now = new Date(System.currentTimeMillis() - 10);
+		creditCard = request.getCreditCard();
+
+		creditCard = this.creditCardService.save(creditCard);
+
+		request.setMoment(now);
+		request.setCreditCard(creditCard);
+
+		result = this.requestRepository.save(request);
+
+		rendezvous.getRequests().add(result);
+		this.rendezvousService.save(rendezvous);
+
+		return result;
+	}
+
+	/**
+	 * This method saves a request passed as a param into the system.
 	 * 
 	 * @param request
 	 * @return Request
@@ -89,18 +143,60 @@ public class RequestService {
 	 */
 	public Request save(final Request request) {
 		Assert.notNull(request);
-		Assert.notNull(request.getCreditCard());
+		Assert.isTrue(request.getId() != 0);
 
 		Request result;
-		Date now;
-
-		now = new Date(System.currentTimeMillis() - 10);
-		request.setMoment(now);
 
 		result = this.requestRepository.save(request);
 
 		return result;
 	}
 
-	//This service has no delete option
+	/**
+	 * This method deletes a request made by an User, and it also deletes the credit card used
+	 * for that request from the system.
+	 * 
+	 * @param request
+	 * @author Antonio
+	 */
+	public void delete(final Request request) {
+		Assert.notNull(request);
+		Assert.isTrue(request.getId() != 0);
+
+		CreditCard creditCard;
+
+		creditCard = request.getCreditCard();
+
+		this.requestRepository.delete(request);
+
+		this.creditCardService.delete(creditCard);
+	}
+
+	//Business rule methods -------------------------------------------------------------
+
+	/**
+	 * This method checks that the user connected to the system (the principal) is the owner of
+	 * the rendezvous from he wants to make the request.
+	 * 
+	 * @param rendezvousId
+	 * @author Antonio
+	 */
+	private void checkRendezvousBelongsToPrincipal(final int rendezvousId) {
+		User userPrincipal, rendezvousOwner;
+
+		userPrincipal = (User) this.actorService.findActorByPrincipal();
+		rendezvousOwner = this.userService.getCreatorUser(rendezvousId);
+
+		Assert.isTrue(userPrincipal.equals(rendezvousOwner));
+	}
+
+	public Collection<Request> getAllRequestFromUserPrincipal() {
+		Collection<Request> result;
+		User user;
+
+		user = (User) this.actorService.findActorByPrincipal();
+		result = this.requestRepository.getAllRequestFromUserPrincipal(user);
+
+		return result;
+	}
 }

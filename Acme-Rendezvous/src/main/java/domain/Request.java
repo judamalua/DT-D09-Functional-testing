@@ -54,6 +54,7 @@ public class Request extends DomainEntity {
 	private DomainService	service;
 
 
+	@NotNull
 	@Valid
 	@ManyToOne(optional = false)
 	public CreditCard getCreditCard() {
@@ -64,6 +65,7 @@ public class Request extends DomainEntity {
 		this.creditCard = creditCard;
 	}
 
+	@NotNull
 	@Valid
 	@ManyToOne(optional = false)
 	public DomainService getService() {
