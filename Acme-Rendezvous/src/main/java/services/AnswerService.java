@@ -22,7 +22,7 @@ public class AnswerService {
 	private AnswerRepository	answerRepository;
 
 
-	// Supporting services --------------------------------------------------W
+	// Supporting services --------------------------------------------------
 
 	// Simple CRUD methods --------------------------------------------------
 
