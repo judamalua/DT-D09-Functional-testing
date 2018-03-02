@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
 
 import javax.transaction.Transactional;
 
@@ -34,8 +35,11 @@ public class RequestService {
 	 */
 	public Request create() {
 		Request result;
+		Date now;
 
 		result = new Request();
+		now = new Date(System.currentTimeMillis() - 10);
+		result.setMoment(now);
 
 		return result;
 	}
@@ -88,6 +92,10 @@ public class RequestService {
 		Assert.notNull(request.getCreditCard());
 
 		Request result;
+		Date now;
+
+		now = new Date(System.currentTimeMillis() - 10);
+		request.setMoment(now);
 
 		result = this.requestRepository.save(request);
 

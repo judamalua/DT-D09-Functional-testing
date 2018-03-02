@@ -53,6 +53,9 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select r from Rendezvous r join r.similars s where s.id=?1")
 	Collection<Rendezvous> findRendezvousContains(int rendezvousId);
 
+	@Query("select r from Rendezvous r join r.requests req where req.id =?1")
+	Rendezvous findRendezvousByRequest(int requestId);
+
 	// Dashboard queries.
 
 	/**

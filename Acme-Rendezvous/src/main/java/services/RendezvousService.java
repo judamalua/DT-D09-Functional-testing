@@ -24,6 +24,7 @@ import domain.Announcement;
 import domain.Comment;
 import domain.Question;
 import domain.Rendezvous;
+import domain.Request;
 import domain.User;
 
 @Service
@@ -330,12 +331,14 @@ public class RendezvousService {
 			Collection<Announcement> announcements;
 			Collection<Comment> comments;
 			Collection<User> users;
+			Collection<Request> requests;
 
 			questions = new HashSet<Question>();
 			similars = rendezvous.getSimilars();
 			announcements = new HashSet<Announcement>();
 			comments = new HashSet<Comment>();
 			users = new HashSet<User>();
+			requests = new HashSet<Request>();
 			//			rendezvouses = new HashSet<Rendezvous>();
 			user = (User) this.actorService.findActorByPrincipal();
 			users.add(user);
@@ -350,6 +353,7 @@ public class RendezvousService {
 			result.setComments(comments);
 			result.setSimilars(similars);
 			result.setUsers(users);
+			result.setRequests(requests);
 			//			result.setRendezvouses(rendezvouses);
 
 		} else {
@@ -415,6 +419,22 @@ public class RendezvousService {
 
 		return result;
 
+	}
+
+	/**
+	 * 
+	 * This method returns the Rendezvous that has the request which ID is provided
+	 * 
+	 * @param requestId
+	 * @return Rendezvous
+	 * @author Antonio
+	 */
+	public Rendezvous findRendezvousByRequest(final int requestId) {
+		Rendezvous result;
+
+		result = this.rendezvousRepository.findRendezvousByRequest(requestId);
+
+		return result;
 	}
 
 	/**
