@@ -52,6 +52,12 @@
 		
 		<bean class="converters.CommentToStringConverter" />
 		<bean class="converters.StringToCommentConverter" />
+		
+		<bean class="converters.ServiceToStringConverter" />
+		<bean class="converters.StringToServiceConverter" />
+		
+		<bean class="converters.CategoryToStringConverter" />
+		<bean class="converters.StringToCategoryConverter" />
 	</util:list>
 	
 </beans>
