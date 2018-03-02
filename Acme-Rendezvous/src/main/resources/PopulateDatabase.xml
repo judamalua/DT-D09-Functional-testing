@@ -450,6 +450,10 @@
 				<ref bean="User1" />
 			</list>
 		</property>
+		<property name="requests">
+			<list>
+			</list>
+		</property>
 	</bean>
 	<bean id="Rendezvous2" class="domain.Rendezvous">
 		<property name="name" value=" Meeting of Alcoholics Anonymous" />
@@ -486,6 +490,10 @@ Attention: Do not bring alcohol." />
 				<ref bean="User1" />
 			</list>
 		</property>
+		<property name="requests">
+			<list>
+			</list>
+		</property>
 	</bean>
 	<bean id="Rendezvous3" class="domain.Rendezvous">
 		<property name="name" value=" Blind Dating" />
@@ -520,6 +528,10 @@ Attention: Do not bring alcohol." />
 				<ref bean="User3" />
 				<ref bean="User4" />
 				<ref bean="User7" />
+			</list>
+		</property>
+		<property name="requests">
+			<list>
 			</list>
 		</property>
 	</bean>
@@ -559,6 +571,10 @@ Attention: Do not bring alcohol." />
 				<ref bean="User7" />
 			</list>
 		</property>
+		<property name="requests">
+			<list>
+			</list>
+		</property>
 	</bean>
 	<bean id="Rendezvous5" class="domain.Rendezvous">
 		<property name="name" value="Cooking class" />
@@ -596,6 +612,10 @@ Attention: Do not bring alcohol." />
 				<ref bean="User7" />
 			</list>
 		</property>
+		<property name="requests">
+			<list>
+			</list>
+		</property>
 	</bean>
 	<bean id="Rendezvous6" class="domain.Rendezvous">
 		<property name="name" value="Karaoke" />
@@ -627,6 +647,10 @@ Attention: Do not bring alcohol." />
 		<property name="users">
 			<list>
 				<ref bean="User1" />
+			</list>
+		</property>
+		<property name="requests">
+			<list>
 			</list>
 		</property>
 	</bean>
@@ -664,6 +688,10 @@ Attention: Do not bring alcohol." />
 				<ref bean="User1" />
 			</list>
 		</property>
+		<property name="requests">
+			<list>
+			</list>
+		</property>
 	</bean>
 		<bean id="Rendezvous8" class="domain.Rendezvous">
 		<property name="name" value="Ofuf" />
@@ -695,6 +723,10 @@ Attention: Do not bring alcohol." />
 		<property name="users">
 			<list>
 				<ref bean="User1" />
+			</list>
+		</property>
+		<property name="requests">
+			<list>
 			</list>
 		</property>
 	</bean>

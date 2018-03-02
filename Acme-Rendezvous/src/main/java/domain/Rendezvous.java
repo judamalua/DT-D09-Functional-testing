@@ -125,7 +125,18 @@ public class Rendezvous extends DomainEntity {
 	private Collection<Announcement>	announcements;
 	private Collection<Comment>			comments;
 	private Collection<User>			users;
+	private Collection<Request>			requests;
 
+
+	@NotNull
+	@OneToMany
+	public Collection<Request> getRequests() {
+		return this.requests;
+	}
+
+	public void setRequests(final Collection<Request> requests) {
+		this.requests = requests;
+	}
 
 	@NotNull
 	@OneToMany
