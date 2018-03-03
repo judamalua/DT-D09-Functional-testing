@@ -143,6 +143,7 @@ public class ServiceService {
 		Manager manager;
 
 		manager = (Manager) this.actorService.findActorByPrincipal();
+		Assert.isTrue(manager.getServices().contains(service));
 
 		//Updating categories
 		for (final Category category : new HashSet<Category>(service.getCategories())) {
@@ -188,7 +189,6 @@ public class ServiceService {
 	public DomainService reconstruct(final DomainService service, final BindingResult binding) {
 		DomainService result = null;
 
-		//TODO: Complete
 		if (service.getId() == 0) {
 
 			Collection<Category> categories;

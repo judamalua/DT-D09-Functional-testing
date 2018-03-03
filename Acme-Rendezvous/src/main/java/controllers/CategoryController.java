@@ -59,6 +59,7 @@ public class CategoryController extends AbstractController {
 
 			if (categoryId == null)
 				categories = this.categoryService.findAll(pageable);
+			//TODO findAll first level
 			else {
 				category = this.categoryService.findOne(categoryId);
 				categories = this.categoryService.findSubCategories(category, pageable);

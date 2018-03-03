@@ -45,6 +45,11 @@
 				code="service.edit" />
 		</jstl:if>
 	</display:column>
+	<display:column>
+		<security:authorize access="hasRole('USER')">
+			<acme:button url="request/user/edit.do?serviceId=${service.id}" code="service.edit" />
+		</security:authorize>
+	</display:column>
 
 	<display:column>
 		<jstl:if test="${service.cancelled}">

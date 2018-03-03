@@ -99,9 +99,11 @@
 		
 		<security:intercept-url pattern="/service/list.do" access="permitAll" requires-channel="https" />
 		<security:intercept-url pattern="/service/manager/**" access="hasRole('MANAGER')" requires-channel="https" />
+		<security:intercept-url pattern="/service/admin/**" access="hasRole('ADMIN')" requires-channel="https" />
 		
 		<security:intercept-url pattern="/category/list.do" access="permitAll" requires-channel="https" />
-		<security:intercept-url pattern="/service/admin/**" access="hasRole('ADMIN')" requires-channel="https" />
+		<security:intercept-url pattern="/category/admin/**" access="hasRole('ADMIN')" requires-channel="https" />
+		
 			
 
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
