@@ -141,7 +141,7 @@ public class QuestionServiceTest extends AbstractTest {
 				"User2", "Rendezvous1", "Test", IllegalArgumentException.class
 			}, {
 				// This test checks that questions with empty texts cannot be saved
-				"User2", "Rendezvous1", "", IllegalArgumentException.class
+				"User1", "Rendezvous8", "", javax.validation.ConstraintViolationException.class
 			}
 		};
 
