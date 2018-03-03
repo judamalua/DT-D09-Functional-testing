@@ -73,6 +73,24 @@ public class CategoryService {
 	}
 
 	/**
+	 * Get all the Categories in the database
+	 * 
+	 * @return the collection of all the categories in the database
+	 * @author MJ
+	 */
+	public Collection<Category> findAll() {
+
+		Collection<Category> result;
+
+		Assert.notNull(this.categoryRepository);
+		result = this.categoryRepository.findAll();
+		Assert.notNull(result);
+
+		return result;
+
+	}
+
+	/**
 	 * Get the category with the id passed as parameter
 	 * 
 	 * @param categoryId
@@ -106,11 +124,13 @@ public class CategoryService {
 		result = this.categoryRepository.save(category);
 		this.actorService.checkUserLogin();
 
-		subCategories = this.findSubCategories(category);
-		//Updating subcategories
-		for (final Category subCategory : subCategories) {
-			subCategory.setFatherCategory(result);
-			this.save(subCategory);
+		if (category.getId() != 0) {
+			subCategories = this.findSubCategories(category);
+			//Updating subcategories
+			for (final Category subCategory : subCategories) {
+				subCategory.setFatherCategory(result);
+				this.save(subCategory);
+			}
 		}
 
 		return result;

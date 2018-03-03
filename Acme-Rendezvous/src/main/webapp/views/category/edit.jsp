@@ -35,14 +35,17 @@
 		<acme:textbox code="category.name" path="name" required="true" />
 		<acme:textarea code="category.description" path="description"
 			required="true" />
-		<acme:select items="${categories}" itemLabel="name" code="category.fatherCategory" path="fatherCategory"/>
+		<acme:select items="${categories}" itemLabel="name"
+			code="category.fatherCategory" path="fatherCategory" />
 
-		<acme:submit name="save" code="category.save" />
-		<jstl:if test="${category.id!=0 and !category.cancelled}">
-			<acme:delete clickCode="category.confirm.delete" name="delete"
-				code="category.delete" />
-		</jstl:if>
-		<acme:cancel url="category/admin/list.do" code="category.cancel" />
+		<div class="cleared-div">
+			<acme:submit name="save" code="category.save" />
+			<jstl:if test="${category.id!=0 and !category.cancelled}">
+				<acme:delete clickCode="category.confirm.delete" name="delete"
+					code="category.delete" />
+			</jstl:if>
+			<acme:cancel url="category/admin/list.do" code="category.cancel" />
+		</div>
 
 	</form:form>
 </div>

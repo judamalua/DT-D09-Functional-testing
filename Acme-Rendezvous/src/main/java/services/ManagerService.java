@@ -8,9 +8,10 @@ import java.util.HashSet;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.validation.Validator;
 
 import repositories.ManagerRepository;
 import security.Authority;
@@ -26,10 +27,8 @@ public class ManagerService {
 	@Autowired
 	private ManagerRepository	managerRepository;
 
-	// Supporting services --------------------------------------------------
-	@Autowired
-	private Validator			validator;
 
+	// Supporting services --------------------------------------------------
 
 	// Simple CRUD methods --------------------------------------------------
 
@@ -109,6 +108,17 @@ public class ManagerService {
 		Manager result;
 
 		result = this.managerRepository.save(manager);
+
+		return result;
+
+	}
+
+	public Page<DomainService> findServicesByManager(final Manager manager, final Pageable pageable) {
+		Page<DomainService> result;
+		Assert.notNull(manager);
+		Assert.notNull(pageable);
+
+		result = this.managerRepository.findServicesByManager(manager.getId(), pageable);
 
 		return result;
 

@@ -74,6 +74,14 @@
 					data-activates="dropdownAdminFunctions"><spring:message
 							code="master.page.admin" /><i class="material-icons right">arrow_drop_down</i></a></li>
 			</security:authorize>
+			
+			<security:authorize access="hasRole('MANAGER')">
+				<!-- Dropdown Structure -->
+				<ul id="dropdownAdminFunctions" class="dropdown-content">
+					<li><a href="service/manager/list.do"><spring:message
+								code="master.page.manager.serviceList" /></a></li>
+				</ul>
+			</security:authorize>
 			<security:authorize access="isAnonymous()">
 				<li><a class="fNiv" href="security/login.do"> <spring:message
 							code="master.page.login" /></a></li>

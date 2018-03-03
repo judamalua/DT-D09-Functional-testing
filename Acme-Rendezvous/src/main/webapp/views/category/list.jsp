@@ -36,7 +36,7 @@
 
 	<display:column property="name" title="${titleName}" sortable="true" />
 	<display:column property="description" title="${titleDescription}" />
-	<display:column property="fatherCategory" title="${titleFather}" />
+	<display:column property="fatherCategory.name" title="${titleFather}" />
 	<display:column>
 		<acme:button url="category/list.do?categoryId=${category.id}"
 			code="category.subCategories" />
@@ -45,7 +45,7 @@
 	<display:column>
 		<security:authorize access="hasRole('ADMIN')">
 			<acme:button url="category/admin/edit.do?categoryId=${category.id}"
-				code="category.details" />
+				code="category.edit" />
 		</security:authorize>
 	</display:column>
 </display:table>
