@@ -17,6 +17,7 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
@@ -40,7 +41,7 @@
 
 		<div class="cleared-div">
 			<acme:submit name="save" code="category.save" />
-			<jstl:if test="${category.id!=0 and !category.cancelled}">
+			<jstl:if test="${category.id!=0 and fn:length(category.services)==0}">
 				<acme:delete clickCode="category.confirm.delete" name="delete"
 					code="category.delete" />
 			</jstl:if>

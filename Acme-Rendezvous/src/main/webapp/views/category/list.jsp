@@ -18,12 +18,20 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <!-- Variable declaration -->
 <spring:message code="category.name" var="titleName" />
 <spring:message code="category.description" var="titleDescription" />
 <spring:message code="category.fatherCategory" var="titleFather" />
+
+<jstl:if test="${categoryId!=null}">
+	<acme:button url="category/list.do?categoryId=${categoryId}" code="category.upperCategory"/>
+</jstl:if>
+<jstl:if test="${categoryId==null}">
+	<acme:button url="category/list.do" code="category.upperCategory"/>
+</jstl:if>
 
 <!-- Pagination -->
 <acme:pagination requestURI="${requestURI}page=" pageNum="${pageNum}"
@@ -44,8 +52,10 @@
 
 	<display:column>
 		<security:authorize access="hasRole('ADMIN')">
-			<acme:button url="category/admin/edit.do?categoryId=${category.id}"
-				code="category.edit" />
+			<jstl:if test="${fn:length(category.services)==0}">
+				<acme:button url="category/admin/edit.do?categoryId=${category.id}"
+					code="category.edit" />
+			</jstl:if>
 		</security:authorize>
 	</display:column>
 </display:table>

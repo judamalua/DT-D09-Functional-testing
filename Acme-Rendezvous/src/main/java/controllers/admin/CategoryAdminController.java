@@ -56,6 +56,7 @@ public class CategoryAdminController extends AbstractController {
 		try {
 			category = this.categoryService.findOne(categoryId);
 			Assert.notNull(category);
+			Assert.isTrue(category.getServices().size() == 0);
 			actor = this.actorService.findActorByPrincipal();
 			Assert.isTrue(actor instanceof Administrator);
 
@@ -131,7 +132,10 @@ public class CategoryAdminController extends AbstractController {
 			result = new ModelAndView("redirect:/category/list.do");
 
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(service, "category.commit.error");
+			if (oops.getMessage().contains("Name must not be the repeated"))
+				result = this.createEditModelAndView(service, "category.name.error");
+			else
+				result = this.createEditModelAndView(service, "category.commit.error");
 		}
 
 		return result;
@@ -149,9 +153,13 @@ public class CategoryAdminController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final Category category, final String messageCode) {
 		ModelAndView result;
-		Collection<Category> fatherCategories;
+		Collection<Category> fatherCategories, allSubcategories;
 
 		fatherCategories = this.categoryService.findAll();
+		allSubcategories = this.categoryService.findAllSubcategories(category);
+
+		fatherCategories.removeAll(allSubcategories);
+
 		result = new ModelAndView("category/edit");
 		result.addObject("category", category);
 		result.addObject("categories", fatherCategories);

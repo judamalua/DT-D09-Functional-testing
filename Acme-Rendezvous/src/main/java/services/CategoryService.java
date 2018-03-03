@@ -2,7 +2,9 @@
 package services;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -121,6 +123,9 @@ public class CategoryService {
 		Category result;
 		Collection<Category> subCategories;
 
+		if (category.getId() != 0)
+			this.checkCategory(category);
+
 		result = this.categoryRepository.save(category);
 		this.actorService.checkUserLogin();
 
@@ -162,6 +167,7 @@ public class CategoryService {
 	 * Delete the category passed as parameter and his subCategories recursively
 	 * 
 	 * @param category
+	 * @author MJ
 	 */
 	public void deleteRecursive(final Category category) {
 		Assert.notNull(category);
@@ -170,8 +176,11 @@ public class CategoryService {
 		Collection<Category> subCategories, subSubCategories;
 
 		subCategories = this.findSubCategories(category);
+
+		//iterate in every subCategory to delete it
 		for (final Category subCategory : subCategories) {
 			subSubCategories = this.findSubCategories(subCategory);
+
 			if (subSubCategories.size() == 0) {//If the subCategory not have subCategories then it must be deleted
 				Assert.isTrue(subCategory.getServices().size() == 0);
 				this.categoryRepository.delete(subCategory);
@@ -179,10 +188,123 @@ public class CategoryService {
 				//In other case then call again the method
 				this.deleteRecursive(subCategory);
 		}
-
+		//Finally delete the category
 		this.categoryRepository.delete(category);
 	}
 
+	/**
+	 * Get the first level of categories in the system
+	 * 
+	 * @param pageable
+	 * @return the categories with father null
+	 * @author MJ
+	 */
+	public Page<Category> findFirstLevelCategories(final Pageable pageable) {
+		Assert.notNull(pageable);
+		Page<Category> result;
+
+		result = this.categoryRepository.findFirstLevelCategories(pageable);
+
+		return result;
+	}
+
+	/**
+	 * Get the first level of categories in the system
+	 * 
+	 * @param pageable
+	 * @return the categories with father null
+	 * @author MJ
+	 */
+	public Collection<Category> findFirstLevelCategories() {
+		Collection<Category> result;
+
+		result = this.categoryRepository.findFirstLevelCategories();
+
+		return result;
+	}
+
+	/**
+	 * Get all the subCategories in the hierarchy of the children categories
+	 * 
+	 * @param category
+	 * @return all the subCategories in the Category
+	 * @author MJ
+	 */
+	public Collection<Category> findAllSubcategories(final Category category) {
+		Assert.notNull(category);
+
+		Collection<Category> result, subCategories;
+		result = new HashSet<>();
+
+		if (category.getId() != 0) {
+			subCategories = this.findSubCategories(category);
+			for (final Category subCategory : subCategories)
+				result.addAll(this.findAllSubcategories(subCategory));
+
+			result.addAll(subCategories);
+		}
+
+		return result;
+	}
+	/**
+	 * Checks that the category is correct(no cycles and no repeated names in his branch)
+	 * 
+	 * @param category
+	 * @author MJ
+	 */
+	private void checkCategory(final Category category) {
+
+		final boolean result;
+		final Map<String, Category> mem;
+
+		mem = new HashMap<String, Category>();
+		result = this.isInvalid(category, mem);
+
+		Assert.isTrue(result, "Name must not be the repeated");
+	}
+
+	/**
+	 * This method returns false if there is some category with the same name in his branch or any cycle
+	 * 
+	 * @param category
+	 * @param memory
+	 * @return true if there is no cycles or repeated
+	 * @author MJ
+	 */
+	private boolean isInvalid(final Category category, final Map<String, Category> memory) {
+
+		boolean result;
+		Collection<Category> subCategories;
+
+		//Get the upper lever of category (Brothers)
+		if (category.getFatherCategory() != null)
+			subCategories = this.findSubCategories(category.getFatherCategory());
+		else
+			subCategories = this.findFirstLevelCategories();
+
+		//If we are not in the root then iterate the brothers
+		if (category != null)
+			for (final Category brotherCategory : subCategories) {
+				//If we are not iterating the same category then see that the others categories don't have the same name
+				Assert.isTrue(!memory.keySet().contains(brotherCategory.getName()));
+
+				//If everething is ok then put the category in the memory
+				memory.put(brotherCategory.getName(), category);
+			}
+
+		//if the category is the root or is subCategory of root then there is no cycles
+		if (category == null || category.getFatherCategory() == null)
+			result = true;
+		//If the father category is in memory yet then there is cycles or if the keys contains the name of the father then the names are the same
+		else if (memory.get(category.getFatherCategory().getName()) != null || memory.keySet().contains(category.getFatherCategory().getName()))
+			result = false;
+		else
+			//In other case we call again to the method to the father category, if there is some cycle then in some moment the algorithm will return false
+			result = this.isInvalid(category.getFatherCategory(), memory);
+
+		Assert.notNull(result);
+		return result;
+	}
 	/**
 	 * Get all the subCategories of the category passed as paremater
 	 * 

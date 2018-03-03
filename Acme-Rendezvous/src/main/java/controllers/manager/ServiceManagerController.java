@@ -26,11 +26,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
+import services.CategoryService;
 import services.ConfigurationService;
 import services.ManagerService;
 import services.ServiceService;
 import controllers.AbstractController;
 import domain.Actor;
+import domain.Category;
 import domain.Configuration;
 import domain.DomainService;
 import domain.Manager;
@@ -47,6 +49,9 @@ public class ServiceManagerController extends AbstractController {
 
 	@Autowired
 	private ManagerService			managerService;
+
+	@Autowired
+	private CategoryService			categoryService;
 
 	@Autowired
 	private ConfigurationService	configurationService;
@@ -202,10 +207,14 @@ public class ServiceManagerController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final DomainService service, final String messageCode) {
 		ModelAndView result;
+		Collection<Category> categories;
+
+		categories = this.categoryService.findAll();
 
 		result = new ModelAndView("service/edit");
 		result.addObject("service", service);
 		result.addObject("message", messageCode);
+		result.addObject("categories", categories);
 
 		return result;
 

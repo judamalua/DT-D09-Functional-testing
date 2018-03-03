@@ -191,15 +191,12 @@ public class ServiceService {
 
 		if (service.getId() == 0) {
 
-			Collection<Category> categories;
 			Collection<Request> requests;
 
-			categories = new HashSet<Category>();
 			requests = new HashSet<Request>();
 
 			result = service;
 
-			result.setCategories(categories);
 			result.setRequests(requests);
 
 		} else {

@@ -19,4 +19,10 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
 	@Query("select c from Category c where c.fatherCategory.id=?1")
 	Page<Category> findSubCategories(int categoriesId, Pageable pageable);
+
+	@Query("select c from Category c where c.fatherCategory=null")
+	Page<Category> findFirstLevelCategories(Pageable pageable);
+
+	@Query("select c from Category c where c.fatherCategory=null")
+	Collection<Category> findFirstLevelCategories();
 }
