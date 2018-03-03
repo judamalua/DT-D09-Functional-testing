@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 
 import repositories.RequestRepository;
 import domain.CreditCard;
+import domain.DomainService;
 import domain.Rendezvous;
 import domain.Request;
 import domain.User;
@@ -31,6 +32,9 @@ public class RequestService {
 
 	@Autowired
 	private CreditCardService	creditCardService;
+
+	@Autowired
+	private ServiceService		serviceService;
 
 	@Autowired
 	private ActorService		actorService;
@@ -54,6 +58,28 @@ public class RequestService {
 		result = new Request();
 		now = new Date(System.currentTimeMillis() - 10);
 		result.setMoment(now);
+
+		return result;
+	}
+
+	/**
+	 * This method returns a new request with its service instantiated
+	 * 
+	 * @param serviceId
+	 * @return Request
+	 * @author Antonio
+	 */
+	public Request createByService(final int serviceId) {
+		Request result;
+		Date now;
+		DomainService service;
+
+		service = this.serviceService.findOne(serviceId);
+		result = new Request();
+		now = new Date(System.currentTimeMillis() - 10);
+
+		result.setMoment(now);
+		result.setService(service);
 
 		return result;
 	}

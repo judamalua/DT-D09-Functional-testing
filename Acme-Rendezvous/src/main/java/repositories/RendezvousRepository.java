@@ -32,6 +32,9 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select r from Rendezvous r where r.finalMode=true and r.deleted=false")
 	Collection<Rendezvous> findFinalRendezvouses();
 
+	@Query("select r from User u join u.createdRendezvouses r where u.id=?1 and r.adultOnly=false and r.finalMode=true")
+	Collection<Rendezvous> findCreatedFinalRendezvousesByUserId(int userId);
+
 	@Query("select r from Rendezvous r where r.finalMode=true and r.deleted=false and r.adultOnly=false")
 	Page<Rendezvous> findFinalWithoutAdultRendezvouses(Pageable pageable);
 

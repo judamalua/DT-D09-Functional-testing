@@ -734,4 +734,12 @@ public class RendezvousService {
 
 		return result;
 	}
+
+	public Collection<Rendezvous> findCreatedFinalRendezvousesByUserId(final int userId) {
+		Collection<Rendezvous> result;
+
+		result = this.rendezvousRepository.findCreatedFinalRendezvousesByUserId(userId);
+
+		return result;
+	}
 }
