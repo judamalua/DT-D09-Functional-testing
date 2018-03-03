@@ -233,4 +233,14 @@ public class QuestionService {
 		return result;
 	}
 
+	/**
+	 * This method flushes the repository, this forces the cache to be saved to the database, which then forces the test data to be validated. This is only used
+	 * in tests
+	 * 
+	 * @author Juanmi
+	 */
+	public void flush() {
+		this.questionRepository.flush();
+	}
+
 }
