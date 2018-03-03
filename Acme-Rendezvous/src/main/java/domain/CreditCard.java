@@ -3,7 +3,9 @@ package domain;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.NotBlank;
@@ -22,6 +24,7 @@ public class CreditCard extends DomainEntity {
 	private Integer	expirationMonth;
 	private Integer	expirationYear;
 	private Integer	cvv;
+	private String	cookieToken;
 
 
 	@NotBlank
@@ -76,5 +79,29 @@ public class CreditCard extends DomainEntity {
 	public void setCvv(final Integer cvv) {
 		this.cvv = cvv;
 	}
+
+	@Column(unique = true)
+	@NotBlank
+	public String getCookieToken() {
+		return this.cookieToken;
+	}
+
+	public void setCookieToken(final String cookieToken) {
+		this.cookieToken = cookieToken;
+	}
+
+
 	// Relationships ----------------------------------------------------------
+	private User	user;
+
+
+	@ManyToOne(optional = true)
+	public User getUser() {
+		return this.user;
+	}
+
+	public void setUser(final User user) {
+		this.user = user;
+	}
+
 }
