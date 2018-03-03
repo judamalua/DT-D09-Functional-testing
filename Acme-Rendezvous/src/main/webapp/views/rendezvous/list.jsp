@@ -1,5 +1,5 @@
 <%--
- * action-2.jsp
+ * list.jsp
  *
  * Copyright (C) 2017 Universidad de Sevilla
  * 

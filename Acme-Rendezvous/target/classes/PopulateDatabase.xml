@@ -2,7 +2,36 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
+	<!-- %%%%%% domain.DomainService %%%%%% -->
+	<bean id="DomainServiceTest1" class="domain.DomainService">
+		<property name="name" value="Test service" />
+		<property name="description" value="Test service description" />
+		<property name="pictureUrl"
+			value="http://coolwildlife.com/wp-content/uploads/galleries/post-3004/Fox%20Picture%20002.jpg" />
+		<property name="cancelled" value="false"/>
+		<property name="price" value="10.0"/>
+		<property name="requests">
+			<list>
+			</list>
+		</property>
+		<property name="categories">
+			<list>
+				<ref bean="CategoryTest1"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="CategoryTest1" class="domain.Category">
+		<property name="name" value="Test category" />
+		<property name="description" value="Test category description" />
+		<property name="services">
+			<list>
+				<ref bean="DomainServiceTest1"/>
+			</list>
+		</property>
+	</bean>
+	
+	
 	<!-- %%%%%% domain.Announcement %%%%%% -->
 	<bean id="Announcement1" class="domain.Announcement">
 		<property name="moment" value="2018/02/01 08:00" />
