@@ -39,6 +39,7 @@
 <spring:message code="rendezvous.comment.display" var="displayComment" />
 <spring:message code="rendezvous.comment.replies" var="repliesComment" />
 <spring:message code="rendezvous.comment.reply" var="replyComment" />
+<spring:message code="rendezvous.request.create" var="createRequest" />
 
 
 <jsp:useBean id="now" class="java.util.Date" />
@@ -192,4 +193,18 @@
 				code="rendezvous.announcement.create" />
 		</jstl:if>
 	</jstl:if>
+</security:authorize>
+
+<!-- Link to request a service -->
+<security:authorize access="hasRole('USER')">
+	<br />
+	<jstl:if test="${userHasCreatedRendezvous and rendezvous.moment > currentDate}">
+		<acme:button url="service/list.do?anonymous=false" code="rendezvous.request.create"/>
+		
+		<br />
+		
+		<acme:button url="request/user/list.do?rendezvousId=${rendezvous.id}" code="rendezvous.request.list"/>
+	</jstl:if>
+	
+	
 </security:authorize>

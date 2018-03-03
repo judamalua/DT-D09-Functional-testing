@@ -744,4 +744,12 @@ public class RendezvousService {
 	public void flush() {
 		this.rendezvousRepository.flush();
 	}
+
+	public Collection<Rendezvous> findCreatedFinalRendezvousesByUserId(final int userId) {
+		Collection<Rendezvous> result;
+
+		result = this.rendezvousRepository.findCreatedFinalRendezvousesByUserId(userId);
+
+		return result;
+	}
 }

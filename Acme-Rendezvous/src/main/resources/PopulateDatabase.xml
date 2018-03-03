@@ -296,7 +296,7 @@
 		<property name="vat" value="ESABC-1234" />
 		<property name="services">
 			<list>
-			
+				<ref bean="DomainServiceTest1"/>
 			</list>
 		</property>
 		<property name="name" value="Manager 1" />
