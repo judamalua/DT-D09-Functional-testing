@@ -81,29 +81,6 @@ public class QuestionServiceTest extends AbstractTest {
 		super.unauthenticate();
 	}
 
-	//	@Test
-	//	public void jaja() {
-	//		int rendezvousId;
-	//		Rendezvous rendezvous;
-	//		Question question;
-	//		final Collection<Answer> answers = new HashSet<Answer>();
-	//
-	//		rendezvousId = super.getEntityId("Rendezvous8");
-	//		rendezvous = this.rendezvousService.findOne(rendezvousId);
-	//
-	//		super.authenticate("User1");
-	//
-	//		question = this.questionService.create();
-	//		question.setAnswers(answers);
-	//		question.setText("");
-	//
-	//		this.questionService.save(question, rendezvous);
-	//		this.questionService.flush();
-	//
-	//		super.unauthenticate();
-	//
-	//	}
-
 	/**
 	 * This driver checks several tests regarding functional requirement number 21.1: An actor who is authenticated as a user must be able to manage
 	 * (add, edit, delete) the questions that are associated with a rendezvous on draft mode that he or she has created previously, tests are explained inside
