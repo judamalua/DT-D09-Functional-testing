@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -85,17 +86,14 @@ public class RequestUserController extends AbstractController {
 	 * @author Antonio
 	 */
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create(@RequestParam final int rendezvousId) {
+	public ModelAndView create(@RequestParam final int serviceId) {
 		ModelAndView result;
 		Request request;
 
 		try {
-			request = this.requestService.create();
+			request = this.requestService.createByService(serviceId);
 
-			//Checks that the User connected is the owner of the rendezvous
-			this.checkRendezvousBelongsToPrincipal(rendezvousId);
-
-			result = this.createEditModelAndView(request, rendezvousId);
+			result = this.createEditModelAndView(request);
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/misc/403");
 		}
@@ -103,11 +101,11 @@ public class RequestUserController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView saveRequest(@Valid final Request request, final BindingResult binding, @RequestParam final int rendezvousId) {
+	public ModelAndView saveRequest(@Valid final Request request, final BindingResult binding, @ModelAttribute("rendezvous") final int rendezvousId) {
 		ModelAndView result;
 
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(request, rendezvousId);
+			result = this.createEditModelAndView(request);
 		else
 			try {
 				this.checkRendezvousBelongsToPrincipal(rendezvousId);
@@ -119,22 +117,27 @@ public class RequestUserController extends AbstractController {
 			}
 		return result;
 	}
+
 	//Ancilliary methods-------------------------------------------------------------------
-	private ModelAndView createEditModelAndView(final Request request, final int rendezvousId) {
+	private ModelAndView createEditModelAndView(final Request request) {
 		ModelAndView result;
 
-		result = this.createEditModelAndView(request, rendezvousId, null);
+		result = this.createEditModelAndView(request, null);
 
 		return result;
 	}
 
-	private ModelAndView createEditModelAndView(final Request request, final int rendezvousId, final String message) {
+	private ModelAndView createEditModelAndView(final Request request, final String message) {
 		ModelAndView result;
+		Collection<Rendezvous> myRendezvouses;
+		User user;
 
+		user = (User) this.actorService.findActorByPrincipal();
+		myRendezvouses = this.rendezvousService.findCreatedFinalRendezvousesByUserId(user.getId());
 		result = new ModelAndView("request/edit");
 		result.addObject("request", request);
 		result.addObject("message", message);
-		result.addObject("rendezvousId", rendezvousId);
+		result.addObject("rendezvouses", myRendezvouses);
 
 		return result;
 	}

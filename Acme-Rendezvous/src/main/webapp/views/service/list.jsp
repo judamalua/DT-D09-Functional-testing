@@ -25,6 +25,8 @@
 <spring:message code="service.name" var="titleName" />
 <spring:message code="service.description" var="titleDescription" />
 <spring:message code="service.price" var="titlePrice" />
+<spring:message code="service.request" var="requestColumn" />
+<spring:message code="service.request.create" var="createRequest" />
 
 <!-- Pagination -->
 <acme:pagination requestURI="${requestURI}page=" pageNum="${pageNum}"
@@ -57,6 +59,13 @@
 			<spring:message code="service.cancelled" />
 		</jstl:if>
 	</display:column>
+	
+	<security:authorize access="hasRole('USER')">
+		<display:column title="${requestColumn}">
+			<acme:button url="request/user/create.do?serviceId=${service.id}"
+				code="service.request.create" />
+		</display:column>
+	</security:authorize>
 
 </display:table>
 

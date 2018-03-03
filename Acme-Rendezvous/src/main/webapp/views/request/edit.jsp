@@ -21,26 +21,37 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<spring:message code="request.creditcard.expirationYear.placeholder"
-	var="expirationYearPlaceholder" />
-	
-<spring:message code="request.creditcard.info"
-	var="creditCardInfo" />
+<spring:message code="request.creditcard.expirationYear.placeholder" var="expirationYearPlaceholder" />	
+<spring:message code="request.creditcard.info" var="creditCardInfo" />
+<spring:message code="request.creditcard.info" var="creditCardInfo" />
+
 	
 <p><em><spring:message code = "form.required.params"/></em></p>
 
-<form:form id="form" action="request/user/edit.do?rendezvousId=${rendezvousId}" modelAttribute="request">
+<form:form id="form" action="request/user/edit.do" modelAttribute="request">
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
 	<form:hidden path="moment"/>
+	<form:hidden path="service"/>
 	
 	<form:hidden path="creditCard.id"/>
 	<form:hidden path="creditCard.version"/>
 	
 	<acme:textarea code="request.comment" path="comment"/>
 	
+	<spring:message code="request.rendezvous.select" />
 	
-	<h3><jstl:out value="${creditCardInfo}"/></h3>
+	<div class="input-field col s3">
+		<select id="rendezvous" name="rendezvous">
+  			<jstl:forEach var="i" items="${rendezvouses}">
+  				<option value="${i.id}"><jstl:out value="${i.name}"/></option>
+  			</jstl:forEach>
+		</select> 
+	</div>
+	
+	
+	
+	<h4><jstl:out value="${creditCardInfo}"/></h4>
 	
 	
 	<acme:textbox code="request.creditcard.holderName" path="creditCard.holderName" required="true" />
@@ -60,6 +71,6 @@
 	
 	<acme:submit name="save" code="request.save"/>
 	
-	<acme:cancel url="service/actor/list.do" code="request.cancel"/>
+	<acme:cancel url="service/list.do?anonymous=false" code="request.cancel"/>
 	
 </form:form>

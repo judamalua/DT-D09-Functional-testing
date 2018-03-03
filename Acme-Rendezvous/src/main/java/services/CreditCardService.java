@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.Random;
 
 import javax.transaction.Transactional;
 
@@ -36,6 +37,8 @@ public class CreditCardService {
 		CreditCard result;
 
 		result = new CreditCard();
+
+		result.setCookieToken(this.generateCookieToken());
 
 		return result;
 	}
@@ -107,4 +110,26 @@ public class CreditCardService {
 
 	}
 
+	/**
+	 * Generates an unique and random cookie token for every credit card
+	 * 
+	 * @author Daniel Diment
+	 * @return
+	 *         The random token
+	 */
+	private String generateCookieToken() {
+		String res = "";
+		Random random;
+		random = new Random();
+
+		final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgzijklmnopqrstuvwxyz0123456789";
+
+		for (int i = 0; i < 14; i++)
+			res += alphabet.charAt(random.nextInt(alphabet.length()));
+
+		if (this.creditCardRepository.getAllCookieTokens().contains(res.toString()))
+			return this.generateCookieToken();
+		else
+			return res;
+	}
 }
