@@ -81,6 +81,29 @@ public class QuestionServiceTest extends AbstractTest {
 		super.unauthenticate();
 	}
 
+	//	@Test
+	//	public void jaja() {
+	//		int rendezvousId;
+	//		Rendezvous rendezvous;
+	//		Question question;
+	//		final Collection<Answer> answers = new HashSet<Answer>();
+	//
+	//		rendezvousId = super.getEntityId("Rendezvous8");
+	//		rendezvous = this.rendezvousService.findOne(rendezvousId);
+	//
+	//		super.authenticate("User1");
+	//
+	//		question = this.questionService.create();
+	//		question.setAnswers(answers);
+	//		question.setText("");
+	//
+	//		this.questionService.save(question, rendezvous);
+	//		this.questionService.flush();
+	//
+	//		super.unauthenticate();
+	//
+	//	}
+
 	/**
 	 * This driver checks several tests regarding functional requirement number 21.1: An actor who is authenticated as a user must be able to manage
 	 * (add, edit, delete) the questions that are associated with a rendezvous on draft mode that he or she has created previously, tests are explained inside
@@ -94,38 +117,41 @@ public class QuestionServiceTest extends AbstractTest {
 		final Object testingData[][] = {
 			{
 				// This test checks that authenticated users can create questions to a rendezvous they created saved as draft mode
-				"User1", "Rendezvous8", null
+				"User1", "Rendezvous8", "Test", null
 			}, {
 				// This test checks that authenticated users cannot create questions to the rendezvouses they created saved as final mode
-				"User1", "Rendezvous1", IllegalArgumentException.class
+				"User1", "Rendezvous1", "Test", IllegalArgumentException.class
 			}, {
 				// This test checks that unauthenticated users cannot manage questions of a rendezvous in draft mode
-				null, "Rendezvous8", IllegalArgumentException.class
+				null, "Rendezvous8", "Test", IllegalArgumentException.class
 			}, {
 				// This test checks that unauthenticated users cannot create questions to a rendezvous in final mode
-				null, "Rendezvous1", IllegalArgumentException.class
+				null, "Rendezvous1", "Test", IllegalArgumentException.class
 			}, {
 				// This test checks that authenticated actors that are not users cannot create questions to a rendezvous in draft mode
-				"Admin1", "Rendezvous8", ClassCastException.class
+				"Admin1", "Rendezvous8", "Test", ClassCastException.class
 			}, {
 				// This test checks that authenticated actors that are not users cannot create questions to a rendezvous in final mode
-				"Admin1", "Rendezvous1", IllegalArgumentException.class
+				"Admin1", "Rendezvous1", "Test", IllegalArgumentException.class
 			}, {
 				// This test checks that authenticated users cannot create questions to a draft mode rendezvous they did not create
-				"User2", "Rendezvous8", IllegalArgumentException.class
+				"User2", "Rendezvous8", "Test", IllegalArgumentException.class
 			}, {
 				// This test checks that authenticated users cannot create questions to a final mode rendezvous they did not create
-				"User2", "Rendezvous1", IllegalArgumentException.class
+				"User2", "Rendezvous1", "Test", IllegalArgumentException.class
+			}, {
+				// This test checks that questions with empty texts cannot be saved
+				"User2", "Rendezvous1", "", IllegalArgumentException.class
 			}
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			this.templateCreate((String) testingData[i][0], super.getEntityId((String) testingData[i][1]), (Class<?>) testingData[i][2]);
+			this.templateCreate((String) testingData[i][0], super.getEntityId((String) testingData[i][1]), (String) testingData[i][2], (Class<?>) testingData[i][3]);
 	}
 
 	// Ancillary methods ------------------------------------------------------
 
-	protected void templateCreate(final String username, final int rendezvousId, final Class<?> expected) {
+	protected void templateCreate(final String username, final int rendezvousId, final String text, final Class<?> expected) {
 		Class<?> caught;
 		Question question;
 		Rendezvous rendezvous;
@@ -141,9 +167,10 @@ public class QuestionServiceTest extends AbstractTest {
 
 			question = this.questionService.create();
 			question.setAnswers(answers);
-			question.setText("Test");
+			question.setText(text);
 
 			this.questionService.save(question, rendezvous);
+			this.questionService.flush();
 
 			super.unauthenticate();
 
