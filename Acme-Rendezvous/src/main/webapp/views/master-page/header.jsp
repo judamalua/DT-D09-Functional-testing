@@ -74,13 +74,18 @@
 					data-activates="dropdownAdminFunctions"><spring:message
 							code="master.page.admin" /><i class="material-icons right">arrow_drop_down</i></a></li>
 			</security:authorize>
-			
+
 			<security:authorize access="hasRole('MANAGER')">
 				<!-- Dropdown Structure -->
-				<ul id="dropdownAdminFunctions" class="dropdown-content">
+				<ul id="dropdownManagerFunctions" class="dropdown-content">
 					<li><a href="service/manager/list.do"><spring:message
 								code="master.page.manager.serviceList" /></a></li>
+					<!-- Dropdown Trigger -->
 				</ul>
+				<li><a class="dropdown-button" href="#!"
+					data-activates="dropdownManagerFunctions"><spring:message
+							code="master.page.manager" /><i class="material-icons right">arrow_drop_down</i></a></li>
+
 			</security:authorize>
 			<security:authorize access="isAnonymous()">
 				<li><a class="fNiv" href="security/login.do"> <spring:message
@@ -130,7 +135,25 @@
 							property="principal.username" /><i class="material-icons right">arrow_drop_down</i></a></li>
 
 			</security:authorize>
+			<security:authorize access="hasRole('MANAGER')">
+				<!-- Dropdown Structure -->
+				<ul id="dropdownManagerProfile" class="dropdown-content">
+					<li><a href="actor/manager/edit.do"><spring:message
+								code="master.page.actorEdit" /></a></li>
+					<li class="divider"></li>
+					<li><a href="actor/display.do"><spring:message
+								code="master.page.actorProfile" /></a></li>
+					<li class="divider"></li>
+					<li><a href="j_spring_security_logout"><spring:message
+								code="master.page.logout" /> </a></li>
+				</ul>
 
+				<!-- Dropdown Trigger -->
+				<li><a class="dropdown-button" href="#!"
+					data-activates="dropdownManagerProfile"><security:authentication
+							property="principal.username" /><i class="material-icons right">arrow_drop_down</i></a></li>
+
+			</security:authorize>
 			<security:authorize access="hasRole('USER')">
 
 

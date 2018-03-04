@@ -123,4 +123,14 @@ public class ManagerService {
 		return result;
 
 	}
+
+	public Manager findManagerByService(final DomainService service) {
+		Manager result;
+		Assert.notNull(service);
+
+		result = this.managerRepository.findManagerByService(service.getId());
+
+		return result;
+
+	}
 }

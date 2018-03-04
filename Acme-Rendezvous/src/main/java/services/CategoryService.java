@@ -84,7 +84,6 @@ public class CategoryService {
 
 		Collection<Category> result;
 
-		Assert.notNull(this.categoryRepository);
 		result = this.categoryRepository.findAll();
 		Assert.notNull(result);
 
@@ -123,8 +122,7 @@ public class CategoryService {
 		Category result;
 		Collection<Category> subCategories;
 
-		if (category.getId() != 0)
-			this.checkCategory(category);
+		this.checkCategory(category);
 
 		result = this.categoryRepository.save(category);
 		this.actorService.checkUserLogin();
@@ -260,7 +258,7 @@ public class CategoryService {
 		mem = new HashMap<String, Category>();
 		result = this.isInvalid(category, mem);
 
-		Assert.isTrue(result, "Name must not be the repeated");
+		Assert.isTrue(result);
 	}
 
 	/**
@@ -286,18 +284,23 @@ public class CategoryService {
 		if (category != null)
 			for (final Category brotherCategory : subCategories) {
 				//If we are not iterating the same category then see that the others categories don't have the same name
-				Assert.isTrue(!memory.keySet().contains(brotherCategory.getName()));
+				Assert.isTrue(!memory.keySet().contains(brotherCategory.getName()), "Name must not be the repeated");
 
 				//If everething is ok then put the category in the memory
 				memory.put(brotherCategory.getName(), category);
+
+				if (category.getId() == 0)
+					Assert.isTrue(!memory.keySet().contains(category.getName()), "Name must not be the repeated");
 			}
 
+		if (category.getFatherCategory() != null) {
+			Assert.isTrue(memory.get(category.getFatherCategory().getName()) == null, "No cycles");
+			Assert.isTrue(!memory.keySet().contains(category.getFatherCategory().getName()), "Name must not be the repeated");
+		}
+		//If the father category is in memory yet then there is cycles or if the keys contains the name of the father then the names are the same
 		//if the category is the root or is subCategory of root then there is no cycles
 		if (category == null || category.getFatherCategory() == null)
 			result = true;
-		//If the father category is in memory yet then there is cycles or if the keys contains the name of the father then the names are the same
-		else if (memory.get(category.getFatherCategory().getName()) != null || memory.keySet().contains(category.getFatherCategory().getName()))
-			result = false;
 		else
 			//In other case we call again to the method to the father category, if there is some cycle then in some moment the algorithm will return false
 			result = this.isInvalid(category.getFatherCategory(), memory);

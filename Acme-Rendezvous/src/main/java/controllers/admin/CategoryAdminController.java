@@ -110,7 +110,10 @@ public class CategoryAdminController extends AbstractController {
 				result = new ModelAndView("redirect:/category/list.do");
 
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(category, "category.commit.error");
+				if (oops.getMessage().contains("Name must not be the repeated"))
+					result = this.createEditModelAndView(category, "category.name.error");
+				else
+					result = this.createEditModelAndView(category, "category.commit.error");
 			}
 
 		return result;
@@ -118,24 +121,24 @@ public class CategoryAdminController extends AbstractController {
 	// Deleting ------------------------------------------------------------------------
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(Category service, final BindingResult binding) {
+	public ModelAndView delete(Category category, final BindingResult binding) {
 		ModelAndView result;
 
 		try {
-			service = this.categoryService.reconstruct(service, binding);
+			category = this.categoryService.reconstruct(category, binding);
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/misc/403");
 			return result;
 		}
 		try {
-			this.categoryService.delete(service);
+			this.categoryService.delete(category);
 			result = new ModelAndView("redirect:/category/list.do");
 
 		} catch (final Throwable oops) {
 			if (oops.getMessage().contains("Name must not be the repeated"))
-				result = this.createEditModelAndView(service, "category.name.error");
+				result = this.createEditModelAndView(category, "category.name.error");
 			else
-				result = this.createEditModelAndView(service, "category.commit.error");
+				result = this.createEditModelAndView(category, "category.commit.error");
 		}
 
 		return result;
@@ -159,6 +162,7 @@ public class CategoryAdminController extends AbstractController {
 		allSubcategories = this.categoryService.findAllSubcategories(category);
 
 		fatherCategories.removeAll(allSubcategories);
+		fatherCategories.remove(category);
 
 		result = new ModelAndView("category/edit");
 		result.addObject("category", category);

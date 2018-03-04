@@ -20,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -115,7 +116,8 @@ public class ServiceManagerController extends AbstractController {
 			service = this.serviceService.findOne(serviceId);
 			Assert.notNull(service);
 			manager = (Manager) this.actorService.findActorByPrincipal();
-			Assert.notNull(manager.getServices().contains(service));
+			Assert.isTrue(manager.getServices().contains(service));
+			Assert.isTrue(service.getRequests().size() == 0);
 
 			result = this.createEditModelAndView(service);
 		} catch (final Throwable oops) {
@@ -150,19 +152,19 @@ public class ServiceManagerController extends AbstractController {
 	// Saving -------------------------------------------------------------------
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(DomainService service, final BindingResult binding) {
+	public ModelAndView save(@ModelAttribute("service") DomainService service, final BindingResult binding) {
 		ModelAndView result;
 
 		try {
 			service = this.serviceService.reconstruct(service, binding);
-		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:/misc/403");
-			return result;
+		} catch (final Throwable oops) {//Not delete
+			oops.printStackTrace();
 		}
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(service, "service.params.error");
 		else
 			try {
+				Assert.isTrue(service.getRequests().size() == 0);
 				this.serviceService.save(service);
 				result = new ModelAndView("redirect:list.do");
 
@@ -180,11 +182,10 @@ public class ServiceManagerController extends AbstractController {
 
 		try {
 			service = this.serviceService.reconstruct(service, binding);
-		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:/misc/403");
-			return result;
+		} catch (final Throwable oops) {//Not delete
 		}
 		try {
+			Assert.isTrue(service.getRequests().size() == 0);
 			this.serviceService.delete(service);
 			result = new ModelAndView("redirect:list.do");
 
@@ -207,7 +208,7 @@ public class ServiceManagerController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final DomainService service, final String messageCode) {
 		ModelAndView result;
-		Collection<Category> categories;
+		Collection<Category> categories = null;
 
 		categories = this.categoryService.findAll();
 

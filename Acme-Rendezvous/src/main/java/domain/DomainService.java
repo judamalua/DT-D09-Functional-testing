@@ -59,7 +59,7 @@ public class DomainService extends DomainEntity {
 		this.pictureUrl = pictureUrl;
 	}
 
-	public boolean isCancelled() {
+	public boolean getCancelled() {
 		return this.cancelled;
 	}
 

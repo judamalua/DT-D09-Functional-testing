@@ -35,16 +35,18 @@
 		<acme:textbox code="service.name" path="name" required="true" />
 		<acme:textarea code="service.description" path="description"
 			required="true" />
-		<acme:textbox code="service.pictureUrl" path="pictureUrl"/>
+		<acme:textbox code="service.pictureUrl" path="pictureUrl" />
 		<acme:textbox code="service.price" path="price" required="true" />
-		<acme:select items="${categories}" itemLabel="name" code="service.categories" path="categories" multiple="true"/>
+		<acme:select items="${categories}" itemLabel="name"
+			code="service.categories" path="categories" multiple="true" />
 
-		<acme:submit name="save" code="service.save" />
-		<jstl:if test="${service.id!=0 and !service.cancelled}">
-			<acme:delete clickCode="service.confirm.delete" name="delete"
-				code="service.delete" />
-		</jstl:if>
-		<acme:cancel url="service/manager/list.do" code="service.cancel" />
-
+		<div class="cleared-div">
+			<acme:submit name="save" code="service.save" />
+			<jstl:if test="${service.id!=0 and !service.cancelled}">
+				<acme:delete clickCode="service.confirm.delete" name="delete"
+					code="service.delete" />
+			</jstl:if>
+			<acme:cancel url="service/manager/list.do" code="service.cancel" />
+		</div>
 	</form:form>
 </div>

@@ -13,6 +13,9 @@ import domain.Manager;
 @Repository
 public interface ManagerRepository extends JpaRepository<Manager, Integer> {
 
-	@Query("select m.services from Manager m where m.id=?1")
+	@Query("select s from Manager m join m.services s where m.id=?1")
 	Page<DomainService> findServicesByManager(int managerId, Pageable pageable);
+
+	@Query("select m from Manager m join m.services s where s.id=?1")
+	Manager findManagerByService(int serviceId);
 }
