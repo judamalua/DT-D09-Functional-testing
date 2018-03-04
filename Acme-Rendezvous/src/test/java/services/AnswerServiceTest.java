@@ -60,7 +60,10 @@ public class AnswerServiceTest extends AbstractTest {
 			answer.setText("Test");
 			answer.setUser(user);
 			savedAnswer = this.answerService.save(answer);
+
 			question.getAnswers().add(savedAnswer);
+
+			this.answerService.flush();
 		}
 
 		super.unauthenticate();
@@ -69,8 +72,7 @@ public class AnswerServiceTest extends AbstractTest {
 	/**
 	 * This test checks that authenticated users cannot add empty answers to questions
 	 */
-	@Test(expected = IllegalArgumentException.class)
-	//TODO WAIT FOR DANI TO MAKE HIS CHANGES TO FIX THIS.
+	@Test(expected = javax.validation.ConstraintViolationException.class)
 	public void testEmptyAnswerQuestions() {
 		// Functional requirement number 21.2: An actor who is authenticated as a user must be able to Answer the questions that are associated
 		// with a rendezvous that he or she’s RSVPing now.
@@ -93,6 +95,8 @@ public class AnswerServiceTest extends AbstractTest {
 			answer.setText("");
 			answer.setUser(user);
 			savedAnswer = this.answerService.save(answer);
+			this.answerService.flush();
+
 			question.getAnswers().add(savedAnswer);
 		}
 
@@ -125,6 +129,7 @@ public class AnswerServiceTest extends AbstractTest {
 			answer.setText("Test");
 			answer.setUser(user);
 			savedAnswer = this.answerService.save(answer);
+			this.answerService.flush();
 			question.getAnswers().add(savedAnswer);
 		}
 

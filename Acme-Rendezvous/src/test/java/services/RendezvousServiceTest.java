@@ -137,6 +137,89 @@ public class RendezvousServiceTest extends AbstractTest {
 				(Boolean) testingData[i][8], (Class<?>) testingData[i][9]);
 	}
 
+	/**
+	 * This driver checks several tests regarding functional requirement number 5.2: An actor who is authenticated as a user must be able to create a rendezvous, which he’s implicitly assumed to attend.
+	 * Note that a user may edit his or her rendezvouses as long as they aren’t saved them in final mode.
+	 * Once a rendezvous is saved in final mode, it cannot be edited or deleted by the creator
+	 * 
+	 * 5.3: An actor who is authenticated as a user must be able to update or delete the rendezvouses that he or she’s created. Deletion is virtual, that
+	 * is: the information is not removed from the database, but the rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed.
+	 * 
+	 * 5.4: An actor who is authenticated as a user must be able to RSVP a rendezvous or cancel it. When a user RSVPs a rendezvous, he or she is assumed to attend it.
+	 * 
+	 * @author Juanmi
+	 */
+	@Test
+	public void driverDeleteRendezvous() {
+		final Object testingData[][] = {
+			{
+				// This test checks that authenticated users can delete a draft mode rendezvous they created
+				"User1", "Rendezvous8", null
+			}, {
+				// This test checks that authenticated admins can delete a final mode rendezvous
+				"Admin1", "Rendezvous1", null
+			}, {
+				// This test checks that authenticated admins can delete a draft mode rendezvous
+				"Admin1", "Rendezvous8", null
+			}, {
+				// This test checks that authenticated users cannot delete a draft mode rendezvous they did not create
+				"User2", "Rendezvous8", java.lang.NullPointerException.class
+			}, {
+				// This test checks that authenticated users cannot delete a final mode rendezvous they did not create
+				"User2", "Rendezvous1", java.lang.NullPointerException.class
+			}, {
+				// This test checks that unauthenticated actors cannot delete a draft mode rendezvous
+				null, "Rendezvous8", java.lang.IllegalArgumentException.class
+			}, {
+				// This test checks that unauthenticated actors cannot delete a final mode rendezvous
+				null, "Rendezvous1", java.lang.IllegalArgumentException.class
+			}, {
+				// This test checks that authenticated actors that are not users cannot delete a draft mode rendezvous
+				"Manager1", "Rendezvous8", java.lang.NullPointerException.class
+			}, {
+				// This test checks that authenticated actors that are not users cannot delete a final mode rendezvous
+				"Manager1", "Rendezvous1", java.lang.NullPointerException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateDelete((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+	}
+
+	/**
+	 * This driver checks several tests regarding functional requirement number 5.2: An actor who is authenticated as a user must be able to create a rendezvous, which he’s implicitly assumed to attend.
+	 * Note that a user may edit his or her rendezvouses as long as they aren’t saved them in final mode.
+	 * Once a rendezvous is saved in final mode, it cannot be edited or deleted by the creator
+	 * 
+	 * 5.3: An actor who is authenticated as a user must be able to update or delete the rendezvouses that he or she’s created. Deletion is virtual, that
+	 * is: the information is not removed from the database, but the rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed.
+	 * 
+	 * 5.4: An actor who is authenticated as a user must be able to RSVP a rendezvous or cancel it. When a user RSVPs a rendezvous, he or she is assumed to attend it.
+	 * 
+	 * @author Juanmi
+	 */
+	@Test
+	public void driverRSVPRendezvous() {
+		final Object testingData[][] = {
+			{
+				// This test checks that authenticated users can RSVP a final mode rendezvous
+				"User4", "Rendezvous1", null
+			}, {
+				// This test checks that admins cannot RSVP a rendezvous
+				"Admin1", "Rendezvous2", java.lang.ClassCastException.class
+			}, {
+				// This test checks that managers cannot RSVP a rendezvous
+				"Manager1", "Rendezvous2", java.lang.ClassCastException.class
+			}, {
+				// This test checks that unauthenticated users cannot RSVP a rendezvous
+				null, "Rendezvous2", java.lang.IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateRSVP((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+	}
+
 	// Ancillary methods ------------------------------------------------------
 
 	protected void templateCreate(final String username, final String name, final String description, final Date moment, final String pictureUrl, final String gpsCoordinates, final boolean finalMode, final boolean adultOnly, final Class<?> expected) {
@@ -221,6 +304,58 @@ public class RendezvousServiceTest extends AbstractTest {
 			rendezvous.setAdultOnly(adultOnly);
 
 			this.rendezvousService.save(rendezvous);
+			this.rendezvousService.flush();
+
+			super.unauthenticate();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.checkExceptions(expected, caught);
+	}
+
+	protected void templateDelete(final String username, final String rendezvousPopulateName, final Class<?> expected) {
+		Class<?> caught;
+		int rendezvousId;
+		Rendezvous rendezvous;
+
+		caught = null;
+
+		try {
+			super.authenticate(username);
+
+			rendezvousId = super.getEntityId(rendezvousPopulateName);
+
+			rendezvous = this.rendezvousService.findOne(rendezvousId);
+
+			this.rendezvousService.delete(rendezvous);
+			this.rendezvousService.flush();
+
+			super.unauthenticate();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.checkExceptions(expected, caught);
+	}
+
+	protected void templateRSVP(final String username, final String rendezvousPopulateName, final Class<?> expected) {
+		Class<?> caught;
+		int rendezvousId;
+		Rendezvous rendezvous;
+
+		caught = null;
+
+		try {
+			super.authenticate(username);
+
+			rendezvousId = super.getEntityId(rendezvousPopulateName);
+
+			rendezvous = this.rendezvousService.findOne(rendezvousId);
+
+			this.rendezvousService.RSVP(rendezvous);
 			this.rendezvousService.flush();
 
 			super.unauthenticate();
