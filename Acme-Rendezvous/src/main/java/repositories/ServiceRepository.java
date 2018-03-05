@@ -14,4 +14,5 @@ public interface ServiceRepository extends JpaRepository<DomainService, Integer>
 
 	@Query("select s from DomainService s where s.cancelled=false")
 	Page<DomainService> findNotCancelledServices(Pageable pageable);
+
 }

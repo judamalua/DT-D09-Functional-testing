@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.ServiceRepository;
+import domain.Actor;
 import domain.Category;
 import domain.DomainService;
 import domain.Manager;
@@ -89,6 +90,7 @@ public class ServiceService {
 		DomainService result;
 
 		result = this.serviceRepository.findOne(serviceId);
+		Assert.isTrue(!result.getCancelled());
 
 		return result;
 
@@ -107,9 +109,23 @@ public class ServiceService {
 
 		DomainService result;
 		Manager manager;
+		Actor actor;
 
 		result = this.serviceRepository.save(service);
-		manager = (Manager) this.actorService.findActorByPrincipal();
+
+		actor = this.actorService.findActorByPrincipal();
+
+		if (actor instanceof Manager) {
+			manager = (Manager) this.actorService.findActorByPrincipal();
+			if (service.getId() != 0)
+				Assert.isTrue(manager.getServices().contains(service));
+		} else
+			manager = this.managerService.findManagerByService(service);
+
+		//Updating manager
+		manager.getServices().remove(service);
+		manager.getServices().add(result);
+		this.managerService.save(manager);
 
 		//Updating categories
 		for (final Category category : new HashSet<Category>(service.getCategories())) {
@@ -118,10 +134,6 @@ public class ServiceService {
 			category.getServices().add(result);
 			this.categoryService.save(category);
 		}
-
-		//Updating manager
-		manager.getServices().remove(service);
-		manager.getServices().add(result);
 
 		return result;
 	}
@@ -143,6 +155,7 @@ public class ServiceService {
 		Manager manager;
 
 		manager = (Manager) this.actorService.findActorByPrincipal();
+		Assert.isTrue(manager.getServices().contains(service));
 
 		//Updating categories
 		for (final Category category : new HashSet<Category>(service.getCategories())) {
@@ -188,25 +201,29 @@ public class ServiceService {
 	public DomainService reconstruct(final DomainService service, final BindingResult binding) {
 		DomainService result = null;
 
-		//TODO: Complete
 		if (service.getId() == 0) {
 
-			Collection<Category> categories;
 			Collection<Request> requests;
+			Collection<Category> categories;
 
-			categories = new HashSet<Category>();
 			requests = new HashSet<Request>();
+			categories = new HashSet<Category>();
 
 			result = service;
 
-			result.setCategories(categories);
 			result.setRequests(requests);
+
+			if (result.getCategories() == null)
+				result.setCategories(categories);
 
 		} else {
 			result = this.serviceRepository.findOne(service.getId());
 
+			result.setName(service.getName());
+			result.setDescription(service.getDescription());
+			result.setPictureUrl(service.getPictureUrl());
+			result.setPrice(service.getPrice());
 			result.setCategories(service.getCategories());
-			result.setRequests(service.getRequests());
 		}
 		this.validator.validate(result, binding);
 
