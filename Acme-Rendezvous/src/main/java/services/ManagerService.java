@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.ManagerRepository;
 import security.Authority;
@@ -27,8 +29,10 @@ public class ManagerService {
 	@Autowired
 	private ManagerRepository	managerRepository;
 
-
 	// Supporting services --------------------------------------------------
+	@Autowired
+	private Validator			validator;
+
 
 	// Simple CRUD methods --------------------------------------------------
 
@@ -111,6 +115,45 @@ public class ManagerService {
 
 		return result;
 
+	}
+
+	// Other business methods ----------------------------------------------------------------
+	public Manager reconstruct(final Manager manager, final BindingResult binding) {
+		Manager result;
+		UserAccount userAccount;
+		Collection<Authority> authorities;
+		Authority authority;
+		Collection<DomainService> services;
+
+		if (manager.getId() == 0) {
+			userAccount = manager.getUserAccount();
+			authorities = new HashSet<Authority>();
+			authority = new Authority();
+			authority.setAuthority(Authority.MANAGER);
+			authorities.add(authority);
+			userAccount.setAuthorities(authorities);
+
+			services = new HashSet<DomainService>();
+
+			result = manager;
+
+			result.setServices(services);
+
+		} else {
+			result = this.findOne(manager.getId());
+
+			result.setName(manager.getName());
+			result.setSurname(manager.getSurname());
+			result.setPostalAddress(manager.getPostalAddress());
+			result.setPhoneNumber(manager.getPhoneNumber());
+			result.setEmail(manager.getEmail());
+			result.setBirthDate(manager.getBirthDate());
+			result.setVat(manager.getVat());
+		}
+
+		this.validator.validate(result, binding);
+
+		return result;
 	}
 
 	public Page<DomainService> findServicesByManager(final Manager manager, final Pageable pageable) {
