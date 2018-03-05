@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.Announcement;
@@ -33,6 +34,8 @@ public class RendezvousServiceTest extends AbstractTest {
 	private RendezvousService	rendezvousService;
 	@Autowired
 	private ActorService		actorService;
+	@Autowired
+	private UserService			userService;
 
 
 	// Tests ------------------------------------------------------------------
@@ -220,6 +223,124 @@ public class RendezvousServiceTest extends AbstractTest {
 			this.templateRSVP((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
 	}
 
+	/**
+	 * This test checks that functional requirement 5.5 works properly: An actor who is authenticated as a user must be able to list the rendezvouses that he
+	 * or she’s RSVPd
+	 * 
+	 * @author Juanmi
+	 */
+	@Test
+	public void testFindRSVPed() {
+
+		int userId;
+		Collection<Rendezvous> rsvpedRendezvouses;
+		User user;
+
+		userId = super.getEntityId("User1");
+		user = this.userService.findOne(userId);
+
+		super.authenticate("User1");
+		rsvpedRendezvouses = this.rendezvousService.findRSVPRendezvouses(user);
+
+		Assert.notNull(rsvpedRendezvouses);
+
+		super.unauthenticate();
+	}
+
+	/**
+	 * This test checks that when a rendezvous is created, findAll method returns one more rendezvous than before the creation
+	 * 
+	 * @author Juanmi
+	 */
+	@Test
+	public void testFindAllCreatingRendezvous() {
+		final Rendezvous rendezvous;
+		User user;
+		Collection<Question> questions;
+		Collection<Rendezvous> similars;
+		Collection<Announcement> announcements;
+		Collection<Comment> comments;
+		Collection<User> users;
+		Collection<Request> requests;
+		Long oneDay;
+		Collection<Rendezvous> allRendezvousesBeforeCreation, allRendezvousesAfterCreation;
+
+		super.authenticate("User1");
+
+		allRendezvousesBeforeCreation = this.rendezvousService.findAll();
+
+		oneDay = TimeUnit.DAYS.toMillis(1);
+		rendezvous = this.rendezvousService.create();
+
+		questions = new HashSet<Question>();
+		similars = rendezvous.getSimilars();
+		announcements = new HashSet<Announcement>();
+		comments = new HashSet<Comment>();
+		users = new HashSet<User>();
+		requests = new HashSet<Request>();
+		user = (User) this.actorService.findActorByPrincipal();
+
+		users.add(user);
+
+		if (similars == null)
+			similars = new HashSet<Rendezvous>();
+
+		similars.remove(null);
+		rendezvous.setQuestions(questions);
+		rendezvous.setAnnouncements(announcements);
+		rendezvous.setComments(comments);
+		rendezvous.setSimilars(similars);
+		rendezvous.setUsers(users);
+		rendezvous.setRequests(requests);
+
+		rendezvous.setName("Test");
+		rendezvous.setDescription("Test");
+		rendezvous.setMoment(new Date(System.currentTimeMillis() + oneDay));
+		rendezvous.setPictureUrl("");
+		rendezvous.setGpsCoordinates("123.12,123.12");
+		rendezvous.setFinalMode(false);
+		rendezvous.setAdultOnly(false);
+
+		this.rendezvousService.save(rendezvous);
+		this.rendezvousService.flush();
+
+		allRendezvousesAfterCreation = this.rendezvousService.findAll();
+
+		Assert.isTrue(allRendezvousesBeforeCreation.size() + 1 == allRendezvousesAfterCreation.size());
+
+		super.unauthenticate();
+
+	}
+
+	/**
+	 * This test checks that when a rendezvous is deleted by an admin, findAll method returns one less rendezvous than before the deletion
+	 * 
+	 * @author Juanmi
+	 */
+	@Test
+	public void testFindAllDeletingRendezvous() {
+		int rendezvousId;
+		Rendezvous rendezvous;
+		final Collection<Rendezvous> allRendezvousesBeforeDeletion, allRendezvousesAfterDeletion;
+
+		super.authenticate("Admin1");
+
+		allRendezvousesBeforeDeletion = this.rendezvousService.findAll();
+
+		rendezvousId = super.getEntityId("Rendezvous1");
+
+		rendezvous = this.rendezvousService.findOne(rendezvousId);
+
+		this.rendezvousService.delete(rendezvous);
+		this.rendezvousService.flush();
+
+		allRendezvousesAfterDeletion = this.rendezvousService.findAll();
+
+		Assert.isTrue(allRendezvousesBeforeDeletion.size() - 1 == allRendezvousesAfterDeletion.size());
+
+		super.unauthenticate();
+
+	}
 	// Ancillary methods ------------------------------------------------------
 
 	protected void templateCreate(final String username, final String name, final String description, final Date moment, final String pictureUrl, final String gpsCoordinates, final boolean finalMode, final boolean adultOnly, final Class<?> expected) {

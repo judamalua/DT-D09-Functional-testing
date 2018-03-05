@@ -597,6 +597,26 @@ public class RendezvousService {
 	}
 
 	/**
+	 * This method returns the list of not deleted RSVPed rendezvouses
+	 * 
+	 * @param user
+	 *            to obtain his/her RSVPed rendezvouses
+	 * @return a collection with the RSVPed rendezvouses of the user
+	 * 
+	 * @author Juanmi
+	 */
+	public Collection<Rendezvous> findRSVPRendezvouses(final User user) {
+		Assert.notNull(user);
+
+		Collection<Rendezvous> result;
+
+		result = this.rendezvousRepository.findRSVPRendezvouses(user.getId());
+
+		return result;
+
+	}
+
+	/**
 	 * Return the list of not deleted rendezvouses paginated by the pageable and created by user whithout adult contents
 	 * 
 	 * @param pageable
