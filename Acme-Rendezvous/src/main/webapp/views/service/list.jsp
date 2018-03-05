@@ -42,10 +42,15 @@
 	<display:column property="description" title="${titleDescription}" />
 	<display:column property="price" title="${titlePrice}" />
 	<display:column>
-		<jstl:if test="${managedServices[service_rowNum-1]}">
+		<jstl:if test="${!service.cancelled && managedServices[service_rowNum-1] }">
 			<acme:button url="service/manager/edit.do?serviceId=${service.id}"
 				code="service.edit" />
 		</jstl:if>
+	</display:column>
+	<display:column>
+		<security:authorize access="hasRole('USER')">
+			<acme:button url="request/user/edit.do?serviceId=${service.id}" code="service.edit" />
+		</security:authorize>
 	</display:column>
 
 	<display:column>
@@ -60,6 +65,14 @@
 			<acme:button url="request/user/create.do?serviceId=${service.id}"
 				code="service.request.create" />
 		</display:column>
+	</security:authorize>
+	<security:authorize access="hasRole('ADMIN')">
+	<jstl:if test="${!service.cancelled}">
+		<display:column>
+			<acme:button url="service/admin/cancel.do?serviceId=${service.id}"
+				code="service.cancel" />
+		</display:column>
+		</jstl:if>
 	</security:authorize>
 
 </display:table>
