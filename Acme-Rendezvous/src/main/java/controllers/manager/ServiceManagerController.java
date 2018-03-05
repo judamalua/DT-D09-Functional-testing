@@ -154,18 +154,24 @@ public class ServiceManagerController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@ModelAttribute("service") DomainService service, final BindingResult binding) {
 		ModelAndView result;
+		DomainService savedService = null;
 
 		try {
+			savedService = service;
 			service = this.serviceService.reconstruct(service, binding);
 		} catch (final Throwable oops) {//Not delete
 			oops.printStackTrace();
 		}
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(service, "service.params.error");
+
+			result = this.createEditModelAndView(savedService, "service.params.error");
 		else
 			try {
 				Assert.isTrue(service.getRequests().size() == 0);
 				this.serviceService.save(service);
+
+				savedService = this.serviceService.findOne(savedService.getId());
+				this.serviceService.delete(savedService);
 				result = new ModelAndView("redirect:list.do");
 
 			} catch (final Throwable oops) {
@@ -180,11 +186,12 @@ public class ServiceManagerController extends AbstractController {
 	public ModelAndView delete(DomainService service, final BindingResult binding) {
 		ModelAndView result;
 
+		//		try {
+		//			service = this.serviceService.reconstruct(service, binding);
+		//		} catch (final Throwable oops) {//Not delete
+		//		}
 		try {
-			service = this.serviceService.reconstruct(service, binding);
-		} catch (final Throwable oops) {//Not delete
-		}
-		try {
+			service = this.serviceService.findOne(service.getId());
 			Assert.isTrue(service.getRequests().size() == 0);
 			this.serviceService.delete(service);
 			result = new ModelAndView("redirect:list.do");
