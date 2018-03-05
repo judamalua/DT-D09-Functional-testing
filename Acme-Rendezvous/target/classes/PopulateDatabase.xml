@@ -820,6 +820,7 @@ Attention: Do not bring alcohol." />
 				<ref bean="Rendezvous6" />
 				<ref bean="Rendezvous7" />
 				<ref bean="Rendezvous8" />
+				<ref bean="Rendezvous9" />
 			</list>
 		</property>
 		<property name="comments">

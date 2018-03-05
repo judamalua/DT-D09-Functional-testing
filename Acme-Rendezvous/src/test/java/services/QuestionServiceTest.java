@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.Answer;
@@ -55,6 +56,7 @@ public class QuestionServiceTest extends AbstractTest {
 		question.setText("Test");
 
 		this.questionService.save(question, rendezvous);
+		this.questionService.flush();
 
 		super.unauthenticate();
 	}
@@ -77,6 +79,7 @@ public class QuestionServiceTest extends AbstractTest {
 		question = this.questionService.findOne(questionId);
 
 		this.questionService.delete(question);
+		this.questionService.flush();
 
 		super.unauthenticate();
 	}
@@ -126,8 +129,87 @@ public class QuestionServiceTest extends AbstractTest {
 			this.templateCreate((String) testingData[i][0], super.getEntityId((String) testingData[i][1]), (String) testingData[i][2], (Class<?>) testingData[i][3]);
 	}
 
+	/**
+	 * This test checks that when a question is created, findAll method returns one more question than before the creation
+	 * 
+	 * @author Juanmi
+	 */
+	@Test
+	public void testFindAllCreatingQuestion() {
+		Question question;
+		int rendezvousId;
+		Rendezvous rendezvous;
+		Collection<Answer> answers;
+		Collection<Question> allQuestionsBeforeCreation, allQuestionsAfterCreation;
+
+		answers = new HashSet<Answer>();
+
+		rendezvousId = super.getEntityId("Rendezvous8");
+		rendezvous = this.rendezvousService.findOne(rendezvousId);
+
+		super.authenticate("User1");
+
+		allQuestionsBeforeCreation = this.questionService.findAll();
+
+		question = this.questionService.create();
+		question.setAnswers(answers);
+		question.setText("Test");
+
+		this.questionService.save(question, rendezvous);
+		this.questionService.flush();
+
+		allQuestionsAfterCreation = this.questionService.findAll();
+
+		Assert.isTrue(allQuestionsBeforeCreation.size() + 1 == allQuestionsAfterCreation.size());
+
+		super.unauthenticate();
+
+	}
+
+	/**
+	 * This test checks that when a question is deleted, findAll method returns one less question than before the deletion
+	 * 
+	 * @author Juanmi
+	 */
+	@Test
+	public void testFindAllDeletingQuestion() {
+		int questionId;
+		Question question;
+		final Collection<Question> allQuestionsBeforeDeletion, allQuestionsAfterDeletion;
+
+		questionId = super.getEntityId("Question6");
+
+		super.authenticate("User1");
+		allQuestionsBeforeDeletion = this.questionService.findAll();
+
+		question = this.questionService.findOne(questionId);
+
+		this.questionService.delete(question);
+		this.questionService.flush();
+
+		allQuestionsAfterDeletion = this.questionService.findAll();
+
+		Assert.isTrue(allQuestionsBeforeDeletion.size() - 1 == allQuestionsAfterDeletion.size());
+
+		super.unauthenticate();
+	}
+
 	// Ancillary methods ------------------------------------------------------
 
+	/**
+	 * This method is a template of tests executed with parameters given in driverCreateQuestion
+	 * 
+	 * @param username
+	 *            of the user in populateDatabase.xml
+	 * @param rendezvousId
+	 *            of the rendezvous to add the question
+	 * @param text
+	 *            of the question
+	 * @param expected
+	 *            exception, or null if no exception was expected
+	 * 
+	 * @author Juanmi
+	 */
 	protected void templateCreate(final String username, final int rendezvousId, final String text, final Class<?> expected) {
 		Class<?> caught;
 		Question question;
