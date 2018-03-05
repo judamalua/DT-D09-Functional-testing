@@ -10,6 +10,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import utilities.AbstractTest;
+import domain.Comment;
+import domain.Rendezvous;
+import domain.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -18,36 +21,79 @@ import utilities.AbstractTest;
 @Transactional
 public class CommentServiceTest extends AbstractTest {
 
-	//Service under test ------------------------
+	// The SUT --------------------------------------------------------------
 	@Autowired
-	private CommentService	commentService;
+	private CommentService		commentService;
+
+	@Autowired
+	private ActorService		actorService;
+
+	@Autowired
+	private UserService			userService;
+
+	@Autowired
+	private RendezvousService	rendezvousService;
 
 
-	//Supporting services -----------------------
+	//******************************************Positive Methods*******************************************************************
 
-	//Tests--------------------------------------
+	/**
+	 * This test checks that an user can write comments in his rcvps rendezvouses
+	 * 
+	 * @author Luis
+	 * */
 	@Test
-	public void testCreate() {
+	public void testUserCanWriteCommentsInHisRcvpsRendezvouses() {
+		super.authenticate("User1");
+		final Comment comment;
+		final Rendezvous rendezvous;
+
+		rendezvous = this.rendezvousService.findOne(this.getEntityId("Rendezvous4"));
+
+		comment = this.createStandardComment();
+		//		rendezvous.getComments().add(comment);
+		//		user.getCreatedRendezvouses().add(rendezvous);
+
+		this.commentService.save(comment, rendezvous);
+		this.commentService.flush();
+		this.rendezvousService.flush();
+
+		super.unauthenticate();
+
+	}
+	//******************************************Negative Methods*******************************************************************
+	/**
+	 * This test checks that an actor who is not authenticated can´t write any comments
+	 * 
+	 * @author Luis
+	 * */
+	@Test(expected = IllegalArgumentException.class)
+	public void testNoAuthenticatedCantWriteComments() {
+		super.authenticate(null);
+		Comment comment;
+
+		comment = this.createStandardComment();
+
+		this.commentService.save(comment);
+		this.commentService.flush();
+
+		super.unauthenticate();
 
 	}
 
-	@Test
-	public void testFindAll() {
+	//Private Methods
+
+	private Comment createStandardComment() {
+		Comment comment;
+
+		comment = this.commentService.create();
+
+		comment.setPictureUrl("https://image.freepik.com/iconos-gratis/comentario-ios-7-simbolo-interfaz_318-33559.jpg");
+		comment.setText("That is a example of a standard text than can appear in a comment");
+		comment.setUser((User) this.actorService.findActorByPrincipal());
+
+		return comment;
 
 	}
 
-	@Test
-	public void testFindOne() {
-
-	}
-
-	@Test
-	public void testSave() {
-
-	}
-
-	@Test
-	public void testDelete() {
-
-	}
 }

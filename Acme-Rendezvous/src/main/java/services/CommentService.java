@@ -310,4 +310,14 @@ public class CommentService {
 		this.validator.validate(result, binding);
 		return result;
 	}
+
+	/**
+	 * 
+	 * 
+	 * 
+	 * @author Luis
+	 */
+	public void flush() {
+		this.commentRepository.flush();
+	}
 }

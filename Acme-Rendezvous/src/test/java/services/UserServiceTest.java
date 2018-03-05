@@ -50,7 +50,40 @@ public class UserServiceTest extends AbstractTest {
 
 		this.userService.save(newUser);
 
+	}
+
+	/**
+	 * This test checks that a not registered actor can list the users in the system and navigate to their profiles
+	 * 
+	 * @author Luis
+	 */
+	@Test
+	public void testActorNotRegisterdedCanListUsers() {
+		super.authenticate(null);
+
+		this.userService.findAll();//List Users in the system
+
+		this.userService.findOne(this.getEntityId("User2"));//Navigate to their profiles
+
 		super.unauthenticate();
+
+	}
+
+	/**
+	 * This test checks that a not registered actor can list the users in the system and navigate to their profiles
+	 * 
+	 * @author Luis
+	 */
+	@Test
+	public void testActorRegisterdedCanListUsers() {
+		super.authenticate("User1");
+
+		this.userService.findAll();//List Users in the system
+
+		this.userService.findOne(this.getEntityId("User2"));//Navigate to their profiles
+
+		super.unauthenticate();
+
 	}
 
 	/**
@@ -199,13 +232,38 @@ public class UserServiceTest extends AbstractTest {
 	}
 
 	/**
-	 * This test checks that a user can edit the profile of other user
+	 * This test checks that a user can,t edit the profile of other user
 	 * 
 	 * @author Luis
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testEditProfileOfOtherUser() {
 		super.authenticate("User1");
+
+		User user;
+		Integer userId;
+
+		userId = super.getEntityId("User2");
+		user = this.userService.findOne(userId);
+
+		user.setPhoneNumber("658877784");
+		user.setEmail("user2newEmail@gmail.com");
+		user.setPostalAddress("Calle Alfarería 15b");
+
+		this.userService.save(user);
+
+		super.unauthenticate();
+
+	}
+
+	/**
+	 * This test checks that a no logged user can´t edit the profile of other user
+	 * 
+	 * @author Luis
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testNoLoggedUserEditProfileOfOtherUser() {
+		super.authenticate(null);
 
 		User user;
 		Integer userId;
