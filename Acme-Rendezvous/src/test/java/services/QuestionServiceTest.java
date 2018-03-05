@@ -206,7 +206,7 @@ public class QuestionServiceTest extends AbstractTest {
 	 * @param text
 	 *            of the question
 	 * @param expected
-	 *            exception, or null if no exception was expected
+	 *            exception, or null if no exception is expected
 	 * 
 	 * @author Juanmi
 	 */
