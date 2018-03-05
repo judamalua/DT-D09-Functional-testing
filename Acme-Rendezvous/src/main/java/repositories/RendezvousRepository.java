@@ -115,4 +115,9 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select avg(r.questions.size), sqrt(sum(r.questions.size * r.questions.size) / count(r.questions.size) - (avg(r.questions.size) * avg(r.questions.size))) from Rendezvous r")
 	String getQuestionsInfoFromRendezvous();
 
+	@Query("select avg(rq.service.categories.size) from Rendezvous r join r.requests rq")
+	String getAverageNumberCategoriesPerRendezvous();
+
+	@Query("select avg(r.requests.size), min(r.requests.size), max(r.requests.size), sqrt(sum(r.requests.size * r.requests.size) / count(r.requests.size) - (avg(r.requests.size) * avg(r.requests.size))) from Rendezvous r")
+	String getInfoFromServicesRequestedPerRendezvous();
 }

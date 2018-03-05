@@ -1196,6 +1196,14 @@ Have you committed any crime?" />
 			value="This page uses cookies for its internal operations, by continuing, we will assume that you accept these cookies." />
 		<property name="cookies_es"
 			value="Esta pagina usa cookies para realizar su correcto funcionamiento, si continúa navegando, asumiremos que acepta estas cookies." />
+		<property name="businessName"
+			value="Adventure meetups" />
+		<property name="bannerUrl"
+			value="https://tinyurl.com/adventure-meetup" />
+		<property name="welcomeMessage_eng"
+			value="Your place to organise your adventure meetups!" />
+		<property name="welcomeMessage_es"
+			value="Tu sitio para organizar quedadas de aventura" />
 		<property name="pageSize" value="5" />
 	</bean>
 </beans>
