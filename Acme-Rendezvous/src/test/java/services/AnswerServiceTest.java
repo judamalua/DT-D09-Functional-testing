@@ -59,6 +59,7 @@ public class AnswerServiceTest extends AbstractTest {
 			answer = this.answerService.create();
 			answer.setText("Test");
 			answer.setUser(user);
+			answer.setQuestion(question);
 			savedAnswer = this.answerService.save(answer);
 
 			question.getAnswers().add(savedAnswer);
@@ -94,6 +95,7 @@ public class AnswerServiceTest extends AbstractTest {
 			answer = this.answerService.create();
 			answer.setText("");
 			answer.setUser(user);
+			answer.setQuestion(question);
 			savedAnswer = this.answerService.save(answer);
 			this.answerService.flush();
 
@@ -128,6 +130,7 @@ public class AnswerServiceTest extends AbstractTest {
 			answer = this.answerService.create();
 			answer.setText("Test");
 			answer.setUser(user);
+			answer.setQuestion(question);
 			savedAnswer = this.answerService.save(answer);
 			this.answerService.flush();
 			question.getAnswers().add(savedAnswer);
