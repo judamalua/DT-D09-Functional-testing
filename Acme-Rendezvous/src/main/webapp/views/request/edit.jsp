@@ -80,6 +80,12 @@ window.onload = function() {
 	<form:hidden path="moment"/>
 	<form:hidden path="service"/>
 	
+=======
+	<form:hidden path="creditCard.id"/>
+	<form:hidden path="creditCard.version"/>
+	<form:hidden path="creditCard.cookieToken"/>
+	
+>>>>>>> 36442ade0195b2303649803901a0b772f80af29d
 	<acme:textarea code="request.comment" path="comment"/>
 	
 	<spring:message code="request.rendezvous.select" />
