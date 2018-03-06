@@ -139,10 +139,13 @@ public class RequestService {
 		Rendezvous rendezvous;
 		CreditCard creditCard;
 
-		//Checks that the User connected is the owner of the rendezvous
+		//Checks that the User connected is the owner of the Rendezvous
 		this.checkRendezvousBelongsToPrincipal(rendezvousId);
 
 		rendezvous = this.rendezvousService.findOne(rendezvousId);
+
+		//Checks that there isn't already a request between the same Service and Rendezvous.
+		this.checkServiceNotAlreadyRequestedByRendezvous(request.getService(), rendezvous);
 
 		now = new Date(System.currentTimeMillis() - 10);
 		creditCard = request.getCreditCard();
@@ -199,6 +202,25 @@ public class RequestService {
 	}
 
 	//Business rule methods -------------------------------------------------------------
+
+	/**
+	 * This method checks that the Request is not being made to a Service that has already been requested
+	 * by that Rendezvous.
+	 * 
+	 * @param service
+	 * @param rendezvous
+	 * @author Antonio
+	 */
+	private void checkServiceNotAlreadyRequestedByRendezvous(final DomainService service, final Rendezvous rendezvous) {
+		Collection<DomainService> servicesByRendezvous;
+
+		//We obtain the list of Services requested by the Rendezvous
+		servicesByRendezvous = this.serviceService.getServicesRequestedFromRendezvous(rendezvous.getId());
+
+		//We assert that the Service hasn't already been requested by that Rendezvous.
+		Assert.isTrue(!servicesByRendezvous.contains(service));
+
+	}
 
 	/**
 	 * This method checks that the user connected to the system (the principal) is the owner of

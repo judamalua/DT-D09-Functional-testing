@@ -188,6 +188,21 @@ public class ServiceService {
 		return result;
 	}
 
+	/**
+	 * Gets a collection of the Services that have been requested by a certain Rendezvous.
+	 * 
+	 * @param rendezvousId
+	 * @return Collection<DomainService>, services requested by rendezvous.
+	 * @author Antonio
+	 */
+	public Collection<DomainService> getServicesRequestedFromRendezvous(final int rendezvousId) {
+		Collection<DomainService> result;
+
+		result = this.serviceRepository.getServicesRequestedFromRendezvous(rendezvousId);
+
+		return result;
+	}
+
 	// Other business methods
 
 	/**

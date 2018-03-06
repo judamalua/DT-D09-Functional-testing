@@ -36,6 +36,7 @@
 	
 	<form:hidden path="creditCard.id"/>
 	<form:hidden path="creditCard.version"/>
+	<form:hidden path="creditCard.cookieToken"/>
 	
 	<acme:textarea code="request.comment" path="comment"/>
 	
