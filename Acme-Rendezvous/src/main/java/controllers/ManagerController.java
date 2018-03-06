@@ -1,8 +1,6 @@
 
 package controllers;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -64,10 +62,10 @@ public class ManagerController extends AbstractController {
 	 * @return ModelAndView
 	 * @author Antonio
 	 */
-	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public ModelAndView registerManager(@Valid Manager manager, final BindingResult binding, @RequestParam("confirmPassword") final String confirmPassword) {
+	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
+	public ModelAndView registerManager(Manager manager, final BindingResult binding, @RequestParam("confirmPassword") final String confirmPassword) {
 		ModelAndView result;
-		final Authority auth;
+		Authority auth;
 
 		try {
 			manager = this.managerService.reconstruct(manager, binding);

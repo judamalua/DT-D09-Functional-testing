@@ -118,6 +118,17 @@ public class ManagerService {
 	}
 
 	// Other business methods ----------------------------------------------------------------
+
+	/**
+	 * This method reconstruct a manager, initializing him from scratch or getting his attributes from the DB.
+	 * 
+	 * @param manager
+	 *            , the manager to be reconstructed
+	 * @param binding
+	 *            , where the possible errors are stored
+	 * @return Manager
+	 * @author Antonio
+	 */
 	public Manager reconstruct(final Manager manager, final BindingResult binding) {
 		Manager result;
 		UserAccount userAccount;
@@ -138,6 +149,7 @@ public class ManagerService {
 			result = manager;
 
 			result.setServices(services);
+			result.setUserAccount(userAccount);
 
 		} else {
 			result = this.findOne(manager.getId());
@@ -149,6 +161,7 @@ public class ManagerService {
 			result.setEmail(manager.getEmail());
 			result.setBirthDate(manager.getBirthDate());
 			result.setVat(manager.getVat());
+
 		}
 
 		this.validator.validate(result, binding);
