@@ -188,6 +188,21 @@ public class ServiceService {
 		return result;
 	}
 
+	/**
+	 * Gets a collection of the Services that have been requested by a certain Rendezvous.
+	 * 
+	 * @param rendezvousId
+	 * @return Collection<DomainService>, services requested by rendezvous.
+	 * @author Antonio
+	 */
+	public Collection<DomainService> getServicesRequestedFromRendezvous(final int rendezvousId) {
+		Collection<DomainService> result;
+
+		result = this.serviceRepository.getServicesRequestedFromRendezvous(rendezvousId);
+
+		return result;
+	}
+
 	// Other business methods
 
 	/**
@@ -199,7 +214,7 @@ public class ServiceService {
 	 * @author MJ
 	 */
 	public DomainService reconstruct(final DomainService service, final BindingResult binding) {
-		DomainService result = null;
+		DomainService result, savedService;
 
 		if (service.getId() == 0) {
 
@@ -211,19 +226,29 @@ public class ServiceService {
 
 			result = service;
 
+			result.setName(service.getName());
+			result.setPictureUrl(service.getPictureUrl());
+			result.setPrice(service.getPrice());
+			result.setDescription(service.getDescription());
+
 			result.setRequests(requests);
 
-			if (result.getCategories() == null)
+			if (service.getCategories() == null)
 				result.setCategories(categories);
 
 		} else {
-			result = this.serviceRepository.findOne(service.getId());
+			savedService = this.serviceRepository.findOne(service.getId());
+			result = this.create();
 
 			result.setName(service.getName());
 			result.setDescription(service.getDescription());
 			result.setPictureUrl(service.getPictureUrl());
 			result.setPrice(service.getPrice());
 			result.setCategories(service.getCategories());
+
+			result.setRequests(savedService.getRequests());
+			result.setVersion(savedService.getVersion());
+
 		}
 		this.validator.validate(result, binding);
 
