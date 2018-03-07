@@ -369,6 +369,7 @@ public class CategoryService {
 
 		} else {
 			result = this.categoryRepository.findOne(category.getId());
+			result.setDescription(category.getName());
 			result.setDescription(category.getDescription());
 			result.setFatherCategory(category.getFatherCategory());
 			result.setName(result.getName());

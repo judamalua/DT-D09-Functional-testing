@@ -45,7 +45,7 @@
 				<acme:delete clickCode="category.confirm.delete" name="delete"
 					code="category.delete" />
 			</jstl:if>
-			<acme:cancel url="category/admin/list.do" code="category.cancel" />
+			<acme:cancel url="category/list.do" code="category.cancel" />
 		</div>
 
 	</form:form>
