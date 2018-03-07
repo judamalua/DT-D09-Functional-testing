@@ -239,4 +239,20 @@ public class ServiceService {
 
 		return result;
 	}
+
+	/**
+	 * Get the first level of categories in the system
+	 * 
+	 * @param pageable
+	 * @return the categories with father null
+	 * @author MJ
+	 */
+	public Page<Category> findCategoriesByService(final DomainService service, final Pageable pageable) {
+		Assert.notNull(pageable);
+		Page<Category> result;
+
+		result = this.serviceRepository.findCategoriesByService(service.getId(), pageable);
+
+		return result;
+	}
 }
