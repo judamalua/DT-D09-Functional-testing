@@ -20,6 +20,8 @@ public interface ServiceRepository extends JpaRepository<DomainService, Integer>
 
 	@Query("select s.categories from DomainService s where s.id=?1")
 	Page<Category> findCategoriesByService(int serviceId, Pageable pageable);
+	@Query("select req.service from Rendezvous r join r.requests req where r.id = ?1")
+	Collection<DomainService> getServicesRequestedFromRendezvous(int rendezvousId);
 
 	//Dashboard queries
 

@@ -765,11 +765,40 @@ public class RendezvousService {
 		this.rendezvousRepository.flush();
 	}
 
+	/**
+	 * Returns a collection of the Rendezvouses created by the user passed as a param
+	 * 
+	 * @param userId
+	 *            , the ID of the User creator
+	 * @return Collection<Rendezvous>
+	 * @author Antonio
+	 */
 	public Collection<Rendezvous> findCreatedFinalRendezvousesByUserId(final int userId) {
 		Collection<Rendezvous> result;
 
-		result = this.rendezvousRepository.findCreatedFinalRendezvousesByUserId(userId);
+		result = this.rendezvousRepository.findCreatedFinalRendezvousesByUserId(userId, new Date());
 
 		return result;
 	}
+
+	public Collection<Rendezvous> getRendezvousesRequestedByService(final int serviceId) {
+		Collection<Rendezvous> result;
+
+		result = this.rendezvousRepository.getRendezvousesRequestedByService(serviceId);
+
+		return result;
+	}
+
+	public Collection<Rendezvous> getRendezvousesAvailableForRequest(final int userId, final int serviceId) {
+		Collection<Rendezvous> result;
+		Collection<Rendezvous> notAvailable;
+
+		result = this.findCreatedFinalRendezvousesByUserId(userId);
+		notAvailable = this.getRendezvousesRequestedByService(serviceId);
+
+		result.removeAll(notAvailable);
+
+		return result;
+	}
+
 }
