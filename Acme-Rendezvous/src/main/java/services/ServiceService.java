@@ -188,6 +188,21 @@ public class ServiceService {
 		return result;
 	}
 
+	/**
+	 * Gets a collection of the Services that have been requested by a certain Rendezvous.
+	 * 
+	 * @param rendezvousId
+	 * @return Collection<DomainService>, services requested by rendezvous.
+	 * @author Antonio
+	 */
+	public Collection<DomainService> getServicesRequestedFromRendezvous(final int rendezvousId) {
+		Collection<DomainService> result;
+
+		result = this.serviceRepository.getServicesRequestedFromRendezvous(rendezvousId);
+
+		return result;
+	}
+
 	// Other business methods
 
 	/**
@@ -236,6 +251,22 @@ public class ServiceService {
 
 		}
 		this.validator.validate(result, binding);
+
+		return result;
+	}
+
+	/**
+	 * Get the first level of categories in the system
+	 * 
+	 * @param pageable
+	 * @return the categories with father null
+	 * @author MJ
+	 */
+	public Page<Category> findCategoriesByService(final DomainService service, final Pageable pageable) {
+		Assert.notNull(pageable);
+		Page<Category> result;
+
+		result = this.serviceRepository.findCategoriesByService(service.getId(), pageable);
 
 		return result;
 	}
