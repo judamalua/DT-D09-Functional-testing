@@ -19,7 +19,6 @@ import domain.User;
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
 })
-//deefewfewfwefewfwe
 @Transactional
 public class UserServiceTest extends AbstractTest {
 
