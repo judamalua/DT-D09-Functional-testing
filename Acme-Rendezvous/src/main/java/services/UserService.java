@@ -35,6 +35,8 @@ public class UserService {
 
 	@Autowired
 	private Validator		validator;
+	@Autowired
+	private ActorService	actorService;
 
 
 	// Simple CRUD methods --------------------------------------------------
@@ -49,6 +51,7 @@ public class UserService {
 		User result;
 		final Collection<Comment> comments;
 		final Collection<Rendezvous> createdRendezvouses;
+		final Collection<Rendezvous> rsvpsRendezvouses;
 		final UserAccount userAccount;
 		final Collection<Authority> auth;
 		final Authority authority;
@@ -65,10 +68,12 @@ public class UserService {
 		result.setUserAccount(userAccount);
 
 		createdRendezvouses = new HashSet<Rendezvous>();
+		rsvpsRendezvouses = new HashSet<Rendezvous>();
 		comments = new HashSet<Comment>();
 
 		result.setCreatedRendezvouses(createdRendezvouses);
 		result.setComments(comments);
+		result.setRsvpRendezvouses(rsvpsRendezvouses);
 
 		return result;
 	}
@@ -119,6 +124,8 @@ public class UserService {
 	 */
 	public User save(final User user) {
 		assert user != null;
+		if (user.getId() != 0)
+			Assert.isTrue(user == this.actorService.findActorByPrincipal());
 
 		User result;
 
@@ -271,4 +278,14 @@ public class UserService {
 
 		return result;
 	}
+	/**
+	 * 
+	 * 
+	 * 
+	 * @author Luis
+	 */
+	public void flush() {
+		this.userRepository.flush();
+	}
+
 }

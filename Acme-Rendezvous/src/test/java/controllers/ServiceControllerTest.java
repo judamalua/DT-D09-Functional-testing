@@ -21,9 +21,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import services.ConfigurationService;
 import services.ServiceService;
 import utilities.AbstractTest;
-import controllers.ServiceController;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -33,21 +33,21 @@ import controllers.ServiceController;
 @Transactional
 public class ServiceControllerTest extends AbstractTest {
 
-	private MockMvc				mockMvc;
+	private MockMvc					mockMvc;
 
 	@InjectMocks
 	@Autowired
-	private ServiceController	controller;
+	private ServiceController		controller;
 
 	//Service under test ------------------------
 	@Mock
 	@Autowired
-	private ServiceService		serviceService;
+	private ServiceService			serviceService;
 
+	@Mock
+	@Autowired
+	private ConfigurationService	configurationService;
 
-	//	@Mock
-	//	@Autowired
-	//	private ConfigurationService	configurationService;
 
 	//Supporting services -----------------------
 
@@ -56,20 +56,22 @@ public class ServiceControllerTest extends AbstractTest {
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this.serviceService);
-		//MockitoAnnotations.initMocks(this.configurationService);
+		MockitoAnnotations.initMocks(this.configurationService);
 		MockitoAnnotations.initMocks(this.controller);
+
 		Mockito.validateMockitoUsage();
 		this.mockMvc = MockMvcBuilders.standaloneSetup(this.controller).build();
 	}
 	/**
-	 * Test the public list of Services in the system
+	 * Test the public list of Rendezvouses in the system. Must return 200 code.
 	 * 
 	 * @throws Exception
 	 * @author MJ
+	 * 
 	 */
 	@Test
-	public void listServicesPositive() throws Exception {
-		this.serviceService = Mockito.spy(this.controller.serviceService);
+	public void listRendezvousesPositive() throws Exception {
+		//this.serviceService = Mockito.spy(this.controller.serviceService);
 		//final Pageable pageable = new PageRequest(0, this.configurationService.findConfiguration().getPageSize());
 
 		final MockHttpServletRequestBuilder gt;
@@ -89,6 +91,6 @@ public class ServiceControllerTest extends AbstractTest {
 						Matchers.hasProperty("name", Matchers.is("Service 1")), Matchers.hasProperty("description", Matchers.is("Test service description")), Matchers.hasProperty("price", Matchers.is(10.0))))));
 
 		//Mockito.verify(this.serviceService, Mockito.times(1)).findNotCancelledServices(pageable);
-		Mockito.verifyNoMoreInteractions(this.serviceService);
+		//Mockito.verifyNoMoreInteractions(this.serviceService);
 	}
 }

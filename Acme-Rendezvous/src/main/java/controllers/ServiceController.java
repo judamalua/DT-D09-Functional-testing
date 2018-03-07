@@ -36,7 +36,7 @@ import domain.Manager;
 public class ServiceController extends AbstractController {
 
 	@Autowired
-	public ServiceService			serviceService;
+	private ServiceService			serviceService;
 
 	@Autowired
 	private ActorService			actorService;
