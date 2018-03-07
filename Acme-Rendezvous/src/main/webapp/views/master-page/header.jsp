@@ -92,6 +92,8 @@
 							code="master.page.login" /></a></li>
 				<li><a class="fNiv" href="actor/register.do"> <spring:message
 							code="master.page.registerUser" /></a></li>
+				<li><a class="fNiv" href="manager/register.do"> <spring:message
+							code="master.page.registerManager" /></a></li>			
 				<li><a class="fNiv" href="rendezvous/list.do?anonymous=true">
 						<spring:message code="master.page.rendevouzList" />
 				</a></li>

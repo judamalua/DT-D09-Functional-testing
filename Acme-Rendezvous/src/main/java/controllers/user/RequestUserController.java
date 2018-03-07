@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -104,8 +105,12 @@ public class RequestUserController extends AbstractController {
 	public ModelAndView saveRequest(@Valid final Request request, final BindingResult binding, @ModelAttribute("rendezvous") final int rendezvousId) {
 		ModelAndView result;
 
-		if (binding.hasErrors())
+		if (binding.hasErrors()) {
 			result = this.createEditModelAndView(request);
+			for (final ObjectError oe : binding.getAllErrors())
+				System.out.println(oe);
+		}
+
 		else
 			try {
 				this.checkRendezvousBelongsToPrincipal(rendezvousId);
@@ -133,7 +138,7 @@ public class RequestUserController extends AbstractController {
 		User user;
 
 		user = (User) this.actorService.findActorByPrincipal();
-		myRendezvouses = this.rendezvousService.findCreatedFinalRendezvousesByUserId(user.getId());
+		myRendezvouses = this.rendezvousService.getRendezvousesAvailableForRequest(user.getId(), request.getId());
 		result = new ModelAndView("request/edit");
 		result.addObject("request", request);
 		result.addObject("message", message);

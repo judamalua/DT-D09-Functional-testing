@@ -280,6 +280,12 @@ public class CategoryService {
 		else
 			subCategories = this.findFirstLevelCategories();
 
+		//If we are creating a category subCategory don't contains the category and we must check it
+		if (category.getId() == 0) {
+			Assert.isTrue(!memory.keySet().contains(category.getName()), "Name must not be the repeated");
+			memory.put(category.getName(), category);
+		}
+
 		//If we are not in the root then iterate the brothers
 		if (category != null)
 			for (final Category brotherCategory : subCategories) {
@@ -287,16 +293,12 @@ public class CategoryService {
 				Assert.isTrue(!memory.keySet().contains(brotherCategory.getName()), "Name must not be the repeated");
 
 				//If everething is ok then put the category in the memory
-				memory.put(brotherCategory.getName(), category);
-
-				if (category.getId() == 0)
-					Assert.isTrue(!memory.keySet().contains(category.getName()), "Name must not be the repeated");
+				memory.put(brotherCategory.getName(), brotherCategory);
 			}
 
-		if (category.getFatherCategory() != null) {
-			Assert.isTrue(memory.get(category.getFatherCategory().getName()) == null, "No cycles");
+		if (category.getFatherCategory() != null)
+			//Assert.isTrue(memory.get(category.getFatherCategory().getName()) == null, "No cycles");
 			Assert.isTrue(!memory.keySet().contains(category.getFatherCategory().getName()), "Name must not be the repeated");
-		}
 		//If the father category is in memory yet then there is cycles or if the keys contains the name of the father then the names are the same
 		//if the category is the root or is subCategory of root then there is no cycles
 		if (category == null || category.getFatherCategory() == null)
