@@ -139,7 +139,15 @@ public class CreditCardService {
 		else
 			return res;
 	}
-
+	/**
+	 * Finds a credit card by its token. If the user is not the owner of the credit card the search will fail.
+	 * 
+	 * @param cookieToken
+	 *            The token to find by
+	 * @author Daniel Diment
+	 * @return
+	 *         The credit card
+	 */
 	public CreditCard findByCookieToken(final String cookieToken) {
 		final CreditCard result = this.creditCardRepository.findByCookieToken(cookieToken);
 		Assert.isTrue(result.getUser().getId() == this.actorService.findActorByPrincipal().getId());
