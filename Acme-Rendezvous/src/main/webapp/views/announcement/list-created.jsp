@@ -9,40 +9,37 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <display:table name="announcements" id="announcement"
-	requestURI="announcement/user/list.do" defaultsort="1" defaultorder="descending" pagesize="${pagesize}"
-	class="displayTag">
-	
+	requestURI="announcement/user/list.do" defaultsort="1"
+	defaultorder="descending" pagesize="${pagesize}">
+
 	<spring:message code="announcement.moment.format" var="momentFormat" />
 	<spring:message code="announcement.moment" var="announcementMoment" />
+	
 	<display:column property="moment" title="${announcementMoment}"
 		sortable="true" format="${momentFormat}" />
 
 	<spring:message code="announcement.title" var="title" />
 	<display:column property="title" title="${title}" sortable="false" />
-	
-	<spring:message code="announcement.description" var="description" />
-	<display:column property="description" title="${description}" sortable="false" />
 
-	
+	<spring:message code="announcement.description" var="description" />
+	<display:column property="description" title="${description}"
+		sortable="false" />
+
 	<spring:message code="announcement.rendezvous.name" var="name" />
 	<display:column title="${name}">
-	<a href = "rendezvous/detailed-rendezvous.do?rendezvousId=${rdvs[announcement_rowNum-1].id}">
-	<jstl:out value="${rdvs[announcement_rowNum-1].name}"></jstl:out>
-	</a>	
+		<a
+			href="rendezvous/detailed-rendezvous.do?rendezvousId=${rdvs[announcement_rowNum-1].id}">
+			<jstl:out value="${rdvs[announcement_rowNum-1].name}"></jstl:out>
+		</a>
 	</display:column>
-	<display:column>
- 		<a
- 			href="announcement/user/delete.do?announcementId=${announcement.id}">
- 			<button class="btn">
- 				<spring:message code="announcement.delete" />
- 			</button>
- 		</a>
- 	</display:column>
-
 	
-
+	<display:column>
+		<acme:button url="announcement/user/delete.do?announcementId=${announcement.id}" code="announcement.delete"/>
+	</display:column>
+	
 </display:table>
 
 
