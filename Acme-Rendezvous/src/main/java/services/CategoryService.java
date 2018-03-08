@@ -126,6 +126,7 @@ public class CategoryService {
 
 		result = this.categoryRepository.save(category);
 		this.actorService.checkUserLogin();
+		Assert.isTrue(this.actorService.findActorByPrincipal() instanceof Administrator);//only a administrator can save categories
 
 		if (category.getId() != 0) {
 			subCategories = this.findSubCategories(category);

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -55,6 +54,14 @@ public class RequestUserController extends AbstractController {
 	}
 
 	//List-------------------------------------------------------------------
+	/**
+	 * This method can receive the ID of a Rendezvous. If it does, returns a ModelAndView listing all the Requests
+	 * of that Rendezvous. If it doesn't, returns a ModelAndView listing all the Requests made by the Principal.
+	 * 
+	 * @return ModelAndView
+	 * @param rendezvousId
+	 * @author Antonio
+	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView listRequests(@RequestParam(required = false) final Integer rendezvousId) {
 		ModelAndView result;
@@ -96,10 +103,11 @@ public class RequestUserController extends AbstractController {
 	public ModelAndView create(@RequestParam final int serviceId) {
 		ModelAndView result;
 		Request request;
+		CreditCard creditCard;
 
 		try {
 			request = this.requestService.createByService(serviceId);
-			final CreditCard creditCard = this.creditCardService.create();
+			creditCard = this.creditCardService.create();
 			request.setCreditCard(creditCard);
 			result = this.createEditModelAndView(request);
 		} catch (final Throwable oops) {
@@ -108,16 +116,20 @@ public class RequestUserController extends AbstractController {
 		return result;
 	}
 
+	/**
+	 * This method receives the ID of a rendezvous, and tries to create a new empty Request for
+	 * the user principal, who must be the owner of that rendezvous.
+	 * 
+	 * @return ModelAndView of the detailed rendezvous if everything worked.
+	 * @param rendezvousId
+	 * @author Antonio
+	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView saveRequest(@Valid final Request request, final BindingResult binding, @ModelAttribute("rendezvous") final int rendezvousId) {
 		ModelAndView result;
 
-		if (binding.hasErrors()) {
+		if (binding.hasErrors())
 			result = this.createEditModelAndView(request);
-			for (final ObjectError oe : binding.getAllErrors())
-				System.out.println(oe);
-		}
-
 		else
 			try {
 				this.checkRendezvousBelongsToPrincipal(rendezvousId);
@@ -125,17 +137,30 @@ public class RequestUserController extends AbstractController {
 
 				result = new ModelAndView("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvousId + "&anonymous=false");
 			} catch (final Throwable oops) {
-				result = new ModelAndView("redirect:/misc/403");
+				if (oops.getMessage().contains("CreditCard expiration Date error"))
+					result = this.createEditModelAndView(request, "request.creditcard.expiration.error");
+				else
+					result = new ModelAndView("redirect:/misc/403");
 			}
 		return result;
 	}
 	//AJAX Credit Card---------------------------------------
+	/**
+	 * This method receives a cookie token and sends a string with the last four numbers of a credit card and the credit card number, if something fails returns a null string.
+	 * 
+	 * @param cookieToken
+	 *            The token to test
+	 * @author Daniel Diment
+	 * @return
+	 *         The string
+	 */
 	@RequestMapping(value = "/ajaxCard", method = RequestMethod.GET)
 	public @ResponseBody
 	String ajaxCard(@RequestParam final String cookieToken) {
 		String result = "null";
+		CreditCard creditCard;
 		try {
-			final CreditCard creditCard = this.creditCardService.findByCookieToken(cookieToken);
+			creditCard = this.creditCardService.findByCookieToken(cookieToken);
 			result = creditCard.getNumber().substring(creditCard.getNumber().length() - 4) + creditCard.getId();
 		} catch (final Throwable e) {
 		}
@@ -157,7 +182,7 @@ public class RequestUserController extends AbstractController {
 		User user;
 
 		user = (User) this.actorService.findActorByPrincipal();
-		myRendezvouses = this.rendezvousService.getRendezvousesAvailableForRequest(user.getId(), request.getId());
+		myRendezvouses = this.rendezvousService.getRendezvousesAvailableForRequest(user.getId(), request.getService().getId());
 		result = new ModelAndView("request/edit");
 		result.addObject("request", request);
 		result.addObject("message", message);

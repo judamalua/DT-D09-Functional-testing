@@ -248,8 +248,8 @@ public class ActorService {
 	}
 
 	/**
-	 * This method deconstructs a User/Administrator/Manager object, that is, transforms
-	 * an User/Administrator/Manager object into a UserAdminForm object to be edited
+	 * This method deconstructs an User/Administrator object, that is, transforms
+	 * an User/Administrator object into a UserAdminForm object to be edited
 	 * 
 	 * @param user
 	 *            to be deconstructed into an UserAdminForm
@@ -273,6 +273,7 @@ public class ActorService {
 
 		return result;
 	}
+
 	/**
 	 * This method checks if the age passed by parameters is greater or equals to the legal age
 	 * 

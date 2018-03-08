@@ -52,14 +52,14 @@
 				code="service.categories.see" />
 	</display:column>
 	
-	<display:column title="${titleListRequests}">
-		<security:authorize access="hasRole('MANAGER')">
+	<security:authorize access="hasRole('MANAGER')">
+		<display:column title="${titleListRequests}">
 			<jstl:if test="${fn:length(service.requests) != 0}">
 				<acme:button url="request/manager/list.do?serviceId=${service.id}"
 				code="service.request.list" />
 			</jstl:if>	
-		</security:authorize>
-	</display:column>
+		</display:column>
+	</security:authorize>
 	
 	<display:column>
 		<jstl:if

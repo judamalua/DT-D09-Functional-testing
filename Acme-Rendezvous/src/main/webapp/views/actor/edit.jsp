@@ -14,7 +14,9 @@
 <security:authorize access="hasRole('USER')">
 	<jstl:set var="requestURI" value="actor/user/edit.do"/>
 </security:authorize>
-
+<security:authorize access="hasRole('MANAGER')">
+	<jstl:set var="requestURI" value="actor/manager/edit.do"/>
+</security:authorize>
 
 <form:form id = "form" action="${requestURI}" modelAttribute ="actor">
 	
@@ -34,6 +36,10 @@
 	<acme:textbox code="actor.email" path="email" required = "true"/>
 	
 	<acme:textbox code="actor.birthDate" path="birthDate" required = "true" placeholder = "dd/MM/yyyy"/>
+	
+	<jstl:if test="${principalIsManager}">
+		<acme:textbox code="actor.manager.vat" path="vat" required = "true"/>
+	</jstl:if>
 	
 	<acme:submit name="save" code="actor.save"/>
 	
