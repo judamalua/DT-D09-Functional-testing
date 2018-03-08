@@ -20,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -60,18 +61,15 @@ public class RendezvousUserController extends AbstractController {
 	// Listing  ---------------------------------------------------------------		
 
 	@RequestMapping("/list")
-	public ModelAndView list(@RequestParam(required = false) final Integer userId, @RequestParam(defaultValue = "0") final int page) {
+	public ModelAndView list(@RequestParam(defaultValue = "0") final int page) {
 		ModelAndView result;
 		Page<Rendezvous> rendezvouses;
 		User user;
 		Pageable pageable;
 		Configuration configuration;
 		try {
-			if (userId != null) {
-				user = this.userService.findOne(userId);
-				Assert.notNull(user);
-			} else
-				user = (User) this.actorService.findActorByPrincipal();
+
+			user = (User) this.actorService.findActorByPrincipal();
 
 			result = new ModelAndView("rendezvous/list");
 			configuration = this.configurationService.findConfiguration();
@@ -155,7 +153,7 @@ public class RendezvousUserController extends AbstractController {
 	// Deleting ---------------------------------------------------------------		
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(Rendezvous rendezvous, final BindingResult binding) {
+	public ModelAndView delete(@ModelAttribute("rendezvous") Rendezvous rendezvous, final BindingResult binding) {
 		ModelAndView result;
 		try {
 			rendezvous = this.rendezvousService.reconstruct(rendezvous, binding);
