@@ -1,6 +1,9 @@
 
 package controllers;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 
 import org.hamcrest.Matchers;
@@ -23,7 +26,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import services.AnswerService;
 import services.ConfigurationService;
+import services.UserService;
 import utilities.AbstractTest;
+import domain.Answer;
+import domain.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -48,6 +54,10 @@ public class AnswerControllerTest extends AbstractTest {
 	@Autowired
 	private ConfigurationService	configurationService;
 
+	@Mock
+	@Autowired
+	private UserService				userService;
+
 
 	//Supporting services -----------------------
 
@@ -68,21 +78,27 @@ public class AnswerControllerTest extends AbstractTest {
 	 * Test the list of answers of a rendezvous. Must return 200 code.
 	 * 
 	 * @throws Exception
-	 * @author MJ
+	 * @author Juanmi
 	 */
-	@SuppressWarnings("unchecked")
 	@Test
 	public void listAnswersOfRendezvousPositive() throws Exception {
 		final MockHttpServletRequestBuilder request;
 		int rendezvousId;
+		User rendezvousCreator;
+		User user2;
+		Collection<Answer> user2Answers;
 
-		rendezvousId = super.getEntityId("Rendezvous1");
+		//TODO Add the rest of users to the expected UserAndAnswers
+
+		rendezvousId = super.getEntityId("Rendezvous4");
+		rendezvousCreator = this.userService.findOne(super.getEntityId("User1"));
+		user2 = this.userService.findOne(super.getEntityId("User2"));
+		user2Answers = new ArrayList<Answer>();
 
 		request = MockMvcRequestBuilders.get("/answer/list.do?rendezvousId=" + rendezvousId);
 
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("rendezvous/list")).andExpect(MockMvcResultMatchers.forwardedUrl("rendezvous/list"))
-			.andExpect(MockMvcResultMatchers.model().attribute("rendezvouses", Matchers.hasSize(5))).andExpect(MockMvcResultMatchers.model().attribute("requestURI", Matchers.is("rendezvous/list.do")))
-			.andExpect(MockMvcResultMatchers.model().attribute("page", Matchers.is(0))).andExpect(MockMvcResultMatchers.model().attribute("pageNum", Matchers.is(1))).andExpect(MockMvcResultMatchers.model().attribute("anonymous", Matchers.is(true)))
-			.andExpect(MockMvcResultMatchers.model().attribute("rendezvouses", Matchers.hasItems(Matchers.allOf(Matchers.hasProperty("adultOnly", Matchers.is(false))))));
+		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("answer/user/list")).andExpect(MockMvcResultMatchers.forwardedUrl("answer/user/list"))
+			.andExpect(MockMvcResultMatchers.model().attribute("creator", Matchers.equalTo(rendezvousCreator))).andExpect(MockMvcResultMatchers.model().attribute("usersAndAnswers", Matchers.hasEntry(user2, user2Answers)))
+			.andExpect(MockMvcResultMatchers.model().attribute("anonymous", Matchers.is(true)));
 	}
 }
