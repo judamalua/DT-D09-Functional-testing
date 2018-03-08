@@ -32,6 +32,8 @@ public class ManagerService {
 	// Supporting services --------------------------------------------------
 	@Autowired
 	private Validator			validator;
+	@Autowired
+	private ActorService		actorService;
 
 
 	// Simple CRUD methods --------------------------------------------------
@@ -108,6 +110,8 @@ public class ManagerService {
 	 */
 	public Manager save(final Manager manager) {
 		Assert.notNull(manager);
+		if (manager.getId() != 0)
+			Assert.isTrue((Manager) this.actorService.findActorByPrincipal() == manager);
 
 		Manager result;
 
@@ -116,7 +120,6 @@ public class ManagerService {
 		return result;
 
 	}
-
 	// Other business methods ----------------------------------------------------------------
 
 	/**
@@ -187,6 +190,17 @@ public class ManagerService {
 		result = this.managerRepository.findManagerByService(service.getId());
 
 		return result;
+
+	}
+
+	/**
+	 * This method do a flush in database
+	 * 
+	 * 
+	 * @author Luis
+	 */
+	public void flush() {
+		this.managerRepository.flush();
 
 	}
 }

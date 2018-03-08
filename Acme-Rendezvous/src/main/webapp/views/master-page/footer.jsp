@@ -14,18 +14,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <jsp:useBean id="date" class="java.util.Date" />
-
-
-
-
-<script src="scripts/cookieAjax.js"></script>
-<br />
-<script type="text/javascript">
-window.onload = function() {
-	  checkCookie();
-	};
-
-</script>
+<br/>
 <div class="cookies"></div>
 <footer class = page-footer>
 <div class = "footer-copyright">

@@ -21,4 +21,7 @@ public interface CreditCardRepository extends JpaRepository<CreditCard, Integer>
 	@Query("select c.cookieToken from CreditCard c")
 	Collection<String> getAllCookieTokens();
 
+	@Query("select c from CreditCard c where c.cookieToken=?1")
+	CreditCard findByCookieToken(String cookieToken);
+
 }
