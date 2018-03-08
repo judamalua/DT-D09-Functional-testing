@@ -170,8 +170,10 @@ public class ServiceManagerController extends AbstractController {
 				Assert.isTrue(service.getRequests().size() == 0);
 				this.serviceService.save(service);
 
-				savedService = this.serviceService.findOne(savedService.getId());
-				this.serviceService.delete(savedService);
+				if (savedService.getId() != 0) {
+					savedService = this.serviceService.findOne(savedService.getId());
+					this.serviceService.delete(savedService);
+				}
 				result = new ModelAndView("redirect:list.do");
 
 			} catch (final Throwable oops) {

@@ -11,6 +11,7 @@
 package controllers.user;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -132,7 +133,7 @@ public class RendezvousUserController extends AbstractController {
 			try {
 				rendezvous.setFinalMode(!rendezvous.getFinalMode());
 				user = (User) this.actorService.findActorByPrincipal();
-
+				Assert.isTrue(rendezvous.getMoment().after(new Date()), "Must be in future");
 				if (rendezvous.getId() != 0)
 					Assert.isTrue(user.getCreatedRendezvouses().contains(rendezvous));
 
