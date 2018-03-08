@@ -54,6 +54,14 @@ public class RequestUserController extends AbstractController {
 	}
 
 	//List-------------------------------------------------------------------
+	/**
+	 * This method can receive the ID of a Rendezvous. If it does, returns a ModelAndView listing all the Requests
+	 * of that Rendezvous. If it doesn't, returns a ModelAndView listing all the Requests made by the Principal.
+	 * 
+	 * @return ModelAndView
+	 * @param rendezvousId
+	 * @author Antonio
+	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView listRequests(@RequestParam(required = false) final Integer rendezvousId) {
 		ModelAndView result;
@@ -95,10 +103,11 @@ public class RequestUserController extends AbstractController {
 	public ModelAndView create(@RequestParam final int serviceId) {
 		ModelAndView result;
 		Request request;
+		CreditCard creditCard;
 
 		try {
 			request = this.requestService.createByService(serviceId);
-			final CreditCard creditCard = this.creditCardService.create();
+			creditCard = this.creditCardService.create();
 			request.setCreditCard(creditCard);
 			result = this.createEditModelAndView(request);
 		} catch (final Throwable oops) {
@@ -149,8 +158,9 @@ public class RequestUserController extends AbstractController {
 	public @ResponseBody
 	String ajaxCard(@RequestParam final String cookieToken) {
 		String result = "null";
+		CreditCard creditCard;
 		try {
-			final CreditCard creditCard = this.creditCardService.findByCookieToken(cookieToken);
+			creditCard = this.creditCardService.findByCookieToken(cookieToken);
 			result = creditCard.getNumber().substring(creditCard.getNumber().length() - 4) + creditCard.getId();
 		} catch (final Throwable e) {
 		}
@@ -172,7 +182,7 @@ public class RequestUserController extends AbstractController {
 		User user;
 
 		user = (User) this.actorService.findActorByPrincipal();
-		myRendezvouses = this.rendezvousService.getRendezvousesAvailableForRequest(user.getId(), request.getId());
+		myRendezvouses = this.rendezvousService.getRendezvousesAvailableForRequest(user.getId(), request.getService().getId());
 		result = new ModelAndView("request/edit");
 		result.addObject("request", request);
 		result.addObject("message", message);
