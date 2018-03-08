@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 
 import repositories.CreditCardRepository;
 import domain.CreditCard;
+import domain.User;
 
 @Service
 @Transactional
@@ -21,8 +22,11 @@ public class CreditCardService {
 	@Autowired
 	private CreditCardRepository	creditCardRepository;
 
-
 	// Supporting services --------------------------------------------------
+
+	@Autowired
+	private ActorService			actorService;
+
 
 	// Simple CRUD methods --------------------------------------------------
 
@@ -39,6 +43,8 @@ public class CreditCardService {
 		result = new CreditCard();
 
 		result.setCookieToken(this.generateCookieToken());
+
+		result.setUser((User) this.actorService.findActorByPrincipal());
 
 		return result;
 	}
@@ -91,6 +97,7 @@ public class CreditCardService {
 
 		CreditCard result;
 
+		creditCard.setUser((User) this.actorService.findActorByPrincipal());
 		result = this.creditCardRepository.save(creditCard);
 
 		return result;
@@ -131,5 +138,11 @@ public class CreditCardService {
 			return this.generateCookieToken();
 		else
 			return res;
+	}
+
+	public CreditCard findByCookieToken(final String cookieToken) {
+		final CreditCard result = this.creditCardRepository.findByCookieToken(cookieToken);
+		Assert.isTrue(result.getUser().getId() == this.actorService.findActorByPrincipal().getId());
+		return result;
 	}
 }

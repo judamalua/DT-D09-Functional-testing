@@ -14,13 +14,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
+import services.CreditCardService;
 import services.RendezvousService;
 import services.RequestService;
 import services.UserService;
 import controllers.AbstractController;
+import domain.CreditCard;
 import domain.Rendezvous;
 import domain.Request;
 import domain.User;
@@ -41,6 +44,9 @@ public class RequestUserController extends AbstractController {
 
 	@Autowired
 	private UserService			userService;
+
+	@Autowired
+	private CreditCardService	creditCardService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -93,7 +99,8 @@ public class RequestUserController extends AbstractController {
 
 		try {
 			request = this.requestService.createByService(serviceId);
-
+			final CreditCard creditCard = this.creditCardService.create();
+			request.setCreditCard(creditCard);
 			result = this.createEditModelAndView(request);
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/misc/403");
@@ -120,6 +127,18 @@ public class RequestUserController extends AbstractController {
 			} catch (final Throwable oops) {
 				result = new ModelAndView("redirect:/misc/403");
 			}
+		return result;
+	}
+	//AJAX Credit Card---------------------------------------
+	@RequestMapping(value = "/ajaxCard", method = RequestMethod.GET)
+	public @ResponseBody
+	String ajaxCard(@RequestParam final String cookieToken) {
+		String result = "null";
+		try {
+			final CreditCard creditCard = this.creditCardService.findByCookieToken(cookieToken);
+			result = creditCard.getNumber().substring(creditCard.getNumber().length() - 4) + creditCard.getId();
+		} catch (final Throwable e) {
+		}
 		return result;
 	}
 

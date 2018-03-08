@@ -36,6 +36,9 @@
 <div>
 <spring:message code="cookies.fifthtext" />
 </div>
-
+<h4><spring:message code="cookies.sixth" /></h4>
+<div>
+<spring:message code="cookies.sixthtext" />
+</div>
 
 
