@@ -107,7 +107,8 @@
 		<security:intercept-url pattern="/category/admin/**" access="hasRole('ADMIN')" requires-channel="https" />
 		
 		<security:intercept-url pattern="/manager/register.do" access="permitAll" requires-channel="https" />	
-
+		<security:intercept-url pattern="/manager/manager/edit.do" access="hasRole('MANAGER')" requires-channel="https" />
+		
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
 		<security:form-login 
