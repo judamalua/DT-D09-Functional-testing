@@ -152,7 +152,6 @@ public class RendezvousService {
 
 		if (actor instanceof User) {
 			user = (User) this.actorService.findActorByPrincipal();
-			Assert.isTrue(rendezvous.getMoment().after(new Date()), "Must be in future");
 			result = this.rendezvousRepository.save(rendezvous);
 
 			if (user.getCreatedRendezvouses().contains(rendezvous))   		//

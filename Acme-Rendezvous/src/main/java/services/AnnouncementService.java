@@ -104,15 +104,15 @@ public class AnnouncementService {
 		assert announcement != null;
 		Announcement result;
 		Rendezvous rendezvous;
-		Authority auth = new Authority();
+		final Authority auth = new Authority();
 		auth.setAuthority(Authority.USER);
-		Assert.isTrue(actorService.findActorByPrincipal().getUserAccount().getAuthorities().contains(auth));
-		User user = (User) actorService.findActorByPrincipal();
+		Assert.isTrue(this.actorService.findActorByPrincipal().getUserAccount().getAuthorities().contains(auth));
+		final User user = (User) this.actorService.findActorByPrincipal();
 		//Check that rendezvous date is higher than actual
 		rendezvous = this.rendezvousService.findOne(rendezvousId);
 		Assert.isTrue(rendezvous.getMoment().after(new Date())); //Check rendezvous is not already finished.
 		Assert.isTrue(user.getCreatedRendezvouses().contains(rendezvous)); //Check user has permission for edit that announcement
-	
+
 		if (announcement.getVersion() == 0)
 			//The announcement moment is actual when the announcement is created 
 			announcement.setMoment(new Date(System.currentTimeMillis() - 1000));
@@ -187,7 +187,15 @@ public class AnnouncementService {
 		this.validator.validate(result, binding);
 		return result;
 	}
-	
+	public Collection<Announcement> findCreatedAnnouncementByUserOrderByMoment(final int userId) {
+		Assert.isTrue(userId != 0);
+
+		Collection<Announcement> result;
+
+		result = this.announcementRepository.findCreatedAnnouncementByUserOrderByMoment(userId);
+
+		return result;
+	}
 	/**
 	 * This method flushes the repository, this forces the cache to be saved to the database, which then forces the test data to be validated. This is only used
 	 * in tests

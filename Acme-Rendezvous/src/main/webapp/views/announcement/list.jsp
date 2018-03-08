@@ -9,6 +9,7 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <display:table name="announcements" id="announcement"
 	requestURI="${requestURI}" defaultsort="1" defaultorder="descending"
@@ -26,7 +27,6 @@
 	<display:column property="description" title="${description}"
 		sortable="false" />
 
-
 	<spring:message code="announcement.rendezvous.name" var="name" />
 	<display:column title="${name}">
 		<a
@@ -35,10 +35,6 @@
 				value="${associatedRendezvouses[announcement_rowNum-1].name}"></jstl:out>
 		</a>
 	</display:column>
-
-
-
-
 </display:table>
 
 
