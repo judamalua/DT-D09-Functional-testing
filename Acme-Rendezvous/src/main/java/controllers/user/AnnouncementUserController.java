@@ -93,27 +93,21 @@ public class AnnouncementUserController extends AbstractController {
 	@RequestMapping(value = "/list-created")
 	public ModelAndView listcreated() {
 		ModelAndView result;
-		final Collection<Announcement> announcements = new ArrayList<Announcement>();
-		Collection<Rendezvous> rendezvouses;
+		Collection<Announcement> announcements = new ArrayList<Announcement>();
 		final Collection<Rendezvous> associatedRendezvouses = new ArrayList<Rendezvous>();
-		Collection<Announcement> rendezvousAnnouncements;
 		User user;
 		try {
 
-			result = new ModelAndView("announcement/list-created");
+			result = new ModelAndView("announcement/list");
 			user = (User) this.actorService.findActorByPrincipal();
-			rendezvouses = user.getCreatedRendezvouses();
+			announcements = this.announcementService.findCreatedAnnouncementByUserOrderByMoment(user.getId());
 
 			/**
 			 * Adding the associated rendezvouses to an announcement
 			 */
-			for (final Rendezvous rendezvous : rendezvouses) {
-				rendezvousAnnouncements = rendezvous.getAnnouncements();
-				announcements.addAll(rendezvous.getAnnouncements());
-				if (!rendezvousAnnouncements.isEmpty())
-					for (int i = 0; i < rendezvousAnnouncements.size(); i++)
-						associatedRendezvouses.add(rendezvous);
-			}
+			for (final Announcement announcement : announcements)
+				associatedRendezvouses.add(this.rendezvousService.getRendezvousByAnnouncement(announcement.getId()));
+
 			result.addObject("announcements", announcements);
 			result.addObject("requestURI", "announcement/user/list-created.do");
 			result.addObject("associatedRendezvouses", associatedRendezvouses);
