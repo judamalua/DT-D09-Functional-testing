@@ -19,6 +19,7 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 
@@ -39,13 +40,22 @@
 	
 	<spring:message code="request.rendezvous.select" />
 	
-	<div class="input-field col s3">
-		<select id="rendezvous" name="rendezvous">
-  			<jstl:forEach var="i" items="${rendezvouses}">
-  				<option value="${i.id}"><jstl:out value="${i.name}"/></option>
-  			</jstl:forEach>
-		</select> 
-	</div>
+	<jstl:if test="${fn:length(rendezvouses) != 0}">
+		<div class="input-field col s3">
+			<select id="rendezvous" name="rendezvous">
+  				<jstl:forEach var="i" items="${rendezvouses}">
+  					<option value="${i.id}"><jstl:out value="${i.name}"/></option>
+  				</jstl:forEach>
+			</select> 
+		</div>
+	</jstl:if>
+	
+	<jstl:if test="${fn:length(rendezvouses) == 0}">
+		<div class="error">
+			<spring:message code="request.rendezvouses.empty"/>
+		</div>
+	</jstl:if>
+	
 	
 	
 	
@@ -75,11 +85,17 @@
 	
 	</div>
 	
-	
+	<jstl:if test="${fn:length(rendezvouses) != 0}">
+		<button type="submit" name="save" class="btn" id = "submit" onclick="saveCreditCardCookie()">
+			<spring:message code="request.save" />
+		</button>
+	</jstl:if>
 
-	<button type="submit" name="save" class="btn" id = "submit" onclick="saveCreditCardCookie()">
-		<spring:message code="request.save" />
-	</button>
+	<jstl:if test="${fn:length(rendezvouses) == 0}">
+		<button type="submit" name="save" class="btn" id = "submit" onclick="saveCreditCardCookie()" disabled>
+			<spring:message code="request.save" />
+		</button>
+	</jstl:if>
 	
 	<acme:cancel url="service/list.do?anonymous=false" code="request.cancel"/>
 	
