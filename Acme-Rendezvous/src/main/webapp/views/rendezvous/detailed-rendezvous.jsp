@@ -40,6 +40,9 @@
 <spring:message code="rendezvous.comment.replies" var="repliesComment" />
 <spring:message code="rendezvous.comment.reply" var="replyComment" />
 <spring:message code="rendezvous.request.create" var="createRequest" />
+<spring:message code="rendezvous.request.service" var="titleServiceRequest" />
+<spring:message code="rendezvous.request.service.picture" var="titleServicePictureRequest" />
+<spring:message code="rendezvous.request.comment" var="titleCommentRequest" />
 
 
 <jsp:useBean id="now" class="java.util.Date" />
@@ -194,17 +197,29 @@
 		</jstl:if>
 	</jstl:if>
 </security:authorize>
+<br />
 
 <!-- Link to request a service -->
 <security:authorize access="hasRole('USER')">
-	<br />
 	<jstl:if test="${userHasCreatedRendezvous and rendezvous.moment > currentDate}">
 		<acme:button url="service/list.do?anonymous=false" code="rendezvous.request.create"/>
 		
 		<br />
 		
 		<acme:button url="request/user/list.do?rendezvousId=${rendezvous.id}" code="rendezvous.request.list"/>
-	</jstl:if>
-	
-	
+	</jstl:if>	
 </security:authorize>
+
+<display:table name="${requests}" id="row" requestURI="rendezvous/detailed-rendezvous.do"
+	pagesize="${pagesize}">
+	
+	<display:column title="${titleServicePictureRequest}" >
+		<img src="${row.service.pictureUrl}" height="250" width="250"/>
+	</display:column>
+	
+	<display:column title="${titleServiceRequest}" >
+		<jstl:out value="${row.service.name}"/>
+	</display:column>
+	
+	<display:column property="comment" title="${titleCommentRequest}" />
+</display:table>

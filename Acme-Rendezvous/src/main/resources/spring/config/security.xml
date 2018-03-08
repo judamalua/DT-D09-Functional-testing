@@ -109,6 +109,9 @@
 		<security:intercept-url pattern="/manager/register.do" access="permitAll" requires-channel="https" />	
 		<security:intercept-url pattern="/manager/manager/edit.do" access="hasRole('MANAGER')" requires-channel="https" />
 		
+		<security:intercept-url pattern="/creditcard/manager/detailed.do" access="hasRole('MANAGER')" requires-channel="https" />
+		<security:intercept-url pattern="/creditcard/user/detailed.do" access="hasRole('USER')" requires-channel="https" />
+		
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
 		<security:form-login 
