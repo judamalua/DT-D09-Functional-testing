@@ -14,7 +14,7 @@
 <div class="row">
 <p><em><spring:message code = "form.required.params"/></em></p>
 
-<form:form id = "form" action="manager/register.do" modelAttribute ="manager" class="col s12">
+<form:form id = "form" action="actor/register-manager.do" modelAttribute ="manager" class="col s12">
 
 	
 	<form:hidden path="id"/>

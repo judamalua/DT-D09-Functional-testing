@@ -65,7 +65,7 @@ public class AnswerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test the public list of Rendezvouses in the system. Must return 200 code.
+	 * Test the list of answers of a rendezvous. Must return 200 code.
 	 * 
 	 * @throws Exception
 	 * @author MJ
