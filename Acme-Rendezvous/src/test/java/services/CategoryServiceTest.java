@@ -49,6 +49,41 @@ public class CategoryServiceTest extends AbstractTest {
 	}
 
 	/**
+	 * This test checks that a administrator can list categories
+	 * 
+	 * @author Luis
+	 */
+	@Test
+	public void testAdminCanListCategories() {
+		super.authenticate("Admin1");
+
+		this.categoryService.findAll();
+
+		super.unauthenticate();
+
+	}
+	/**
+	 * This test checks that a administrator can update categories
+	 * 
+	 * @author Luis
+	 */
+	@Test
+	public void testAdminCanUpdateCategories() {
+		super.authenticate("Admin1");
+		Category category;
+
+		category = (Category) this.categoryService.findAll().toArray()[0];
+		category.setName("First Dates");
+
+		this.UpdateDataBase(category);
+
+		this.categoryService.findAll();
+
+		super.unauthenticate();
+
+	}
+
+	/**
 	 * This test checks that a administrator can delete a category
 	 * 
 	 * @author Luis
@@ -103,7 +138,28 @@ public class CategoryServiceTest extends AbstractTest {
 		super.unauthenticate();
 
 	}
+
 	//******************************************Negative Methods*******************************************************************
+
+	/**
+	 * This test checks that a administrator can´t create a category with invalid parameters
+	 * 
+	 * @author Luis
+	 */
+	@Test(expected = javax.validation.ConstraintViolationException.class)
+	public void testAdminCantCreateACategoryWithInavildParameters() {
+		super.authenticate("Admin1");
+		Category category;
+
+		category = this.createStandardCategory();
+		category.setName("");//Invalid name: is blank
+		category.setDescription("");//Invalid Description:is blank;
+
+		this.UpdateDataBase(category);
+
+		super.unauthenticate();
+
+	}
 
 	/**
 	 * This test checks that a user can´t create a category
