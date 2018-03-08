@@ -33,13 +33,13 @@
 	
 	<acme:textbox code="manager.birthDate" path="birthDate" placeholder="dd/MM/yyyy" required="true"/>
 	
-	<acme:textbox code="manager.vat" path="vat"/>
+	<acme:textbox code="manager.vat" path="vat" required = "true"/>
 	
 	<acme:textbox code="manager.username" path="userAccount.username" required="true"/>
 
 	<acme:password code="manager.password" path="userAccount.password" required="true"/>
 	
-	<acme:confirmPassword name="confirmPassword" code="manager.confirm.password" required = "true"/>
+	<acme:password path="confirmPassword" code="manager.confirm.password" required = "true"/>
 	
 	<p>
 		<input type="checkbox" name="check" id="check">

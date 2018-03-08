@@ -20,6 +20,7 @@ import security.Authority;
 import security.UserAccount;
 import domain.DomainService;
 import domain.Manager;
+import forms.ManagerForm;
 
 @Service
 @Transactional
@@ -132,42 +133,69 @@ public class ManagerService {
 	 * @return Manager
 	 * @author Antonio
 	 */
-	public Manager reconstruct(final Manager manager, final BindingResult binding) {
+	public Manager reconstruct(final ManagerForm managerForm, final BindingResult binding) {
 		Manager result;
-		UserAccount userAccount;
-		Collection<Authority> authorities;
-		Authority authority;
 		Collection<DomainService> services;
 
-		if (manager.getId() == 0) {
-			userAccount = manager.getUserAccount();
-			authorities = new HashSet<Authority>();
-			authority = new Authority();
-			authority.setAuthority(Authority.MANAGER);
-			authorities.add(authority);
-			userAccount.setAuthorities(authorities);
-
+		if (managerForm.getId() == 0) {
 			services = new HashSet<DomainService>();
 
-			result = manager;
+			result = this.create();
+
+			result.getUserAccount().setUsername(managerForm.getUserAccount().getUsername());
+			result.getUserAccount().setPassword(managerForm.getUserAccount().getPassword());
+			result.setVat(managerForm.getVat());
+			result.setName(managerForm.getName());
+			result.setSurname(managerForm.getSurname());
+			result.setPostalAddress(managerForm.getPostalAddress());
+			result.setPhoneNumber(managerForm.getPhoneNumber());
+			result.setEmail(managerForm.getEmail());
+			result.setBirthDate(managerForm.getBirthDate());
 
 			result.setServices(services);
-			result.setUserAccount(userAccount);
 
 		} else {
-			result = this.findOne(manager.getId());
+			result = this.findOne(managerForm.getId());
 
-			result.setName(manager.getName());
-			result.setSurname(manager.getSurname());
-			result.setPostalAddress(manager.getPostalAddress());
-			result.setPhoneNumber(manager.getPhoneNumber());
-			result.setEmail(manager.getEmail());
-			result.setBirthDate(manager.getBirthDate());
-			result.setVat(manager.getVat());
+			result.setName(managerForm.getName());
+			result.setSurname(managerForm.getSurname());
+			result.setPostalAddress(managerForm.getPostalAddress());
+			result.setPhoneNumber(managerForm.getPhoneNumber());
+			result.setEmail(managerForm.getEmail());
+			result.setBirthDate(managerForm.getBirthDate());
+			result.setVat(managerForm.getVat());
 
 		}
 
 		this.validator.validate(result, binding);
+
+		return result;
+	}
+
+	/**
+	 * This method deconstructs a Manager object, that is, transforms
+	 * a Manager object into a UserAdminForm object to be edited
+	 * 
+	 * @param user
+	 *            to be deconstructed into an UserAdminForm
+	 * @return UserAdminForm with the data of the user given by parameters
+	 * 
+	 * @author Juanmi
+	 */
+	public ManagerForm deconstruct(final Manager manager) {
+		ManagerForm result;
+
+		result = new ManagerForm();
+
+		result.setId(manager.getId());
+		result.setVersion(manager.getVersion());
+		result.setVat(manager.getVat());
+		result.setName(manager.getName());
+		result.setSurname(manager.getSurname());
+		result.setPostalAddress(manager.getPostalAddress());
+		result.setPhoneNumber(manager.getPhoneNumber());
+		result.setEmail(manager.getEmail());
+		result.setBirthDate(manager.getBirthDate());
 
 		return result;
 	}
