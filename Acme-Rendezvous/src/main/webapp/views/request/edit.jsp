@@ -21,6 +21,8 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+
+
 <spring:message code="request.creditcard.expirationYear.placeholder" var="expirationYearPlaceholder" />	
 <spring:message code="request.creditcard.info" var="creditCardInfo" />
 <spring:message code="request.creditcard.info" var="creditCardInfo" />
@@ -33,10 +35,6 @@
 	<form:hidden path="version"/>
 	<form:hidden path="moment"/>
 	<form:hidden path="service"/>
-	
-	<form:hidden path="creditCard.id"/>
-	<form:hidden path="creditCard.version"/>
-	
 	<acme:textarea code="request.comment" path="comment"/>
 	
 	<spring:message code="request.rendezvous.select" />
@@ -53,6 +51,13 @@
 	
 	<h4><jstl:out value="${creditCardInfo}"/></h4>
 	
+	<div class="cookieCard"></div>
+	<p class="creditCardCookieTokenNew" hidden="true"></p>
+	<div class="cardForm">
+	
+	<form:hidden path="creditCard.id"/>
+	<form:hidden path="creditCard.version"/>
+	<form:hidden path="creditCard.cookieToken" class="creditCardCookieToken"/>
 	
 	<acme:textbox code="request.creditcard.holderName" path="creditCard.holderName" required="true" />
 	
@@ -68,9 +73,21 @@
 	
 	<acme:textbox code="request.creditcard.cvv" path="creditCard.cvv" required="true" />
 	
+	</div>
 	
-	<acme:submit name="save" code="request.save"/>
+	
+
+	<button type="submit" name="save" class="btn" id = "submit" onclick="saveCreditCardCookie()">
+		<spring:message code="request.save" />
+	</button>
 	
 	<acme:cancel url="service/list.do?anonymous=false" code="request.cancel"/>
 	
 </form:form>
+<script src="scripts/creditCardAjax.js"></script>
+<script type="text/javascript">
+window.onload = function() {
+	checkCreditCard();
+	checkCookie();
+};
+</script> 

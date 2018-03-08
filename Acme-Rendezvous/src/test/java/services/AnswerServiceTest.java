@@ -36,6 +36,11 @@ public class AnswerServiceTest extends AbstractTest {
 
 	/**
 	 * This test checks that authenticated users can answer to questions
+	 * as said in functional requirement 21.2: An actor who is authenticated as
+	 * a user must be able to answer the questions that are associated with a rendezvous
+	 * that he or she’s RSVP-ing now.
+	 * 
+	 * @author Juanmi
 	 */
 	@Test
 	public void testAnswerQuestions() {
@@ -59,18 +64,23 @@ public class AnswerServiceTest extends AbstractTest {
 			answer = this.answerService.create();
 			answer.setText("Test");
 			answer.setUser(user);
+			answer.setQuestion(question);
 			savedAnswer = this.answerService.save(answer);
+
 			question.getAnswers().add(savedAnswer);
+
+			this.answerService.flush();
 		}
 
 		super.unauthenticate();
 	}
 
 	/**
-	 * This test checks that authenticated users cannot add empty answers to questions
+	 * This test checks that authenticated users cannot add empty answers to questions.
+	 * 
+	 * @author Juanmi
 	 */
-	@Test(expected = IllegalArgumentException.class)
-	//TODO WAIT FOR DANI TO MAKE HIS CHANGES TO FIX THIS.
+	@Test(expected = javax.validation.ConstraintViolationException.class)
 	public void testEmptyAnswerQuestions() {
 		// Functional requirement number 21.2: An actor who is authenticated as a user must be able to Answer the questions that are associated
 		// with a rendezvous that he or she’s RSVPing now.
@@ -92,7 +102,10 @@ public class AnswerServiceTest extends AbstractTest {
 			answer = this.answerService.create();
 			answer.setText("");
 			answer.setUser(user);
+			answer.setQuestion(question);
 			savedAnswer = this.answerService.save(answer);
+			this.answerService.flush();
+
 			question.getAnswers().add(savedAnswer);
 		}
 
@@ -100,7 +113,9 @@ public class AnswerServiceTest extends AbstractTest {
 	}
 
 	/**
-	 * This test checks that unauthenticated users cannot answer to questions
+	 * This test checks that unauthenticated users cannot answer to questions.
+	 * 
+	 * @author Juanmi
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testUnauthenticatedAnswerQuestions() {
@@ -124,7 +139,9 @@ public class AnswerServiceTest extends AbstractTest {
 			answer = this.answerService.create();
 			answer.setText("Test");
 			answer.setUser(user);
+			answer.setQuestion(question);
 			savedAnswer = this.answerService.save(answer);
+			this.answerService.flush();
 			question.getAnswers().add(savedAnswer);
 		}
 

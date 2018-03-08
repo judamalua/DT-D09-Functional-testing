@@ -49,16 +49,19 @@
 	<acme:select code="rendezvous.similars" path="similars"
 		items="${rendezvouses}" itemLabel="name" multiple="true" />
 
-	
-	<div class = "cleared-div">
-	<jstl:if test="${rendezvous.finalMode== null or !rendezvous.finalMode}">
-		<acme:checkbox code="rendezvous.finalMode" path="finalMode" id = "finalMode" />
-		<jstl:if test="${adult}">
-			<acme:checkbox code="rendezvous.adultOnly" path="adultOnly" id = "adultOnly"/>
-		</jstl:if>
-	</jstl:if>
-	</div>	
-	<acme:submit name="save" code="rendezvous.save" />
+
+		<div class="cleared-div">
+			<jstl:if
+				test="${rendezvous.finalMode== null or !rendezvous.finalMode}">
+				<acme:checkbox code="rendezvous.finalMode" path="finalMode"
+					id="finalMode" />
+				<jstl:if test="${adult}">
+					<acme:checkbox code="rendezvous.adultOnly" path="adultOnly"
+						id="adultOnly" />
+				</jstl:if>
+			</jstl:if>
+		</div>
+		<acme:submit name="save" code="rendezvous.save" />
 	<jstl:if test="${rendezvous.id!=0 and !rendezvous.finalMode}">
 		<acme:delete clickCode="rendezvous.confirm.delete" name="delete"
 			code="rendezvous.delete" />

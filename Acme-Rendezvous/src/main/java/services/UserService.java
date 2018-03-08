@@ -20,6 +20,7 @@ import security.UserAccount;
 import domain.Comment;
 import domain.Rendezvous;
 import domain.User;
+import forms.ActorForm;
 
 @Service
 @Transactional
@@ -34,6 +35,8 @@ public class UserService {
 
 	@Autowired
 	private Validator		validator;
+	@Autowired
+	private ActorService	actorService;
 
 
 	// Simple CRUD methods --------------------------------------------------
@@ -48,6 +51,7 @@ public class UserService {
 		User result;
 		final Collection<Comment> comments;
 		final Collection<Rendezvous> createdRendezvouses;
+		final Collection<Rendezvous> rsvpsRendezvouses;
 		final UserAccount userAccount;
 		final Collection<Authority> auth;
 		final Authority authority;
@@ -64,10 +68,12 @@ public class UserService {
 		result.setUserAccount(userAccount);
 
 		createdRendezvouses = new HashSet<Rendezvous>();
+		rsvpsRendezvouses = new HashSet<Rendezvous>();
 		comments = new HashSet<Comment>();
 
 		result.setCreatedRendezvouses(createdRendezvouses);
 		result.setComments(comments);
+		result.setRsvpRendezvouses(rsvpsRendezvouses);
 
 		return result;
 	}
@@ -118,6 +124,8 @@ public class UserService {
 	 */
 	public User save(final User user) {
 		assert user != null;
+		if (user.getId() != 0)
+			Assert.isTrue(user == this.actorService.findActorByPrincipal());
 
 		User result;
 
@@ -146,43 +154,42 @@ public class UserService {
 
 	// Other business methods ----------------------------------------------------------------
 
-	public User reconstruct(final User user, final BindingResult binding) {
+	public User reconstruct(final ActorForm userRegisterForm, final BindingResult binding) {
 		User result;
 
-		if (user.getId() == 0) {
+		if (userRegisterForm.getId() == 0) {
 
 			Collection<Comment> comments;
 			Collection<Rendezvous> createdRendezvouses, RSVPedRendezvouses;
-			UserAccount userAccount;
-			Collection<Authority> authorities;
-			Authority authority;
 
 			createdRendezvouses = new HashSet<Rendezvous>();
 			RSVPedRendezvouses = new HashSet<Rendezvous>();
 			comments = new HashSet<Comment>();
-			userAccount = user.getUserAccount();
-			authorities = new HashSet<Authority>();
-			authority = new Authority();
 
-			result = user;
+			result = this.create();
 
-			authority.setAuthority(Authority.USER);
-			authorities.add(authority);
-			userAccount.setAuthorities(authorities);
+			result.getUserAccount().setUsername(userRegisterForm.getUserAccount().getUsername());
+			result.getUserAccount().setPassword(userRegisterForm.getUserAccount().getPassword());
+			result.setName(userRegisterForm.getName());
+			result.setSurname(userRegisterForm.getSurname());
+			result.setPostalAddress(userRegisterForm.getPostalAddress());
+			result.setPhoneNumber(userRegisterForm.getPhoneNumber());
+			result.setEmail(userRegisterForm.getEmail());
+			result.setBirthDate(userRegisterForm.getBirthDate());
 
 			result.setCreatedRendezvouses(createdRendezvouses);
 			result.setComments(comments);
 			result.setRsvpRendezvouses(RSVPedRendezvouses);
 
 		} else {
-			result = this.userRepository.findOne(user.getId());
+			result = this.userRepository.findOne(userRegisterForm.getId());
 
-			result.setName(user.getName());
-			result.setSurname(user.getSurname());
-			result.setPostalAddress(user.getPostalAddress());
-			result.setPhoneNumber(user.getPhoneNumber());
-			result.setEmail(user.getEmail());
-			result.setBirthDate(user.getBirthDate());
+			result.setName(userRegisterForm.getName());
+			result.setSurname(userRegisterForm.getSurname());
+			result.setPostalAddress(userRegisterForm.getPostalAddress());
+			result.setPhoneNumber(userRegisterForm.getPhoneNumber());
+			result.setEmail(userRegisterForm.getEmail());
+			result.setBirthDate(userRegisterForm.getBirthDate());
 
 		}
 
@@ -190,7 +197,6 @@ public class UserService {
 
 		return result;
 	}
-
 	/**
 	 * That method returns a collections of users of the system with pageable
 	 * 
@@ -272,4 +278,14 @@ public class UserService {
 
 		return result;
 	}
+	/**
+	 * 
+	 * 
+	 * 
+	 * @author Luis
+	 */
+	public void flush() {
+		this.userRepository.flush();
+	}
+
 }

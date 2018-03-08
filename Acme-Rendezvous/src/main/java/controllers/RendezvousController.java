@@ -120,11 +120,8 @@ public class RendezvousController extends AbstractController {
 				/**
 				 * Age control
 				 */
-				if (rendezvous.getAdultOnly()) {//Checks if there is the user is listing logged
-					actor = this.actorService.findActorByPrincipal();
-					if (!this.actorService.checkUserIsAdult(actor))
-						result = new ModelAndView("redirect:/misc/adultOnly");
-				}
+				if (rendezvous.getAdultOnly() && !this.actorService.checkUserIsAdult(actor))
+					return new ModelAndView("redirect:/misc/403");
 
 				//If the user not is adult then the adult similars must be removed
 				if (!this.actorService.checkUserIsAdult(actor))
@@ -139,7 +136,7 @@ public class RendezvousController extends AbstractController {
 					userHasRVSPdRendezvous = rendezvous.getUsers().contains(user);
 				}
 			} else if (rendezvous.getAdultOnly())
-				result = new ModelAndView("redirect:/misc/adultOnly");
+				return new ModelAndView("redirect:/misc/403");
 			else
 				//If there is no user then the adult similars must be removed
 				for (final Rendezvous similar : new HashSet<Rendezvous>(rendezvous.getSimilars()))

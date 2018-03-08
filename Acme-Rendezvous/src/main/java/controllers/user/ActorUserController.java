@@ -23,6 +23,7 @@ import services.ActorService;
 import services.UserService;
 import controllers.AbstractController;
 import domain.User;
+import forms.ActorForm;
 
 @Controller
 @RequestMapping("/actor/user")
@@ -69,10 +70,11 @@ public class ActorUserController extends AbstractController {
 	 * @author Luis
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView updateUser(@ModelAttribute("actor") User user, final BindingResult binding) {
+	public ModelAndView updateUser(@ModelAttribute("actor") final ActorForm actor, final BindingResult binding) {
 		ModelAndView result;
+		User user = null;
 		try {
-			user = this.userService.reconstruct(user, binding);
+			user = this.userService.reconstruct(actor, binding);
 		} catch (final Throwable oops) {//Not delete
 		}
 		if (binding.hasErrors())

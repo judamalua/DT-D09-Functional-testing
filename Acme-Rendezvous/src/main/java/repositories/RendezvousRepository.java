@@ -2,6 +2,7 @@
 package repositories;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,8 +33,8 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select r from Rendezvous r where r.finalMode=true and r.deleted=false")
 	Collection<Rendezvous> findFinalRendezvouses();
 
-	@Query("select r from User u join u.createdRendezvouses r where u.id=?1 and r.adultOnly=false and r.finalMode=true")
-	Collection<Rendezvous> findCreatedFinalRendezvousesByUserId(int userId);
+	@Query("select r from User u join u.createdRendezvouses r where u.id=?1 and r.finalMode=true and r.moment > ?2 and r.deleted = false")
+	Collection<Rendezvous> findCreatedFinalRendezvousesByUserId(int userId, Date now);
 
 	@Query("select r from Rendezvous r where r.finalMode=true and r.deleted=false and r.adultOnly=false")
 	Page<Rendezvous> findFinalWithoutAdultRendezvouses(Pageable pageable);
@@ -47,6 +48,9 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select r from Rendezvous r join r.users u where r.deleted=false and u.id=?1")
 	Page<Rendezvous> findRSVPRendezvouses(int userId, Pageable pageable);
 
+	@Query("select r from Rendezvous r join r.users u where r.deleted=false and u.id=?1")
+	Collection<Rendezvous> findRSVPRendezvouses(int userId);
+
 	@Query("select r from User u join u.createdRendezvouses r where u.id=?1 and r.adultOnly=false and r.finalMode=true")
 	Page<Rendezvous> findCreatedRendezvousesForDisplayNotAdult(int userId, Pageable pageable);
 
@@ -59,6 +63,8 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select r from Rendezvous r join r.requests req where req.id =?1")
 	Rendezvous findRendezvousByRequest(int requestId);
 
+	@Query("select r from Rendezvous r join r.requests req where req.service.id = ?1 ")
+	Collection<Rendezvous> getRendezvousesRequestedByService(int serviceId);
 	// Dashboard queries.
 
 	/**
@@ -115,4 +121,9 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select avg(r.questions.size), sqrt(sum(r.questions.size * r.questions.size) / count(r.questions.size) - (avg(r.questions.size) * avg(r.questions.size))) from Rendezvous r")
 	String getQuestionsInfoFromRendezvous();
 
+	@Query("select avg(rq.service.categories.size) from Rendezvous r join r.requests rq")
+	String getAverageNumberCategoriesPerRendezvous();
+
+	@Query("select avg(r.requests.size), min(r.requests.size), max(r.requests.size), sqrt(sum(r.requests.size * r.requests.size) / count(r.requests.size) - (avg(r.requests.size) * avg(r.requests.size))) from Rendezvous r")
+	String getInfoFromServicesRequestedPerRendezvous();
 }

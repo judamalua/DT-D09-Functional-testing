@@ -597,6 +597,26 @@ public class RendezvousService {
 	}
 
 	/**
+	 * This method returns the list of not deleted RSVPed rendezvouses
+	 * 
+	 * @param user
+	 *            to obtain his/her RSVPed rendezvouses
+	 * @return a collection with the RSVPed rendezvouses of the user
+	 * 
+	 * @author Juanmi
+	 */
+	public Collection<Rendezvous> findRSVPRendezvouses(final User user) {
+		Assert.notNull(user);
+
+		Collection<Rendezvous> result;
+
+		result = this.rendezvousRepository.findRSVPRendezvouses(user.getId());
+
+		return result;
+
+	}
+
+	/**
 	 * Return the list of not deleted rendezvouses paginated by the pageable and created by user whithout adult contents
 	 * 
 	 * @param pageable
@@ -745,11 +765,40 @@ public class RendezvousService {
 		this.rendezvousRepository.flush();
 	}
 
+	/**
+	 * Returns a collection of the Rendezvouses created by the user passed as a param
+	 * 
+	 * @param userId
+	 *            , the ID of the User creator
+	 * @return Collection<Rendezvous>
+	 * @author Antonio
+	 */
 	public Collection<Rendezvous> findCreatedFinalRendezvousesByUserId(final int userId) {
 		Collection<Rendezvous> result;
 
-		result = this.rendezvousRepository.findCreatedFinalRendezvousesByUserId(userId);
+		result = this.rendezvousRepository.findCreatedFinalRendezvousesByUserId(userId, new Date());
 
 		return result;
 	}
+
+	public Collection<Rendezvous> getRendezvousesRequestedByService(final int serviceId) {
+		Collection<Rendezvous> result;
+
+		result = this.rendezvousRepository.getRendezvousesRequestedByService(serviceId);
+
+		return result;
+	}
+
+	public Collection<Rendezvous> getRendezvousesAvailableForRequest(final int userId, final int serviceId) {
+		Collection<Rendezvous> result;
+		Collection<Rendezvous> notAvailable;
+
+		result = this.findCreatedFinalRendezvousesByUserId(userId);
+		notAvailable = this.getRendezvousesRequestedByService(serviceId);
+
+		result.removeAll(notAvailable);
+
+		return result;
+	}
+
 }

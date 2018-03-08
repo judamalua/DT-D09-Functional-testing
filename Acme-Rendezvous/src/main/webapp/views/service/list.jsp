@@ -35,17 +35,33 @@
 
 <!-- Display -->
 
-<display:table name="services" id="service" requestURI="${requestURI}">
+<display:table name="services" id="service" requestURI="${requestURI}page=${page}">
 
-	<display:column property="pictureUrl" title="${titlePicture}" />
+	<display:column title="${titlePicture}">
+		<jstl:if test="${service.pictureUrl!=null}">
+			<img class="serviceImg" src="${service.pictureUrl}" />
+		</jstl:if>
+	</display:column>
 	<display:column property="name" title="${titleName}" sortable="true" />
 	<display:column property="description" title="${titleDescription}" />
-	<display:column property="price" title="${titlePrice}" />
+	<display:column title="${titleCategories}" />
+		<display:column>
+			<acme:button url="category/list.do?serviceId=${service.id}"
+				code="service.categories.see" />
+	</display:column>
 	<display:column>
-		<jstl:if test="${managedServices[service_rowNum-1]}">
+		<jstl:if
+			test="${!service.cancelled && managedServices[service_rowNum-1] }">
 			<acme:button url="service/manager/edit.do?serviceId=${service.id}"
 				code="service.edit" />
 		</jstl:if>
+	</display:column>
+	
+	<display:column>
+		<security:authorize access="hasRole('USER')">
+			<acme:button url="request/user/edit.do?serviceId=${service.id}"
+				code="service.edit" />
+		</security:authorize>
 	</display:column>
 
 	<display:column>
@@ -54,12 +70,20 @@
 			<spring:message code="service.cancelled" />
 		</jstl:if>
 	</display:column>
-	
+
 	<security:authorize access="hasRole('USER')">
 		<display:column title="${requestColumn}">
 			<acme:button url="request/user/create.do?serviceId=${service.id}"
 				code="service.request.create" />
 		</display:column>
+	</security:authorize>
+	<security:authorize access="hasRole('ADMIN')">
+		<jstl:if test="${!service.cancelled}">
+			<display:column>
+				<acme:button url="service/admin/cancel.do?serviceId=${service.id}"
+					code="service.cancel" />
+			</display:column>
+		</jstl:if>
 	</security:authorize>
 
 </display:table>

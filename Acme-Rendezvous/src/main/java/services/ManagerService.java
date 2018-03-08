@@ -8,8 +8,11 @@ import java.util.HashSet;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.ManagerRepository;
@@ -29,6 +32,8 @@ public class ManagerService {
 	// Supporting services --------------------------------------------------
 	@Autowired
 	private Validator			validator;
+	@Autowired
+	private ActorService		actorService;
 
 
 	// Simple CRUD methods --------------------------------------------------
@@ -105,12 +110,97 @@ public class ManagerService {
 	 */
 	public Manager save(final Manager manager) {
 		Assert.notNull(manager);
+		if (manager.getId() != 0)
+			Assert.isTrue((Manager) this.actorService.findActorByPrincipal() == manager);
 
 		Manager result;
 
 		result = this.managerRepository.save(manager);
 
 		return result;
+
+	}
+	// Other business methods ----------------------------------------------------------------
+
+	/**
+	 * This method reconstruct a manager, initializing him from scratch or getting his attributes from the DB.
+	 * 
+	 * @param manager
+	 *            , the manager to be reconstructed
+	 * @param binding
+	 *            , where the possible errors are stored
+	 * @return Manager
+	 * @author Antonio
+	 */
+	public Manager reconstruct(final Manager manager, final BindingResult binding) {
+		Manager result;
+		UserAccount userAccount;
+		Collection<Authority> authorities;
+		Authority authority;
+		Collection<DomainService> services;
+
+		if (manager.getId() == 0) {
+			userAccount = manager.getUserAccount();
+			authorities = new HashSet<Authority>();
+			authority = new Authority();
+			authority.setAuthority(Authority.MANAGER);
+			authorities.add(authority);
+			userAccount.setAuthorities(authorities);
+
+			services = new HashSet<DomainService>();
+
+			result = manager;
+
+			result.setServices(services);
+			result.setUserAccount(userAccount);
+
+		} else {
+			result = this.findOne(manager.getId());
+
+			result.setName(manager.getName());
+			result.setSurname(manager.getSurname());
+			result.setPostalAddress(manager.getPostalAddress());
+			result.setPhoneNumber(manager.getPhoneNumber());
+			result.setEmail(manager.getEmail());
+			result.setBirthDate(manager.getBirthDate());
+			result.setVat(manager.getVat());
+
+		}
+
+		this.validator.validate(result, binding);
+
+		return result;
+	}
+
+	public Page<DomainService> findServicesByManager(final Manager manager, final Pageable pageable) {
+		Page<DomainService> result;
+		Assert.notNull(manager);
+		Assert.notNull(pageable);
+
+		result = this.managerRepository.findServicesByManager(manager.getId(), pageable);
+
+		return result;
+
+	}
+
+	public Manager findManagerByService(final DomainService service) {
+		Manager result;
+		Assert.notNull(service);
+
+		result = this.managerRepository.findManagerByService(service.getId());
+
+		return result;
+
+	}
+
+	/**
+	 * This method do a flush in database
+	 * 
+	 * 
+	 * @author Luis
+	 */
+	public void flush() {
+		this.managerRepository.flush();
 
 	}
 }

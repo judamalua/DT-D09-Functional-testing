@@ -27,6 +27,20 @@ public class AbstractController {
 	private ConfigurationService	configurationService;
 
 
+	// Panic handler ----------------------------------------------------------
+
+	@ExceptionHandler(Throwable.class)
+	public ModelAndView panic(final Throwable oops) {
+		ModelAndView result;
+
+		result = new ModelAndView("misc/panic");
+		result.addObject("name", ClassUtils.getShortName(oops.getClass()));
+		result.addObject("exception", oops.getMessage());
+		result.addObject("stackTrace", ExceptionUtils.getStackTrace(oops));
+
+		return result;
+	}
+
 	/**
 	 * 
 	 * @return the number of result to be shown in every list table, stored in the database
@@ -38,20 +52,6 @@ public class AbstractController {
 		Integer result;
 
 		result = this.configurationService.findConfiguration().getPageSize();
-
-		return result;
-	}
-
-	// Panic handler ----------------------------------------------------------
-
-	@ExceptionHandler(Throwable.class)
-	public ModelAndView panic(final Throwable oops) {
-		ModelAndView result;
-
-		result = new ModelAndView("misc/panic");
-		result.addObject("name", ClassUtils.getShortName(oops.getClass()));
-		result.addObject("exception", oops.getMessage());
-		result.addObject("stackTrace", ExceptionUtils.getStackTrace(oops));
 
 		return result;
 	}

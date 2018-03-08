@@ -14,7 +14,7 @@
 <div class="row">
 <p><em><spring:message code = "form.required.params"/></em></p>
 
-<form:form id = "form" action="actor/register.do" modelAttribute ="user" class="col s12">
+<form:form id = "form" action="actor/register.do" modelAttribute ="actor" class="col s12">
 
 	
 	<form:hidden path="id"/>
@@ -37,7 +37,7 @@
 
 	<acme:password code="user.password" path="userAccount.password" required="true"/>
 	
-	<acme:confirmPassword name="confirmPassword" code="user.confirm.password" required = "true"/>
+	<acme:password path="confirmPassword" code="user.confirm.password" required = "true"/>
 	
 	<p>
 		<input type="checkbox" name="check" id="check">
