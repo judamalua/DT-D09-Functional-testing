@@ -82,7 +82,7 @@ public class ServiceController extends AbstractController {
 			}
 			result.addObject("services", services.getContent());
 			result.addObject("managedServices", managedServices);
-			result.addObject("requestURI", "service/list.do");
+			result.addObject("requestURI", "service/list.do?anonymous=" + anonymous + "&");
 			result.addObject("page", page);
 			result.addObject("pageNum", services.getTotalPages());
 

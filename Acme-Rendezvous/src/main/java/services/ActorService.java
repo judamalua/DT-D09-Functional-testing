@@ -20,6 +20,7 @@ import security.LoginService;
 import security.UserAccount;
 import domain.Actor;
 import domain.Administrator;
+import forms.UserAdminForm;
 
 @Service
 @Transactional
@@ -246,6 +247,32 @@ public class ActorService {
 		return result;
 	}
 
+	/**
+	 * This method deconstructs a User/Administrator/Manager object, that is, transforms
+	 * an User/Administrator/Manager object into a UserAdminForm object to be edited
+	 * 
+	 * @param user
+	 *            to be deconstructed into an UserAdminForm
+	 * @return UserAdminForm with the data of the user given by parameters
+	 * 
+	 * @author Juanmi
+	 */
+	public UserAdminForm deconstruct(final Actor actor) {
+		UserAdminForm result;
+
+		result = new UserAdminForm();
+
+		result.setId(actor.getId());
+		result.setVersion(actor.getVersion());
+		result.setName(actor.getName());
+		result.setSurname(actor.getSurname());
+		result.setPostalAddress(actor.getPostalAddress());
+		result.setPhoneNumber(actor.getPhoneNumber());
+		result.setEmail(actor.getEmail());
+		result.setBirthDate(actor.getBirthDate());
+
+		return result;
+	}
 	/**
 	 * This method checks if the age passed by parameters is greater or equals to the legal age
 	 * 

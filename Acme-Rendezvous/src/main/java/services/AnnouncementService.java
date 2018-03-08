@@ -43,7 +43,7 @@ public class AnnouncementService {
 	 * Create a new entity of an Announcement
 	 * 
 	 * @return a entity of an Announcement
-	 * @author MJ
+	 * @author Alejandro
 	 */
 	public Announcement create() {
 		Announcement result;
@@ -57,7 +57,7 @@ public class AnnouncementService {
 	 * Get all the Announcement in the system
 	 * 
 	 * @return the list of all Announcements in the system
-	 * @author MJ
+	 * @author Alejandro
 	 */
 	public Collection<Announcement> findAll() {
 
@@ -78,7 +78,7 @@ public class AnnouncementService {
 	 * @param announcementId
 	 * 
 	 * @return an Announcement with id equals to announcementId
-	 * @author MJ
+	 * @author Alejandro
 	 */
 	public Announcement findOne(final int announcementId) {
 
@@ -97,13 +97,21 @@ public class AnnouncementService {
 	 * @param rendezvousId
 	 * 
 	 * @return the saved entity of announcement
-	 * @author MJ
+	 * @author Alejandro
 	 */
 	public Announcement save(final Announcement announcement, final Integer rendezvousId) {
 
 		assert announcement != null;
 		Announcement result;
 		Rendezvous rendezvous;
+		final Authority auth = new Authority();
+		auth.setAuthority(Authority.USER);
+		Assert.isTrue(this.actorService.findActorByPrincipal().getUserAccount().getAuthorities().contains(auth));
+		final User user = (User) this.actorService.findActorByPrincipal();
+		//Check that rendezvous date is higher than actual
+		rendezvous = this.rendezvousService.findOne(rendezvousId);
+		Assert.isTrue(rendezvous.getMoment().after(new Date())); //Check rendezvous is not already finished.
+		Assert.isTrue(user.getCreatedRendezvouses().contains(rendezvous)); //Check user has permission for edit that announcement
 
 		if (announcement.getVersion() == 0)
 			//The announcement moment is actual when the announcement is created 
@@ -126,7 +134,7 @@ public class AnnouncementService {
 	 * Delete the announcement passed as parameter
 	 * 
 	 * @param announcement
-	 * @author MJ
+	 * @author Alejandro
 	 */
 	public void delete(final Announcement announcement) {
 
@@ -178,5 +186,23 @@ public class AnnouncementService {
 
 		this.validator.validate(result, binding);
 		return result;
+	}
+	public Collection<Announcement> findCreatedAnnouncementByUserOrderByMoment(final int userId) {
+		Assert.isTrue(userId != 0);
+
+		Collection<Announcement> result;
+
+		result = this.announcementRepository.findCreatedAnnouncementByUserOrderByMoment(userId);
+
+		return result;
+	}
+	/**
+	 * This method flushes the repository, this forces the cache to be saved to the database, which then forces the test data to be validated. This is only used
+	 * in tests
+	 * 
+	 * @author Alejandro
+	 */
+	public void flush() {
+		this.announcementRepository.flush();
 	}
 }
