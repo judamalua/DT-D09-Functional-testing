@@ -18,6 +18,7 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <!-- Variable declaration -->
@@ -27,6 +28,7 @@
 <spring:message code="service.price" var="titlePrice" />
 <spring:message code="service.request" var="requestColumn" />
 <spring:message code="service.request.create" var="createRequest" />
+<spring:message code="service.request.list.title" var="titleListRequests" />
 
 <!-- Pagination -->
 <acme:pagination requestURI="${requestURI}page=" pageNum="${pageNum}"
@@ -49,6 +51,16 @@
 			<acme:button url="category/list.do?serviceId=${service.id}"
 				code="service.categories.see" />
 	</display:column>
+	
+	<display:column title="${titleListRequests}">
+		<security:authorize access="hasRole('MANAGER')">
+			<jstl:if test="${fn:length(service.requests) != 0}">
+				<acme:button url="request/manager/list.do?serviceId=${service.id}"
+				code="service.request.list" />
+			</jstl:if>	
+		</security:authorize>
+	</display:column>
+	
 	<display:column>
 		<jstl:if
 			test="${!service.cancelled && managedServices[service_rowNum-1] }">
