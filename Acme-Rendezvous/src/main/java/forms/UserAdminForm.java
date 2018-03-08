@@ -22,7 +22,7 @@ import security.UserAccount;
 import domain.DomainEntity;
 
 @Access(AccessType.PROPERTY)
-public class ActorForm extends DomainEntity {
+public class UserAdminForm extends DomainEntity {
 
 	// Attributes -------------------------------------------------------------
 	private String	name;

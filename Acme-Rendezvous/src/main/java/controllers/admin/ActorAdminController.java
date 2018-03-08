@@ -18,7 +18,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import security.Authority;
@@ -26,6 +25,7 @@ import services.ActorService;
 import services.AdministratorService;
 import controllers.AbstractController;
 import domain.Administrator;
+import forms.UserAdminForm;
 
 @Controller
 @RequestMapping("/actor/admin")
@@ -54,9 +54,9 @@ public class ActorAdminController extends AbstractController {
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public ModelAndView registerAdmin() {
 		ModelAndView result;
-		final Administrator admin;
+		UserAdminForm admin;
 
-		admin = this.actorService.createAdmin();
+		admin = new UserAdminForm();
 
 		result = this.createEditModelAndViewRegister(admin);
 
@@ -77,10 +77,12 @@ public class ActorAdminController extends AbstractController {
 	public ModelAndView editUser() {
 		ModelAndView result;
 		Administrator admin;
+		final UserAdminForm adminForm;
 
 		admin = (Administrator) this.actorService.findActorByPrincipal();
 		Assert.notNull(admin);
-		result = this.createEditModelAndView(admin);
+		adminForm = this.actorService.deconstruct(admin);
+		result = this.createEditModelAndView(adminForm);
 
 		return result;
 	}
@@ -93,34 +95,33 @@ public class ActorAdminController extends AbstractController {
 	 * @return ModelandView
 	 * @author Luis
 	 */
-	@RequestMapping(value = "/register", method = RequestMethod.POST, params = {
-		"save", "confirmPassword"
-	})
-	public ModelAndView registerAdministrator(@ModelAttribute("admin") Administrator admin, final BindingResult binding, @RequestParam("confirmPassword") final String confirmPassword) {
+	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
+	public ModelAndView registerAdministrator(@ModelAttribute("admin") final UserAdminForm actor, final BindingResult binding) {
 		ModelAndView result;
 		Authority auth;
+		Administrator admin = null;
 		try {
-			admin = this.administratorService.reconstruct(admin, binding);
+			admin = this.administratorService.reconstruct(actor, binding);
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/misc/403");
 		}
 		if (binding.hasErrors())
-			result = this.createEditModelAndViewRegister(admin, "admin.params.error");
+			result = this.createEditModelAndViewRegister(actor, "admin.params.error");
 		else
 			try {
 				auth = new Authority();
 				auth.setAuthority(Authority.ADMIN);
 				Assert.isTrue(admin.getUserAccount().getAuthorities().contains(auth));
-				Assert.isTrue(confirmPassword.equals(admin.getUserAccount().getPassword()), "Passwords do not match");
+				Assert.isTrue(actor.getConfirmPassword().equals(admin.getUserAccount().getPassword()), "Passwords do not match");
 				this.actorService.registerActor(admin);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final DataIntegrityViolationException oops) {
-				result = this.createEditModelAndViewRegister(admin, "admin.username.error");
+				result = this.createEditModelAndViewRegister(actor, "admin.username.error");
 			} catch (final Throwable oops) {
 				if (oops.getMessage().contains("Passwords do not match"))
-					result = this.createEditModelAndViewRegister(admin, "admin.password.error");
+					result = this.createEditModelAndViewRegister(actor, "admin.password.error");
 				else
-					result = this.createEditModelAndViewRegister(admin, "admin.commit.error");
+					result = this.createEditModelAndViewRegister(actor, "admin.commit.error");
 			}
 
 		return result;
@@ -137,36 +138,36 @@ public class ActorAdminController extends AbstractController {
 	 * @author Luis
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView updateAdministrator(@ModelAttribute("actor") Administrator admin, final BindingResult binding) {
+	public ModelAndView updateAdministrator(@ModelAttribute("actor") final UserAdminForm actor, final BindingResult binding) {
 		ModelAndView result;
+		Administrator admin = null;
 
 		try {
-			admin = this.administratorService.reconstruct(admin, binding);
+			admin = this.administratorService.reconstruct(actor, binding);
 		} catch (final Throwable oops) { //Not delete
 		}
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(admin, "actor.params.error");
+			result = this.createEditModelAndView(actor, "actor.params.error");
 		else
 			try {
 				this.actorService.save(admin);
 				result = new ModelAndView("redirect:/actor/display.do");
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(admin, "actor.commit.error");
+				result = this.createEditModelAndView(actor, "actor.commit.error");
 			}
 
 		return result;
 	}
-
 	// Ancillary methods --------------------------------------------------
 
-	protected ModelAndView createEditModelAndView(final Administrator admin) {
+	protected ModelAndView createEditModelAndView(final UserAdminForm admin) {
 		ModelAndView result;
 
 		result = this.createEditModelAndView(admin, null);
 
 		return result;
 	}
-	protected ModelAndView createEditModelAndViewRegister(final Administrator admin) {
+	protected ModelAndView createEditModelAndViewRegister(final UserAdminForm admin) {
 		ModelAndView result;
 
 		result = this.createEditModelAndViewRegister(admin, null);
@@ -174,7 +175,7 @@ public class ActorAdminController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final Administrator admin, final String messageCode) {
+	protected ModelAndView createEditModelAndView(final UserAdminForm admin, final String messageCode) {
 		ModelAndView result;
 
 		result = new ModelAndView("actor/edit");
@@ -185,7 +186,7 @@ public class ActorAdminController extends AbstractController {
 
 	}
 
-	protected ModelAndView createEditModelAndViewRegister(final Administrator admin, final String messageCode) {
+	protected ModelAndView createEditModelAndViewRegister(final UserAdminForm admin, final String messageCode) {
 		ModelAndView result;
 
 		result = new ModelAndView("admin/register");

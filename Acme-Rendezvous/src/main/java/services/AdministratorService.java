@@ -2,7 +2,6 @@
 package services;
 
 import java.util.Collection;
-import java.util.HashSet;
 
 import javax.transaction.Transactional;
 
@@ -13,9 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.AdministratorRepository;
-import security.Authority;
-import security.UserAccount;
 import domain.Administrator;
+import forms.UserAdminForm;
 
 @Service
 @Transactional
@@ -27,6 +25,9 @@ public class AdministratorService {
 	private AdministratorRepository	administratorRepository;
 
 	// Supporting services --------------------------------------------------
+
+	@Autowired
+	private ActorService			actorService;
 
 	@Autowired
 	private Validator				validator;
@@ -89,34 +90,31 @@ public class AdministratorService {
 
 	// Other business methods
 
-	public Administrator reconstruct(final Administrator admin, final BindingResult binding) {
+	public Administrator reconstruct(final UserAdminForm userAdminForm, final BindingResult binding) {
 		Administrator result;
 
-		if (admin.getId() == 0) {
+		if (userAdminForm.getId() == 0) {
 
-			UserAccount userAccount;
-			Collection<Authority> authorities;
-			Authority authority;
+			result = this.actorService.createAdmin();
 
-			userAccount = admin.getUserAccount();
-			authorities = new HashSet<Authority>();
-			authority = new Authority();
-
-			result = admin;
-
-			authority.setAuthority(Authority.ADMIN);
-			authorities.add(authority);
-			userAccount.setAuthorities(authorities);
+			result.getUserAccount().setUsername(userAdminForm.getUserAccount().getUsername());
+			result.getUserAccount().setPassword(userAdminForm.getUserAccount().getPassword());
+			result.setName(userAdminForm.getName());
+			result.setSurname(userAdminForm.getSurname());
+			result.setPostalAddress(userAdminForm.getPostalAddress());
+			result.setPhoneNumber(userAdminForm.getPhoneNumber());
+			result.setEmail(userAdminForm.getEmail());
+			result.setBirthDate(userAdminForm.getBirthDate());
 
 		} else {
-			result = this.administratorRepository.findOne(admin.getId());
+			result = this.administratorRepository.findOne(userAdminForm.getId());
 
-			result.setName(admin.getName());
-			result.setSurname(admin.getSurname());
-			result.setPostalAddress(admin.getPostalAddress());
-			result.setPhoneNumber(admin.getPhoneNumber());
-			result.setEmail(admin.getEmail());
-			result.setBirthDate(admin.getBirthDate());
+			result.setName(userAdminForm.getName());
+			result.setSurname(userAdminForm.getSurname());
+			result.setPostalAddress(userAdminForm.getPostalAddress());
+			result.setPhoneNumber(userAdminForm.getPhoneNumber());
+			result.setEmail(userAdminForm.getEmail());
+			result.setBirthDate(userAdminForm.getBirthDate());
 		}
 		this.validator.validate(result, binding);
 
