@@ -1,0 +1,134 @@
+
+package services;
+
+import java.util.Collection;
+import java.util.HashSet;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import utilities.AbstractTest;
+import domain.Category;
+import domain.DomainService;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {
+	"classpath:spring/junit.xml"
+})
+@Transactional
+public class CategoryServiceTest extends AbstractTest {
+
+	@Autowired
+	public ActorService		actorService;
+	@Autowired
+	public CategoryService	categoryService;
+
+
+	//******************************************Positive Methods*******************************************************************
+	/**
+	 * This test checks that a administrator can create a category
+	 * 
+	 * @author Luis
+	 */
+	@Test
+	public void testAdminCanCreateACategory() {
+		super.authenticate("Admin1");
+		Category category;
+
+		category = this.createStandardCategory();
+
+		this.UpdateDataBase(category);
+
+		super.unauthenticate();
+
+	}
+
+	//******************************************Negative Methods*******************************************************************
+
+	/**
+	 * This test checks that a user can´t create a category
+	 * 
+	 * @author Luis
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testUserCantCreateACategory() {
+		super.authenticate("User1");
+		Category category;
+
+		category = this.createStandardCategory();
+
+		this.UpdateDataBase(category);
+
+		super.unauthenticate();
+
+	}
+
+	/**
+	 * This test checks that a manager can´t create a category
+	 * 
+	 * @author Luis
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testManagerCantCreateACategory() {
+		super.authenticate("Manager1");
+		Category category;
+
+		category = this.createStandardCategory();
+
+		this.UpdateDataBase(category);
+
+		super.unauthenticate();
+
+	}
+
+	/**
+	 * This test checks that a no logged actor can´t create a category
+	 * 
+	 * @author Luis
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testNoLoggedCantCreateACategory() {
+		super.authenticate(null);
+		Category category;
+
+		category = this.createStandardCategory();
+
+		this.UpdateDataBase(category);
+
+		super.unauthenticate();
+
+	}
+
+	/**
+	 * This method create a category with correct attributes
+	 * 
+	 * @author Luis
+	 */
+	private Category createStandardCategory() {
+		Category category;
+		final Collection<DomainService> services = new HashSet<DomainService>();
+
+		category = this.categoryService.create();
+		category.setName("Category exmaple");
+		category.setDescription("A example of a a description for a category");
+		category.setServices(services);
+
+		return category;
+
+	}
+
+	/**
+	 * This method try to update a Entity in database(in this case Manager)
+	 * 
+	 * @author Luis
+	 */
+	private void UpdateDataBase(final Category category) {
+		this.categoryService.save(category);
+		this.categoryService.flush();
+	}
+
+}
