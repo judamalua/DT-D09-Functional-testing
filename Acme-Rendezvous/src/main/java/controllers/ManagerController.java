@@ -6,15 +6,16 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import security.Authority;
 import services.ActorService;
 import services.ManagerService;
 import domain.Manager;
+import forms.ManagerForm;
 
 @Controller
 @RequestMapping("/manager")
@@ -42,10 +43,10 @@ public class ManagerController extends AbstractController {
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public ModelAndView registerManager() {
 		ModelAndView result;
-		Manager manager;
+		ManagerForm manager;
 
 		try {
-			manager = this.managerService.create();
+			manager = new ManagerForm();
 
 			result = this.createEditModelAndView(manager);
 		} catch (final Throwable oops) {
@@ -63,48 +64,49 @@ public class ManagerController extends AbstractController {
 	 * @author Antonio
 	 */
 	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
-	public ModelAndView registerManager(Manager manager, final BindingResult binding, @RequestParam("confirmPassword") final String confirmPassword) {
+	public ModelAndView registerManager(@ModelAttribute("manager") final ManagerForm managerForm, final BindingResult binding) {
 		ModelAndView result;
 		Authority auth;
+		Manager manager = null;
 
 		try {
-			manager = this.managerService.reconstruct(manager, binding);
+			manager = this.managerService.reconstruct(managerForm, binding);
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/misc/403");
 		}
 
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(manager, "manager.params.error");
+			result = this.createEditModelAndView(managerForm, "manager.params.error");
 		else
 			try {
 				auth = new Authority();
 				auth.setAuthority(Authority.MANAGER);
 				Assert.isTrue(manager.getUserAccount().getAuthorities().contains(auth));
-				Assert.isTrue(confirmPassword.equals(manager.getUserAccount().getPassword()), "Passwords do not match");
+				Assert.isTrue(managerForm.getConfirmPassword().equals(manager.getUserAccount().getPassword()), "Passwords do not match");
 
 				this.actorService.registerActor(manager);
 
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final DataIntegrityViolationException oops) {
-				result = this.createEditModelAndView(manager, "manager.username.error");
+				result = this.createEditModelAndView(managerForm, "manager.username.error");
 			} catch (final Throwable oops) {
 				if (oops.getMessage().contains("Passwords do not match"))
-					result = this.createEditModelAndView(manager, "manager.password.error");
+					result = this.createEditModelAndView(managerForm, "manager.password.error");
 				else
-					result = this.createEditModelAndView(manager, "manager.commit.error");
+					result = this.createEditModelAndView(managerForm, "manager.commit.error");
 			}
 		return result;
 	}
 
 	//Ancilliary methods -----------------------------------------------------------
-	private ModelAndView createEditModelAndView(final Manager manager) {
+	private ModelAndView createEditModelAndView(final ManagerForm manager) {
 		ModelAndView result;
 
 		result = this.createEditModelAndView(manager, null);
 
 		return result;
 	}
-	private ModelAndView createEditModelAndView(final Manager manager, final String message) {
+	private ModelAndView createEditModelAndView(final ManagerForm manager, final String message) {
 		ModelAndView result;
 
 		result = new ModelAndView("manager/register");
