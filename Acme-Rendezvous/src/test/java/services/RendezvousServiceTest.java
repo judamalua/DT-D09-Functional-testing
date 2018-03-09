@@ -226,6 +226,49 @@ public class RendezvousServiceTest extends AbstractTest {
 	}
 
 	/**
+	 * This driver checks several tests regarding functional requirement number 16.4: An actor who is authenticated as a user must be able to
+	 * link one of the rendezvouses that he or she’s created to other similar rendezvouses
+	 * 
+	 * @author Juanmi
+	 */
+	@Test
+	public void driverSimilars() {
+		final Object testingData[][] = {
+			{
+				// This test checks that authenticated users can link a final mode rendezvous to a draft mode rendezvous they created
+				"User1", "Rendezvous8", "Rendezvous1", "", "", null
+			}, {
+				// This test checks that authenticated users can link two final mode rendezvouses to a draft mode rendezvous they created
+				"User1", "Rendezvous8", "Rendezvous1", "Rendezvous2", "", null
+			}, {
+				// This test checks that authenticated users can link three final mode rendezvouses to a draft mode rendezvous they created
+				"User1", "Rendezvous8", "Rendezvous1", "Rendezvous2", "Rendezvous3", null
+			}, {
+				// This test checks that authenticated users can link a final mode rendezvous to a final mode rendezvous they created
+				"User1", "Rendezvous1", "Rendezvous2", "", "", null
+			}, {
+				// This test checks that authenticated users can link two final mode rendezvouses to a final mode rendezvous they created
+				"User1", "Rendezvous1", "Rendezvous2", "Rendezvous3", "", null
+			}, {
+				// This test checks that authenticated users can link three final mode rendezvouses to a final mode rendezvous they created
+				"User1", "Rendezvous1", "Rendezvous2", "Rendezvous3", "Rendezvous4", null
+			}, {
+				// This test checks that authenticated users cannot link rendezvouses to a rendezvous they did not create
+				"User2", "Rendezvous1", "Rendezvous2", "Rendezvous3", "Rendezvous4", org.springframework.dao.DataIntegrityViolationException.class
+			}, {
+				// This test checks that unauthenticated users cannot modify similars of a draft mode rendezvous
+				null, "Rendezvous8", "Rendezvous2", "Rendezvous3", "Rendezvous4", java.lang.IllegalArgumentException.class
+			}, {
+				// This test checks that unauthenticated users cannot modify similars of a final mode rendezvous
+				null, "Rendezvous1", "Rendezvous2", "Rendezvous3", "Rendezvous4", java.lang.IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateSimilars((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (Class<?>) testingData[i][5]);
+	}
+
+	/**
 	 * This test checks that functional requirement 5.5 works properly: An actor who is authenticated as a user must be able to list the rendezvouses that he
 	 * or she’s RSVPd
 	 * 
@@ -479,6 +522,53 @@ public class RendezvousServiceTest extends AbstractTest {
 			rendezvous = this.rendezvousService.findOne(rendezvousId);
 
 			this.rendezvousService.RSVP(rendezvous);
+			this.rendezvousService.flush();
+
+			super.unauthenticate();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.checkExceptions(expected, caught);
+	}
+
+	protected void templateSimilars(final String username, final String rendezvousPopulateName, final String similarOneName, final String similarTwoName, final String similarThreeName, final Class<?> expected) {
+		Class<?> caught;
+		int rendezvousId, similarOneId, similarTwoId, similarThreeId;
+		Rendezvous rendezvous;
+		final Rendezvous similarOne, similarTwo, similarThree;
+		final Collection<Rendezvous> similars = new HashSet<Rendezvous>();
+
+		caught = null;
+
+		try {
+			super.authenticate(username);
+
+			rendezvousId = super.getEntityId(rendezvousPopulateName);
+			if (similarOneName != "") {
+				similarOneId = super.getEntityId(similarOneName);
+				similarOne = this.rendezvousService.findOne(similarOneId);
+				similars.add(similarOne);
+			}
+
+			if (similarTwoName != "") {
+				similarTwoId = super.getEntityId(similarTwoName);
+				similarTwo = this.rendezvousService.findOne(similarTwoId);
+				similars.add(similarTwo);
+			}
+
+			if (similarThreeName != "") {
+				similarThreeId = super.getEntityId(similarThreeName);
+				similarThree = this.rendezvousService.findOne(similarThreeId);
+				similars.add(similarThree);
+			}
+
+			rendezvous = this.rendezvousService.findOne(rendezvousId);
+
+			rendezvous.setSimilars(similars);
+
+			this.rendezvousService.save(rendezvous);
 			this.rendezvousService.flush();
 
 			super.unauthenticate();
