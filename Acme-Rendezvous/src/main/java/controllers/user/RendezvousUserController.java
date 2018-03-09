@@ -159,6 +159,7 @@ public class RendezvousUserController extends AbstractController {
 			rendezvous = this.rendezvousService.reconstruct(rendezvous, binding);
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/misc/403");
+			return result;
 		}
 		try {
 			this.rendezvousService.delete(rendezvous);

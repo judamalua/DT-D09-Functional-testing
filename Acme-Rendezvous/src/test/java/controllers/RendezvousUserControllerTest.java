@@ -19,7 +19,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -67,7 +66,8 @@ public class RendezvousUserControllerTest extends AbstractTest {
 		this.mockMvc = MockMvcBuilders.standaloneSetup(this.controller).build();
 	}
 	/**
-	 * Test the created list of Rendezvouses of the principal when anyone is logged. Must return 302 code.
+	 * Test the created list of Rendezvouses of the principal when anyone is logged.
+	 * Must return 302 code and redirect to error page.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -78,7 +78,7 @@ public class RendezvousUserControllerTest extends AbstractTest {
 
 		request = MockMvcRequestBuilders.get("/rendezvous/user/list.do");
 
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.forwardedUrl(null));
+		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.redirectedUrl("/misc/403?pagesize=5"));
 	}
 
 	/**
@@ -104,8 +104,8 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test the public list of Rendezvouses in the system. Must return 200 code.
-	 * The user is owner of the rendezvous in final mode and can be displayed.
+	 * Test edit view of Rendezvouses in the system. Must return 200 code.
+	 * The logged user get the view of a own Rendezvous.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -121,12 +121,13 @@ public class RendezvousUserControllerTest extends AbstractTest {
 			.andExpect(MockMvcResultMatchers.model().attribute("rendezvous", Matchers.allOf(Matchers.hasProperty("id", Matchers.is(rendezvousId)), Matchers.hasProperty("finalMode", Matchers.is(false)))))
 			.andExpect(MockMvcResultMatchers.model().attribute("requestURI", Matchers.is("rendezvous/user/edit.do"))).andExpect(MockMvcResultMatchers.model().attribute("adult", Matchers.is(true)))
 			.andExpect(MockMvcResultMatchers.model().attribute("rendezvouses", Matchers.hasSize(7))).andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.isEmptyOrNullString()));
+
 		super.unauthenticate();
 	}
 
 	/**
-	 * Test the public list of Rendezvouses in the system. Must return 302 code.
-	 * The rendezvouses is final and must not be ldisplayed.
+	 * Test the edit view of Rendezvouses in the system. Must return 302 code.
+	 * The rendezvous is not final and must redirect to error page.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -144,7 +145,7 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test edit a Rendezvouses in the system. Must return 302 code.
+	 * Test the edit view of Rendezvouses in the system. Must return 302 code.
 	 * The user is is not the owner of the rendezvouses and must not be displayed.
 	 * 
 	 * @throws Exception
@@ -210,9 +211,9 @@ public class RendezvousUserControllerTest extends AbstractTest {
 
 		this.mockMvc
 			.perform(
-				MockMvcRequestBuilders.post("/redezvous/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "New Rendezvous").param("description", "New Description").param("moment", "09/04/2019 00:00").param("pictureUrl", "")
-					.param("gpsCoordinates", "123.12,123.12").param("similars", "[]").param("finalMode", "false").param("adultOnly", "false").sessionAttr("rendezvous", new Rendezvous()).param("save", "save"))
-			.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("redirect:list.do")).andExpect(MockMvcResultMatchers.forwardedUrl("redirect:list.do"));
+				MockMvcRequestBuilders.post("/rendezvous/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "New Rendezvous").param("description", "New Description").param("moment", "09/04/2019 00:00").param("pictureUrl", "")
+					.param("gpsCoordinates", "123.12,123.12").param("finalMode", "false").param("adultOnly", "false").sessionAttr("rendezvous", new Rendezvous()).param("save", "")).andExpect(MockMvcResultMatchers.status().is(302))
+			.andExpect(MockMvcResultMatchers.view().name("redirect:list.do")).andExpect(MockMvcResultMatchers.redirectedUrl("list.do?pagesize=5&userId=124"));
 
 		super.unauthenticate();
 	}
@@ -226,11 +227,10 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	@Test
 	public void saveRendezvousNotLoggedNegative() throws Exception {
 		final MockHttpServletRequestBuilder request;
-		request = MockMvcRequestBuilders.post("/redezvous/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "New Rendezvous").param("description", "New Description").param("moment", "09/04/2019 00:00").param("pictureUrl", "")
-			.param("gpsCoordinates", "123.12,123.12").param("similars", "[]").param("finalMode", "false").param("adultOnly", "false").param("save", "save").sessionAttr("rendezvous", new Rendezvous());
+		request = MockMvcRequestBuilders.post("/rendezvous/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "New Rendezvous").param("description", "New Description").param("moment", "09/04/2019 00:00")
+			.param("pictureUrl", "").param("gpsCoordinates", "123.12,123.12").param("similars", "[]").param("finalMode", "false").param("adultOnly", "false").param("save", "").sessionAttr("rendezvous", new Rendezvous());
 
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("rendezvous/edit")).andExpect(MockMvcResultMatchers.forwardedUrl("rendezvous/edit"))
-			.andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.is("rendezvous.commit.error")));
+		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.redirectedUrl("/misc/403?pagesize=5"));
 
 	}
 
@@ -245,8 +245,8 @@ public class RendezvousUserControllerTest extends AbstractTest {
 		final MockHttpServletRequestBuilder request;
 		super.authenticate("user2");
 
-		request = MockMvcRequestBuilders.post("/redezvous/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "New Rendezvous").param("description", "New Description").param("moment", "09/02/2018 00:00").param("pictureUrl", "")
-			.param("gpsCoordinates", "123.12,123.12").param("similars", "[]").param("finalMode", "false").param("adultOnly", "false").param("save", "save").sessionAttr("rendezvous", new Rendezvous());
+		request = MockMvcRequestBuilders.post("/rendezvous/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "New Rendezvous").param("description", "New Description").param("moment", "09/02/2018 00:00")
+			.param("pictureUrl", "").param("gpsCoordinates", "123.12,123.12").param("finalMode", "false").param("adultOnly", "false").param("save", "").sessionAttr("rendezvous", new Rendezvous());
 
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("rendezvous/edit")).andExpect(MockMvcResultMatchers.forwardedUrl("rendezvous/edit"))
 			.andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.is("rendezvous.future.error")));
@@ -265,8 +265,8 @@ public class RendezvousUserControllerTest extends AbstractTest {
 		final MockHttpServletRequestBuilder request;
 		super.authenticate("user8");
 
-		request = MockMvcRequestBuilders.post("/redezvous/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "New Rendezvous").param("description", "New Description").param("moment", "09/02/2019 00:00").param("pictureUrl", "")
-			.param("gpsCoordinates", "123.12,123.12").param("similars", "[]").param("finalMode", "false").param("adultOnly", "false").param("save", "save").sessionAttr("rendezvous", new Rendezvous());
+		request = MockMvcRequestBuilders.post("/rendezvous/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "New Rendezvous").param("description", "New Description").param("moment", "09/02/2019 00:00")
+			.param("pictureUrl", "").param("gpsCoordinates", "123.12,123.12").param("finalMode", "false").param("adultOnly", "true").param("save", "").sessionAttr("rendezvous", new Rendezvous());
 
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("rendezvous/edit")).andExpect(MockMvcResultMatchers.forwardedUrl("rendezvous/edit"))
 			.andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.is("rendezvous.adult.error")));
@@ -285,8 +285,8 @@ public class RendezvousUserControllerTest extends AbstractTest {
 		final MockHttpServletRequestBuilder request;
 		super.authenticate("user8");
 
-		request = MockMvcRequestBuilders.post("/redezvous/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "").param("description", "").param("moment", "").param("pictureUrl", "").param("gpsCoordinates", "")
-			.param("similars", "").param("finalMode", "false").param("adultOnly", "false").param("save", "save").sessionAttr("rendezvous", new Rendezvous());
+		request = MockMvcRequestBuilders.post("/rendezvous/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "").param("description", "").param("moment", "").param("pictureUrl", "").param("gpsCoordinates", "")
+			.param("similars", "").param("finalMode", "false").param("adultOnly", "false").param("save", "").sessionAttr("rendezvous", new Rendezvous());
 
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("rendezvous/edit")).andExpect(MockMvcResultMatchers.forwardedUrl("rendezvous/edit"))
 			.andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.is("rendezvous.params.error"))).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("rendezvous", "name"))
@@ -311,9 +311,9 @@ public class RendezvousUserControllerTest extends AbstractTest {
 
 		rendezvousId = super.getEntityId("Rendezvous8");
 		rendezvous = this.service.findOne(rendezvousId);
-		request = MockMvcRequestBuilders.post("/redezvous/user/edit.do?delete=delete").requestAttr("rendezvous", rendezvous);
+		request = MockMvcRequestBuilders.post("/rendezvous/user/edit.do").param("delete", "").contentType(MediaType.APPLICATION_FORM_URLENCODED).flashAttr("rendezvous", rendezvous);
 
-		this.mockMvc.perform(request).andDo(MockMvcResultHandlers.print()).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("redirect:list.do")).andExpect(MockMvcResultMatchers.forwardedUrl("redirect:list.do"));
+		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:list.do")).andExpect(MockMvcResultMatchers.redirectedUrl("list.do?pagesize=5"));
 
 		super.unauthenticate();
 	}
@@ -331,9 +331,9 @@ public class RendezvousUserControllerTest extends AbstractTest {
 
 		rendezvousId = super.getEntityId("Rendezvous8");
 		rendezvous = this.service.findOne(rendezvousId);
-		request = MockMvcRequestBuilders.post("/redezvous/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).sessionAttr("rendezvous", rendezvous).param("delete", "delete");
+		request = MockMvcRequestBuilders.post("/rendezvous/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).flashAttr("rendezvous", rendezvous).param("delete", "");
 
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.forwardedUrl(null));
+		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.redirectedUrl("/misc/403?pagesize=5"));
 
 	}
 }
