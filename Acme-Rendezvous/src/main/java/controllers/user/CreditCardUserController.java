@@ -34,6 +34,9 @@ public class CreditCardUserController extends AbstractController {
 		try {
 			creditCard = this.creditCardService.findOne(creditCardId);
 
+			//Checks that the User can display this CreditCard
+			this.creditCardService.checkUserCreditCard(creditCard);
+
 			result = new ModelAndView("creditcard/detailed");
 
 			result.addObject("creditCard", creditCard);

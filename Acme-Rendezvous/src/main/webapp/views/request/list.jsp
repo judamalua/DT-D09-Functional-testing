@@ -41,7 +41,7 @@
 	
 	<security:authorize access="hasRole('USER')">
 		<display:column title="${titleCreditCard}">
-			<a href="creditCard/user/display.do?creditCardId=${row.creditCard.id}"><jstl:out value="${row.creditCard.number}"/></a>
+			<a href="creditcard/user/detailed.do?creditCardId=${row.creditCard.id}"><jstl:out value="${row.creditCard.number}"/></a>
 		</display:column>
 	</security:authorize>
 	
