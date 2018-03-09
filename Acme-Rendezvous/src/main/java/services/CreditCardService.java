@@ -12,6 +12,8 @@ import org.springframework.util.Assert;
 
 import repositories.CreditCardRepository;
 import domain.CreditCard;
+import domain.Rendezvous;
+import domain.Request;
 import domain.User;
 
 @Service
@@ -26,6 +28,15 @@ public class CreditCardService {
 
 	@Autowired
 	private ActorService			actorService;
+
+	@Autowired
+	private RequestService			requestService;
+
+	@Autowired
+	private RendezvousService		rendezvousService;
+
+	@Autowired
+	private UserService				userService;
 
 
 	// Simple CRUD methods --------------------------------------------------
@@ -152,5 +163,36 @@ public class CreditCardService {
 		final CreditCard result = this.creditCardRepository.findByCookieToken(cookieToken);
 		Assert.isTrue(result.getUser().getId() == this.actorService.findActorByPrincipal().getId());
 		return result;
+	}
+
+	/**
+	 * Checks that the User (the principal) has access to this CreditCard, that is,
+	 * the CreditCard is part of a Request by one of the Rendezvouses that the User has created.
+	 * 
+	 * @param creditCard
+	 * @author Antonio
+	 * 
+	 */
+	public void checkUserCreditCard(final CreditCard creditCard) {
+		User principal, ownerCreditCard;
+		Collection<Request> requests;
+		Rendezvous rendezvous;
+		Boolean hasAccess;
+
+		principal = (User) this.actorService.findActorByPrincipal();
+		requests = this.requestService.getAllRequestFromCreditCard(creditCard.getId());
+		hasAccess = false;
+
+		for (final Request r : requests) {
+			rendezvous = this.rendezvousService.findRendezvousByRequest(r.getId());
+			ownerCreditCard = this.userService.getCreatorUser(rendezvous.getId());
+
+			if (ownerCreditCard.equals(principal)) {
+				hasAccess = true;
+				break;
+			}
+		}
+
+		Assert.isTrue(hasAccess);
 	}
 }

@@ -276,12 +276,33 @@ public class RequestService {
 		Assert.isTrue(userPrincipal.equals(rendezvousOwner));
 	}
 
+	/**
+	 * Returns a Collection of all the Requests made by the principal, who must be an User.
+	 * 
+	 * @return Collection<Request>
+	 * @author Antonio
+	 */
 	public Collection<Request> getAllRequestFromUserPrincipal() {
 		Collection<Request> result;
 		User user;
 
 		user = (User) this.actorService.findActorByPrincipal();
 		result = this.requestRepository.getAllRequestFromUserPrincipal(user);
+
+		return result;
+	}
+
+	/**
+	 * Returns a Collection of all the Requests that were paid by the CreditCard passed as a param.
+	 * 
+	 * @return Collection<Request>
+	 * @param creditCardId
+	 * @author Antonio
+	 */
+	public Collection<Request> getAllRequestFromCreditCard(final int creditCardId) {
+		Collection<Request> result;
+
+		result = this.requestRepository.getAllRequestFromCreditCard(creditCardId);
 
 		return result;
 	}
