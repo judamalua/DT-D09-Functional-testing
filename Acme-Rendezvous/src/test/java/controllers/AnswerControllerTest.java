@@ -75,7 +75,9 @@ public class AnswerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test the list of answers of a rendezvous. Must return 200 code.
+	 * This method tests the list of answers of a rendezvous, regarding functional requirement 20.1: an actor who is not authenticated must be able to display
+	 * information about the users who have RSVPd a rendezvous, which, in turn, must show their answers to the questions that the creator has registered.
+	 * Must return 200 code.
 	 * 
 	 * @throws Exception
 	 * @author Juanmi
@@ -85,20 +87,67 @@ public class AnswerControllerTest extends AbstractTest {
 		final MockHttpServletRequestBuilder request;
 		int rendezvousId;
 		User rendezvousCreator;
-		User user2;
-		Collection<Answer> user2Answers;
-
-		//TODO Add the rest of users to the expected UserAndAnswers
+		User user2, user3, user4, user7;
+		Collection<Answer> user2Answers, user3Answers, user4Answers, user7Answers;
 
 		rendezvousId = super.getEntityId("Rendezvous4");
 		rendezvousCreator = this.userService.findOne(super.getEntityId("User1"));
 		user2 = this.userService.findOne(super.getEntityId("User2"));
+		user3 = this.userService.findOne(super.getEntityId("User3"));
+		user4 = this.userService.findOne(super.getEntityId("User4"));
+		user7 = this.userService.findOne(super.getEntityId("User7"));
+
 		user2Answers = new ArrayList<Answer>();
+		user3Answers = new ArrayList<Answer>();
+		user4Answers = new ArrayList<Answer>();
+		user7Answers = new ArrayList<Answer>();
 
 		request = MockMvcRequestBuilders.get("/answer/list.do?rendezvousId=" + rendezvousId);
 
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("answer/user/list")).andExpect(MockMvcResultMatchers.forwardedUrl("answer/user/list"))
 			.andExpect(MockMvcResultMatchers.model().attribute("creator", Matchers.equalTo(rendezvousCreator))).andExpect(MockMvcResultMatchers.model().attribute("usersAndAnswers", Matchers.hasEntry(user2, user2Answers)))
-			.andExpect(MockMvcResultMatchers.model().attribute("anonymous", Matchers.is(true)));
+			.andExpect(MockMvcResultMatchers.model().attribute("usersAndAnswers", Matchers.hasEntry(user3, user3Answers))).andExpect(MockMvcResultMatchers.model().attribute("usersAndAnswers", Matchers.hasEntry(user4, user4Answers)))
+			.andExpect(MockMvcResultMatchers.model().attribute("usersAndAnswers", Matchers.hasEntry(user7, user7Answers))).andExpect(MockMvcResultMatchers.model().attribute("anonymous", Matchers.is(true)));
+	}
+
+	/**
+	 * This driver checks that answer list of a deleted, draft mode or null rendezvous cannot be acceded, regarding functional requirement 20.1: an actor who is not authenticated
+	 * must be able to display information about the users who have RSVPd a rendezvous, which, in turn, must show their answers to the questions that
+	 * the creator has registered. Every test inside this method must return 302 code.
+	 * 
+	 * @throws Exception
+	 * @author Juanmi
+	 */
+	@Test
+	public void driverListAnswers() throws Exception {
+		final Object testingData[][] = {
+			{
+				// This test checks that answer list of a draft mode rendezvous cannot be acceded
+				"Rendezvous8"
+			}, {
+				// This test checks that answer list of a draft mode rendezvous cannot be acceded
+				"Rendezvous9"
+			}, {
+				// This test checks that answer list of a null rendezvous cannot be acceded
+				null
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateListAnswers((String) testingData[i][0]);
+	}
+
+	protected void templateListAnswers(final String rendezvousPopulateName) throws Exception {
+		final MockHttpServletRequestBuilder request;
+		int rendezvousId;
+
+		if (rendezvousPopulateName != null)
+			rendezvousId = super.getEntityId(rendezvousPopulateName);
+		else
+			rendezvousId = 0;
+
+		request = MockMvcRequestBuilders.get("/answer/list.do?rendezvousId=" + rendezvousId);
+
+		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.forwardedUrl(null));
 	}
 }
