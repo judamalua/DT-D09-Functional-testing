@@ -31,6 +31,7 @@ import domain.Actor;
 import domain.Comment;
 import domain.Configuration;
 import domain.Rendezvous;
+import domain.Request;
 import domain.User;
 
 @Controller
@@ -108,6 +109,7 @@ public class RendezvousController extends AbstractController {
 		Actor actor;
 		User user;
 		boolean userHasCreatedRendezvous = false, userHasRVSPdRendezvous = false;
+		Collection<Request> requests;
 
 		try {
 			result = new ModelAndView("rendezvous/detailed-rendezvous");
@@ -147,11 +149,14 @@ public class RendezvousController extends AbstractController {
 			for (final Comment comment : rendezvous.getComments())
 				users.add(this.commentService.getUserFromComment(comment));
 
+			requests = rendezvous.getRequests();
+
 			result.addObject("rendezvous", rendezvous);
 			result.addObject("anonymous", anonymous);
 			result.addObject("userHasCreatedRendezvous", userHasCreatedRendezvous);
 			result.addObject("userHasRVSPdRendezvous", userHasRVSPdRendezvous);
 			result.addObject("commentUsers", users);
+			result.addObject("requests", requests);
 
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/misc/403");
