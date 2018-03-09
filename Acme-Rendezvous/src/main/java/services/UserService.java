@@ -17,6 +17,7 @@ import org.springframework.validation.Validator;
 import repositories.UserRepository;
 import security.Authority;
 import security.UserAccount;
+import domain.Actor;
 import domain.Comment;
 import domain.Rendezvous;
 import domain.User;
@@ -124,8 +125,12 @@ public class UserService {
 	 */
 	public User save(final User user) {
 		assert user != null;
-		if (user.getId() != 0)
-			Assert.isTrue(user == this.actorService.findActorByPrincipal());
+		Actor actor;
+
+		actor = this.actorService.findActorByPrincipal();
+
+		if (actor instanceof User && user.getId() != 0)
+			Assert.isTrue(user.equals(actor));
 
 		User result;
 

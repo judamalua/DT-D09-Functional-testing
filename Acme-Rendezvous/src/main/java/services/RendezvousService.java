@@ -321,6 +321,7 @@ public class RendezvousService {
 	public Rendezvous reconstruct(final Rendezvous rendezvous, final BindingResult binding) {
 
 		Rendezvous result;
+		this.actorService.checkUserLogin();
 
 		if (rendezvous.getId() == 0) {
 			User user;
