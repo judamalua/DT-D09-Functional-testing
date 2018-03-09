@@ -55,43 +55,45 @@ public class RendezvousServiceTest extends AbstractTest {
 	@Test
 	public void driverCreateRendezvous() {
 		final Long oneDay = TimeUnit.DAYS.toMillis(1);
+		final Date currentDatePlusOneDay = new Date(System.currentTimeMillis() + oneDay);
+		final Date currentDateMinusOneDay = new Date(System.currentTimeMillis() - oneDay);
 		final Object testingData[][] = {
 			{
 				// This test checks that authenticated users can create a rendezvous
-				"User1", "Test", "Test", new Date(System.currentTimeMillis() + oneDay), "https://cdns3.eltiempo.es/eltiempo/blog/noticias/2015/07/olas1.jpg", "123.12,123.12", false, false, null
+				"User1", "Test", "Test", currentDatePlusOneDay, "https://cdns3.eltiempo.es/eltiempo/blog/noticias/2015/07/olas1.jpg", "123.12,123.12", false, false, null
 			}, {
 				// This test checks that authenticated users can create a rendezvous with an empty photo URL
-				"User1", "Test", "Test", new Date(System.currentTimeMillis() + oneDay), "", "123.12,123.12", false, false, null
+				"User1", "Test", "Test", currentDatePlusOneDay, "", "123.12,123.12", false, false, null
 			}, {
 				// This test checks that authenticated users can create a rendezvous in final mode
-				"User1", "Test", "Test", new Date(System.currentTimeMillis() + oneDay), "", "123.12,123.12", true, false, null
+				"User1", "Test", "Test", currentDatePlusOneDay, "", "123.12,123.12", true, false, null
 			}, {
 				// This test checks that authenticated users can create a rendezvous as adult only
-				"User1", "Test", "Test", new Date(System.currentTimeMillis() + oneDay), "", "123.12,123.12", false, true, null
+				"User1", "Test", "Test", currentDatePlusOneDay, "", "123.12,123.12", false, true, null
 			}, {
 				// This test checks that authenticated users can create a rendezvous in final mode and as adult only
-				"User1", "Test", "Test", new Date(System.currentTimeMillis() + oneDay), "", "123.12,123.12", true, true, null
+				"User1", "Test", "Test", currentDatePlusOneDay, "", "123.12,123.12", true, true, null
 			}, {
 				// This test checks that unauthenticated users cannot create a rendezvous
-				null, "Test", "Test", new Date(System.currentTimeMillis() + oneDay), "https://cdns3.eltiempo.es/eltiempo/blog/noticias/2015/07/olas1.jpg", "123.12,123.12", false, false, IllegalArgumentException.class
+				null, "Test", "Test", currentDatePlusOneDay, "https://cdns3.eltiempo.es/eltiempo/blog/noticias/2015/07/olas1.jpg", "123.12,123.12", false, false, IllegalArgumentException.class
 			}, {
 				// This test checks that actors not logged as users cannot create a rendezvous
-				"Admin1", "Test", "Test", new Date(System.currentTimeMillis() + oneDay), "https://cdns3.eltiempo.es/eltiempo/blog/noticias/2015/07/olas1.jpg", "123.12,123.12", false, false, ClassCastException.class
+				"Admin1", "Test", "Test", currentDatePlusOneDay, "https://cdns3.eltiempo.es/eltiempo/blog/noticias/2015/07/olas1.jpg", "123.12,123.12", false, false, ClassCastException.class
 			}, {
 				// This test checks that a rendezvous with empty name cannot be created
-				"User1", "", "Test", new Date(System.currentTimeMillis() + oneDay), "https://cdns3.eltiempo.es/eltiempo/blog/noticias/2015/07/olas1.jpg", "123.12,123.12", false, false, javax.validation.ConstraintViolationException.class
+				"User1", "", "Test", currentDatePlusOneDay, "https://cdns3.eltiempo.es/eltiempo/blog/noticias/2015/07/olas1.jpg", "123.12,123.12", false, false, javax.validation.ConstraintViolationException.class
 			}, {
 				// This test checks that a rendezvous with empty description cannot be created
-				"User1", "Test", "", new Date(System.currentTimeMillis() + oneDay), "https://cdns3.eltiempo.es/eltiempo/blog/noticias/2015/07/olas1.jpg", "123.12,123.12", false, false, javax.validation.ConstraintViolationException.class
+				"User1", "Test", "", currentDatePlusOneDay, "https://cdns3.eltiempo.es/eltiempo/blog/noticias/2015/07/olas1.jpg", "123.12,123.12", false, false, javax.validation.ConstraintViolationException.class
 			}, {
 				// This test checks that a rendezvous with null moment cannot be created
 				"User1", "Test", "", null, "https://cdns3.eltiempo.es/eltiempo/blog/noticias/2015/07/olas1.jpg", "123.12,123.12", false, false, javax.validation.ConstraintViolationException.class
 			}, {
 				// This test checks that a rendezvous with past moment cannot be created
-				"User1", "Test", "", new Date(System.currentTimeMillis() - oneDay), "https://cdns3.eltiempo.es/eltiempo/blog/noticias/2015/07/olas1.jpg", "123.12,123.12", false, false, javax.validation.ConstraintViolationException.class
+				"User1", "Test", "", currentDateMinusOneDay, "https://cdns3.eltiempo.es/eltiempo/blog/noticias/2015/07/olas1.jpg", "123.12,123.12", false, false, javax.validation.ConstraintViolationException.class
 			}, {
 				// This test checks that a rendezvous with empty GPS Coordinates cannot be created
-				"User1", "Test", "", new Date(System.currentTimeMillis() + oneDay), "https://cdns3.eltiempo.es/eltiempo/blog/noticias/2015/07/olas1.jpg", "", false, false, javax.validation.ConstraintViolationException.class
+				"User1", "Test", "", currentDatePlusOneDay, "https://cdns3.eltiempo.es/eltiempo/blog/noticias/2015/07/olas1.jpg", "", false, false, javax.validation.ConstraintViolationException.class
 			}
 		};
 
