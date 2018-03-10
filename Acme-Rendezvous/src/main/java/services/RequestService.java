@@ -1,9 +1,6 @@
 
 package services;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
@@ -146,9 +143,6 @@ public class RequestService {
 		now = new Date(System.currentTimeMillis() - 10);
 		rendezvous = this.rendezvousService.findOne(rendezvousId);
 
-		//Checks that the CreditCard hasn't expired
-		this.checkCreditCardExpired(creditCard);
-
 		//Checks that the User connected is the owner of the Rendezvous
 		this.checkRendezvousBelongsToPrincipal(rendezvousId);
 
@@ -207,39 +201,6 @@ public class RequestService {
 	}
 
 	//Business rule methods -------------------------------------------------------------
-
-	/**
-	 * This method checks that the Credit Card of the Request hasn't expired, checking its expiration
-	 * year and expiratio month.
-	 * 
-	 * @param creditCard
-	 * @author Antonio
-	 */
-	public void checkCreditCardExpired(final CreditCard creditCard) {
-		Integer actualMonth, actualYear, ccMonth, ccYear;
-		DateFormat dfYear, dfMonth;
-		String formattedYear, formattedMonth;
-
-		ccMonth = creditCard.getExpirationMonth();
-		ccYear = creditCard.getExpirationYear();
-
-		dfYear = new SimpleDateFormat("yy"); // Just the year, with 2 digits
-		formattedYear = dfYear.format(Calendar.getInstance().getTime());
-		actualYear = Integer.valueOf(formattedYear);
-
-		dfMonth = new SimpleDateFormat("MM"); //Just the month
-		formattedMonth = dfMonth.format(Calendar.getInstance().getTime());
-		actualMonth = Integer.valueOf(formattedMonth);
-
-		//Asserts that the CreditCard expiration Year is greater than the actual year
-		Assert.isTrue(ccYear >= actualYear, "CreditCard expiration Date error");
-
-		//If the CreditCard expiration Year is the same that the actual Year, 
-		//Asserts that the CreditCard expiration Month is greater than the actual Month.
-		if (ccYear == actualYear)
-			Assert.isTrue(ccMonth > actualMonth, "CreditCard expiration Date error");
-
-	}
 
 	/**
 	 * This method checks that the Request is not being made to a Service that has already been requested

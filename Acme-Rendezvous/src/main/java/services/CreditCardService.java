@@ -1,6 +1,9 @@
 
 package services;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Random;
 
@@ -108,6 +111,8 @@ public class CreditCardService {
 
 		CreditCard result;
 
+		//Checks that the CreditCard hasn't expired
+		this.checkCreditCardExpired(creditCard);
 		creditCard.setUser((User) this.actorService.findActorByPrincipal());
 		result = this.creditCardRepository.save(creditCard);
 
@@ -161,6 +166,8 @@ public class CreditCardService {
 	 */
 	public CreditCard findByCookieToken(final String cookieToken) {
 		final CreditCard result = this.creditCardRepository.findByCookieToken(cookieToken);
+		//Checks that the CreditCard hasn't expired
+		this.checkCreditCardExpired(result);
 		Assert.isTrue(result.getUser().getId() == this.actorService.findActorByPrincipal().getId());
 		return result;
 	}
@@ -194,5 +201,38 @@ public class CreditCardService {
 		}
 
 		Assert.isTrue(hasAccess);
+	}
+
+	/**
+	 * This method checks that the Credit Card of the Request hasn't expired, checking its expiration
+	 * year and expiration month.
+	 * 
+	 * @param creditCard
+	 * @author Antonio
+	 */
+	public void checkCreditCardExpired(final CreditCard creditCard) {
+		Integer actualMonth, actualYear, ccMonth, ccYear;
+		DateFormat dfYear, dfMonth;
+		String formattedYear, formattedMonth;
+
+		ccMonth = creditCard.getExpirationMonth();
+		ccYear = creditCard.getExpirationYear();
+
+		dfYear = new SimpleDateFormat("yy"); // Just the year, with 2 digits
+		formattedYear = dfYear.format(Calendar.getInstance().getTime());
+		actualYear = Integer.valueOf(formattedYear);
+
+		dfMonth = new SimpleDateFormat("MM"); //Just the month
+		formattedMonth = dfMonth.format(Calendar.getInstance().getTime());
+		actualMonth = Integer.valueOf(formattedMonth);
+
+		//Asserts that the CreditCard expiration Year is greater than the actual year
+		Assert.isTrue(ccYear >= actualYear, "CreditCard expiration Date error");
+
+		//If the CreditCard expiration Year is the same that the actual Year, 
+		//Asserts that the CreditCard expiration Month is greater than the actual Month.
+		if (ccYear == actualYear)
+			Assert.isTrue(ccMonth > actualMonth, "CreditCard expiration Date error");
+
 	}
 }
