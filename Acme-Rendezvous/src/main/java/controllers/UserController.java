@@ -92,7 +92,7 @@ public class UserController extends AbstractController {
 	// Displaying  ---------------------------------------------------------------		
 
 	/**
-	 * That method returns a model and view with the display of an actor
+	 * That method returns a model and view with the personal info of an user
 	 * 
 	 * @param actorId
 	 * @param anonymous
