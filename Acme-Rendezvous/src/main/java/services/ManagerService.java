@@ -18,6 +18,7 @@ import org.springframework.validation.Validator;
 import repositories.ManagerRepository;
 import security.Authority;
 import security.UserAccount;
+import domain.Actor;
 import domain.CreditCard;
 import domain.DomainService;
 import domain.Manager;
@@ -117,8 +118,13 @@ public class ManagerService {
 	 */
 	public Manager save(final Manager manager) {
 		Assert.notNull(manager);
-		if (manager.getId() != 0)
-			Assert.isTrue((Manager) this.actorService.findActorByPrincipal() == manager);
+
+		Actor actor;
+
+		actor = this.actorService.findActorByPrincipal();
+
+		if (manager.getId() != 0 && actor instanceof Manager)
+			Assert.isTrue(actor.equals(manager));
 
 		Manager result;
 
