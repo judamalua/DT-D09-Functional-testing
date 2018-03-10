@@ -613,7 +613,7 @@
 	<bean id="Rendezvous6" class="domain.Rendezvous">
 		<property name="name" value="Karaoke" />
 		<property name="description" value="Sing with us, get fun with us." />
-		<property name="moment" value="2018/03/07 21:00" />
+		<property name="moment" value="2019/03/07 21:00" />
 		<property name="pictureUrl"
 			value="http://www.onfiesta.com/wp-content/uploads/2016/11/alquilar-karaoke-en-navarra.jpg" />
 		<property name="gpsCoordinates" value="37.35,-5.99" />
@@ -650,7 +650,7 @@
 	<bean id="Rendezvous7" class="domain.Rendezvous">
 		<property name="name" value="James Bond club fans" />
 		<property name="description" value="Do you love James Bond?, Come with us!" />
-		<property name="moment" value="2018/08/24 22:00" />
+		<property name="moment" value="2019/08/24 22:00" />
 		<property name="pictureUrl"
 			value="https://ep01.epimg.net/cultura/imagenes/2017/09/08/television/1504868027_671081_1504868319_noticia_normal.jpg" />
 		<property name="gpsCoordinates" value="37.35,-5.99" />
@@ -659,6 +659,9 @@
 		<property name="adultOnly" value="false" />
 		<property name="questions">
 			<list>
+				<ref bean="Question7" />
+				<ref bean="Question8" />
+				<ref bean="Question9" />
 			</list>
 		</property>
 		<property name="similars">
@@ -679,6 +682,7 @@
 		<property name="users">
 			<list>
 				<ref bean="User1" />
+				<ref bean="User2" />
 			</list>
 		</property>
 		<property name="requests">
@@ -820,6 +824,7 @@
 				<ref bean="Rendezvous3" />
 				<ref bean="Rendezvous4" />
 				<ref bean="Rendezvous5" />
+				<ref bean="Rendezvous7" />
 			</list>
 		</property>
 		<property name="comments">
@@ -1150,6 +1155,30 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="Question7" class="domain.Question">
+		<property name="text" value="Were you born in the street?" />
+		<property name="answers">
+			<list>
+				<ref bean="Answer1" />
+			</list>
+		</property>
+	</bean>
+	<bean id="Question8" class="domain.Question">
+		<property name="text" value="Do you like bananas?" />
+		<property name="answers">
+			<list>
+				<ref bean="Answer2" />
+			</list>
+		</property>
+	</bean>
+	<bean id="Question9" class="domain.Question">
+		<property name="text" value="List your three favourite cities" />
+		<property name="answers">
+			<list>
+				<ref bean="Answer3" />
+			</list>
+		</property>
+	</bean>
 
 
 	<!-- %%%%%% domain.Configuration %%%%%% -->
@@ -1375,6 +1404,23 @@
 		<property name="userAccount" ref="UserAccount18" />
 	</bean>
 
-
+	<!-- %%%%%% domain.Answer %%%%%% -->
+	<bean id="Answer1" class="domain.Answer">
+		<property name="text" value="Absolutely not!" />
+		<property name = "user" ref = "User2"/>
+		<property name = "question" ref = "Question7"/>
+	</bean>
+	
+	<bean id="Answer2" class="domain.Answer">
+		<property name="text" value="Yes, I love them!" />
+		<property name = "user" ref = "User2"/>
+		<property name = "question" ref = "Question8"/>
+	</bean>
+	
+	<bean id="Answer3" class="domain.Answer">
+		<property name="text" value="Los Angeles, London, Manchester" />
+		<property name = "user" ref = "User2"/>
+		<property name = "question" ref = "Question9"/>
+	</bean>
 	<!-- = = = = = = DATATYPES = = = = = = = -->
 </beans>
