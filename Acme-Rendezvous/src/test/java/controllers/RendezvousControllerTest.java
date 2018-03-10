@@ -126,14 +126,14 @@ public class RendezvousControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test the public list of Rendezvouses in the system. Must return 200 code.
+	 * Test the public list of Rendezvouses in the system. Must return 302 code.
 	 * The user is minor and the rendezvouses with adult only must not be listed.
 	 * 
 	 * @throws Exception
 	 * @author MJ
 	 */
 	@Test
-	public void listRendezvousNotLoggednegative() throws Exception {
+	public void listRendezvousNotLoggedNegative() throws Exception {
 		final MockHttpServletRequestBuilder request;
 		request = MockMvcRequestBuilders.get("/rendezvous/list.do?anonymous=false");
 
@@ -168,7 +168,7 @@ public class RendezvousControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test detailed Rendezvous view in the system with an user loged. Must return 200 code.
+	 * Test detailed Rendezvous view in the system with a user logged. Must return 200 code.
 	 * 
 	 * 
 	 * @throws Exception
@@ -201,7 +201,7 @@ public class RendezvousControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test detailed Rendezvous view in the system with an user loged. Must return 200 code.
+	 * Test detailed adult Rendezvous view in the system with a minor user logged. Must return 302 code.
 	 * 
 	 * 
 	 * @throws Exception
@@ -217,13 +217,13 @@ public class RendezvousControllerTest extends AbstractTest {
 		rendezvousId = super.getEntityId("Rendezvous2");
 		request = MockMvcRequestBuilders.get("/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvousId + "&anonymous=false");
 
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.redirectedUrl("redirect:/mic/403"));
+		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.redirectedUrl("/misc/403?pagesize=5"));
 		super.unauthenticate();
 	}
 
 	/**
-	 * Test the public list of Rendezvouses in the system. Must return 302 code.
-	 * The detailed view must not be display because is an adult rendezvous
+	 * Test detailed view of Rendezvous in the system. Must return 302 code.
+	 * The detailed view must not be display because there is no one logged and is adult.
 	 * 
 	 * @throws Exception
 	 * @author MJ

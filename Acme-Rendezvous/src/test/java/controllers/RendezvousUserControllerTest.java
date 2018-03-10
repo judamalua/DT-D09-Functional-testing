@@ -146,7 +146,7 @@ public class RendezvousUserControllerTest extends AbstractTest {
 
 	/**
 	 * Test the edit view of Rendezvouses in the system. Must return 302 code.
-	 * The user is is not the owner of the rendezvouses and must not be displayed.
+	 * The user is is not the owner of the rendezvouses and must redirect error page.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -185,7 +185,7 @@ public class RendezvousUserControllerTest extends AbstractTest {
 
 	/**
 	 * Test create a Rendezvouses in the system. Must return 302 code.
-	 * There is anyone logged and must not be displayed.
+	 * There is anyone logged and must redirect to error page.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -195,12 +195,11 @@ public class RendezvousUserControllerTest extends AbstractTest {
 		final MockHttpServletRequestBuilder request;
 		request = MockMvcRequestBuilders.get("/rendezvous/user/create.do");
 
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.forwardedUrl(null));
-
+		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.redirectedUrl("/misc/403?pagesize=5"));
 	}
 
 	/**
-	 * Test save a Rendezvouses in the system. Must return 200 code.
+	 * Test save correct Rendezvous in the system. Must return 200 code.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -219,7 +218,8 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test create a Rendezvouses in the system. Must return 200 code.
+	 * Test save Rendezvous in the system. Must return 200 code.
+	 * There is no one logged and must redirect to error page
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -235,7 +235,8 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test create a Rendezvouses in the system. Must return 200 code.
+	 * Test save Rendezvous with past moment in the system. Must return 200 code.
+	 * The moment must be in future, then the system must return the past error code.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -255,7 +256,8 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test create a Rendezvouses in the system. Must return 200 code.
+	 * Test save adult Rendezvous in the system. Must return 200 code.
+	 * The user is minor and the rendezvous adult, the must return the adult error code.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -275,7 +277,8 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test create a Rendezvouses in the system. Must return 200 code.
+	 * Test save blank parameters Rendezvous in the system. Must return 200 code.
+	 * The rendezvous has blank required parameters then they must be redirect to the edit page with these fields with errors.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -297,7 +300,7 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test create a Rendezvouses in the system. Must return 200 code.
+	 * Test delete Rendezvous in the system. Must return 200 code.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -318,7 +321,8 @@ public class RendezvousUserControllerTest extends AbstractTest {
 		super.unauthenticate();
 	}
 	/**
-	 * Test create a Rendezvouses in the system. Must return 302 code.
+	 * Test delete Rendezvouses in the system. Must return 302 code.
+	 * No one is logged and the system must redirect to error page.
 	 * 
 	 * @throws Exception
 	 * @author MJ

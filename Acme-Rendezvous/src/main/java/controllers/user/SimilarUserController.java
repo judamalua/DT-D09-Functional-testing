@@ -104,12 +104,8 @@ public class SimilarUserController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final Rendezvous similar) {
 		ModelAndView result;
-		User user;
-		result = this.createEditModelAndView(similar, null);
 
-		//Se le pasa el parametro adult que indicara si el usuario es mayor a 18 años
-		user = (User) this.actorService.findActorByPrincipal();
-		result.addObject("adult", user.getBirthDate().before((new DateTime()).minusYears(18).toDate()));
+		result = this.createEditModelAndView(similar, null);
 
 		return result;
 	}
@@ -117,10 +113,15 @@ public class SimilarUserController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final Rendezvous similar, final String messageCode) {
 		ModelAndView result;
 		Collection<Rendezvous> similars;
+		User user;
 
 		result = new ModelAndView("rendezvous/edit");
 		similars = this.rendezvousService.findFinalRendezvouses();
 		similars.remove(similar);
+
+		//Se le pasa el parametro adult que indicara si el usuario es mayor a 18 años
+		user = (User) this.actorService.findActorByPrincipal();
+		result.addObject("adult", user.getBirthDate().before((new DateTime()).minusYears(18).toDate()));
 
 		result.addObject("message", messageCode);
 		result.addObject("rendezvouses", similars);
