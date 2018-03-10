@@ -25,7 +25,7 @@ import services.ActorService;
 import services.UserService;
 import domain.Actor;
 import domain.User;
-import forms.ActorForm;
+import forms.UserAdminForm;
 
 @Controller
 @RequestMapping("/actor")
@@ -42,25 +42,6 @@ public class ActorController extends AbstractController {
 
 	public ActorController() {
 		super();
-	}
-
-	//Saving --------------------------------------------------------------------
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit() {
-		ModelAndView result;
-		Actor actor;
-
-		try {
-			actor = this.actorService.findActorByPrincipal();
-
-			result = new ModelAndView("actor/edit");
-			result.addObject("actor", actor);
-
-		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:/misc/403");
-		}
-
-		return result;
 	}
 
 	// Displaying  ---------------------------------------------------------------		
@@ -100,9 +81,9 @@ public class ActorController extends AbstractController {
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public ModelAndView registerExplorer() {
 		ModelAndView result;
-		final ActorForm user;
+		UserAdminForm user;
 
-		user = new ActorForm();
+		user = new UserAdminForm();
 
 		result = this.createEditModelAndViewRegister(user);
 
@@ -120,7 +101,7 @@ public class ActorController extends AbstractController {
 	 * @author Luis
 	 */
 	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
-	public ModelAndView registerUser(@ModelAttribute("actor") final ActorForm actor, final BindingResult binding) {
+	public ModelAndView registerUser(@ModelAttribute("actor") final UserAdminForm actor, final BindingResult binding) {
 		ModelAndView result;
 		Authority auth;
 		User user = null;
@@ -172,7 +153,7 @@ public class ActorController extends AbstractController {
 
 		return result;
 	}
-	protected ModelAndView createEditModelAndViewRegister(final ActorForm user) {
+	protected ModelAndView createEditModelAndViewRegister(final UserAdminForm user) {
 		ModelAndView result;
 
 		result = this.createEditModelAndViewRegister(user, null);
@@ -180,7 +161,7 @@ public class ActorController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndViewRegister(final ActorForm user, final String messageCode) {
+	protected ModelAndView createEditModelAndViewRegister(final UserAdminForm user, final String messageCode) {
 		ModelAndView result;
 
 		result = new ModelAndView("user/register");

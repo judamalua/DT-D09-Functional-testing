@@ -22,12 +22,18 @@
 
 <!-- Variable declaration -->
 <spring:message code="request.service" var="titleService" />
+<spring:message code="request.service.picture" var="titleServicePicture" />
 <spring:message code="request.creditCard" var="titleCreditCard" />
+<spring:message code="request.moment" var="titleMoment" />
 <spring:message code="master.page.moment.format" var="formatMoment" />
 <spring:message code="request.comment" var="titleComment" />
 
 
 <display:table name="requests" id="row" requestURI="${requestURI}">
+	
+	<display:column title="${titleServicePicture}" >
+		<img src="${row.service.pictureUrl}" height="250" width="250"/>
+	</display:column>
 	
 	<display:column title="${titleService}" >
 		<jstl:out value="${row.service.name}"/>
@@ -35,7 +41,13 @@
 	
 	<security:authorize access="hasRole('USER')">
 		<display:column title="${titleCreditCard}">
-			<a href="creditCard/user/display.do?creditCardId=${row.creditCard.id}"><jstl:out value="${row.creditCard.number}"/></a>
+			<a href="creditcard/user/detailed.do?creditCardId=${row.creditCard.id}"><jstl:out value="${row.creditCard.number}"/></a>
+		</display:column>
+	</security:authorize>
+	
+	<security:authorize access="hasRole('MANAGER')">
+		<display:column title="${titleCreditCard}">
+			<a href="creditcard/manager/detailed.do?creditCardId=${row.creditCard.id}"><jstl:out value="${row.creditCard.number}"/></a>
 		</display:column>
 	</security:authorize>
 	

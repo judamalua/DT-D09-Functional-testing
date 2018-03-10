@@ -17,10 +17,11 @@ import org.springframework.validation.Validator;
 import repositories.UserRepository;
 import security.Authority;
 import security.UserAccount;
+import domain.Actor;
 import domain.Comment;
 import domain.Rendezvous;
 import domain.User;
-import forms.ActorForm;
+import forms.UserAdminForm;
 
 @Service
 @Transactional
@@ -124,8 +125,12 @@ public class UserService {
 	 */
 	public User save(final User user) {
 		assert user != null;
-		if (user.getId() != 0)
-			Assert.isTrue(user == this.actorService.findActorByPrincipal());
+		Actor actor;
+
+		actor = this.actorService.findActorByPrincipal();
+
+		if (actor instanceof User && user.getId() != 0)
+			Assert.isTrue(user.equals(actor));
 
 		User result;
 
@@ -154,10 +159,10 @@ public class UserService {
 
 	// Other business methods ----------------------------------------------------------------
 
-	public User reconstruct(final ActorForm userRegisterForm, final BindingResult binding) {
+	public User reconstruct(final UserAdminForm userAdminForm, final BindingResult binding) {
 		User result;
 
-		if (userRegisterForm.getId() == 0) {
+		if (userAdminForm.getId() == 0) {
 
 			Collection<Comment> comments;
 			Collection<Rendezvous> createdRendezvouses, RSVPedRendezvouses;
@@ -168,28 +173,28 @@ public class UserService {
 
 			result = this.create();
 
-			result.getUserAccount().setUsername(userRegisterForm.getUserAccount().getUsername());
-			result.getUserAccount().setPassword(userRegisterForm.getUserAccount().getPassword());
-			result.setName(userRegisterForm.getName());
-			result.setSurname(userRegisterForm.getSurname());
-			result.setPostalAddress(userRegisterForm.getPostalAddress());
-			result.setPhoneNumber(userRegisterForm.getPhoneNumber());
-			result.setEmail(userRegisterForm.getEmail());
-			result.setBirthDate(userRegisterForm.getBirthDate());
+			result.getUserAccount().setUsername(userAdminForm.getUserAccount().getUsername());
+			result.getUserAccount().setPassword(userAdminForm.getUserAccount().getPassword());
+			result.setName(userAdminForm.getName());
+			result.setSurname(userAdminForm.getSurname());
+			result.setPostalAddress(userAdminForm.getPostalAddress());
+			result.setPhoneNumber(userAdminForm.getPhoneNumber());
+			result.setEmail(userAdminForm.getEmail());
+			result.setBirthDate(userAdminForm.getBirthDate());
 
 			result.setCreatedRendezvouses(createdRendezvouses);
 			result.setComments(comments);
 			result.setRsvpRendezvouses(RSVPedRendezvouses);
 
 		} else {
-			result = this.userRepository.findOne(userRegisterForm.getId());
+			result = this.userRepository.findOne(userAdminForm.getId());
 
-			result.setName(userRegisterForm.getName());
-			result.setSurname(userRegisterForm.getSurname());
-			result.setPostalAddress(userRegisterForm.getPostalAddress());
-			result.setPhoneNumber(userRegisterForm.getPhoneNumber());
-			result.setEmail(userRegisterForm.getEmail());
-			result.setBirthDate(userRegisterForm.getBirthDate());
+			result.setName(userAdminForm.getName());
+			result.setSurname(userAdminForm.getSurname());
+			result.setPostalAddress(userAdminForm.getPostalAddress());
+			result.setPhoneNumber(userAdminForm.getPhoneNumber());
+			result.setEmail(userAdminForm.getEmail());
+			result.setBirthDate(userAdminForm.getBirthDate());
 
 		}
 
@@ -197,6 +202,7 @@ public class UserService {
 
 		return result;
 	}
+
 	/**
 	 * That method returns a collections of users of the system with pageable
 	 * 

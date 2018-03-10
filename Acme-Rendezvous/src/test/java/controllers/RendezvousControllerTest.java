@@ -217,7 +217,7 @@ public class RendezvousControllerTest extends AbstractTest {
 		rendezvousId = super.getEntityId("Rendezvous2");
 		request = MockMvcRequestBuilders.get("/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvousId + "&anonymous=false");
 
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.forwardedUrl(null));
+		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.redirectedUrl("redirect:/mic/403"));
 		super.unauthenticate();
 	}
 

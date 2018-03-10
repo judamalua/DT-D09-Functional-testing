@@ -18,8 +18,12 @@ import org.springframework.validation.Validator;
 import repositories.ManagerRepository;
 import security.Authority;
 import security.UserAccount;
+import domain.Actor;
+import domain.CreditCard;
 import domain.DomainService;
 import domain.Manager;
+import domain.Request;
+import forms.ManagerForm;
 
 @Service
 @Transactional
@@ -32,8 +36,12 @@ public class ManagerService {
 	// Supporting services --------------------------------------------------
 	@Autowired
 	private Validator			validator;
+
 	@Autowired
 	private ActorService		actorService;
+
+	@Autowired
+	private RequestService		requestService;
 
 
 	// Simple CRUD methods --------------------------------------------------
@@ -110,8 +118,13 @@ public class ManagerService {
 	 */
 	public Manager save(final Manager manager) {
 		Assert.notNull(manager);
-		if (manager.getId() != 0)
-			Assert.isTrue((Manager) this.actorService.findActorByPrincipal() == manager);
+
+		Actor actor;
+
+		actor = this.actorService.findActorByPrincipal();
+
+		if (manager.getId() != 0 && actor instanceof Manager)
+			Assert.isTrue(actor.equals(manager));
 
 		Manager result;
 
@@ -132,42 +145,69 @@ public class ManagerService {
 	 * @return Manager
 	 * @author Antonio
 	 */
-	public Manager reconstruct(final Manager manager, final BindingResult binding) {
+	public Manager reconstruct(final ManagerForm managerForm, final BindingResult binding) {
 		Manager result;
-		UserAccount userAccount;
-		Collection<Authority> authorities;
-		Authority authority;
 		Collection<DomainService> services;
 
-		if (manager.getId() == 0) {
-			userAccount = manager.getUserAccount();
-			authorities = new HashSet<Authority>();
-			authority = new Authority();
-			authority.setAuthority(Authority.MANAGER);
-			authorities.add(authority);
-			userAccount.setAuthorities(authorities);
-
+		if (managerForm.getId() == 0) {
 			services = new HashSet<DomainService>();
 
-			result = manager;
+			result = this.create();
+
+			result.getUserAccount().setUsername(managerForm.getUserAccount().getUsername());
+			result.getUserAccount().setPassword(managerForm.getUserAccount().getPassword());
+			result.setVat(managerForm.getVat());
+			result.setName(managerForm.getName());
+			result.setSurname(managerForm.getSurname());
+			result.setPostalAddress(managerForm.getPostalAddress());
+			result.setPhoneNumber(managerForm.getPhoneNumber());
+			result.setEmail(managerForm.getEmail());
+			result.setBirthDate(managerForm.getBirthDate());
 
 			result.setServices(services);
-			result.setUserAccount(userAccount);
 
 		} else {
-			result = this.findOne(manager.getId());
+			result = this.findOne(managerForm.getId());
 
-			result.setName(manager.getName());
-			result.setSurname(manager.getSurname());
-			result.setPostalAddress(manager.getPostalAddress());
-			result.setPhoneNumber(manager.getPhoneNumber());
-			result.setEmail(manager.getEmail());
-			result.setBirthDate(manager.getBirthDate());
-			result.setVat(manager.getVat());
+			result.setName(managerForm.getName());
+			result.setSurname(managerForm.getSurname());
+			result.setPostalAddress(managerForm.getPostalAddress());
+			result.setPhoneNumber(managerForm.getPhoneNumber());
+			result.setEmail(managerForm.getEmail());
+			result.setBirthDate(managerForm.getBirthDate());
+			result.setVat(managerForm.getVat());
 
 		}
 
 		this.validator.validate(result, binding);
+
+		return result;
+	}
+
+	/**
+	 * This method deconstructs a Manager object, that is, transforms
+	 * a Manager object into a UserAdminForm object to be edited
+	 * 
+	 * @param user
+	 *            to be deconstructed into an UserAdminForm
+	 * @return UserAdminForm with the data of the user given by parameters
+	 * 
+	 * @author Juanmi
+	 */
+	public ManagerForm deconstruct(final Manager manager) {
+		ManagerForm result;
+
+		result = new ManagerForm();
+
+		result.setId(manager.getId());
+		result.setVersion(manager.getVersion());
+		result.setVat(manager.getVat());
+		result.setName(manager.getName());
+		result.setSurname(manager.getSurname());
+		result.setPostalAddress(manager.getPostalAddress());
+		result.setPhoneNumber(manager.getPhoneNumber());
+		result.setEmail(manager.getEmail());
+		result.setBirthDate(manager.getBirthDate());
 
 		return result;
 	}
@@ -183,6 +223,14 @@ public class ManagerService {
 
 	}
 
+	/**
+	 * Returns the Manager that created the Service passed as a param.
+	 * 
+	 * @return Manager
+	 * @param service
+	 * @author Antonio
+	 * 
+	 */
 	public Manager findManagerByService(final DomainService service) {
 		Manager result;
 		Assert.notNull(service);
@@ -203,4 +251,38 @@ public class ManagerService {
 		this.managerRepository.flush();
 
 	}
+
+	/**
+	 * Checks that the Manager (the principal) has access to this CreditCard, that is,
+	 * the CreditCard is part of a Request to one of the Services that the Manager offers.
+	 * 
+	 * @param creditCard
+	 * @author Antonio
+	 * 
+	 */
+	public void checkManagerCreditCard(final CreditCard creditCard) {
+		DomainService service;
+		Collection<Request> requests;
+		Boolean hasAccess;
+		Manager principal;
+		Collection<DomainService> principalServices;
+
+		hasAccess = false; //First, the Manager doesn't have access.
+		requests = this.requestService.getAllRequestFromCreditCard(creditCard.getId()); //List of requests that were paid by the CreditCard
+		principal = (Manager) this.actorService.findActorByPrincipal();//The Manager who wants to access.
+		principalServices = principal.getServices(); //The Services of the principal
+
+		for (final Request r : requests) { //We iterate the Requests paid by the CreditCard
+			service = r.getService();//We get the service of the Request
+
+			if (principalServices.contains(service)) { //If one of those Services is cointained in the list of Services offered by the Manager,
+				hasAccess = true;//We grant access.
+				break;
+			}
+		}
+
+		Assert.isTrue(hasAccess);
+
+	}
+
 }

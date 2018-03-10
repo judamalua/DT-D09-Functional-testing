@@ -20,6 +20,7 @@ import security.LoginService;
 import security.UserAccount;
 import domain.Actor;
 import domain.Administrator;
+import forms.UserAdminForm;
 
 @Service
 @Transactional
@@ -242,6 +243,33 @@ public class ActorService {
 		actor.getUserAccount().setPassword(password);
 
 		result = this.actorRepository.save(actor);
+
+		return result;
+	}
+
+	/**
+	 * This method deconstructs an User/Administrator object, that is, transforms
+	 * an User/Administrator object into a UserAdminForm object to be edited
+	 * 
+	 * @param user
+	 *            to be deconstructed into an UserAdminForm
+	 * @return UserAdminForm with the data of the user given by parameters
+	 * 
+	 * @author Juanmi
+	 */
+	public UserAdminForm deconstruct(final Actor actor) {
+		UserAdminForm result;
+
+		result = new UserAdminForm();
+
+		result.setId(actor.getId());
+		result.setVersion(actor.getVersion());
+		result.setName(actor.getName());
+		result.setSurname(actor.getSurname());
+		result.setPostalAddress(actor.getPostalAddress());
+		result.setPhoneNumber(actor.getPhoneNumber());
+		result.setEmail(actor.getEmail());
+		result.setBirthDate(actor.getBirthDate());
 
 		return result;
 	}

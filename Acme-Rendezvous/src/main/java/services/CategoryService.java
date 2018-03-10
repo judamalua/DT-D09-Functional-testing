@@ -126,6 +126,7 @@ public class CategoryService {
 
 		result = this.categoryRepository.save(category);
 		this.actorService.checkUserLogin();
+		Assert.isTrue(this.actorService.findActorByPrincipal() instanceof Administrator);//only a administrator can save categories
 
 		if (category.getId() != 0) {
 			subCategories = this.findSubCategories(category);
@@ -311,7 +312,7 @@ public class CategoryService {
 		return result;
 	}
 	/**
-	 * Get all the subCategories of the category passed as paremater
+	 * Get all the subCategories of the category passed as parameter
 	 * 
 	 * @param category
 	 * @return the collection of subCategories of category
@@ -329,7 +330,7 @@ public class CategoryService {
 	}
 
 	/**
-	 * Get all the subCategories of the category passed as paremater
+	 * Get all the subCategories of the category passed as parameter
 	 * 
 	 * @param category
 	 * @return the collection of subCategories of category
@@ -378,5 +379,13 @@ public class CategoryService {
 		this.validator.validate(result, binding);
 
 		return result;
+	}
+
+	/**
+	 * That method do a flush in database
+	 * 
+	 */
+	public void flush() {
+		this.categoryRepository.flush();
 	}
 }

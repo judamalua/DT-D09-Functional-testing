@@ -152,7 +152,6 @@ public class RendezvousService {
 
 		if (actor instanceof User) {
 			user = (User) this.actorService.findActorByPrincipal();
-			Assert.isTrue(rendezvous.getMoment().after(new Date()), "Must be in future");
 			result = this.rendezvousRepository.save(rendezvous);
 
 			if (user.getCreatedRendezvouses().contains(rendezvous))   		//
@@ -322,6 +321,7 @@ public class RendezvousService {
 	public Rendezvous reconstruct(final Rendezvous rendezvous, final BindingResult binding) {
 
 		Rendezvous result;
+		this.actorService.checkUserLogin();
 
 		if (rendezvous.getId() == 0) {
 			User user;

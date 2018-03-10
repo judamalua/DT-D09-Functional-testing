@@ -2,36 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- %%%%%% domain.DomainService %%%%%% -->
-	<bean id="DomainServiceTest1" class="domain.DomainService">
-		<property name="name" value="Test service" />
-		<property name="description" value="Test service description" />
-		<property name="pictureUrl"
-			value="http://coolwildlife.com/wp-content/uploads/galleries/post-3004/Fox%20Picture%20002.jpg" />
-		<property name="cancelled" value="false"/>
-		<property name="price" value="10.0"/>
-		<property name="requests">
-			<list>
-			</list>
-		</property>
-		<property name="categories">
-			<list>
-				<ref bean="CategoryTest1"/>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="CategoryTest1" class="domain.Category">
-		<property name="name" value="Test category" />
-		<property name="description" value="Test category description" />
-		<property name="services">
-			<list>
-				<ref bean="DomainServiceTest1"/>
-			</list>
-		</property>
-	</bean>
-	
-	
+
 	<!-- %%%%%% domain.Announcement %%%%%% -->
 	<bean id="Announcement1" class="domain.Announcement">
 		<property name="moment" value="2018/02/01 08:00" />
@@ -82,6 +53,126 @@
 		<property name="title" value="We are back!" />
 		<property name="description" value="Hi everyone, we are back again!" />
 	</bean>
+
+
+	<!-- %%%%%% domain.DomainService %%%%%% -->
+	<bean id="DomainService1" class="domain.DomainService">
+		<property name="name" value="Contrata un payaso" />
+		<property name="description"
+			value="¡Contrata al payaso Pipo para que anime tus eventos!" />
+		<property name="pictureUrl"
+			value="https://upload.wikimedia.org/wikipedia/commons/b/b5/Pipo_de_Clown.png" />
+		<property name="cancelled" value="false" />
+		<property name="price" value="149.99" />
+		<property name="requests">
+			<list>
+			</list>
+		</property>
+		<property name="categories">
+			<list>
+				<ref bean="Category1" />
+				<ref bean="Category6" />
+			</list>
+		</property>
+	</bean>
+	<bean id="DomainService2" class="domain.DomainService">
+		<property name="name" value="Contrata a un stripper" />
+		<property name="description"
+			value="Contrata a Pipo el poli palote para que anime tus fiestas" />
+		<property name="pictureUrl"
+			value="https://elmomentoinutil.files.wordpress.com/2017/06/poli.png?w=845" />
+		<property name="cancelled" value="false" />
+		<property name="price" value="149.99" />
+		<property name="requests">
+			<list>
+			</list>
+		</property>
+		<property name="categories">
+			<list>
+				<ref bean="Category1" />
+				<ref bean="Category2" />
+				<ref bean="Category6" />
+			</list>
+		</property>
+	</bean>
+	<bean id="DomainService3" class="domain.DomainService">
+		<property name="name" value="Local en sevilla" />
+		<property name="description"
+			value="Para fiestas, encuentros y otras actividades sociales, en la calle de la magdalena, nº 8" />
+		<property name="pictureUrl"
+			value="https://es.habcdn.com/photos/project/big/8876.jpg" />
+		<property name="cancelled" value="false" />
+		<property name="price" value="555.55" />
+		<property name="requests">
+			<list>
+			</list>
+		</property>
+		<property name="categories">
+			<list>
+				<ref bean="Category1" />
+				<ref bean="Category6" />
+				<ref bean="Category8" />
+			</list>
+		</property>
+	</bean>
+	<bean id="DomainService4" class="domain.DomainService">
+		<property name="name" value="Fotomatón" />
+		<property name="description"
+			value="Alquila un fotomatón para hacerte fotos con tus nuevos amigos" />
+		<property name="pictureUrl"
+			value="https://innovias.files.wordpress.com/2014/03/fotomaton.jpg" />
+		<property name="cancelled" value="false" />
+		<property name="price" value="230.0" />
+		<property name="requests">
+			<list>
+			</list>
+		</property>
+		<property name="categories">
+			<list>
+				<ref bean="Category1" />
+				<ref bean="Category2" />
+				<ref bean="Category6" />
+				<ref bean="Category8" />
+			</list>
+		</property>
+	</bean>
+	<bean id="DomainService5" class="domain.DomainService">
+		<property name="name" value="Contrata a un DJ" />
+		<property name="description"
+			value="¡Contrata a Pipo el rave master para tus fiestas!" />
+		<property name="pictureUrl"
+			value="https://i.ytimg.com/vi/b176MZt27dw/hqdefault.jpg" />
+		<property name="cancelled" value="false" />
+		<property name="price" value="149.99" />
+		<property name="requests">
+			<list>
+			</list>
+		</property>
+		<property name="categories">
+			<list>
+				<ref bean="Category8" />
+			</list>
+		</property>
+	</bean>
+	<bean id="DomainService6" class="domain.DomainService">
+		<property name="name" value="Alquila un castillo hinchable" />
+		<property name="description" value="Genial para fiestas con niños y adultos" />
+		<property name="pictureUrl"
+			value="https://www.castilloshinchablessaltofeliz.com/imagenes/productos/castillo-hinchable-nikita-con-doble-tobogan-interiores-y-obstaculos-en-pvc-20m2-1.jpg" />
+		<property name="cancelled" value="false" />
+		<property name="price" value="380.0" />
+		<property name="requests">
+			<list>
+			</list>
+		</property>
+		<property name="categories">
+			<list>
+				<ref bean="Category1" />
+				<ref bean="Category8" />
+			</list>
+		</property>
+	</bean>
+
 
 	<!-- %%%%%% security.UserAccount %%%%%% -->
 	<bean id="UserAccount1" class="security.UserAccount">
@@ -194,7 +285,6 @@
 			</list>
 		</property>
 	</bean>
-	
 	<bean id="UserAccount11" class="security.UserAccount">
 		<property name="username" value="manager1" />
 		<property name="password" value="c240642ddef994358c96da82c0361a58" />
@@ -206,7 +296,6 @@
 			</list>
 		</property>
 	</bean>
-	
 	<bean id="UserAccount12" class="security.UserAccount">
 		<property name="username" value="manager2" />
 		<property name="password" value="8df5127cd164b5bc2d2b78410a7eea0c" />
@@ -218,7 +307,6 @@
 			</list>
 		</property>
 	</bean>
-	
 	<bean id="UserAccount13" class="security.UserAccount">
 		<property name="username" value="manager3" />
 		<property name="password" value="2d3a5db4a2a9717b43698520a8de57d0" />
@@ -230,7 +318,6 @@
 			</list>
 		</property>
 	</bean>
-	
 	<bean id="UserAccount14" class="security.UserAccount">
 		<property name="username" value="manager4" />
 		<property name="password" value="e1ec6fc941af3ba79a4ac5242dd39735" />
@@ -242,7 +329,6 @@
 			</list>
 		</property>
 	</bean>
-	
 	<bean id="UserAccount15" class="security.UserAccount">
 		<property name="username" value="manager5" />
 		<property name="password" value="029cb1d27c0b9c551703ccba2591c334" />
@@ -254,7 +340,6 @@
 			</list>
 		</property>
 	</bean>
-	
 	<bean id="UserAccount16" class="security.UserAccount">
 		<property name="username" value="manager6" />
 		<property name="password" value="46bae9ead851e0f288529e6322f4fd77" />
@@ -266,7 +351,6 @@
 			</list>
 		</property>
 	</bean>
-	
 	<bean id="UserAccount17" class="security.UserAccount">
 		<property name="username" value="manager7" />
 		<property name="password" value="cc544735a88ba804fdd65113230c6e32" />
@@ -278,7 +362,6 @@
 			</list>
 		</property>
 	</bean>
-	
 	<bean id="UserAccount18" class="security.UserAccount">
 		<property name="username" value="manager8" />
 		<property name="password" value="d23c835597b48c694269b6a7590dc5b1" />
@@ -290,128 +373,8 @@
 			</list>
 		</property>
 	</bean>
-	
-		<!-- %%%%%% domain.Manager %%%%%% -->
-	<bean id="Manager1" class="domain.Manager">
-		<property name="vat" value="ESABC-1234" />
-		<property name="services">
-			<list>
-				<ref bean="DomainServiceTest1"/>
-			</list>
-		</property>
-		<property name="name" value="Manager 1" />
-		<property name="surname" value="Manager" />
-		<property name="postalAddress" value="Central Park" />
-		<property name="phoneNumber" value="687236954" />
-		<property name="email" value="manager1@mail.com" />
-		<property name="birthDate" value="1988/07/11 00:00" />
-		<property name="userAccount" ref="UserAccount11" />
-	</bean>
-	<bean id="Manager2" class="domain.Manager">
-		<property name="vat" value="ES1234-ABC" />
-		<property name="services">
-			<list>
-			
-			</list>
-		</property>
-		<property name="name" value="Manager 2" />
-		<property name="surname" value="Manager" />
-		<property name="postalAddress" value="Staples Center" />
-		<property name="phoneNumber" value="954258736" />
-		<property name="email" value="manager2@mail.com" />
-		<property name="birthDate" value="1990/07/22 00:00" />
-		<property name="userAccount" ref="UserAccount12" />
-	</bean>
-	<bean id="Manager3" class="domain.Manager">
-		<property name="vat" value="ESMAN-0003" />
-		<property name="services">
-			<list>
-			
-			</list>
-		</property>
-		<property name="name" value="Manager 3" />
-		<property name="surname" value="Manager" />
-		<property name="postalAddress" value="Nervión Plaza" />
-		<property name="phoneNumber" value="687236954" />
-		<property name="email" value="manager3@mail.com" />
-		<property name="birthDate" value="1988/07/11 00:00" />
-		<property name="userAccount" ref="UserAccount13" />
-	</bean>
-	<bean id="Manager4" class="domain.Manager">
-		<property name="vat" value="ESMAN-0004" />
-		<property name="services">
-			<list>
-			
-			</list>
-		</property>
-		<property name="name" value="Manager 4" />
-		<property name="surname" value="Manager" />
-		<property name="postalAddress" value="Nervión Plaza" />
-		<property name="phoneNumber" value="651478236" />
-		<property name="email" value="manager4@mail.com" />
-		<property name="birthDate" value="2001/01/11 00:00" />
-		<property name="userAccount" ref="UserAccount14" />
-	</bean>
-	<bean id="Manager5" class="domain.Manager">
-		<property name="vat" value="ESMAN-0005" />
-		<property name="services">
-			<list>
-			
-			</list>
-		</property>
-		<property name="name" value="Manager 5" />
-		<property name="surname" value="Manager" />
-		<property name="postalAddress" value="Las Vegas" />
-		<property name="phoneNumber" value="65874321" />
-		<property name="email" value="manager5@mail.com" />
-		<property name="birthDate" value="2006/08/24 00:00" />
-		<property name="userAccount" ref="UserAccount15" />
-	</bean>
-	<bean id="Manager6" class="domain.Manager">
-		<property name="vat" value="ESMAN-0006" />
-		<property name="services">
-			<list>
-			
-			</list>
-		</property>
-		<property name="name" value="Manager 6" />
-		<property name="surname" value="Manager" />
-		<property name="postalAddress" value="San Pablo" />
-		<property name="phoneNumber" value="65874321" />
-		<property name="email" value="manager6@mail.com" />
-		<property name="birthDate" value="1996/11/07 00:00" />
-		<property name="userAccount" ref="UserAccount16" />
-	</bean>
-	<bean id="Manager7" class="domain.Manager">
-		<property name="vat" value="ESMAN-0007" />
-		<property name="services">
-			<list>
-			
-			</list>
-		</property>
-		<property name="name" value="Manager 7" />
-		<property name="surname" value="Manager" />
-		<property name="postalAddress" value="Las Ramblas, Barcelona" />
-		<property name="phoneNumber" value="973654288" />
-		<property name="email" value="manager7@mail.com" />
-		<property name="birthDate" value="1992/05/03 00:00" />
-		<property name="userAccount" ref="UserAccount17" />
-	</bean>
-	<bean id="Manager8" class="domain.Manager">
-		<property name="vat" value="ESMAN-0008" />
-		<property name="services">
-			<list>
-			
-			</list>
-		</property>
-		<property name="name" value="Manager 8" />
-		<property name="surname" value="Manager" />
-		<property name="postalAddress" value="Old Trafford, Manchester" />
-		<property name="phoneNumber" value="65874321" />
-		<property name="email" value="manager8@mail.com" />
-		<property name="birthDate" value="1981/04/29 00:00" />
-		<property name="userAccount" ref="UserAccount18" />
-	</bean>
+
+
 	<!-- %%%%%% domain.Administrator %%%%%% -->
 	<bean id="Administrator1" class="domain.Administrator">
 		<property name="name" value="Super" />
@@ -427,6 +390,8 @@
 		<property name="birthDate" value="1987/04/11 00:00" />
 		<property name="userAccount" ref="UserAccount2" />
 	</bean>
+
+
 	<!-- %%%%%% domain.Rendezvous %%%%%% -->
 	<bean id="Rendezvous1" class="domain.Rendezvous">
 		<property name="name" value="Meeting of friends" />
@@ -487,8 +452,7 @@
 	<bean id="Rendezvous2" class="domain.Rendezvous">
 		<property name="name" value=" Meeting of Alcoholics Anonymous" />
 		<property name="description"
-			value="Talk about your problems with alcohol in a relaxed and friendly environment.
-Attention: Do not bring alcohol." />
+			value="Talk about your problems with alcohol in a relaxed and friendly environment. Attention: Do not bring alcohol." />
 		<property name="moment" value="2018/01/24 11:00" />
 		<property name="pictureUrl"
 			value="http://static1.squarespace.com/static/58d23d9629687f0926cb2f63/58d2b89eb3db2bda82b966dc/59c3926864b05fb1d244b153/1506338828991/alcoholicos-anonimos.jpeg" />
@@ -527,7 +491,7 @@ Attention: Do not bring alcohol." />
 	<bean id="Rendezvous3" class="domain.Rendezvous">
 		<property name="name" value=" Blind Dating" />
 		<property name="description" value="Find your soulmate with us." />
-		<property name="moment" value="2018/03/4 08:00" />
+		<property name="moment" value="2018/03/04 08:00" />
 		<property name="pictureUrl"
 			value="https://swoonproduction.s3.amazonaws.com/media/original_images/love-romance-heart-sunset-hands-shutterstock.jpg" />
 		<property name="gpsCoordinates" value="37.35,-5.99" />
@@ -608,7 +572,7 @@ Attention: Do not bring alcohol." />
 	<bean id="Rendezvous5" class="domain.Rendezvous">
 		<property name="name" value="Cooking class" />
 		<property name="description" value="Learn how to do a fried egg." />
-		<property name="moment" value="2018/9/1 16:00" />
+		<property name="moment" value="2018/09/01 16:00" />
 		<property name="pictureUrl"
 			value="https://png.pngtree.com/element_origin_min_pic/16/12/22/4aff2fe0a34cc2c996b9107157806a59.jpg" />
 		<property name="gpsCoordinates" value="37.35,-5.99" />
@@ -649,7 +613,7 @@ Attention: Do not bring alcohol." />
 	<bean id="Rendezvous6" class="domain.Rendezvous">
 		<property name="name" value="Karaoke" />
 		<property name="description" value="Sing with us, get fun with us." />
-		<property name="moment" value="2018/3/7 21:00" />
+		<property name="moment" value="2018/03/07 21:00" />
 		<property name="pictureUrl"
 			value="http://www.onfiesta.com/wp-content/uploads/2016/11/alquilar-karaoke-en-navarra.jpg" />
 		<property name="gpsCoordinates" value="37.35,-5.99" />
@@ -722,7 +686,7 @@ Attention: Do not bring alcohol." />
 			</list>
 		</property>
 	</bean>
-		<bean id="Rendezvous8" class="domain.Rendezvous">
+	<bean id="Rendezvous8" class="domain.Rendezvous">
 		<property name="name" value="Ofuf" />
 		<property name="description" value="I love Amazon" />
 		<property name="moment" value="2018/08/24 22:00" />
@@ -759,7 +723,7 @@ Attention: Do not bring alcohol." />
 			</list>
 		</property>
 	</bean>
-			<bean id="Rendezvous9" class="domain.Rendezvous">
+	<bean id="Rendezvous9" class="domain.Rendezvous">
 		<property name="name" value="Deleted test rendezvous" />
 		<property name="description" value="I love Amazon" />
 		<property name="moment" value="2018/08/24 22:00" />
@@ -795,6 +759,8 @@ Attention: Do not bring alcohol." />
 			</list>
 		</property>
 	</bean>
+
+
 	<!-- %%%%%% domain.User %%%%%% -->
 	<bean id="User1" class="domain.User">
 		<property name="createdRendezvouses">
@@ -1008,7 +974,6 @@ Attention: Do not bring alcohol." />
 	</bean>
 
 
-
 	<!-- %%%%%% domain.Comment %%%%%% -->
 	<bean id="Comment1" class="domain.Comment">
 		<property name="moment" value="2018/02/01 08:00" />
@@ -1151,8 +1116,7 @@ Attention: Do not bring alcohol." />
 		</property>
 	</bean>
 	<bean id="Question2" class="domain.Question">
-		<property name="text" value="
-What are your hobbies?" />
+		<property name="text" value=" What are your hobbies?" />
 		<property name="answers">
 			<list>
 			</list>
@@ -1166,8 +1130,7 @@ What are your hobbies?" />
 		</property>
 	</bean>
 	<bean id="Question4" class="domain.Question">
-		<property name="text" value="
-Have you committed any crime?" />
+		<property name="text" value=" Have you committed any crime?" />
 		<property name="answers">
 			<list>
 			</list>
@@ -1189,22 +1152,229 @@ Have you committed any crime?" />
 	</bean>
 
 
-
-	<!-- %%%% Configuration %%%% -->
-
-	<bean id="Configuration" class="domain.Configuration">
+	<!-- %%%%%% domain.Configuration %%%%%% -->
+	<bean id="Configuration1" class="domain.Configuration">
 		<property name="cookies_eng"
 			value="This page uses cookies for its internal operations, by continuing, we will assume that you accept these cookies." />
 		<property name="cookies_es"
 			value="Esta pagina usa cookies para realizar su correcto funcionamiento, si continúa navegando, asumiremos que acepta estas cookies." />
-		<property name="businessName"
-			value="Adventure meetups" />
-		<property name="bannerUrl"
-			value="https://tinyurl.com/adventure-meetup" />
+		<property name="businessName" value="Adventure meetups" />
+		<property name="bannerUrl" value="https://tinyurl.com/adventure-meetup" />
 		<property name="welcomeMessage_eng"
 			value="Your place to organise your adventure meetups!" />
-		<property name="welcomeMessage_es"
-			value="Tu sitio para organizar quedadas de aventura" />
+		<property name="welcomeMessage_es" value="Tu sitio para organizar quedadas de aventura" />
 		<property name="pageSize" value="5" />
 	</bean>
+
+
+	<!-- %%%%%% domain.Category %%%%%% -->
+	<bean id="Category1" class="domain.Category">
+		<property name="name" value="Social" />
+		<property name="description" value="For rendezvous to socialize with new friends" />
+		<property name="services">
+			<list>
+				<ref bean="DomainService1" />
+				<ref bean="DomainService2" />
+				<ref bean="DomainService3" />
+				<ref bean="DomainService4" />
+				<ref bean="DomainService6" />
+			</list>
+		</property>
+	</bean>
+	<bean id="Category2" class="domain.Category">
+		<property name="name" value="Blind Dates" />
+		<property name="description" value="For rendezvous to find your soulmate" />
+		<property name="services">
+			<list>
+				<ref bean="DomainService2" />
+				<ref bean="DomainService4" />
+			</list>
+		</property>
+		<property name="fatherCategory" ref="Category1" />
+	</bean>
+	<bean id="Category3" class="domain.Category">
+		<property name="name" value="Visiting" />
+		<property name="description" value="For rendezvous to visit new places" />
+		<property name="services">
+			<list>
+			</list>
+		</property>
+	</bean>
+	<bean id="Category4" class="domain.Category">
+		<property name="name" value="Cultural" />
+		<property name="description" value="To visit new cultural places" />
+		<property name="services">
+			<list>
+			</list>
+		</property>
+		<property name="fatherCategory" ref="Category3" />
+	</bean>
+	<bean id="Category5" class="domain.Category">
+		<property name="name" value="Nature" />
+		<property name="description" value="To visit new natural places" />
+		<property name="services">
+			<list>
+			</list>
+		</property>
+		<property name="fatherCategory" ref="Category3" />
+	</bean>
+	<bean id="Category6" class="domain.Category">
+		<property name="name" value="Activities" />
+		<property name="description"
+			value="To make new friends while doing something fun" />
+		<property name="services">
+			<list>
+				<ref bean="DomainService1" />
+				<ref bean="DomainService2" />
+				<ref bean="DomainService3" />
+				<ref bean="DomainService4" />
+			</list>
+		</property>
+	</bean>
+	<bean id="Category7" class="domain.Category">
+		<property name="name" value="Fan meetings" />
+		<property name="description"
+			value="For meeting people who share their love for something you like" />
+		<property name="services">
+			<list>
+			</list>
+		</property>
+	</bean>
+	<bean id="Category8" class="domain.Category">
+		<property name="name" value="Party" />
+		<property name="description" value="Rendezvous to have a great party" />
+		<property name="services">
+			<list>
+				<ref bean="DomainService3" />
+				<ref bean="DomainService4" />
+				<ref bean="DomainService5" />
+				<ref bean="DomainService6" />
+			</list>
+		</property>
+		<property name="fatherCategory" ref="Category1" />
+	</bean>
+
+
+	<!-- %%%%%% domain.Manager %%%%%% -->
+	<bean id="Manager1" class="domain.Manager">
+		<property name="vat" value="ESABC-1234" />
+		<property name="services">
+			<list>
+				<ref bean="DomainService1" />
+				<ref bean="DomainService2" />
+				<ref bean="DomainService3" />
+				<ref bean="DomainService4" />
+				<ref bean="DomainService5" />
+				<ref bean="DomainService6" />
+			</list>
+		</property>
+		<property name="name" value="Manager 1" />
+		<property name="surname" value="Manager" />
+		<property name="postalAddress" value="Central Park" />
+		<property name="phoneNumber" value="687236954" />
+		<property name="email" value="manager1@mail.com" />
+		<property name="birthDate" value="1988/07/11 00:00" />
+		<property name="userAccount" ref="UserAccount11" />
+	</bean>
+	<bean id="Manager2" class="domain.Manager">
+		<property name="vat" value="ES1234-ABC" />
+		<property name="services">
+			<list>
+			</list>
+		</property>
+		<property name="name" value="Manager 2" />
+		<property name="surname" value="Manager" />
+		<property name="postalAddress" value="Staples Center" />
+		<property name="phoneNumber" value="954258736" />
+		<property name="email" value="manager2@mail.com" />
+		<property name="birthDate" value="1990/07/22 00:00" />
+		<property name="userAccount" ref="UserAccount12" />
+	</bean>
+	<bean id="Manager3" class="domain.Manager">
+		<property name="vat" value="ESMAN-0003" />
+		<property name="services">
+			<list>
+			</list>
+		</property>
+		<property name="name" value="Manager 3" />
+		<property name="surname" value="Manager" />
+		<property name="postalAddress" value="Nervión Plaza" />
+		<property name="phoneNumber" value="687236954" />
+		<property name="email" value="manager3@mail.com" />
+		<property name="birthDate" value="1988/07/11 00:00" />
+		<property name="userAccount" ref="UserAccount13" />
+	</bean>
+	<bean id="Manager4" class="domain.Manager">
+		<property name="vat" value="ESMAN-0004" />
+		<property name="services">
+			<list>
+			</list>
+		</property>
+		<property name="name" value="Manager 4" />
+		<property name="surname" value="Manager" />
+		<property name="postalAddress" value="Nervión Plaza" />
+		<property name="phoneNumber" value="651478236" />
+		<property name="email" value="manager4@mail.com" />
+		<property name="birthDate" value="2001/01/11 00:00" />
+		<property name="userAccount" ref="UserAccount14" />
+	</bean>
+	<bean id="Manager5" class="domain.Manager">
+		<property name="vat" value="ESMAN-0005" />
+		<property name="services">
+			<list>
+			</list>
+		</property>
+		<property name="name" value="Manager 5" />
+		<property name="surname" value="Manager" />
+		<property name="postalAddress" value="Las Vegas" />
+		<property name="phoneNumber" value="65874321" />
+		<property name="email" value="manager5@mail.com" />
+		<property name="birthDate" value="2006/08/24 00:00" />
+		<property name="userAccount" ref="UserAccount15" />
+	</bean>
+	<bean id="Manager6" class="domain.Manager">
+		<property name="vat" value="ESMAN-0006" />
+		<property name="services">
+			<list>
+			</list>
+		</property>
+		<property name="name" value="Manager 6" />
+		<property name="surname" value="Manager" />
+		<property name="postalAddress" value="San Pablo" />
+		<property name="phoneNumber" value="65874321" />
+		<property name="email" value="manager6@mail.com" />
+		<property name="birthDate" value="1996/11/07 00:00" />
+		<property name="userAccount" ref="UserAccount16" />
+	</bean>
+	<bean id="Manager7" class="domain.Manager">
+		<property name="vat" value="ESMAN-0007" />
+		<property name="services">
+			<list>
+			</list>
+		</property>
+		<property name="name" value="Manager 7" />
+		<property name="surname" value="Manager" />
+		<property name="postalAddress" value="Las Ramblas, Barcelona" />
+		<property name="phoneNumber" value="973654288" />
+		<property name="email" value="manager7@mail.com" />
+		<property name="birthDate" value="1992/05/03 00:00" />
+		<property name="userAccount" ref="UserAccount17" />
+	</bean>
+	<bean id="Manager8" class="domain.Manager">
+		<property name="vat" value="ESMAN-0008" />
+		<property name="services">
+			<list>
+			</list>
+		</property>
+		<property name="name" value="Manager 8" />
+		<property name="surname" value="Manager" />
+		<property name="postalAddress" value="Old Trafford, Manchester" />
+		<property name="phoneNumber" value="65874321" />
+		<property name="email" value="manager8@mail.com" />
+		<property name="birthDate" value="1981/04/29 00:00" />
+		<property name="userAccount" ref="UserAccount18" />
+	</bean>
+
+
+	<!-- = = = = = = DATATYPES = = = = = = = -->
 </beans>
