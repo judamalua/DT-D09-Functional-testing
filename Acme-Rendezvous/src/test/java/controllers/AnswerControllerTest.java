@@ -107,7 +107,7 @@ public class AnswerControllerTest extends AbstractTest {
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("answer/user/list")).andExpect(MockMvcResultMatchers.forwardedUrl("answer/user/list"))
 			.andExpect(MockMvcResultMatchers.model().attribute("creator", Matchers.equalTo(rendezvousCreator))).andExpect(MockMvcResultMatchers.model().attribute("usersAndAnswers", Matchers.hasEntry(user2, user2Answers)))
 			.andExpect(MockMvcResultMatchers.model().attribute("usersAndAnswers", Matchers.hasEntry(user3, user3Answers))).andExpect(MockMvcResultMatchers.model().attribute("usersAndAnswers", Matchers.hasEntry(user4, user4Answers)))
-			.andExpect(MockMvcResultMatchers.model().attribute("usersAndAnswers", Matchers.hasEntry(user7, user7Answers))).andExpect(MockMvcResultMatchers.model().attribute("anonymous", Matchers.is(true)));
+			.andExpect(MockMvcResultMatchers.model().attribute("usersAndAnswers", Matchers.hasEntry(user7, user7Answers)));
 	}
 
 	/**
