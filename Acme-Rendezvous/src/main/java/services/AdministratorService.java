@@ -127,4 +127,14 @@ public class AdministratorService {
 
 		return result;
 	}
+	
+	/**
+	 * This method flushes the repository, this forces the cache to be saved to the database, which then forces the test data to be validated. This is only used
+	 * in tests
+	 * 
+	 * @author Alejandro
+	 */
+	public void flush() {
+		this.administratorRepository.flush();
+	}
 }
