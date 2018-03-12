@@ -64,7 +64,9 @@ public class ServiceAdminControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test cancel a Service when anyone is logged.
+	 * Test cancel a Service when anyone is logged regarding functional requirement An actor who is authenticated as an administrator must be able to cancel a service that he or she finds
+	 * inappropriate. Such services cannot be requested for any rendezvous.They must be flagged appropriately when listed..
+	 * 
 	 * Must return 302 code and redirect to error page.
 	 * 
 	 * @throws Exception
@@ -105,7 +107,10 @@ public class ServiceAdminControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test cancel a Service when an Administrator is logged.
+	 * Test cancel a Service when an Administrator is logged, regardinf functional requirement 6.1
+	 * An actor who is authenticated as an administrator must be able to cancel a service that he or she finds
+	 * inappropriate.Such services cannot be requested for any rendezvous.They must be flagged appropriately when listed..
+	 * 
 	 * Must return 302 code and redirect to list Rendezvouses page.
 	 * 
 	 * @throws Exception
@@ -128,7 +133,8 @@ public class ServiceAdminControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test cancel a not existing Service when an Administrator is logged.
+	 * Test cancel a not existing Service when an Administrator is logged, regarding functional requirement 6.1 An actor who is authenticated as an administrator must be able to cancel a service that he or she finds
+	 * inappropriate. Such services cannot be requested for any rendezvous.They must be flagged appropriately when listed..
 	 * Must return 302 code and redirect to error page.
 	 * 
 	 * @throws Exception

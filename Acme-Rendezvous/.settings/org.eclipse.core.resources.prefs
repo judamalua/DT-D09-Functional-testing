@@ -2,6 +2,7 @@ eclipse.preferences.version=1
 encoding//src/main/java=ISO-8859-1
 encoding//src/main/resources=ISO-8859-1
 encoding//src/test/java=ISO-8859-1
+encoding//src/test/java/controllers/RendezvousUserControllerTest.java=UTF-8
 encoding//src/test/java/services/AdminServiceTest.java=UTF-8
 encoding//src/test/java/services/AnnouncementServiceTest.java=UTF-8
 encoding//src/test/java/services/AnswerServiceTest.java=UTF-8

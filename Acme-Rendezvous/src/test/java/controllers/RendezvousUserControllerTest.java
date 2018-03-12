@@ -66,7 +66,8 @@ public class RendezvousUserControllerTest extends AbstractTest {
 		this.mockMvc = MockMvcBuilders.standaloneSetup(this.controller).build();
 	}
 	/**
-	 * Test the created list of Rendezvouses of the principal when anyone is logged.
+	 * Test the created list of Rendezvouses of the principal when anyone is logged, regarding functional requirement.
+	 * 
 	 * Must return 302 code and redirect to error page.
 	 * 
 	 * @throws Exception
@@ -82,7 +83,8 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test the created list of Rendezvouses of the loggedUser in the system. Must return 200 code.
+	 * Test the created list of Rendezvouses of the logged user in the system. Must return 200 code.
+	 * 
 	 * The list must contains 5 elements corresponding to the first page.
 	 * 
 	 * @throws Exception
@@ -104,7 +106,13 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test edit view of Rendezvouses in the system. Must return 200 code.
+	 * Test edit view of Rendezvouses in the system, regarding functional requirement 5.3
+	 * An actor who is authenticated as a user must be able to Update or delete the
+	 * rendezvouses that he or she’s created. Deletion
+	 * is virtual, that is: the information is not removed from the database, but the
+	 * rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed.
+	 * 
+	 * Must return 200 code.
 	 * The logged user get the view of a own Rendezvous.
 	 * 
 	 * @throws Exception
@@ -126,7 +134,13 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test the edit view of Rendezvouses in the system. Must return 302 code.
+	 * Test the edit view of Rendezvouses in the system, regarding functional requirement 5.3
+	 * An actor who is authenticated as a user must be able to Update or delete the
+	 * rendezvouses that he or she’s created. Deletion
+	 * is virtual, that is: the information is not removed from the database, but the
+	 * rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed..
+	 * 
+	 * Must return 302 code.
 	 * The rendezvous is not final and must redirect to error page.
 	 * 
 	 * @throws Exception
@@ -145,7 +159,13 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test the edit view of Rendezvouses in the system. Must return 302 code.
+	 * Test the edit view of Rendezvouses in the system, regarding functional requirement 5.3
+	 * An actor who is authenticated as a user must be able to Update or delete the
+	 * rendezvouses that he or she’s created. Deletion
+	 * is virtual, that is: the information is not removed from the database, but the
+	 * rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed.
+	 * 
+	 * Must return 302 code.
 	 * The user is is not the owner of the rendezvouses and must redirect error page.
 	 * 
 	 * @throws Exception
@@ -164,7 +184,13 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test the public list of Rendezvouses in the system. Must return 200 code.
+	 * Test the public list of Rendezvouses in the system, regarding functional requirement 5.3
+	 * An actor who is authenticated as a user must be able to Update or delete the
+	 * rendezvouses that he or she’s created. Deletion
+	 * is virtual, that is: the information is not removed from the database, but the
+	 * rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed.
+	 * 
+	 * Must return 200 code.
 	 * The user is owner of the rendezvous in final mode and can be displayed.
 	 * 
 	 * @throws Exception
@@ -184,7 +210,14 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test create a Rendezvouses in the system. Must return 302 code.
+	 * Test create a Rendezvouses in the system,, regarding functional requirement 5.3
+	 * An actor who is authenticated as a user must be able to Update or delete the
+	 * rendezvouses that he or she’s created. Deletion
+	 * is virtual, that is: the information is not removed from the database, but the
+	 * rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed.
+	 * 
+	 * 
+	 * Must return 302 code.
 	 * There is anyone logged and must redirect to error page.
 	 * 
 	 * @throws Exception
@@ -199,7 +232,13 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test save correct Rendezvous in the system. Must return 200 code.
+	 * Test save correct Rendezvous in the system,, regarding functional requirement 5.3
+	 * An actor who is authenticated as a user must be able to Update or delete the
+	 * rendezvouses that he or she’s created. Deletion
+	 * is virtual, that is: the information is not removed from the database, but the
+	 * rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed.
+	 * 
+	 * Must return 302 code.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -220,7 +259,14 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test save Rendezvous in the system. Must return 200 code.
+	 * Test save Rendezvous in the system, regarding functional requirement 5.3
+	 * An actor who is authenticated as a user must be able to Update or delete the
+	 * rendezvouses that he or she’s created. Deletion
+	 * is virtual, that is: the information is not removed from the database, but the
+	 * rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed.
+	 * 
+	 * 
+	 * Must return 200 code.
 	 * There is no one logged and must redirect to error page
 	 * 
 	 * @throws Exception
@@ -237,7 +283,13 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test save Rendezvous with past moment in the system. Must return 200 code.
+	 * Test save Rendezvous with past moment in the system, regarding functional requirement 5.3
+	 * An actor who is authenticated as a user must be able to Update or delete the
+	 * rendezvouses that he or she’s created. Deletion
+	 * is virtual, that is: the information is not removed from the database, but the
+	 * rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed..
+	 * 
+	 * Must return 200 code.
 	 * The moment must be in future, then the system must return the past error code.
 	 * 
 	 * @throws Exception
@@ -258,7 +310,13 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test save adult Rendezvous in the system. Must return 200 code.
+	 * Test save adult Rendezvous in the system, regarding functional requirement 5.3
+	 * An actor who is authenticated as a user must be able to Update or delete the
+	 * rendezvouses that he or she’s created. Deletion
+	 * is virtual, that is: the information is not removed from the database, but the
+	 * rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed..
+	 * 
+	 * Must return 200 code.
 	 * The user is minor and the rendezvous adult, the must return the adult error code.
 	 * 
 	 * @throws Exception
@@ -279,7 +337,13 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test save blank parameters Rendezvous in the system. Must return 200 code.
+	 * Test save blank parameters Rendezvous in the system, regarding functional requirement 5.3
+	 * An actor who is authenticated as a user must be able to Update or delete the
+	 * rendezvouses that he or she’s created. Deletion
+	 * is virtual, that is: the information is not removed from the database, but the
+	 * rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed..
+	 * 
+	 * Must return 200 code.
 	 * The rendezvous has blank required parameters then they must be redirect to the edit page with these fields with errors.
 	 * 
 	 * @throws Exception
@@ -302,7 +366,13 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test delete Rendezvous in the system. Must return 200 code.
+	 * Test delete Rendezvous in the system, regarding functional requirement 5.3
+	 * An actor who is authenticated as a user must be able to Update or delete the
+	 * rendezvouses that he or she’s created. Deletion
+	 * is virtual, that is: the information is not removed from the database, but the
+	 * rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed..
+	 * 
+	 * Must return 200 code.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -323,7 +393,13 @@ public class RendezvousUserControllerTest extends AbstractTest {
 		super.unauthenticate();
 	}
 	/**
-	 * Test delete Rendezvouses in the system. Must return 302 code.
+	 * Test delete Rendezvouses in the system, regarding functional requirement 5.3
+	 * An actor who is authenticated as a user must be able to Update or delete the
+	 * rendezvouses that he or she’s created. Deletion
+	 * is virtual, that is: the information is not removed from the database, but the
+	 * rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed..
+	 * 
+	 * Must return 302 code.
 	 * No one is logged and the system must redirect to error page.
 	 * 
 	 * @throws Exception
