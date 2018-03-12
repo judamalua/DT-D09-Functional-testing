@@ -47,7 +47,7 @@ public class ActorController extends AbstractController {
 	// Displaying  ---------------------------------------------------------------		
 
 	/**
-	 * That method returns a model and view with the system users list
+	 * That method returns the profile of the actor logged
 	 * 
 	 * @param page
 	 * @return ModelandView
