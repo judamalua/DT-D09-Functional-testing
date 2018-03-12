@@ -12,9 +12,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -24,6 +21,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import services.ActorService;
+import services.AdministratorService;
 import services.ConfigurationService;
 import services.UserService;
 import utilities.AbstractTest;
@@ -43,163 +42,90 @@ public class UserControllerTest extends AbstractTest {
 	@Autowired
 	private UserController			controller;
 
-	//user under test ------------------------
+	//Service under test ------------------------
 	@Mock
 	@Autowired
-	private UserService				UserService;
+	private ActorService			actorservice;
 
 	@Mock
 	@Autowired
-	private ConfigurationService	configurationuser;
+	private UserService				userservice;
+
+	@Mock
+	@Autowired
+	private AdministratorService	adminservice;
+
+	@Mock
+	@Autowired
+	private ConfigurationService	configurationService;
 
 
-	//Supporting Users -----------------------
+	//Supporting services -----------------------
 
 	//Tests--------------------------------------
 	@Override
 	@Before
 	public void setUp() {
-		MockitoAnnotations.initMocks(this.UserService);
-		MockitoAnnotations.initMocks(this.configurationuser);
+		MockitoAnnotations.initMocks(this.actorservice);
+		MockitoAnnotations.initMocks(this.userservice);
+		MockitoAnnotations.initMocks(this.adminservice);
+		MockitoAnnotations.initMocks(this.configurationService);
 		MockitoAnnotations.initMocks(this.controller);
 
 		Mockito.validateMockitoUsage();
 		this.mockMvc = MockMvcBuilders.standaloneSetup(this.controller).build();
 	}
+
 	/**
-	 * Test the public list of Users in the system, regarding functional requirement 4.2: An actor who
-	 * is authenticated as a user must be able to list the Users that are available in the system.
+	 * 4.2 An actor who is not authenticated must be able to: List the users of the system and navigate to their profiles, which include personal data
+	 * and the list of rendezvouses that they've attended or are going to attend
 	 * 
-	 * Must return 200 code.
+	 * List the users in the system
 	 * 
 	 * @throws Exception
-	 * @author MJ
-	 * 
+	 * @author Luis
 	 */
-	@SuppressWarnings("unchecked")
 	@Test
-	public void listUsersNotLoggedPositive() throws Exception {
+	public void NoAuthenticatedListUsersOfSystem() throws Exception {
 		final MockHttpServletRequestBuilder request;
-		Page<User> users;
-		Pageable pageable;
-
-		super.authenticate("user1");
-		pageable = new PageRequest(0, this.configurationuser.findConfiguration().getPageSize());
-
-		users = this.UserService.getUsers(pageable);
+		super.authenticate(null);
 
 		request = MockMvcRequestBuilders.get("/user/list.do?anonymous=true");
 
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("user/list")).andExpect(MockMvcResultMatchers.forwardedUrl("user/list"))
-			.andExpect(MockMvcResultMatchers.model().attribute("users", Matchers.hasSize(5))).andExpect(MockMvcResultMatchers.model().attribute("page", Matchers.is(0))).andExpect(MockMvcResultMatchers.model().attribute("pageNum", Matchers.is(2)))
-			.andExpect(MockMvcResultMatchers.model().attribute("users", Matchers.hasItems(Matchers.isIn(users.getContent()))));
-
-	}
-
-	/**
-	 * Test the public list of Users in the system, regarding functional requirement 4.2: An actor who
-	 * is authenticated as a user must be able to list the Users that are available in the system.
-	 * 
-	 * Must return 200 code.
-	 * The anonymous is false and there is no one logged, the system must redirect to error page.
-	 * 
-	 * @throws Exception
-	 * @author MJ
-	 * 
-	 */
-	@Test
-	public void listUsersAnonymousNegative() throws Exception {
-		final MockHttpServletRequestBuilder request;
-
-		request = MockMvcRequestBuilders.get("/user/list.do?anonymous=false");
-
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.redirectedUrl("/misc/403?pagesize=5"));
-
-	}
-
-	/**
-	 * Test the public list of Users in the system, regarding functional requirement 4.2: An actor who
-	 * is authenticated as a user must be able to list the Users that are available in the system.
-	 * 
-	 * Must return 200 code.
-	 * 
-	 * @throws Exception
-	 * @author MJ
-	 * 
-	 */
-	@SuppressWarnings("unchecked")
-	@Test
-	public void listUsersUserLoggedPositive() throws Exception {
-		final MockHttpServletRequestBuilder request;
-		Page<User> Users;
-		Pageable pageable;
-
-		super.authenticate("user1");
-		request = MockMvcRequestBuilders.get("/user/list.do?anonymous=false");
-		pageable = new PageRequest(0, this.configurationuser.findConfiguration().getPageSize());
-
-		Users = this.UserService.getUsers(pageable);
-
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("user/list")).andExpect(MockMvcResultMatchers.forwardedUrl("user/list"))
-			.andExpect(MockMvcResultMatchers.model().attribute("users", Matchers.hasSize(5))).andExpect(MockMvcResultMatchers.model().attribute("page", Matchers.is(0))).andExpect(MockMvcResultMatchers.model().attribute("pageNum", Matchers.is(2)))
-			.andExpect(MockMvcResultMatchers.model().attribute("users", Matchers.hasItems(Matchers.isIn(Users.getContent()))));
+			.andExpect(MockMvcResultMatchers.model().attribute("users", Matchers.hasSize(5))).andExpect(MockMvcResultMatchers.model().attribute("page", Matchers.is(0)));
 
 		super.unauthenticate();
 	}
-
 	/**
-	 * Test the public list of Users in the system,regarding functional requirement 4.2: An actor who
-	 * is authenticated as a user must be able to list the Users that are available in the system.
-	 * Must return 200 code.
+	 * 4.2 An actor who is not authenticated must be able to: List the users of the system and navigate to their profiles, which include personal data
+	 * and the list of rendezvouses that they've attended or are going to attend
+	 * 
+	 * Navigate to the profiles of the users
 	 * 
 	 * @throws Exception
-	 * @author MJ
-	 * 
+	 * @author Luis
 	 */
-	@SuppressWarnings("unchecked")
 	@Test
-	public void listUsersManagerLoggedPositive() throws Exception {
+	public void testUsersCantDisplayActorsProfiles() throws Exception {
 		final MockHttpServletRequestBuilder request;
-		Page<User> Users;
-		Pageable pageable;
+		super.authenticate(null);
+		final int userId = this.getEntityId("User1");
+		final User user = (User) this.actorservice.findOne(userId);
 
-		super.authenticate("user1");
-		request = MockMvcRequestBuilders.get("/user/list.do?anonymous=false");
-		pageable = new PageRequest(0, this.configurationuser.findConfiguration().getPageSize());
+		request = MockMvcRequestBuilders.get("/user/display.do?actorId=" + userId + "&anonymous=true");
 
-		Users = this.UserService.getUsers(pageable);
+		this.mockMvc
+			.perform(request)
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.view().name("actor/display"))
+			.andExpect(MockMvcResultMatchers.forwardedUrl("actor/display"))
+			.andExpect(
+				MockMvcResultMatchers.model().attribute(
+					"actor",
+					Matchers.allOf(Matchers.hasProperty("name", Matchers.is(user.getName())), Matchers.hasProperty("birthDate", Matchers.is(user.getBirthDate())), Matchers.hasProperty("rsvpRendezvouses", Matchers.is(user.getRsvpRendezvouses())),
+						Matchers.hasProperty("createdRendezvouses", Matchers.is(user.getCreatedRendezvouses())))));
 
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("user/list")).andExpect(MockMvcResultMatchers.forwardedUrl("user/list"))
-			.andExpect(MockMvcResultMatchers.model().attribute("users", Matchers.hasSize(5))).andExpect(MockMvcResultMatchers.model().attribute("page", Matchers.is(0))).andExpect(MockMvcResultMatchers.model().attribute("pageNum", Matchers.is(2)))
-			.andExpect(MockMvcResultMatchers.model().attribute("users", Matchers.hasItems(Matchers.isIn(Users.getContent()))));
-		super.unauthenticate();
-	}
-	/**
-	 * Test the public list of Users in the system with pagination,regarding functional requirement 4.2: An actor who
-	 * is authenticated as a user must be able to list the Users that are available in the system.
-	 * 
-	 * Must return 200 code.
-	 * 
-	 * @throws Exception
-	 * @author MJ
-	 * 
-	 */
-	@SuppressWarnings("unchecked")
-	@Test
-	public void listUsersPageLoggedPositive() throws Exception {
-		final MockHttpServletRequestBuilder request;
-		Page<User> Users;
-		Pageable pageable;
-
-		super.authenticate("user1");
-		request = MockMvcRequestBuilders.get("/user/list.do?anonymous=false&page=1");
-		pageable = new PageRequest(1, this.configurationuser.findConfiguration().getPageSize());
-
-		Users = this.UserService.getUsers(pageable);
-
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("user/list")).andExpect(MockMvcResultMatchers.forwardedUrl("user/list"))
-			.andExpect(MockMvcResultMatchers.model().attribute("users", Matchers.hasSize(1))).andExpect(MockMvcResultMatchers.model().attribute("page", Matchers.is(1))).andExpect(MockMvcResultMatchers.model().attribute("pageNum", Matchers.is(2)))
-			.andExpect(MockMvcResultMatchers.model().attribute("Users", Matchers.hasItems(Matchers.isIn(Users.getContent()))));
 		super.unauthenticate();
 	}
 }
