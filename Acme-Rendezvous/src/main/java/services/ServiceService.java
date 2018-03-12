@@ -90,6 +90,8 @@ public class ServiceService {
 		DomainService result;
 
 		result = this.serviceRepository.findOne(serviceId);
+
+		Assert.notNull(result);
 		Assert.isTrue(!result.getCancelled());
 
 		return result;
@@ -122,11 +124,6 @@ public class ServiceService {
 		} else
 			manager = this.managerService.findManagerByService(service);
 
-		//Updating manager
-		manager.getServices().remove(service);
-		manager.getServices().add(result);
-		this.managerService.save(manager);
-
 		//Updating categories
 		for (final Category category : new HashSet<Category>(service.getCategories())) {
 			if (category.getServices().contains(service))
@@ -134,6 +131,11 @@ public class ServiceService {
 			category.getServices().add(result);
 			this.categoryService.save(category);
 		}
+
+		//Updating manager
+		manager.getServices().remove(service);
+		manager.getServices().add(result);
+		this.managerService.save(manager);
 
 		return result;
 	}

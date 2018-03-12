@@ -190,10 +190,11 @@ public class ServiceManagerController extends AbstractController {
 	// Deleting ------------------------------------------------------------------------
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(DomainService service, final BindingResult binding) {
+	public ModelAndView delete(@ModelAttribute("service") DomainService service, final BindingResult binding) {
 		ModelAndView result;
 
 		try {
+			Assert.notNull(service);
 			service = this.serviceService.findOne(service.getId());
 			Assert.isTrue(service.getRequests().size() == 0);
 			this.serviceService.delete(service);

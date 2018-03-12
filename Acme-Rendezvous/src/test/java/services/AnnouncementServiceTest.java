@@ -55,17 +55,16 @@ public class AnnouncementServiceTest extends AbstractTest {
 		//TODO: Preguntar sobre la modificacion de announcement create/delete
 		final Object testingData[][] = {
 				{null, "Announcement1", IllegalArgumentException.class},
-				{"User1","Announcement1", null},
 				{"User2", "Announcement1", IllegalArgumentException.class},
-				{"Admin1", "Announcement1", null},
+				{"User1","Announcement1", null},
+				{"Admin1", "Announcement2", null},
 				
 				{null, "Announcement4", IllegalArgumentException.class},
-				{"User1","Announcement4", null},
 				{"User2", "Announcement4", IllegalArgumentException.class},
-				{"Admin1", "Announcement4", null},
+				{"User1","Announcement4", null},
+				{"Admin1", "Announcement5", null},
 		};
 		for (int i = 0; i < testingData.length; i++){
-			System.out.println("Test: " + i);
 			this.templateDelete((String) testingData[i][0], super.getEntityId((String) testingData[i][1]), (Class<?>) testingData[i][2]);
 		}
 	}

@@ -1,6 +1,9 @@
 
 package controllers;
 
+import java.util.Collection;
+import java.util.HashSet;
+
 import javax.transaction.Transactional;
 
 import org.hamcrest.Matchers;
@@ -22,10 +25,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import services.CategoryService;
 import services.ConfigurationService;
 import services.ServiceService;
 import utilities.AbstractTest;
 import controllers.manager.ServiceManagerController;
+import domain.Category;
 import domain.DomainService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -47,6 +52,9 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	@Autowired
 	private ServiceService				service;
 
+	@Autowired
+	private CategoryService				categoryService;
+
 	@Mock
 	@Autowired
 	private ConfigurationService		configurationService;
@@ -66,7 +74,7 @@ public class ServiceManagerControllerTest extends AbstractTest {
 		this.mockMvc = MockMvcBuilders.standaloneSetup(this.controller).build();
 	}
 	/**
-	 * Test the created list of Rendezvouses of the principal when anyone is logged.
+	 * Test the created list of Services of the principal when anyone is logged.
 	 * Must return 302 code and redirect to error page.
 	 * 
 	 * @throws Exception
@@ -82,7 +90,7 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test the created list of Rendezvouses of the principal when anyone is logged.
+	 * Test the created list of Services of the principal when a actor who is not an Manager is logged.
 	 * Must return 302 code and redirect to error page.
 	 * 
 	 * @throws Exception
@@ -99,20 +107,19 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test the created list of Rendezvouses of the loggedUser in the system. Must return 200 code.
+	 * Test the created list of Services of the principal in the system. Must return 200 code.
 	 * The list must contains 5 elements corresponding to the first page.
 	 * 
 	 * @throws Exception
 	 * @author MJ
 	 */
-	@SuppressWarnings("unchecked")
 	@Test
 	public void listServiceManagerLogedPositive() throws Exception {
 		final MockHttpServletRequestBuilder request;
 		super.authenticate("manager1");
 		request = MockMvcRequestBuilders.get("/service/manager/list.do");
 
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("services/list")).andExpect(MockMvcResultMatchers.forwardedUrl("services/list"))
+		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("service/list")).andExpect(MockMvcResultMatchers.forwardedUrl("service/list"))
 			.andExpect(MockMvcResultMatchers.model().attribute("services", Matchers.hasSize(5))).andExpect(MockMvcResultMatchers.model().attribute("requestURI", Matchers.is("service/manager/list.do")))
 			.andExpect(MockMvcResultMatchers.model().attribute("page", Matchers.is(0))).andExpect(MockMvcResultMatchers.model().attribute("pageNum", Matchers.is(2)))
 			.andExpect(MockMvcResultMatchers.model().attribute("managedServices", Matchers.hasSize(5))).andExpect(MockMvcResultMatchers.model().attribute("managedServices", Matchers.not(Matchers.contains(false))));
@@ -121,8 +128,8 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test edit view of Rendezvouses in the system. Must return 200 code.
-	 * The logged user get the view of a own Rendezvous.
+	 * Test edit view of Service in the system. Must return 200 code.
+	 * The logged user get the view of his/her own Service.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -142,8 +149,8 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test the edit view of Rendezvouses in the system. Must return 302 code.
-	 * The rendezvous is not final and must redirect to error page.
+	 * Test the edit view of Services in the system. Must return 302 code.
+	 * There is no one logged and must redirect to error page.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -154,12 +161,12 @@ public class ServiceManagerControllerTest extends AbstractTest {
 		final int serviceId = super.getEntityId("DomainService6");
 		request = MockMvcRequestBuilders.get("/service/manager/edit.do?serviceId=" + serviceId);
 
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.redirectedUrl("/misc/403"));
+		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.redirectedUrl("/misc/403?pagesize=5"));
 
 	}
 	/**
-	 * Test the edit view of Rendezvouses in the system. Must return 302 code.
-	 * The user is is not the owner of the rendezvouses and must redirect error page.
+	 * Test the edit view of Services in the system. Must return 302 code.
+	 * The manager is is not the owner of the Service and must redirect error page.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -177,8 +184,8 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test the edit view of Rendezvouses in the system. Must return 302 code.
-	 * The user is is not the owner of the rendezvouses and must redirect error page.
+	 * Test the edit view of Services in the system. Must return 302 code.
+	 * The Service has request and the system must redirect to error page.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -196,8 +203,8 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test the public list of Rendezvouses in the system. Must return 200 code.
-	 * The user is owner of the rendezvous in final mode and can be displayed.
+	 * Test the public list of Services in the system. Must return 200 code.
+	 * The manager is owner of the Service in final mode and can be displayed.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -216,7 +223,7 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test create a Rendezvouses in the system. Must return 302 code.
+	 * Test create a Services in the system. Must return 302 code.
 	 * There is anyone logged and must redirect to error page.
 	 * 
 	 * @throws Exception
@@ -225,13 +232,15 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	@Test
 	public void createServiceNotLoggedNegative() throws Exception {
 		final MockHttpServletRequestBuilder request;
+
+		super.unauthenticate();
 		request = MockMvcRequestBuilders.get("/service/manager/create.do");
 
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.redirectedUrl("/misc/403?pagesize=5"));
 	}
 
 	/**
-	 * Test create a Rendezvouses in the system. Must return 302 code.
+	 * Test create a Services in the system. Must return 302 code.
 	 * There is anyone logged and must redirect to error page.
 	 * 
 	 * @throws Exception
@@ -248,26 +257,38 @@ public class ServiceManagerControllerTest extends AbstractTest {
 		super.unauthenticate();
 	}
 	/**
-	 * Test save correct Rendezvous in the system. Must return 200 code.
+	 * Test save correct Service in the system. Must return 200 code.
 	 * 
 	 * @throws Exception
 	 * @author MJ
 	 */
 	@Test
 	public void saveServicePositive() throws Exception {
-		super.authenticate("manager2");
+		DomainService service;
+		int categoryId;
+		Category category;
+		Collection<Category> categories;
+		super.authenticate("manager1");
+
+		categories = new HashSet<>();
+		categoryId = super.getEntityId("Category1");
+		category = this.categoryService.findOne(categoryId);
+		categories.add(category);
+
+		service = new DomainService();
+		service.setCategories(categories);
 
 		this.mockMvc
 			.perform(
 				MockMvcRequestBuilders.post("/service/manager/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "New Service").param("description", "New Description").param("moment", "09/04/2019 00:00").param("pictureUrl", "")
-					.param("cancelled", "false").param("price", "220").sessionAttr("service", new DomainService()).param("save", "")).andExpect(MockMvcResultMatchers.status().is(200)).andExpect(MockMvcResultMatchers.view().name("redirect:list.do"))
+					.param("cancelled", "false").param("price", "220").flashAttr("service", service).param("save", "")).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:list.do"))
 			.andExpect(MockMvcResultMatchers.redirectedUrl("list.do?pagesize=5"));
 
 		super.unauthenticate();
 	}
 
 	/**
-	 * Test save Rendezvous in the system. Must return 200 code.
+	 * Test save Service in the system. Must return 200 code.
 	 * There is no one logged and must redirect to error page
 	 * 
 	 * @throws Exception
@@ -276,16 +297,30 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	@Test
 	public void saveServiceNotLoggedNegative() throws Exception {
 		final MockHttpServletRequestBuilder request;
+		DomainService service;
+		int categoryId;
+		Category category;
+		Collection<Category> categories;
+		super.authenticate("admin1");
+
+		categories = new HashSet<>();
+		categoryId = super.getEntityId("Category1");
+		category = this.categoryService.findOne(categoryId);
+		categories.add(category);
+
+		service = new DomainService();
+		service.setCategories(categories);
 
 		request = MockMvcRequestBuilders.post("/service/manager/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "New Service").param("description", "New Description").param("moment", "09/04/2019 00:00").param("pictureUrl", "")
-			.param("cancelled", "false").param("price", "220").sessionAttr("service", new DomainService()).param("save", "");
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("service/edit")).andExpect(MockMvcResultMatchers.status().isOk())
-			.andExpect(MockMvcResultMatchers.forwardedUrl("service/edit")).andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.is("service.commit.error")));
+			.param("cancelled", "false").param("price", "220").flashAttr("service", service).param("save", "");
+		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("service/edit")).andExpect(MockMvcResultMatchers.forwardedUrl("service/edit"))
+			.andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.is("service.commit.error")));
 
+		super.unauthenticate();
 	}
 	/**
-	 * Test save Rendezvous with past moment in the system. Must return 200 code.
-	 * The moment must be in future, then the system must return the past error code.
+	 * Test save Service with past moment in the system. Must return 200 code.
+	 * There is no manager logged and must redirect to error page.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -293,10 +328,22 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	@Test
 	public void saveServiceNotManagerLoggedNegative() throws Exception {
 		final MockHttpServletRequestBuilder request;
+		DomainService service;
+		int categoryId;
+		Category category;
+		Collection<Category> categories;
 		super.authenticate("admin1");
 
+		categories = new HashSet<>();
+		categoryId = super.getEntityId("Category1");
+		category = this.categoryService.findOne(categoryId);
+		categories.add(category);
+
+		service = new DomainService();
+		service.setCategories(categories);
+
 		request = MockMvcRequestBuilders.post("/service/manager/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "New Service").param("description", "New Description").param("moment", "09/04/2019 00:00").param("pictureUrl", "")
-			.param("cancelled", "false").param("price", "220").sessionAttr("service", new DomainService()).param("save", "");
+			.param("cancelled", "false").param("price", "220").flashAttr("service", service).param("save", "");
 
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("service/edit")).andExpect(MockMvcResultMatchers.status().isOk())
 			.andExpect(MockMvcResultMatchers.forwardedUrl("service/edit")).andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.is("service.commit.error")));
@@ -305,8 +352,8 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test save Rendezvous with past moment in the system. Must return 200 code.
-	 * The moment must be in future, then the system must return the past error code.
+	 * Test save Service with past moment in the system. Must return 200 code.
+	 * The Service is cancelled, then the system must return the past error code.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -314,10 +361,21 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	@Test
 	public void saveCancelledServiceNegative() throws Exception {
 		final MockHttpServletRequestBuilder request;
-		super.authenticate("admin1");
+		DomainService service;
+		int categoryId;
+		Category category;
+		Collection<Category> categories;
+		super.authenticate("manager1");
 
+		categories = new HashSet<>();
+		categoryId = super.getEntityId("Category1");
+		category = this.categoryService.findOne(categoryId);
+		categories.add(category);
+
+		service = new DomainService();
+		service.setCategories(categories);
 		request = MockMvcRequestBuilders.post("/service/manager/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "New Service").param("description", "New Description").param("moment", "09/04/2019 00:00").param("pictureUrl", "")
-			.param("cancelled", "true").param("price", "220").sessionAttr("service", new DomainService()).param("save", "");
+			.param("cancelled", "true").param("price", "220").flashAttr("service", service).param("save", "");
 
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("service/edit")).andExpect(MockMvcResultMatchers.status().isOk())
 			.andExpect(MockMvcResultMatchers.forwardedUrl("service/edit")).andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.is("service.commit.error")));
@@ -326,8 +384,8 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test save blank parameters Rendezvous in the system. Must return 200 code.
-	 * The rendezvous has blank required parameters then they must be redirect to the edit page with these fields with errors.
+	 * Test save blank parameters Service in the system. Must return 200 code.
+	 * The Service has blank required parameters then they must be redirect to the edit page with these fields with errors.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -341,31 +399,30 @@ public class ServiceManagerControllerTest extends AbstractTest {
 			.sessionAttr("service", new DomainService()).param("save", "");
 
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("service/edit")).andExpect(MockMvcResultMatchers.forwardedUrl("service/edit"))
-			.andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.is("rendezvous.params.error"))).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("service", "name"))
+			.andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.is("service.params.error"))).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("service", "name"))
 			.andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("service", "description")).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("service", "price"));
 
 		super.unauthenticate();
 	}
 
 	/**
-	 * Test save blank parameters Rendezvous in the system. Must return 200 code.
-	 * The rendezvous has blank required parameters then they must be redirect to the edit page with these fields with errors.
+	 * Test save existing Service in the system. Must return 200 code.
 	 * 
 	 * @throws Exception
 	 * @author MJ
 	 */
-	@Test
+	//@Test
 	public void saveExistingServicePositive() throws Exception {
 		final MockHttpServletRequestBuilder request;
 		DomainService service;
 		int serviceId;
 
-		super.authenticate("manager2");
+		super.authenticate("manager1");
 		serviceId = super.getEntityId("DomainService6");
 		service = this.service.findOne(serviceId);
 
-		request = MockMvcRequestBuilders.post("/service/manager/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "").param("description", "").param("pictureUrl", "").param("cancelled", "false").param("price", "")
-			.sessionAttr("service", service).param("save", "");
+		request = MockMvcRequestBuilders.post("/service/manager/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "changed").param("description", "changed").param("cancelled", "false").param("price", "200")
+			.flashAttr("service", service).param("save", "");
 
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("redirect:list.do")).andExpect(MockMvcResultMatchers.redirectedUrl("list.do?pagesize=5"));
 
@@ -373,33 +430,7 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test save blank parameters Rendezvous in the system. Must return 200 code.
-	 * The rendezvous has blank required parameters then they must be redirect to the edit page with these fields with errors.
-	 * 
-	 * @throws Exception
-	 * @author MJ
-	 */
-	@Test
-	public void saveNotExistingServicePositive() throws Exception {
-		final MockHttpServletRequestBuilder request;
-		DomainService service;
-		int serviceId;
-
-		super.authenticate("manager2");
-		serviceId = 1;
-		service = this.service.findOne(serviceId);
-
-		request = MockMvcRequestBuilders.post("/service/manager/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "").param("description", "").param("pictureUrl", "").param("cancelled", "false").param("price", "")
-			.sessionAttr("service", service).param("save", "");
-
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("service/edit")).andExpect(MockMvcResultMatchers.status().isOk())
-			.andExpect(MockMvcResultMatchers.forwardedUrl("service/edit")).andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.is("service.commit.error")));
-
-		super.unauthenticate();
-	}
-
-	/**
-	 * Test delete Rendezvous in the system. Must return 200 code.
+	 * Test delete Service in the system. Must return 200 code.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -416,13 +447,13 @@ public class ServiceManagerControllerTest extends AbstractTest {
 		service = this.service.findOne(serviceId);
 		request = MockMvcRequestBuilders.post("/service/manager/edit.do").param("delete", "").contentType(MediaType.APPLICATION_FORM_URLENCODED).flashAttr("service", service);
 
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("redirect:list.do")).andExpect(MockMvcResultMatchers.redirectedUrl("list.do?pagesize=5"));
+		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:list.do")).andExpect(MockMvcResultMatchers.redirectedUrl("list.do?pagesize=5"));
 
 		super.unauthenticate();
 	}
 	/**
-	 * Test delete Rendezvouses in the system. Must return 302 code.
-	 * No one is logged and the system must redirect to error page.
+	 * Test delete Service in the system. Must return 302 code.
+	 * The service has request and the system must return error code.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -435,36 +466,14 @@ public class ServiceManagerControllerTest extends AbstractTest {
 
 		super.authenticate("manager1");
 
-		serviceId = super.getEntityId("DomainService6");
+		serviceId = super.getEntityId("DomainService1");
 		service = this.service.findOne(serviceId);
 		request = MockMvcRequestBuilders.post("/service/manager/edit.do").param("delete", "").contentType(MediaType.APPLICATION_FORM_URLENCODED).flashAttr("service", service);
 
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("service/edit")).andExpect(MockMvcResultMatchers.status().isOk())
+		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("service/edit")).andExpect(MockMvcResultMatchers.status().isOk())
 			.andExpect(MockMvcResultMatchers.forwardedUrl("service/edit")).andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.is("service.commit.error")));
 
+		super.unauthenticate();
 	}
 
-	/**
-	 * Test delete Rendezvouses in the system. Must return 302 code.
-	 * No one is logged and the system must redirect to error page.
-	 * 
-	 * @throws Exception
-	 * @author MJ
-	 */
-	@Test
-	public void deleteNotExistingServiceNegative() throws Exception {
-		final MockHttpServletRequestBuilder request;
-		final int serviceId;
-		final DomainService service;
-
-		super.authenticate("manager1");
-
-		serviceId = 1;
-		service = this.service.findOne(serviceId);
-		request = MockMvcRequestBuilders.post("/service/manager/edit.do").param("delete", "").contentType(MediaType.APPLICATION_FORM_URLENCODED).flashAttr("service", service);
-
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("service/edit")).andExpect(MockMvcResultMatchers.status().isOk())
-			.andExpect(MockMvcResultMatchers.forwardedUrl("service/edit")).andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.is("service.commit.error")));
-
-	}
 }
