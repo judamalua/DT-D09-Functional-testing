@@ -18,8 +18,11 @@ import org.springframework.validation.Validator;
 import repositories.ManagerRepository;
 import security.Authority;
 import security.UserAccount;
+import domain.Actor;
+import domain.CreditCard;
 import domain.DomainService;
 import domain.Manager;
+import domain.Request;
 import forms.ManagerForm;
 
 @Service
@@ -33,8 +36,12 @@ public class ManagerService {
 	// Supporting services --------------------------------------------------
 	@Autowired
 	private Validator			validator;
+
 	@Autowired
 	private ActorService		actorService;
+
+	@Autowired
+	private RequestService		requestService;
 
 
 	// Simple CRUD methods --------------------------------------------------
@@ -111,8 +118,13 @@ public class ManagerService {
 	 */
 	public Manager save(final Manager manager) {
 		Assert.notNull(manager);
-		if (manager.getId() != 0)
-			Assert.isTrue((Manager) this.actorService.findActorByPrincipal() == manager);
+
+		Actor actor;
+
+		actor = this.actorService.findActorByPrincipal();
+
+		if (manager.getId() != 0 && actor instanceof Manager)
+			Assert.isTrue(actor.equals(manager));
 
 		Manager result;
 
@@ -211,6 +223,14 @@ public class ManagerService {
 
 	}
 
+	/**
+	 * Returns the Manager that created the Service passed as a param.
+	 * 
+	 * @return Manager
+	 * @param service
+	 * @author Antonio
+	 * 
+	 */
 	public Manager findManagerByService(final DomainService service) {
 		Manager result;
 		Assert.notNull(service);
@@ -231,4 +251,38 @@ public class ManagerService {
 		this.managerRepository.flush();
 
 	}
+
+	/**
+	 * Checks that the Manager (the principal) has access to this CreditCard, that is,
+	 * the CreditCard is part of a Request to one of the Services that the Manager offers.
+	 * 
+	 * @param creditCard
+	 * @author Antonio
+	 * 
+	 */
+	public void checkManagerCreditCard(final CreditCard creditCard) {
+		DomainService service;
+		Collection<Request> requests;
+		Boolean hasAccess;
+		Manager principal;
+		Collection<DomainService> principalServices;
+
+		hasAccess = false; //First, the Manager doesn't have access.
+		requests = this.requestService.getAllRequestFromCreditCard(creditCard.getId()); //List of requests that were paid by the CreditCard
+		principal = (Manager) this.actorService.findActorByPrincipal();//The Manager who wants to access.
+		principalServices = principal.getServices(); //The Services of the principal
+
+		for (final Request r : requests) { //We iterate the Requests paid by the CreditCard
+			service = r.getService();//We get the service of the Request
+
+			if (principalServices.contains(service)) { //If one of those Services is cointained in the list of Services offered by the Manager,
+				hasAccess = true;//We grant access.
+				break;
+			}
+		}
+
+		Assert.isTrue(hasAccess);
+
+	}
+
 }

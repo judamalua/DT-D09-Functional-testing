@@ -18,7 +18,7 @@ import domain.Manager;
 import forms.ManagerForm;
 
 @Controller
-@RequestMapping("/manager")
+@RequestMapping("/actor")
 public class ManagerController extends AbstractController {
 
 	// Services ---------------------------------------------------------------
@@ -40,7 +40,7 @@ public class ManagerController extends AbstractController {
 	 * @return ModelAndView
 	 * @author Antonio
 	 */
-	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	@RequestMapping(value = "/register-manager", method = RequestMethod.GET)
 	public ModelAndView registerManager() {
 		ModelAndView result;
 		ManagerForm manager;
@@ -63,7 +63,7 @@ public class ManagerController extends AbstractController {
 	 * @return ModelAndView
 	 * @author Antonio
 	 */
-	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
+	@RequestMapping(value = "/register-manager", method = RequestMethod.POST, params = "save")
 	public ModelAndView registerManager(@ModelAttribute("manager") final ManagerForm managerForm, final BindingResult binding) {
 		ModelAndView result;
 		Authority auth;

@@ -12,7 +12,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.AdministratorRepository;
+import domain.Actor;
 import domain.Administrator;
+import domain.User;
 import forms.UserAdminForm;
 
 @Service
@@ -70,6 +72,11 @@ public class AdministratorService {
 		assert administrator != null;
 
 		Administrator result;
+		Actor actor;
+		actor = this.actorService.findActorByPrincipal();
+
+		if (actor instanceof User && administrator.getId() != 0)
+			Assert.isTrue(administrator.equals(actor));
 
 		result = this.administratorRepository.save(administrator);
 
@@ -119,5 +126,15 @@ public class AdministratorService {
 		this.validator.validate(result, binding);
 
 		return result;
+	}
+	
+	/**
+	 * This method flushes the repository, this forces the cache to be saved to the database, which then forces the test data to be validated. This is only used
+	 * in tests
+	 * 
+	 * @author Alejandro
+	 */
+	public void flush() {
+		this.administratorRepository.flush();
 	}
 }

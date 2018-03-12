@@ -1,6 +1,9 @@
 
 package services;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Random;
 
@@ -12,6 +15,8 @@ import org.springframework.util.Assert;
 
 import repositories.CreditCardRepository;
 import domain.CreditCard;
+import domain.Rendezvous;
+import domain.Request;
 import domain.User;
 
 @Service
@@ -26,6 +31,15 @@ public class CreditCardService {
 
 	@Autowired
 	private ActorService			actorService;
+
+	@Autowired
+	private RequestService			requestService;
+
+	@Autowired
+	private RendezvousService		rendezvousService;
+
+	@Autowired
+	private UserService				userService;
 
 
 	// Simple CRUD methods --------------------------------------------------
@@ -97,6 +111,8 @@ public class CreditCardService {
 
 		CreditCard result;
 
+		//Checks that the CreditCard hasn't expired
+		this.checkCreditCardExpired(creditCard);
 		creditCard.setUser((User) this.actorService.findActorByPrincipal());
 		result = this.creditCardRepository.save(creditCard);
 
@@ -150,7 +166,73 @@ public class CreditCardService {
 	 */
 	public CreditCard findByCookieToken(final String cookieToken) {
 		final CreditCard result = this.creditCardRepository.findByCookieToken(cookieToken);
+		//Checks that the CreditCard hasn't expired
+		this.checkCreditCardExpired(result);
 		Assert.isTrue(result.getUser().getId() == this.actorService.findActorByPrincipal().getId());
 		return result;
+	}
+
+	/**
+	 * Checks that the User (the principal) has access to this CreditCard, that is,
+	 * the CreditCard is part of a Request by one of the Rendezvouses that the User has created.
+	 * 
+	 * @param creditCard
+	 * @author Antonio
+	 * 
+	 */
+	public void checkUserCreditCard(final CreditCard creditCard) {
+		User principal, ownerCreditCard;
+		Collection<Request> requests;
+		Rendezvous rendezvous;
+		Boolean hasAccess;
+
+		principal = (User) this.actorService.findActorByPrincipal();
+		requests = this.requestService.getAllRequestFromCreditCard(creditCard.getId());
+		hasAccess = false;
+
+		for (final Request r : requests) {
+			rendezvous = this.rendezvousService.findRendezvousByRequest(r.getId());
+			ownerCreditCard = this.userService.getCreatorUser(rendezvous.getId());
+
+			if (ownerCreditCard.equals(principal)) {
+				hasAccess = true;
+				break;
+			}
+		}
+
+		Assert.isTrue(hasAccess);
+	}
+
+	/**
+	 * This method checks that the Credit Card of the Request hasn't expired, checking its expiration
+	 * year and expiration month.
+	 * 
+	 * @param creditCard
+	 * @author Antonio
+	 */
+	public void checkCreditCardExpired(final CreditCard creditCard) {
+		Integer actualMonth, actualYear, ccMonth, ccYear;
+		DateFormat dfYear, dfMonth;
+		String formattedYear, formattedMonth;
+
+		ccMonth = creditCard.getExpirationMonth();
+		ccYear = creditCard.getExpirationYear();
+
+		dfYear = new SimpleDateFormat("yy"); // Just the year, with 2 digits
+		formattedYear = dfYear.format(Calendar.getInstance().getTime());
+		actualYear = Integer.valueOf(formattedYear);
+
+		dfMonth = new SimpleDateFormat("MM"); //Just the month
+		formattedMonth = dfMonth.format(Calendar.getInstance().getTime());
+		actualMonth = Integer.valueOf(formattedMonth);
+
+		//Asserts that the CreditCard expiration Year is greater than the actual year
+		Assert.isTrue(ccYear >= actualYear, "CreditCard expiration Date error");
+
+		//If the CreditCard expiration Year is the same that the actual Year, 
+		//Asserts that the CreditCard expiration Month is greater than the actual Month.
+		if (ccYear == actualYear)
+			Assert.isTrue(ccMonth > actualMonth, "CreditCard expiration Date error");
+
 	}
 }

@@ -93,7 +93,7 @@ public class ServiceManagerController extends AbstractController {
 
 			result.addObject("services", services.getContent());
 			result.addObject("managedServices", managedServices);
-			result.addObject("requestURI", "service/list.do");
+			result.addObject("requestURI", "service/manager/list.do");
 			result.addObject("page", page);
 			result.addObject("pageNum", services.getTotalPages());
 
@@ -155,19 +155,24 @@ public class ServiceManagerController extends AbstractController {
 	public ModelAndView save(@ModelAttribute("service") DomainService service, final BindingResult binding) {
 		ModelAndView result;
 		DomainService savedService = null;
+		Actor actor;
 
 		try {
 			savedService = service;
 			service = this.serviceService.reconstruct(service, binding);
 		} catch (final Throwable oops) {//Not delete
-			oops.printStackTrace();
 		}
 		if (binding.hasErrors())
-
 			result = this.createEditModelAndView(savedService, "service.params.error");
 		else
 			try {
+				actor = this.actorService.findActorByPrincipal();
+				Assert.isTrue(actor instanceof Manager);
 				Assert.isTrue(service.getRequests().size() == 0);
+				if (service.getId() == 0)
+					Assert.isTrue(!service.getCancelled());
+				else
+					Assert.isTrue(this.serviceService.findOne(service.getId()) != null);
 				this.serviceService.save(service);
 
 				if (savedService.getId() != 0) {
@@ -185,14 +190,11 @@ public class ServiceManagerController extends AbstractController {
 	// Deleting ------------------------------------------------------------------------
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(DomainService service, final BindingResult binding) {
+	public ModelAndView delete(@ModelAttribute("service") DomainService service, final BindingResult binding) {
 		ModelAndView result;
 
-		//		try {
-		//			service = this.serviceService.reconstruct(service, binding);
-		//		} catch (final Throwable oops) {//Not delete
-		//		}
 		try {
+			Assert.notNull(service);
 			service = this.serviceService.findOne(service.getId());
 			Assert.isTrue(service.getRequests().size() == 0);
 			this.serviceService.delete(service);
