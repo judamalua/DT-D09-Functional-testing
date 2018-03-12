@@ -56,8 +56,8 @@ public class ManagerServiceTest extends AbstractTest {
 		Manager manager;
 
 		manager = this.createStandardManager();
-		manager.setPhoneNumber(null);
-		manager.setPostalAddress(null);
+		manager.setPhoneNumber("");
+		manager.setPostalAddress("");
 		this.UpdateDataBase(manager);
 
 	}

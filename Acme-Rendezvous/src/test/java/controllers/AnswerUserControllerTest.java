@@ -179,9 +179,7 @@ public class AnswerUserControllerTest extends AbstractTest {
 	/**
 	 * This method tests that when a user can leave a Rendezvous he or she has RSVPed before, and the answers associated to the questions of the rendezvous are deleted,
 	 * regarding functional requirement 21.2: An actor who is authenticated as a user must be able to answer the questions that are associated with
-	 * a rendezvous that he or she's RSVPing now. Must return 200 code.
-	 * 
-	 * XXX Must not return 302 code, take a look at it
+	 * a rendezvous that he or she's RSVPing now. Must return 302 code since it is a redirection.
 	 * 
 	 * @throws Exception
 	 * @author Juanmi
@@ -202,7 +200,7 @@ public class AnswerUserControllerTest extends AbstractTest {
 
 		request = MockMvcRequestBuilders.get("/answer/user/delete.do?rendezvousId=" + rendezvousId);
 
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvousId + "&anonymous=false"))
+		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvousId + "&anonymous=false"))
 			.andExpect(MockMvcResultMatchers.redirectedUrl("/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvousId + "&anonymous=false"));
 
 		// Checking that answers were properly deleted
