@@ -1,8 +1,6 @@
 
 package controllers;
 
-import java.util.Date;
-
 import javax.transaction.Transactional;
 
 import org.hamcrest.Matchers;
@@ -14,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -80,7 +79,7 @@ public class ActorControllerTest extends AbstractTest {
 		this.mockMvc = MockMvcBuilders.standaloneSetup(this.controller).build();
 	}
 	/**
-	 * Test that only administrator can display his profile
+	 * Test administrator can display his profile
 	 * 
 	 * @throws Exception
 	 * @author Luis
@@ -118,7 +117,7 @@ public class ActorControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test users can´t display administrators profile
+	 * Test users can display theirs profile
 	 * 
 	 * @throws Exception
 	 * @author Luis
@@ -138,7 +137,7 @@ public class ActorControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test managers can´t display administrators profile
+	 * Test managers can display theirs profiles
 	 * 
 	 * @throws Exception
 	 * @author Luis
@@ -165,24 +164,50 @@ public class ActorControllerTest extends AbstractTest {
 	 */
 	@Test
 	public void testNoAuthenticatedCanRegisterAsUser() throws Exception {
-		final MockHttpServletRequestBuilder request;
 		super.authenticate(null);
-		final User newUser;
-		final Date birthDate = new Date();
-		newUser = this.userservice.create();
-		newUser.setName("Fernando");
-		newUser.setSurname("Gutiérrez López");
-		newUser.setBirthDate(birthDate);
-		newUser.setEmail("ferguti90@gmail.com");
-		newUser.setPhoneNumber("606587789");
-		newUser.setPostalAddress("Calle Picadero 9");
-		newUser.getUserAccount().setUsername("fernanguti");
-		newUser.getUserAccount().setPassword("ferguti");
 
-		request = MockMvcRequestBuilders.get("/actor/register.do");
+		this.mockMvc
+			.perform(
+				MockMvcRequestBuilders.post("/actor/register.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "Fernando").param("surname", "Gutiérrez López").param("birthDate", "09/04/2000").param("email", "ferguti90@gmail.com")
+					.param("phoneNumber", "606587789").param("postalAddress", "Calle Picadero 9").param("userAccount.username", "fernanguti").param("userAccount.password", "fernanguti").param("confirmPassword", "fernanguti")
+					.sessionAttr("user", new User()).param("save", "")).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/welcome/index.do"))
+			.andExpect(MockMvcResultMatchers.redirectedUrl("/welcome/index.do?pagesize=5"));
 
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("actor/display")).andExpect(MockMvcResultMatchers.forwardedUrl("actor/display"))
-			.andExpect(MockMvcResultMatchers.model().attribute("actor", Matchers.allOf(Matchers.hasProperty("name", Matchers.is(newUser.getName())), Matchers.hasProperty("birthDate", Matchers.is(newUser.getBirthDate())))));
+		super.unauthenticate();
+	}
+
+	/**
+	 * Test not authenticated can´t register as user with fails
+	 * 
+	 * @throws Exception
+	 * @author Luis
+	 */
+	@Test
+	public void testNoAuthenticatedCanRegisterAsUserWithFails() throws Exception {
+		super.authenticate(null);
+
+		this.mockMvc.perform(
+			MockMvcRequestBuilders.post("/actor/register.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "Fernando").param("surname", "Gutiérrez López").param("birthDate", "09/04/2020").param("email", "ferguti90@gmail.com")
+				.param("phoneNumber", "606587789").param("postalAddress", "Calle Picadero 9").param("userAccount.username", "fernanguti").param("userAccount.password", "fernanguti").param("confirmPassword", "fernanguti").sessionAttr("user", new User())
+				.param("save", "")).andExpect(MockMvcResultMatchers.status().is(200));
+
+		super.unauthenticate();
+	}
+
+	/**
+	 * Test that method only register as an user
+	 * 
+	 * @throws Exception
+	 * @author Luis
+	 */
+	@Test
+	public void testOnlyResgisterAsAnUser() throws Exception {
+		super.authenticate(null);
+
+		this.mockMvc.perform(
+			MockMvcRequestBuilders.post("/actor/register.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "Fernando").param("surname", "Gutiérrez López").param("birthDate", "09/04/2020").param("email", "ferguti90@gmail.com")
+				.param("phoneNumber", "606587789").param("postalAddress", "Calle Picadero 9").param("userAccount.username", "fernanguti").param("userAccount.password", "fernanguti").param("confirmPassword", "fernanguti").sessionAttr("user", new Manager())
+				.param("save", "")).andExpect(MockMvcResultMatchers.status().is(200));
 
 		super.unauthenticate();
 	}
