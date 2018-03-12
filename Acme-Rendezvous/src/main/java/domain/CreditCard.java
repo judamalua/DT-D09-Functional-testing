@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
+import org.hibernate.validator.constraints.SafeHtml;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -28,6 +29,7 @@ public class CreditCard extends DomainEntity {
 
 
 	@NotBlank
+	@SafeHtml
 	public String getHolderName() {
 		return this.holderName;
 	}
@@ -37,6 +39,7 @@ public class CreditCard extends DomainEntity {
 	}
 
 	@NotBlank
+	@SafeHtml
 	public String getBrandName() {
 		return this.brandName;
 	}
@@ -46,6 +49,7 @@ public class CreditCard extends DomainEntity {
 	}
 	@NotBlank
 	@CreditCardNumber
+	@SafeHtml
 	public String getNumber() {
 		return this.number;
 	}
@@ -82,6 +86,7 @@ public class CreditCard extends DomainEntity {
 
 	@Column(unique = true)
 	@NotBlank
+	@SafeHtml
 	public String getCookieToken() {
 		return this.cookieToken;
 	}
