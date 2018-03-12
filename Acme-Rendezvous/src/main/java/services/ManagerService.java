@@ -119,9 +119,10 @@ public class ManagerService {
 	public Manager save(final Manager manager) {
 		Assert.notNull(manager);
 
-		Actor actor;
+		Actor actor = null;
 
-		actor = this.actorService.findActorByPrincipal();
+		if (manager.getId() != 0)
+			actor = this.actorService.findActorByPrincipal();
 
 		if (manager.getId() != 0 && actor instanceof Manager)
 			Assert.isTrue(actor.equals(manager));
