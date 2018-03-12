@@ -118,7 +118,8 @@ public class CommentUserController extends AbstractController {
 	 * 
 	 * 
 	 * @param commentReply
-	 *            , binding, commentRepliedId
+	 * @param binding
+	 * @param commentRepliedId
 	 * @return ModelAndView
 	 * @author Antonio
 	 */
@@ -168,7 +169,8 @@ public class CommentUserController extends AbstractController {
 	 * 
 	 * 
 	 * @param comment
-	 *            , binding, rendezvousId
+	 * @param binding
+	 * @param rendezvousId
 	 * @return ModelAndView
 	 * @author Antonio
 	 */
@@ -185,13 +187,16 @@ public class CommentUserController extends AbstractController {
 		else
 			try {
 				user = (User) this.actorService.findActorByPrincipal();
-				Assert.isTrue(rendezvous.getUsers().contains(user));
+				Assert.isTrue(rendezvous.getUsers().contains(user), "Rendezvous not RSVPd by User");
 
 				this.commentService.save(comment, rendezvous);
 
 				result = new ModelAndView("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvous.getId() + "&anonymous=false");
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(comment, "comment.commit.error", rendezvous.getId());
+				if (oops.getMessage() == "Rendezvous not RSVPd by User")
+					result = new ModelAndView("redirect:/misc/403");
+				else
+					result = this.createEditModelAndView(comment, "comment.commit.error", rendezvous.getId());
 			}
 		return result;
 	}
