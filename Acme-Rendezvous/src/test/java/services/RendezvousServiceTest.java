@@ -42,7 +42,7 @@ public class RendezvousServiceTest extends AbstractTest {
 
 	/**
 	 * This driver checks several tests regarding functional requirement number 5.2: An actor who is authenticated as a user must be able to create a rendezvous, which he’s implicitly assumed to attend.
-	 * Note that a user may edit his or her rendezvouses as long as they aren’t saved them in final mode.
+	 * Note that a user may edit his or her rendezvouses as long as they aren't saved them in final mode.
 	 * Once a rendezvous is saved in final mode, it cannot be edited or deleted by the creator
 	 * 
 	 * 5.3: An actor who is authenticated as a user must be able to update or delete the rendezvouses that he or she’s created. Deletion is virtual, that
@@ -104,7 +104,7 @@ public class RendezvousServiceTest extends AbstractTest {
 
 	/**
 	 * This driver checks several tests regarding functional requirement number 5.2: An actor who is authenticated as a user must be able to create a rendezvous, which he’s implicitly assumed to attend.
-	 * Note that a user may edit his or her rendezvouses as long as they aren’t saved them in final mode.
+	 * Note that a user may edit his or her rendezvouses as long as they aren't saved them in final mode.
 	 * Once a rendezvous is saved in final mode, it cannot be edited or deleted by the creator
 	 * 
 	 * 5.3: An actor who is authenticated as a user must be able to update or delete the rendezvouses that he or she’s created. Deletion is virtual, that
@@ -144,7 +144,7 @@ public class RendezvousServiceTest extends AbstractTest {
 
 	/**
 	 * This driver checks several tests regarding functional requirement number 5.2: An actor who is authenticated as a user must be able to create a rendezvous, which he’s implicitly assumed to attend.
-	 * Note that a user may edit his or her rendezvouses as long as they aren’t saved them in final mode.
+	 * Note that a user may edit his or her rendezvouses as long as they aren't saved them in final mode.
 	 * Once a rendezvous is saved in final mode, it cannot be edited or deleted by the creator
 	 * 
 	 * 5.3: An actor who is authenticated as a user must be able to update or delete the rendezvouses that he or she’s created. Deletion is virtual, that
@@ -193,7 +193,7 @@ public class RendezvousServiceTest extends AbstractTest {
 
 	/**
 	 * This driver checks several tests regarding functional requirement number 5.2: An actor who is authenticated as a user must be able to create a rendezvous, which he’s implicitly assumed to attend.
-	 * Note that a user may edit his or her rendezvouses as long as they aren’t saved them in final mode.
+	 * Note that a user may edit his or her rendezvouses as long as they aren't saved them in final mode.
 	 * Once a rendezvous is saved in final mode, it cannot be edited or deleted by the creator
 	 * 
 	 * 5.3: An actor who is authenticated as a user must be able to update or delete the rendezvouses that he or she’s created. Deletion is virtual, that
@@ -227,7 +227,7 @@ public class RendezvousServiceTest extends AbstractTest {
 
 	/**
 	 * This driver checks several tests regarding functional requirement number 16.4: An actor who is authenticated as a user must be able to
-	 * link one of the rendezvouses that he or she’s created to other similar rendezvouses
+	 * link one of the rendezvouses that he or she's created to other similar rendezvouses
 	 * 
 	 * @author Juanmi
 	 */
@@ -270,7 +270,7 @@ public class RendezvousServiceTest extends AbstractTest {
 
 	/**
 	 * This test checks that functional requirement 5.5 works properly: An actor who is authenticated as a user must be able to list the rendezvouses that he
-	 * or she’s RSVPd
+	 * or she's RSVPd
 	 * 
 	 * @author Juanmi
 	 */
