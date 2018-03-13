@@ -74,7 +74,10 @@ public class ServiceManagerControllerTest extends AbstractTest {
 		this.mockMvc = MockMvcBuilders.standaloneSetup(this.controller).build();
 	}
 	/**
-	 * Test the created list of Services of the principal when anyone is logged.
+	 * Test the created list of Services of the principal when anyone is logged, regarding functional requirement 5.2
+	 * An actor who is registered as a manager must be able to Manage his or her services, which includes listing them, creating them, updating
+	 * them, and deleting them as long as they are not required by any rendezvouses.
+	 * 
 	 * Must return 302 code and redirect to error page.
 	 * 
 	 * @throws Exception
@@ -90,7 +93,9 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test the created list of Services of the principal when a actor who is not an Manager is logged.
+	 * Test the created list of Services of the principal when a actor who is not an Manager is logged, regarding functional requirement 5.2
+	 * An actor who is registered as a manager must be able to Manage his or her services, which includes listing them, creating them, updating
+	 * them, and deleting them as long as they are not required by any rendezvouses.
 	 * Must return 302 code and redirect to error page.
 	 * 
 	 * @throws Exception
@@ -107,7 +112,10 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test the created list of Services of the principal in the system. Must return 200 code.
+	 * Test the created list of Services of the principal in the system, regarding functional requirement 5.2
+	 * An actor who is registered as a manager must be able to Manage his or her services, which includes listing them, creating them, updating
+	 * them, and deleting them as long as they are not required by any rendezvouses.
+	 * Must return 200 code.
 	 * The list must contains 5 elements corresponding to the first page.
 	 * 
 	 * @throws Exception
@@ -128,7 +136,10 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test edit view of Service in the system. Must return 200 code.
+	 * Test edit view of Service in the system, regarding functional requirement 5.2
+	 * An actor who is registered as a manager must be able to Manage his or her services, which includes listing them, creating them, updating
+	 * them, and deleting them as long as they are not required by any rendezvouses.
+	 * Must return 200 code.
 	 * The logged user get the view of his/her own Service.
 	 * 
 	 * @throws Exception
@@ -149,7 +160,11 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test the edit view of Services in the system. Must return 302 code.
+	 * Test the edit view of Services in the system, regarding functional requirement 5.2
+	 * An actor who is registered as a manager must be able to Manage his or her services, which includes listing them, creating them, updating
+	 * them, and deleting them as long as they are not required by any rendezvouses.
+	 * 
+	 * Must return 302 code.
 	 * There is no one logged and must redirect to error page.
 	 * 
 	 * @throws Exception
@@ -165,7 +180,10 @@ public class ServiceManagerControllerTest extends AbstractTest {
 
 	}
 	/**
-	 * Test the edit view of Services in the system. Must return 302 code.
+	 * Test the edit view of Services in the system, regarding functional requirement 5.2
+	 * An actor who is registered as a manager must be able to Manage his or her services, which includes listing them, creating them, updating
+	 * them, and deleting them as long as they are not required by any rendezvouses.
+	 * Must return 302 code.
 	 * The manager is is not the owner of the Service and must redirect error page.
 	 * 
 	 * @throws Exception
@@ -184,7 +202,11 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test the edit view of Services in the system. Must return 302 code.
+	 * Test the edit view of Services in the system, regarding functional requirement 5.2
+	 * An actor who is registered as a manager must be able to Manage his or her services, which includes listing them, creating them, updating
+	 * them, and deleting them as long as they are not required by any rendezvouses.
+	 * 
+	 * Must return 302 code.
 	 * The Service has request and the system must redirect to error page.
 	 * 
 	 * @throws Exception
@@ -203,7 +225,11 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test the public list of Services in the system. Must return 200 code.
+	 * Test the public list of Services in the system, regarding functional requirement 5.2
+	 * An actor who is registered as a manager must be able to Manage his or her services, which includes listing them, creating them, updating
+	 * them, and deleting them as long as they are not required by any rendezvouses.
+	 * 
+	 * Must return 200 code.
 	 * The manager is owner of the Service in final mode and can be displayed.
 	 * 
 	 * @throws Exception
@@ -223,7 +249,10 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test create a Services in the system. Must return 302 code.
+	 * Test create a Services in the system , regarding functional requirement 5.2
+	 * An actor who is registered as a manager must be able to Manage his or her services, which includes listing them, creating them, updating
+	 * them, and deleting them as long as they are not required by any rendezvouses.
+	 * Must return 302 code.
 	 * There is anyone logged and must redirect to error page.
 	 * 
 	 * @throws Exception
@@ -240,7 +269,10 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test create a Services in the system. Must return 302 code.
+	 * Test create a Services in the system, regarding functional requirement 5.2
+	 * An actor who is registered as a manager must be able to Manage his or her services, which includes listing them, creating them, updating
+	 * them, and deleting them as long as they are not required by any rendezvouses.
+	 * Must return 302 code.
 	 * There is anyone logged and must redirect to error page.
 	 * 
 	 * @throws Exception
@@ -257,7 +289,11 @@ public class ServiceManagerControllerTest extends AbstractTest {
 		super.unauthenticate();
 	}
 	/**
-	 * Test save correct Service in the system. Must return 200 code.
+	 * Test save correct Service in the system, regarding functional requirement 5.2
+	 * An actor who is registered as a manager must be able to Manage his or her services, which includes listing them, creating them, updating
+	 * them, and deleting them as long as they are not required by any rendezvouses.
+	 * 
+	 * Must return 200 code.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -288,7 +324,11 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test save Service in the system. Must return 200 code.
+	 * Test save Service in the system, regarding functional requirement 5.2
+	 * An actor who is registered as a manager must be able to Manage his or her services, which includes listing them, creating them, updating
+	 * them, and deleting them as long as they are not required by any rendezvouses.
+	 * 
+	 * Must return 200 code.
 	 * There is no one logged and must redirect to error page
 	 * 
 	 * @throws Exception
@@ -319,7 +359,11 @@ public class ServiceManagerControllerTest extends AbstractTest {
 		super.unauthenticate();
 	}
 	/**
-	 * Test save Service with past moment in the system. Must return 200 code.
+	 * Test save Service with past moment in the system, regarding functional requirement 5.2
+	 * An actor who is registered as a manager must be able to Manage his or her services, which includes listing them, creating them, updating
+	 * them, and deleting them as long as they are not required by any rendezvouses.
+	 * 
+	 * Must return 200 code.
 	 * There is no manager logged and must redirect to error page.
 	 * 
 	 * @throws Exception
@@ -352,7 +396,11 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test save Service with past moment in the system. Must return 200 code.
+	 * Test save Service with past moment in the system, regarding functional requirement 5.2
+	 * An actor who is registered as a manager must be able to Manage his or her services, which includes listing them, creating them, updating
+	 * them, and deleting them as long as they are not required by any rendezvouses.
+	 * 
+	 * Must return 200 code.
 	 * The Service is cancelled, then the system must return the past error code.
 	 * 
 	 * @throws Exception
@@ -384,7 +432,11 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test save blank parameters Service in the system. Must return 200 code.
+	 * Test save blank parameters Service in the system, regarding functional requirement 5.2
+	 * An actor who is registered as a manager must be able to Manage his or her services, which includes listing them, creating them, updating
+	 * them, and deleting them as long as they are not required by any rendezvouses.
+	 * 
+	 * Must return 200 code.
 	 * The Service has blank required parameters then they must be redirect to the edit page with these fields with errors.
 	 * 
 	 * @throws Exception
@@ -406,7 +458,11 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test save existing Service in the system. Must return 200 code.
+	 * Test save existing Service in the system, regarding functional requirement 5.2
+	 * An actor who is registered as a manager must be able to Manage his or her services, which includes listing them, creating them, updating
+	 * them, and deleting them as long as they are not required by any rendezvouses.
+	 * 
+	 * Must return 200 code.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -430,7 +486,11 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test delete Service in the system. Must return 200 code.
+	 * Test delete Service in the system, regarding functional requirement 5.2
+	 * An actor who is registered as a manager must be able to Manage his or her services, which includes listing them, creating them, updating
+	 * them, and deleting them as long as they are not required by any rendezvouses.
+	 * 
+	 * Must return 200 code.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -452,7 +512,12 @@ public class ServiceManagerControllerTest extends AbstractTest {
 		super.unauthenticate();
 	}
 	/**
-	 * Test delete Service in the system. Must return 302 code.
+	 * Test delete Service in the system, regarding functional requirement 5.2
+	 * An actor who is registered as a manager must be able to Manage his or her services, which includes listing them, creating them, updating
+	 * them, and deleting them as long as they are not required by any rendezvouses.
+	 * 
+	 * 
+	 * Must return 302 code.
 	 * The service has request and the system must return error code.
 	 * 
 	 * @throws Exception

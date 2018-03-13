@@ -125,9 +125,10 @@ public class UserService {
 	 */
 	public User save(final User user) {
 		assert user != null;
-		Actor actor;
+		Actor actor = null;
 
-		actor = this.actorService.findActorByPrincipal();
+		if (user.getId() != 0)
+			actor = this.actorService.findActorByPrincipal();
 
 		if (actor instanceof User && user.getId() != 0)
 			Assert.isTrue(user.equals(actor));

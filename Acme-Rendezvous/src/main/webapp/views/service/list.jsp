@@ -31,13 +31,13 @@
 <spring:message code="service.request.list.title" var="titleListRequests" />
 
 <!-- Pagination -->
-<acme:pagination requestURI="${requestURI}page=" pageNum="${pageNum}"
+<acme:pagination requestURI="${requestURI}?page=" pageNum="${pageNum}"
 	page="${page}" />
 
 
 <!-- Display -->
 
-<display:table name="services" id="service" requestURI="${requestURI}page=${page}">
+<display:table name="services" id="service" requestURI="${requestURI}?page=${page}">
 
 	<display:column title="${titlePicture}">
 		<jstl:if test="${service.pictureUrl!=null}">
@@ -89,6 +89,8 @@
 				code="service.request.create" />
 		</display:column>
 	</security:authorize>
+	
+	
 	<security:authorize access="hasRole('ADMIN')">
 		<jstl:if test="${!service.cancelled}">
 			<display:column>

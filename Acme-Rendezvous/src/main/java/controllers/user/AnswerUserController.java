@@ -165,8 +165,9 @@ public class AnswerUserController {
 	public ModelAndView delete(@RequestParam("rendezvousId") final int rendezvousId) {
 		Rendezvous rendezvous;
 		ModelAndView result;
-		final User user = (User) this.actorService.findActorByPrincipal();
+		User user;
 		try {
+			user = (User) this.actorService.findActorByPrincipal();
 			rendezvous = this.rendezvousService.findOne(rendezvousId);			//Checks that the rendezvous is valid
 			Assert.notNull(rendezvous);
 			Assert.isTrue(rendezvous.getFinalMode());							//Checks that the rendezvous is in final mode
