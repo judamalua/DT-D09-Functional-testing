@@ -18,7 +18,7 @@ import domain.Administrator;
 	"classpath:spring/junit.xml"
 })
 @Transactional
-public class AdminServiceTest extends AbstractTest {
+public class AdministratorServiceTest extends AbstractTest {
 
 	// The SUT ---------------------------------------------------------------
 	@Autowired
@@ -55,7 +55,7 @@ public class AdminServiceTest extends AbstractTest {
 	 * This test checks that authenticated users can answer to questions
 	 * as said in functional requirement 21.2: An actor who is authenticated as
 	 * a user must be able to answer the questions that are associated with a rendezvous
-	 * that he or she’s RSVP-ing now.
+	 * that he or she's RSVP-ing now.
 	 * 
 	 * @author Alejandro
 	 */

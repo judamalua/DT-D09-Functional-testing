@@ -142,7 +142,7 @@ public class CategoryServiceTest extends AbstractTest {
 	//******************************************Negative Methods*******************************************************************
 
 	/**
-	 * This test checks that a administrator can´t create a category with invalid parameters
+	 * This test checks that a administrator cannot create a category with invalid parameters
 	 * 
 	 * @author Luis
 	 */
@@ -202,7 +202,7 @@ public class CategoryServiceTest extends AbstractTest {
 	//	}
 
 	/**
-	 * This test checks that a no logged actor can´t create a category
+	 * This test checks that a no logged actor cannot create a category
 	 * 
 	 * @author Luis
 	 */
@@ -220,7 +220,7 @@ public class CategoryServiceTest extends AbstractTest {
 	}
 
 	/**
-	 * This method create a category with correct attributes
+	 * This method creates a category with correct attributes
 	 * 
 	 * @author Luis
 	 */

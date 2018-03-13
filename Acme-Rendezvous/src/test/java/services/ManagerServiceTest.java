@@ -84,7 +84,7 @@ public class ManagerServiceTest extends AbstractTest {
 
 	//******************************************Negative Methods*******************************************************************
 	/**
-	 * This test checks that a not registered manager can´t register himself in the system,without a valid name
+	 * This test checks that a not registered manager cannot register himself in the system, without a valid name
 	 * 
 	 * @author Luis
 	 * @throws java.text.ParseException
@@ -100,7 +100,7 @@ public class ManagerServiceTest extends AbstractTest {
 	}
 
 	/**
-	 * This test checks that a not registered manager can´t register himself in the system,without a valid surname
+	 * This test checks that a not registered manager cannot register himself in the system, without a valid surname
 	 * 
 	 * @author Luis
 	 * @throws java.text.ParseException
@@ -115,7 +115,7 @@ public class ManagerServiceTest extends AbstractTest {
 
 	}
 	/**
-	 * This test checks that a not registered manager can´t register himself in the system,without a valid email
+	 * This test checks that a not registered manager cannot register himself in the system, without a valid email
 	 * 
 	 * @author Luis
 	 * @throws java.text.ParseException
@@ -131,7 +131,7 @@ public class ManagerServiceTest extends AbstractTest {
 	}
 
 	/**
-	 * This test checks that a not registered manager can´t register himself in the system,without a valid birth date
+	 * This test checks that a not registered manager cannot register himself in the system, without a valid birth date
 	 * 
 	 * @author Luis
 	 * @throws ParseException
@@ -150,7 +150,7 @@ public class ManagerServiceTest extends AbstractTest {
 	}
 
 	/**
-	 * This test checks that a manager can´t edit the profile of other manager
+	 * This test checks that a manager cannot edit the profile of other manager
 	 * 
 	 * @author Luis
 	 */
@@ -175,7 +175,7 @@ public class ManagerServiceTest extends AbstractTest {
 	}
 
 	/**
-	 * This test checks that a no logged actor can´t edit the profile of a manager
+	 * This test checks that unauthenticated users cannot edit the profile of a manager
 	 * 
 	 * @author Luis
 	 */
@@ -199,8 +199,10 @@ public class ManagerServiceTest extends AbstractTest {
 
 	}
 
+	// Ancillary methods ------------------------------------------------------------------------
+
 	/**
-	 * This method create a manager with correct attributes
+	 * This method creates a manager with correct attributes
 	 * 
 	 * @author Luis
 	 */
