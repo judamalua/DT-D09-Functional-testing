@@ -70,7 +70,7 @@ public class UserServiceTest extends AbstractTest {
 	}
 
 	/**
-	 * This test checks that a not registered actor can list the users in the system and navigate to their profiles
+	 * This test checks that a registered actor can list the users in the system and navigate to their profiles
 	 * 
 	 * @author Luis
 	 */
@@ -131,7 +131,7 @@ public class UserServiceTest extends AbstractTest {
 
 	//******************************************Negative Methods*******************************************************************
 	/**
-	 * This test checks that a not registered user can´t register himself in the system,without a valid name
+	 * This test checks that a not registered user cannot register himself in the system,without a valid name
 	 * 
 	 * @author Luis
 	 */
@@ -156,7 +156,7 @@ public class UserServiceTest extends AbstractTest {
 	}
 
 	/**
-	 * This test checks that a not registered user can´t register himself in the system,without a valid surname
+	 * This test checks that a not registered user cannot register himself in the system,without a valid surname
 	 * 
 	 * @author Luis
 	 */
@@ -180,7 +180,7 @@ public class UserServiceTest extends AbstractTest {
 
 	}
 	/**
-	 * This test checks that a not registered user can´t register himself in the system,without a valid email
+	 * This test checks that a not registered user cannot register himself in the system,without a valid email
 	 * 
 	 * @author Luis
 	 */
@@ -205,7 +205,7 @@ public class UserServiceTest extends AbstractTest {
 	}
 
 	/**
-	 * This test checks that a not registered user can´t register himself in the system,without a valid birth date
+	 * This test checks that a not registered user cannot register himself in the system,without a valid birth date
 	 * 
 	 * @author Luis
 	 * @throws ParseException
@@ -232,7 +232,7 @@ public class UserServiceTest extends AbstractTest {
 	}
 
 	/**
-	 * This test checks that a user can,t edit the profile of other user
+	 * This test checks that a user cannot edit the profile of other user
 	 * 
 	 * @author Luis
 	 */
@@ -257,7 +257,7 @@ public class UserServiceTest extends AbstractTest {
 	}
 
 	/**
-	 * This test checks that a no logged user can´t edit the profile of other user
+	 * This test checks that unauthenticated users cannot edit the profile of other user
 	 * 
 	 * @author Luis
 	 */
