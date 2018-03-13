@@ -16,6 +16,7 @@ import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.DomainService;
+import domain.Manager;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -30,7 +31,7 @@ public class ServiceServiceTest extends AbstractTest {
 	@Autowired
 	private ConfigurationService	configurationService;
 	@Autowired
-	private UserService				userService;
+	private ManagerService			managerService;
 
 
 	// Tests ------------------------------------------------------------------
@@ -60,6 +61,31 @@ public class ServiceServiceTest extends AbstractTest {
 		for (int i = 0; i < testingData.length; i++)
 			this.templateListServices((String) testingData[i][0], (Class<?>) testingData[i][1]);
 	}
+
+	/**
+	 * This test checks that a manager can list the services he or she created, regarding functional requirement 5.2: An actor who is registered as a
+	 * manager must be able to manage his or her services, which includes listing them, creating them, updating them, and deleting them as long as they are not
+	 * required by any rendezvouses
+	 * 
+	 * @author Juanmi
+	 */
+	@Test
+	public void testManagerListCreatedServices() {
+		Manager manager;
+		int managerId;
+		Collection<DomainService> services;
+
+		managerId = super.getEntityId("Manager1");
+		manager = this.managerService.findOne(managerId);
+
+		super.authenticate("Manager1");
+
+		services = manager.getServices();
+
+		Assert.notNull(services);
+	}
+
+	//TODO Make tests of creating, editing and deleting, and the rest of functional requirements (Cancel them by an admin)
 
 	// Ancillary methods ---------------------------------------------------------------------------------------
 
