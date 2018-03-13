@@ -380,6 +380,14 @@ public class CategoryService {
 		return result;
 	}
 
+	public String getAverageRatioServicesInCategory() {
+		String result;
+
+		result = this.categoryRepository.getAverageRatioServicesInCategory();
+
+		return result;
+	}
+
 	/**
 	 * That method do a flush in database
 	 * 

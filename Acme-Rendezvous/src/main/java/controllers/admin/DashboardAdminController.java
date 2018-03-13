@@ -8,11 +8,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.CategoryService;
 import services.CommentService;
+import services.ManagerService;
 import services.QuestionService;
 import services.RendezvousService;
+import services.ServiceService;
 import services.UserService;
 import controllers.AbstractController;
+import domain.DomainService;
+import domain.Manager;
 import domain.Rendezvous;
 
 @Controller
@@ -31,6 +36,15 @@ public class DashboardAdminController extends AbstractController {
 	CommentService		commentService;
 
 	@Autowired
+	ServiceService		serviceService;
+
+	@Autowired
+	ManagerService		managerService;
+
+	@Autowired
+	CategoryService		categoryService;
+
+	@Autowired
 	UserService			userService;
 
 
@@ -39,8 +53,10 @@ public class DashboardAdminController extends AbstractController {
 	@RequestMapping("/list")
 	public ModelAndView list() {
 		final ModelAndView result;
-		final String rendezvousesInfoFromUsers, ratioCreatedRendezvouses, usersInfoFromRendezvous, announcementsInfoFromRendezvous, questionsInfoFromRendezvous, repliesInfoFromComment, RSVPedInfoFromRendezvous, answersInfoFromQuestion;
+		final String rendezvousesInfoFromUsers, ratioCreatedRendezvouses, usersInfoFromRendezvous, announcementsInfoFromRendezvous, questionsInfoFromRendezvous, repliesInfoFromComment, RSVPedInfoFromRendezvous, answersInfoFromQuestion, numberCategoriesPerRendezvousAverage, averageRatioServicesCategories, requestedServicesPerRendezvousInfo;
 		final Collection<Rendezvous> topTenRendezvouses, rendezvousesWithAnnouncementAboveSeventyFivePercent, rendezvousesMostLinked;
+		final Collection<DomainService> bestSellingServices;
+		final Collection<Manager> bestProviderManagers, moreCancelledManagers;
 
 		rendezvousesInfoFromUsers = this.userService.getRendezvousesInfoFromUsers();
 		ratioCreatedRendezvouses = this.userService.getRatioCreatedRendezvouses();
@@ -57,6 +73,16 @@ public class DashboardAdminController extends AbstractController {
 		answersInfoFromQuestion = this.questionService.getAnswersInfoFromQuestion();
 
 		repliesInfoFromComment = this.commentService.getRepliesInfoFromComment();
+
+		//------
+		bestSellingServices = this.serviceService.findBestSellingServices();
+
+		bestProviderManagers = this.managerService.findBestProviderThanAverageManager();
+		moreCancelledManagers = this.managerService.findMoreCancelledServicesManager();
+
+		numberCategoriesPerRendezvousAverage = this.rendezvousService.getAverageNumberCategoriesPerRendezvous();
+		averageRatioServicesCategories = this.categoryService.getAverageRatioServicesInCategory();
+		requestedServicesPerRendezvousInfo = this.rendezvousService.getInfoFromServicesRequestedPerRendezvous();
 
 		result = new ModelAndView("dashboard/list");
 		result.addObject("rendezvousUserAverage", rendezvousesInfoFromUsers.split(",")[0]);
@@ -86,6 +112,13 @@ public class DashboardAdminController extends AbstractController {
 
 		result.addObject("repliesCommentAverage", repliesInfoFromComment.split(",")[0]);
 		result.addObject("repliesCommentStandardDeviation", repliesInfoFromComment.split(",")[1]);
+
+		result.addObject("bestSellingServices", bestSellingServices);
+		result.addObject("bestProviderManagers", bestProviderManagers);
+		result.addObject("moreCancelledManagers", moreCancelledManagers);
+		result.addObject("numberCategoriesPerRendezvousAverage", numberCategoriesPerRendezvousAverage);
+		result.addObject("averageRatioServicesCategories", averageRatioServicesCategories);
+		result.addObject("requestedServicesPerRendezvousInfo", requestedServicesPerRendezvousInfo.split(","));
 
 		return result;
 	}

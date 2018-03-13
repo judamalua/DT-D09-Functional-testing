@@ -272,4 +272,18 @@ public class ServiceService {
 
 		return result;
 	}
+
+	/**
+	 * Get the best selling services in the system
+	 * 
+	 * @return a collection with the best selling services
+	 * @author MJ
+	 */
+	public Collection<DomainService> findBestSellingServices() {
+		Collection<DomainService> result;
+
+		result = this.serviceRepository.findBestSellingServices();
+
+		return result;
+	}
 }

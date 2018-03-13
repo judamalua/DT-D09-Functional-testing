@@ -66,25 +66,6 @@ public class ServiceControllerTest extends AbstractTest {
 		Mockito.validateMockitoUsage();
 		this.mockMvc = MockMvcBuilders.standaloneSetup(this.controller).build();
 	}
-	/**
-	 * Test the public list of Services in the system, regarding functional requirement 4.2: An actor who
-	 * is authenticated as a user must be able to list the services that are available in the system.
-	 * 
-	 * Must return 200 code.
-	 * 
-	 * @throws Exception
-	 * @author MJ
-	 * 
-	 */
-	@Test
-	public void listServicesNotLoggedNegative() throws Exception {
-		final MockHttpServletRequestBuilder request;
-
-		request = MockMvcRequestBuilders.get("/service/list.do?anonymous=true");
-
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.redirectedUrl("/misc/403?pagesize=5"));
-
-	}
 
 	/**
 	 * Test the public list of Services in the system, regarding functional requirement 4.2: An actor who

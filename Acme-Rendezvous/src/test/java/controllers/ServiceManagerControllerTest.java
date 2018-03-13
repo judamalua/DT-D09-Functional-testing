@@ -517,7 +517,7 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	 * them, and deleting them as long as they are not required by any rendezvouses.
 	 * 
 	 * 
-	 * Must return 302 code.
+	 * Must return 200 code.
 	 * The service has request and the system must return error code.
 	 * 
 	 * @throws Exception
@@ -535,8 +535,8 @@ public class ServiceManagerControllerTest extends AbstractTest {
 		service = this.service.findOne(serviceId);
 		request = MockMvcRequestBuilders.post("/service/manager/edit.do").param("delete", "").contentType(MediaType.APPLICATION_FORM_URLENCODED).flashAttr("service", service);
 
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("service/edit")).andExpect(MockMvcResultMatchers.status().isOk())
-			.andExpect(MockMvcResultMatchers.forwardedUrl("service/edit")).andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.is("service.commit.error")));
+		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("service/edit")).andExpect(MockMvcResultMatchers.forwardedUrl("service/edit"))
+			.andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.is("service.commit.error")));
 
 		super.unauthenticate();
 	}
