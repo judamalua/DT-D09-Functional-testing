@@ -182,6 +182,7 @@ public class ServiceService {
 	 */
 	public Page<DomainService> findNotCancelledServices(final Pageable pageable) {
 		Assert.notNull(pageable);
+		this.actorService.checkUserLogin();
 
 		Page<DomainService> result;
 
