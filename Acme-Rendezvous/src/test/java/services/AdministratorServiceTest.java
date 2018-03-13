@@ -18,7 +18,7 @@ import domain.Administrator;
 	"classpath:spring/junit.xml"
 })
 @Transactional
-public class AdminServiceTest extends AbstractTest {
+public class AdministratorServiceTest extends AbstractTest {
 
 	// The SUT ---------------------------------------------------------------
 	@Autowired
