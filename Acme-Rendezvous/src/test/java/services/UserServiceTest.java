@@ -30,6 +30,9 @@ public class UserServiceTest extends AbstractTest {
 
 	//******************************************Positive Methods*******************************************************************
 	/**
+	 * 4.1 An actor who is not authenticated must be able to: Register to the system as a user.
+	 * 
+	 * 
 	 * This test checks that a not registered user can register himself in the system,without errors
 	 * 
 	 * @author Luis
@@ -53,6 +56,9 @@ public class UserServiceTest extends AbstractTest {
 	}
 
 	/**
+	 * 4.2 An actor who is not authenticated must be able to:List the users of the system and navigate to their profiles, which include personal data and the list of rendezvouses that they've attended or are going to attend.
+	 * 
+	 * 
 	 * This test checks that a not registered actor can list the users in the system and navigate to their profiles
 	 * 
 	 * @author Luis
@@ -70,6 +76,8 @@ public class UserServiceTest extends AbstractTest {
 	}
 
 	/**
+	 * 5.1 An actor who is authenticated as a user must be able to:Do the same as an actor who is not authenticated, but register to the system.
+	 * 
 	 * This test checks that a registered actor can list the users in the system and navigate to their profiles
 	 * 
 	 * @author Luis
@@ -87,6 +95,9 @@ public class UserServiceTest extends AbstractTest {
 	}
 
 	/**
+	 * 4.1 An actor who is not authenticated must be able to: Register to the system as a user.
+	 * 
+	 * 
 	 * This test checks that a not registered user can register himself in the system,without errors
 	 * and without optional attributes(address,phone number)
 	 * 
@@ -110,6 +121,8 @@ public class UserServiceTest extends AbstractTest {
 	}
 
 	/**
+	 * 
+	 * 
 	 * This test checks that a user can edit his profile correctly
 	 * 
 	 * @author Luis
@@ -131,6 +144,9 @@ public class UserServiceTest extends AbstractTest {
 
 	//******************************************Negative Methods*******************************************************************
 	/**
+	 * 4.1 An actor who is not authenticated must be able to: Register to the system as a user.
+	 * 
+	 * 
 	 * This test checks that a not registered user cannot register himself in the system,without a valid name
 	 * 
 	 * @author Luis
@@ -156,6 +172,8 @@ public class UserServiceTest extends AbstractTest {
 	}
 
 	/**
+	 * 4.1 An actor who is not authenticated must be able to: Register to the system as a user.
+	 * 
 	 * This test checks that a not registered user cannot register himself in the system,without a valid surname
 	 * 
 	 * @author Luis
@@ -180,6 +198,8 @@ public class UserServiceTest extends AbstractTest {
 
 	}
 	/**
+	 * 4.1 An actor who is not authenticated must be able to: Register to the system as a user.
+	 * 
 	 * This test checks that a not registered user cannot register himself in the system,without a valid email
 	 * 
 	 * @author Luis
@@ -205,6 +225,9 @@ public class UserServiceTest extends AbstractTest {
 	}
 
 	/**
+	 * 4.1 An actor who is not authenticated must be able to: Register to the system as a user.
+	 * 
+	 * 
 	 * This test checks that a not registered user cannot register himself in the system,without a valid birth date
 	 * 
 	 * @author Luis
@@ -232,6 +255,8 @@ public class UserServiceTest extends AbstractTest {
 	}
 
 	/**
+	 * 
+	 * 
 	 * This test checks that a user cannot edit the profile of other user
 	 * 
 	 * @author Luis
@@ -257,6 +282,8 @@ public class UserServiceTest extends AbstractTest {
 	}
 
 	/**
+	 * 
+	 * 
 	 * This test checks that unauthenticated users cannot edit the profile of other user
 	 * 
 	 * @author Luis
