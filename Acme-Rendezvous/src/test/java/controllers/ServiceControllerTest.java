@@ -66,35 +66,12 @@ public class ServiceControllerTest extends AbstractTest {
 		Mockito.validateMockitoUsage();
 		this.mockMvc = MockMvcBuilders.standaloneSetup(this.controller).build();
 	}
-	/**
-	 * Test the public list of Services in the system. Must return 200 code.
-	 * 
-	 * @throws Exception
-	 * @author MJ
-	 * 
-	 */
-	@SuppressWarnings("unchecked")
-	@Test
-	public void listServicesAnonymousPositive() throws Exception {
-		final MockHttpServletRequestBuilder request;
-		Page<DomainService> services;
-		Pageable pageable;
-
-		request = MockMvcRequestBuilders.get("/service/list.do?anonymous=true");
-		pageable = new PageRequest(0, this.configurationService.findConfiguration().getPageSize());
-
-		services = this.serviceService.findNotCancelledServices(pageable);
-
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("service/list")).andExpect(MockMvcResultMatchers.forwardedUrl("service/list"))
-			.andExpect(MockMvcResultMatchers.model().attribute("services", Matchers.hasSize(5))).andExpect(MockMvcResultMatchers.model().attribute("requestURI", Matchers.is("service/list.do?anonymous=true&")))
-			.andExpect(MockMvcResultMatchers.model().attribute("page", Matchers.is(0))).andExpect(MockMvcResultMatchers.model().attribute("pageNum", Matchers.is(2)))
-			.andExpect(MockMvcResultMatchers.model().attribute("services", Matchers.hasItems(Matchers.isIn(services.getContent()), Matchers.allOf(Matchers.hasProperty("cancelled", Matchers.is(false))))))
-			.andExpect(MockMvcResultMatchers.model().attribute("managedServices", Matchers.hasSize(0)));
-
-	}
 
 	/**
-	 * Test the public list of Services in the system. Must return 200 code.
+	 * Test the public list of Services in the system, regarding functional requirement 4.2: An actor who
+	 * is authenticated as a user must be able to list the services that are available in the system.
+	 * 
+	 * Must return 200 code.
 	 * The anonymous is false and there is no one logged, the system must redirect to error page.
 	 * 
 	 * @throws Exception
@@ -112,7 +89,10 @@ public class ServiceControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test the public list of Services in the system. Must return 200 code.
+	 * Test the public list of Services in the system, regarding functional requirement 4.2: An actor who
+	 * is authenticated as a user must be able to list the services that are available in the system.
+	 * 
+	 * Must return 200 code.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -141,7 +121,9 @@ public class ServiceControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test the public list of Services in the system. Must return 200 code.
+	 * Test the public list of Services in the system,regarding functional requirement 4.2: An actor who
+	 * is authenticated as a user must be able to list the services that are available in the system.
+	 * Must return 200 code.
 	 * 
 	 * @throws Exception
 	 * @author MJ
@@ -149,7 +131,7 @@ public class ServiceControllerTest extends AbstractTest {
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void listServicesOwnManagerLoggedPositive() throws Exception {
+	public void listServicesManagerLoggedPositive() throws Exception {
 		final MockHttpServletRequestBuilder request;
 		Page<DomainService> services;
 		Pageable pageable;
@@ -169,7 +151,10 @@ public class ServiceControllerTest extends AbstractTest {
 		super.unauthenticate();
 	}
 	/**
-	 * Test the public list of Services in the system with pagination. Must return 200 code.
+	 * Test the public list of Services in the system with pagination,regarding functional requirement 4.2: An actor who
+	 * is authenticated as a user must be able to list the services that are available in the system.
+	 * 
+	 * Must return 200 code.
 	 * 
 	 * @throws Exception
 	 * @author MJ

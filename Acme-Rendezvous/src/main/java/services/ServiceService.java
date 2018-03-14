@@ -182,6 +182,7 @@ public class ServiceService {
 	 */
 	public Page<DomainService> findNotCancelledServices(final Pageable pageable) {
 		Assert.notNull(pageable);
+		this.actorService.checkUserLogin();
 
 		Page<DomainService> result;
 
@@ -269,6 +270,20 @@ public class ServiceService {
 		Page<Category> result;
 
 		result = this.serviceRepository.findCategoriesByService(service.getId(), pageable);
+
+		return result;
+	}
+
+	/**
+	 * Get the best selling services in the system
+	 * 
+	 * @return a collection with the best selling services
+	 * @author MJ
+	 */
+	public Collection<DomainService> findBestSellingServices() {
+		Collection<DomainService> result;
+
+		result = this.serviceRepository.findBestSellingServices();
 
 		return result;
 	}

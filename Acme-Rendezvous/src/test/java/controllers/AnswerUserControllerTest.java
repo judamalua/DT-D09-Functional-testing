@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -124,22 +125,22 @@ public class AnswerUserControllerTest extends AbstractTest {
 	public void driverNegativeListQuestionsToAnswer() throws Exception {
 		final Object testingData[][] = {
 			{
-				// This method tests that when a user tries to answer to the question of a rendezvous with a past moment, he or she is not allowed to do so
+				// This test checks that when a user tries to answer to the question of a rendezvous with a past moment, he or she is not allowed to do so
 				"Rendezvous1", "User2"
 			}, {
-				// This method tests that when a user tries to answer to the question of a draft mode rendezvous, he or she is not allowed to do so
+				// This test checks that when a user tries to answer to the question of a draft mode rendezvous, he or she is not allowed to do so
 				"Rendezvous8", "User2"
 			}, {
-				// This method tests that when a user tries to answer to the question of a deleted rendezvous, he or she is not allowed to do so
+				// This test checks that when a user tries to answer to the question of a deleted rendezvous, he or she is not allowed to do so
 				"Rendezvous9", "User2"
 			}, {
-				// This method tests that when a user tries to answer to the question of a rendezvous that has already joined, he or she is not allowed to do so
+				// This test checks that when a user tries to answer to the question of a rendezvous that has already joined, he or she is not allowed to do so
 				"Rendezvous5", "User2"
 			}, {
-				//This method tests that when a user tries to answer to the question of a rendezvous that has created, he or she is not allowed to do so
+				//This test checks that when a user tries to answer to the question of a rendezvous that has created, he or she is not allowed to do so
 				"Rendezvous5", "User1"
 			}, {
-				//This method tests that unauthenticated users cannot answer to the questions of a rendezvous
+				//This test checks that unauthenticated users cannot answer to the questions of a rendezvous
 				"Rendezvous7", null
 			}
 
@@ -211,7 +212,112 @@ public class AnswerUserControllerTest extends AbstractTest {
 		super.unauthenticate();
 	}
 
-	//TODO Make negative delete tests and save tests
+	/**
+	 * This driver test several negative use cases regarding functional requirement 21. An actor who is authenticated as a user must be able to answer the
+	 * questions that are associated with a rendezvous that he or she's RSVPing now (We are checking that when an user leaves a rendezvous, his/her answers
+	 * associated to rendezvous questions are deleted). Every test is explained inside and must return 302 code.
+	 * 
+	 * @throws Exception
+	 * @author Juanmi
+	 */
+	@Test
+	public void driverNegativeDeleteAnswersWhenLeavingRendezvous() throws Exception {
+		final Object testingData[][] = {
+			{
+				// This test checks that an user cannot delete answers of a draft mode rendezvous
+				"Rendezvous8", "User2"
+			}, {
+				// This test checks that an user cannot delete answers of a deleted rendezvous
+				"Rendezvous9", "User2"
+			}, {
+				// This test checks that an user cannot delete answers of a finished rendezvous
+				"Rendezvous1", "User2"
+			}, {
+				// This test checks that an user cannot delete answers of a rendezvous he or she did not RSVP
+				"Rendezvous7", "User3"
+			}, {
+				// This test checks that an user cannot delete answers of a rendezvous he or she created it
+				"Rendezvous7", "User1"
+			}, {
+				// This test checks that unauthenticated users cannot delete answers of a rendezvous
+				"Rendezvous7", null
+			}
+
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateNegativeDeleteAnswersWhenLeavingRendezvous((String) testingData[i][0], (String) testingData[i][1]);
+	}
+
+	// Saving answers tests ------------------------------------------------------------------------------------------------------------
+	/**
+	 * This method checks that an user can answer to the questions of a rendezvous when trying to RSVP it, regarding to functional requirement 21.2: An actor who
+	 * is authenticated as a user must be able to answer the questions that are associated with a rendezvous that he or she's RSVPing now.
+	 * Must return 302 code since the server does a redirection.
+	 * 
+	 * @throws Exception
+	 * @author Juanmi
+	 */
+	@Test
+	public void testAnswerQuestionsWhenRsvpingRendezvous() throws Exception {
+		Integer rendezvousId;
+		String answer1, answer2, answer3;
+
+		super.authenticate("User3");
+
+		rendezvousId = super.getEntityId("Rendezvous7");
+
+		answer1 = "Test answer 1";
+		answer2 = "Test answer 2";
+		answer3 = "Test answer 3";
+
+		this.mockMvc
+			.perform(
+				MockMvcRequestBuilders.post("/answer/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("answers", answer1).param("answers", answer2).param("answers", answer3).param("rendezvousId", rendezvousId.toString())
+					.param("save", "")).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvousId + "&anonymous=false"))
+			.andExpect(MockMvcResultMatchers.redirectedUrl("/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvousId + "&anonymous=false"));
+
+		super.unauthenticate();
+	}
+
+	/**
+	 * This driver test several negative use cases regarding functional requirement 21. An actor who is authenticated as a user must be able to answer the
+	 * questions that are associated with a rendezvous that he or she's RSVPing now. Every test is explained inside and must return 302 code.
+	 * 
+	 * @throws Exception
+	 * @author Juanmi
+	 */
+	@Test
+	public void driverNegativeAnswerQuestionsWhenRsvpingRendezvous() throws Exception {
+		final Object testingData[][] = {
+			{
+				// This test checks that an user cannot answer to questions of a draft mode rendezvous
+				"Rendezvous8", "User2"
+			}, {
+				// This test checks that an user cannot answer to questions of a deleted rendezvous
+				"Rendezvous9", "User2"
+			}, {
+				// This test checks that an user cannot answer to questions of a finished rendezvous
+				"Rendezvous1", "User2"
+			}, {
+				// This test checks that an user cannot answer to questions of a rendezvous he or she has already RSVPed
+				"Rendezvous3", "User2"
+			}, {
+				// This test checks that an user cannot answer to questions of a rendezvous he or she created it
+				"Rendezvous7", "User1"
+			}, {
+				// This test checks that an user cannot answer to less questions than a rendezvous has
+				"Rendezvous7", "User3"
+			}, {
+				// This test checks that unauthenticated users cannot answer to questions of a rendezvous
+				"Rendezvous7", null
+			}
+
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateNegativeAnswerQuestionsWhenRsvpingRendezvous((String) testingData[i][0], (String) testingData[i][1]);
+	}
 
 	// Ancillary methods ----------------------------------------------------------------------------------------------------------------
 
@@ -226,6 +332,37 @@ public class AnswerUserControllerTest extends AbstractTest {
 		request = MockMvcRequestBuilders.get("/answer/user/edit.do?rendezvousId=" + rendezvousId);
 
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.redirectedUrl("/misc/403"));
+
+		super.unauthenticate();
+	}
+
+	protected void templateNegativeDeleteAnswersWhenLeavingRendezvous(final String rendezvousPopulateName, final String user) throws Exception {
+		final MockHttpServletRequestBuilder request;
+		int rendezvousId;
+
+		rendezvousId = super.getEntityId(rendezvousPopulateName);
+
+		super.authenticate(user);
+
+		request = MockMvcRequestBuilders.get("/answer/user/delete.do?rendezvousId=" + rendezvousId);
+
+		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.redirectedUrl("/misc/403"));
+
+		super.unauthenticate();
+	}
+
+	protected void templateNegativeAnswerQuestionsWhenRsvpingRendezvous(final String rendezvousPopulateName, final String user) throws Exception {
+		Integer rendezvousId;
+		String answer1;
+
+		super.authenticate(user);
+
+		rendezvousId = super.getEntityId(rendezvousPopulateName);
+
+		answer1 = "Test answer 1";
+
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/answer/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("answers", answer1).param("rendezvousId", rendezvousId.toString()).param("save", ""))
+			.andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.redirectedUrl("/misc/403"));
 
 		super.unauthenticate();
 	}

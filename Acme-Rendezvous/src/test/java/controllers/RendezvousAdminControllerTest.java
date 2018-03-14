@@ -63,7 +63,9 @@ public class RendezvousAdminControllerTest extends AbstractTest {
 		this.mockMvc = MockMvcBuilders.standaloneSetup(this.controller).build();
 	}
 	/**
-	 * Test delete a Rendezvous when anyone is logged.
+	 * Test delete a Rendezvous when anyone is logged, regarding functional requirement 6.2
+	 * an actor who is authenticated as an administrator must be able to Remove a rendezvous that he or she thinks is inappropriate.
+	 * 
 	 * Must return 302 code and redirect to error page.
 	 * 
 	 * @throws Exception
@@ -82,7 +84,9 @@ public class RendezvousAdminControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test delete a Rendezvous when an actor who is not an Administrator is logged.
+	 * Test delete a Rendezvous when an actor who is not an Administrator is logged, regarding functional requirement 6.2
+	 * an actor who is authenticated as an administrator must be able to Remove a rendezvous that he or she thinks is inappropriate.
+	 * .
 	 * Must return 302 code and redirect to error page.
 	 * 
 	 * @throws Exception
@@ -104,7 +108,9 @@ public class RendezvousAdminControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test delete a Rendezvous when an Administrator is logged.
+	 * Test delete a Rendezvous when an Administrator is logged, regarding functional requirement 6.2
+	 * an actor who is authenticated as an administrator must be able to Remove a rendezvous that he or she thinks is inappropriate.
+	 * 
 	 * Must return 302 code and redirect to list Rendezvouses page.
 	 * 
 	 * @throws Exception
@@ -127,7 +133,9 @@ public class RendezvousAdminControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test delete a not existing Rendezvous when an Administrator is logged.
+	 * Test delete a not existing Rendezvous when an Administrator is logged, , regarding functional requirement 6.2
+	 * an actor who is authenticated as an administrator must be able to Remove a rendezvous that he or she thinks is inappropriate.
+	 * 
 	 * Must return 302 code and redirect to error page.
 	 * 
 	 * @throws Exception

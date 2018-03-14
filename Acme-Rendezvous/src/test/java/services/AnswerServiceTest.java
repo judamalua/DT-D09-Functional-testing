@@ -38,14 +38,14 @@ public class AnswerServiceTest extends AbstractTest {
 	 * This test checks that authenticated users can answer to questions
 	 * as said in functional requirement 21.2: An actor who is authenticated as
 	 * a user must be able to answer the questions that are associated with a rendezvous
-	 * that he or she’s RSVP-ing now.
+	 * that he or she's RSVPing now.
 	 * 
 	 * @author Juanmi
 	 */
 	@Test
 	public void testAnswerQuestions() {
 		// Functional requirement number 21.2: An actor who is authenticated as a user must be able to Answer the questions that are associated
-		// with a rendezvous that he or she’s RSVPing now.
+		// with a rendezvous that he or she's RSVPing now.
 		Collection<Question> questions;
 		int rendezvousId;
 		Rendezvous rendezvous;
@@ -83,7 +83,7 @@ public class AnswerServiceTest extends AbstractTest {
 	@Test(expected = javax.validation.ConstraintViolationException.class)
 	public void testEmptyAnswerQuestions() {
 		// Functional requirement number 21.2: An actor who is authenticated as a user must be able to Answer the questions that are associated
-		// with a rendezvous that he or she’s RSVPing now.
+		// with a rendezvous that he or she's RSVPing now.
 		Collection<Question> questions;
 		int rendezvousId;
 		Rendezvous rendezvous;
@@ -120,7 +120,7 @@ public class AnswerServiceTest extends AbstractTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testUnauthenticatedAnswerQuestions() {
 		// Functional requirement number 21.2: An actor who is authenticated as a user must be able to Answer the questions that are associated
-		// with a rendezvous that he or she’s RSVPing now.
+		// with a rendezvous that he or she's RSVPing now.
 		Collection<Question> questions;
 		int rendezvousId;
 		Rendezvous rendezvous;
