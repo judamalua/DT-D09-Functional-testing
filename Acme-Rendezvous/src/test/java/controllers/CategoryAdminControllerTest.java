@@ -99,13 +99,13 @@ public class CategoryAdminControllerTest extends AbstractTest {
 		request = MockMvcRequestBuilders.get("/category/admin/create.do");
 
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("category/edit")).andExpect(MockMvcResultMatchers.forwardedUrl("category/edit"))
-			.andExpect(MockMvcResultMatchers.model().attribute("category", Matchers.hasProperty("id", Matchers.is(0)))).andExpect(MockMvcResultMatchers.model().attribute("categories", Matchers.hasSize(8)))
+			.andExpect(MockMvcResultMatchers.model().attribute("category", Matchers.hasProperty("id", Matchers.is(0)))).andExpect(MockMvcResultMatchers.model().attribute("categories", Matchers.hasSize(0)))
 			.andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.isEmptyOrNullString()));
 		super.unauthenticate();
 	}
 
 	/**
-	 * Test create a Rendezvouses in the system. Must return 302 code.
+	 * Test create a Category in the system. Must return 302 code.
 	 * There is user logged and must not be displayed.
 	 * 
 	 * @throws Exception
@@ -123,13 +123,30 @@ public class CategoryAdminControllerTest extends AbstractTest {
 
 	/**
 	 * Test create a Category in the system. Must return 302 code.
+	 * There is user logged and must not be displayed.
+	 * 
+	 * @throws Exception
+	 * @author Alejandro
+	 */
+	@Test
+	public void createCategoryLoggedManagerNegative() throws Exception {
+		final MockHttpServletRequestBuilder request;
+		super.authenticate("Manager1");
+		request = MockMvcRequestBuilders.get("/category/admin/create.do");
+
+		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.forwardedUrl(null));
+
+	}
+
+	/**
+	 * Test create a Category in the system. Must return 302 code.
 	 * There is anyone logged and must not be displayed.
 	 * 
 	 * @throws Exception
 	 * @author Alejandro
 	 */
 	@Test
-	public void createRendezvousNotLoggedNegative() throws Exception {
+	public void createCategoryNotLoggedNegative() throws Exception {
 		final MockHttpServletRequestBuilder request;
 		request = MockMvcRequestBuilders.get("/category/admin/create.do");
 
@@ -161,7 +178,7 @@ public class CategoryAdminControllerTest extends AbstractTest {
 	 * @author Alejandro
 	 */
 	@Test
-	public void deleteRendezvousPositive() throws Exception {
+	public void deleteCategoryPositive() throws Exception {
 		final MockHttpServletRequestBuilder request;
 		super.authenticate("admin1");
 		final int categoryId;
