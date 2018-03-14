@@ -38,6 +38,8 @@ public class CommentServiceTest extends AbstractTest {
 	//******************************************Positive Methods*******************************************************************
 
 	/**
+	 * 5.6 An actor who is authenticated as a user must be able to: Comment on the rendezvouses that he or she has RSVPd.
+	 * 
 	 * This test checks that an user can write comments in his rcvps rendezvouses
 	 * 
 	 * @author Luis
@@ -61,8 +63,58 @@ public class CommentServiceTest extends AbstractTest {
 		super.unauthenticate();
 
 	}
-	//******************************************Negative Methods*******************************************************************
 	/**
+	 * 6.1 An actor who is authenticated as an administrator must be able to:Remove a comment that he or she thinks is inappropriate.
+	 * 
+	 * This test checks that an admin can delete comments
+	 * 
+	 * @author Luis
+	 * */
+	@Test
+	public void testAdminCanDeleteComments() {
+		super.authenticate("Admin1");
+		final Comment comment;
+
+		comment = this.commentService.findOne(super.getEntityId("Comment1"));
+
+		this.commentService.delete(comment);
+		this.commentService.flush();
+		this.rendezvousService.flush();
+
+		super.unauthenticate();
+
+	}
+
+	/**
+	 * 5.6 An actor who is authenticated as a user must be able to: Comment on the rendezvouses that he or she has RSVPd.
+	 * 
+	 * This test checks that an user can`t write comments in a not rsvp rendezvous
+	 * 
+	 * @author Luis
+	 * */
+	@Test(expected = IllegalArgumentException.class)
+	public void testUserCantWriteCommentsInANotRcvpRendezvous() {
+		super.authenticate("User2");
+		final Comment comment;
+		final Rendezvous rendezvous;
+
+		rendezvous = this.rendezvousService.findOne(this.getEntityId("Rendezvous8"));
+
+		comment = this.createStandardComment();
+		//		rendezvous.getComments().add(comment);
+		//		user.getCreatedRendezvouses().add(rendezvous);
+
+		this.commentService.save(comment, rendezvous);
+		this.commentService.flush();
+		this.rendezvousService.flush();
+
+		super.unauthenticate();
+	}
+	//******************************************Negative Methods*******************************************************************
+
+	/**
+	 * 
+	 * 
 	 * This test checks that an actor who is not authenticated can´t write any comments
 	 * 
 	 * @author Luis

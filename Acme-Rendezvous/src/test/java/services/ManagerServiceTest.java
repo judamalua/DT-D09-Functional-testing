@@ -30,7 +30,9 @@ public class ManagerServiceTest extends AbstractTest {
 
 	//******************************************Positive Methods*******************************************************************
 	/**
-	 * This test checks that a not registered manager can register himself in the system,without errors
+	 * 3.1 An actor who is not authenticated must be able to:Register to the system as a manager.
+	 * 
+	 * This test checks that a not registered actor can register himself in the system,without errors
 	 * 
 	 * @author Luis
 	 * @throws java.text.ParseException
@@ -45,7 +47,9 @@ public class ManagerServiceTest extends AbstractTest {
 	}
 
 	/**
-	 * This test checks that a not registered manager can register himself in the system,without errors
+	 * 3.1 An actor who is not authenticated must be able to:Register to the system as a manager.
+	 * 
+	 * This test checks that a not registered actor can register himself in the system,without errors
 	 * and without optional attributes(address,phone number)
 	 * 
 	 * @author Luis
@@ -63,6 +67,8 @@ public class ManagerServiceTest extends AbstractTest {
 	}
 
 	/**
+	 * 
+	 * 
 	 * This test checks that a manager can edit his profile correctly
 	 * 
 	 * @author Luis
@@ -84,7 +90,9 @@ public class ManagerServiceTest extends AbstractTest {
 
 	//******************************************Negative Methods*******************************************************************
 	/**
-	 * This test checks that a not registered manager cannot register himself in the system, without a valid name
+	 * 3.1 An actor who is not authenticated must be able to:Register to the system as a manager.
+	 * 
+	 * This test checks that a not registered actor cannot register himself in the system, without a valid name
 	 * 
 	 * @author Luis
 	 * @throws java.text.ParseException
@@ -100,6 +108,9 @@ public class ManagerServiceTest extends AbstractTest {
 	}
 
 	/**
+	 * 3.1 An actor who is not authenticated must be able to:Register to the system as a manager.
+	 * 
+	 * 
 	 * This test checks that a not registered manager cannot register himself in the system, without a valid surname
 	 * 
 	 * @author Luis
@@ -115,6 +126,9 @@ public class ManagerServiceTest extends AbstractTest {
 
 	}
 	/**
+	 * 3.1 An actor who is not authenticated must be able to:Register to the system as a manager.
+	 * 
+	 * 
 	 * This test checks that a not registered manager cannot register himself in the system, without a valid email
 	 * 
 	 * @author Luis
@@ -131,6 +145,10 @@ public class ManagerServiceTest extends AbstractTest {
 	}
 
 	/**
+	 * 3.1 An actor who is not authenticated must be able to:Register to the system as a manager.
+	 * 
+	 * 
+	 * 
 	 * This test checks that a not registered manager cannot register himself in the system, without a valid birth date
 	 * 
 	 * @author Luis
@@ -150,6 +168,8 @@ public class ManagerServiceTest extends AbstractTest {
 	}
 
 	/**
+	 * 
+	 * 
 	 * This test checks that a manager cannot edit the profile of other manager
 	 * 
 	 * @author Luis
@@ -175,6 +195,8 @@ public class ManagerServiceTest extends AbstractTest {
 	}
 
 	/**
+	 * 
+	 * 
 	 * This test checks that unauthenticated users cannot edit the profile of a manager
 	 * 
 	 * @author Luis
@@ -202,6 +224,8 @@ public class ManagerServiceTest extends AbstractTest {
 	// Ancillary methods ------------------------------------------------------------------------
 
 	/**
+	 * 
+	 * 
 	 * This method creates a manager with correct attributes
 	 * 
 	 * @author Luis

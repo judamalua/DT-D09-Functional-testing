@@ -76,6 +76,7 @@ public class ActorUserController extends AbstractController {
 	public ModelAndView updateUser(@ModelAttribute("actor") final UserAdminForm actor, final BindingResult binding) {
 		ModelAndView result;
 		User user = null;
+
 		try {
 			user = this.userService.reconstruct(actor, binding);
 		} catch (final Throwable oops) {//Not delete
@@ -84,7 +85,7 @@ public class ActorUserController extends AbstractController {
 			result = this.createEditModelAndView(actor, "user.params.error");
 		else
 			try {
-				this.actorService.save(user);
+				this.userService.save(user);
 				result = new ModelAndView("redirect:/user/display.do?anonymous=false");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(actor, "user.commit.error");
