@@ -233,6 +233,7 @@ public class ServiceService {
 			result.setPictureUrl(service.getPictureUrl());
 			result.setPrice(service.getPrice());
 			result.setDescription(service.getDescription());
+			result.setCancelled(false);
 
 			result.setRequests(requests);
 
@@ -286,5 +287,15 @@ public class ServiceService {
 		result = this.serviceRepository.findBestSellingServices();
 
 		return result;
+	}
+
+	/**
+	 * This method flushes the repository, this forces the cache to be saved to the database, which then forces the test data to be validated. This is only used
+	 * in tests
+	 * 
+	 * @author Juanmi
+	 */
+	public void flush() {
+		this.serviceRepository.flush();
 	}
 }
