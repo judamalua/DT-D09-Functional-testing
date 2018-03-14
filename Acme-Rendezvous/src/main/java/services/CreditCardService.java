@@ -141,19 +141,22 @@ public class CreditCardService {
 	 *         The random token
 	 */
 	private String generateCookieToken() {
-		String res = "";
+		String alphabet, result;
 		Random random;
-		random = new Random();
+		StringBuilder stringBuilder;
 
-		final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgzijklmnopqrstuvwxyz0123456789";
+		random = new Random();
+		stringBuilder = new StringBuilder();
+		alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgzijklmnopqrstuvwxyz0123456789";
 
 		for (int i = 0; i < 14; i++)
-			res += alphabet.charAt(random.nextInt(alphabet.length()));
+			stringBuilder.append(alphabet.charAt(random.nextInt(alphabet.length())));
 
-		if (this.creditCardRepository.getAllCookieTokens().contains(res.toString()))
-			return this.generateCookieToken();
-		else
-			return res;
+		result = stringBuilder.toString();
+		if (this.creditCardRepository.getAllCookieTokens().contains(result))
+			result = this.generateCookieToken();
+
+		return result;
 	}
 	/**
 	 * Finds a credit card by its token. If the user is not the owner of the credit card the search will fail.

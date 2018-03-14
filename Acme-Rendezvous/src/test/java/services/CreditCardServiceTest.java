@@ -40,7 +40,6 @@ public class CreditCardServiceTest extends AbstractTest {
 	 * 
 	 * @author Antonio
 	 */
-	@Test
 	public void testValidCreditCard() {
 		int serviceId;
 		DomainService service;
@@ -72,8 +71,12 @@ public class CreditCardServiceTest extends AbstractTest {
 
 	@Test
 	public void driver() {
-		final Object testingData[][] = {
+
+		final Object testingData[][] = {//Username, HolderName, BrandName, Number, CVV, ExpirationYear, ExpirationMonth, ExpectedException
 			{
+				//Checks that the Holder name must not be blank.
+				"user1", "", "Valid Brand Name", "4485677312398507", 123, 12, 20, javax.validation.ConstraintViolationException.class
+			}, {
 				//Positive test, an user can save a Valid CreditCard.
 				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 12, 20, null
 			}, {
@@ -81,63 +84,82 @@ public class CreditCardServiceTest extends AbstractTest {
 				null, "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 12, 20, IllegalArgumentException.class
 			}, {
 				//Checks that you must be logged as an User to save a CreditCard.
-				"manager1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 12, 20, IllegalArgumentException.class
+				"manager1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 12, 20, java.lang.ClassCastException.class
 			}, {
 				//Checks that you must be logged as an User to save a CreditCard.
-				"admin", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 12, 20, IllegalArgumentException.class
-			}, {
-				//Checks that the Holder name must not be blank.
-				"user1", "", "Valid Brand Name", "4485677312398507", 123, 12, 20, javax.validation.ConstraintViolationException.class
+				"admin", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 12, 20, java.lang.ClassCastException.class
 			}, {
 				//Checks that the Brand name must not be blank.
 				"user1", "Valid Holder Name", "", "4485677312398507", 123, 12, 20, javax.validation.ConstraintViolationException.class
 			}, {
 				//Checks that the Number must not be blank.
-				"user1", "Valid Holder Name", "Valid Brand Name", "1234567891234567", 123, 12, 20, javax.validation.ConstraintViolationException.class
+				"user1", "Valid Holder Name", "Valid Brand Name", "", 123, 12, 20, javax.validation.ConstraintViolationException.class
 			}, {
 				//Checks that the Number must be a valid Credit Card number.
-				"user1", "Valid Holder Name", "Valid Brand Name", "", 123, 12, 20, javax.validation.ConstraintViolationException.class
+				"user1", "Valid Holder Name", "Valid Brand Name", "1234567891234567", 123, 12, 20, javax.validation.ConstraintViolationException.class
+			}, {
+				//Checks that the CVV is not outside the minimum range (100).
+				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 99, 12, 20, javax.validation.ConstraintViolationException.class
+			}, {
+				//Checks that the CVV is not outside the maximum range (999).
+				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 1000, 12, 20, javax.validation.ConstraintViolationException.class
+			}, {
+				//Checks that the CVV can be the lowest int in the range (100).
+				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 100, 12, 20, null
+			}, {
+				//Checks that the CVV can be the lowest int in the range + 1 (100).
+				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 101, 12, 20, null
+			}, {
+				//Checks that the CVV can be the middle int in the range  (100 - 999).
+				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 549, 12, 20, null
+			}, {
+				//Checks that the CVV can be the middle int in the range  (100 - 999).
+				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 550, 12, 20, null
+			}, {
+				//Checks that the CVV can be the greatest int in the range - 1 (999).
+				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 998, 12, 20, null
+			}, {
+				//Checks that the CVV can be the greatest int in the range (999).
+				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 999, 12, 20, null
 			}
 		};
 
-		for (int i = 0; i < testingData.length; i++)
-			this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (int) testingData[i][4], (int) testingData[i][5], (int) testingData[i][6], (Class<?>) testingData[i][7]);
+		for (int i = 0; i < testingData.length; i++) {
+			System.out.println("i = " + i + "\n");
+			this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Integer) testingData[i][4], (Integer) testingData[i][5], (Integer) testingData[i][6], (Class<?>) testingData[i][7]);
+		}
+
 	}
 	protected void template(final String username, final String holderName, final String brandName, final String number, final int cvv, final int expirationMonth, final int expirationYear, final Class<?> expected) {
-
+		CreditCard creditCard;
 		Class<?> caught;
 
 		caught = null;
 
 		try {
 			super.authenticate(username);
+			System.out.println("Holder Name procedente del Driver: " + holderName);
 
-			this.createAndSaveCreditCard(holderName, brandName, number, cvv, expirationMonth, expirationYear);
+			creditCard = this.creditCardService.create();
+
+			creditCard.setHolderName(holderName);
+			creditCard.setBrandName(brandName);
+			creditCard.setNumber(number);
+			creditCard.setCvv(cvv);
+			creditCard.setExpirationMonth(expirationMonth);
+			creditCard.setExpirationYear(expirationYear);
+
+			this.creditCardService.save(creditCard);
 
 			super.unauthenticate();
+
+			this.creditCardService.flush();
 		} catch (final Throwable oops) {
+			System.out.println("Excepcion en template: " + oops);
+			System.out.println("Excepcion esperada: " + expected);
+
 			caught = oops.getClass();
 		}
 		super.checkExceptions(expected, caught);
-	}
-
-	public void createAndSaveCreditCard(final String holderName, final String brandName, final String number, final int cvv, final int expirationMonth, final int expirationYear) {
-		CreditCard creditCard, savedCreditCard;
-
-		creditCard = this.creditCardService.create();
-
-		creditCard.setHolderName(holderName);
-		creditCard.setBrandName(brandName);
-		creditCard.setNumber(number);
-		creditCard.setCvv(cvv);
-		creditCard.setExpirationMonth(expirationMonth);
-		creditCard.setExpirationYear(expirationYear);
-
-		savedCreditCard = this.creditCardService.save(creditCard);
-
-		this.creditCardService.flush();
-
-		Assert.notNull(this.creditCardService.findOne(savedCreditCard.getId()));
-
 	}
 }
