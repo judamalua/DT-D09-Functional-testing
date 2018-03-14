@@ -286,4 +286,26 @@ public class ManagerService {
 
 	}
 
+	public Collection<Manager> findBestProviderThanAverageManager() {
+		Collection<Manager> result;
+
+		result = this.managerRepository.findBestProviderThanAverageManager();
+
+		return result;
+	}
+
+	/**
+	 * Get the managers with more cancelled Services
+	 * 
+	 * @return the collection of Managers with more cancelled Services
+	 * @author MJ
+	 */
+	public Collection<Manager> findMoreCancelledServicesManager() {
+		Collection<Manager> result;
+
+		result = this.managerRepository.findMoreCancelledServicesManager();
+
+		return result;
+	}
+
 }

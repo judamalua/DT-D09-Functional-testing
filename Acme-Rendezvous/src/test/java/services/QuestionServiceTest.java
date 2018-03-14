@@ -36,14 +36,14 @@ public class QuestionServiceTest extends AbstractTest {
 	/**
 	 * This test checks that authenticated users can edit questions of the rendezvouses they created saved as draft mode, related to functional
 	 * requirement number 21.1: An actor who is authenticated as a user must be able to manage (add, edit, delete) the questions that are associated
-	 * with a rendezvous on draft mode that he or she’s created previously
+	 * with a rendezvous on draft mode that he or she's created previously
 	 * 
 	 * @author Juanmi
 	 */
 	@Test
 	public void testEditQuestionToCreatedDraftModeRendezvous() {
 		// Functional requirement number 21.1: An actor who is authenticated as a user must be able to manage (add, edit, delete) the questions
-		// that are associated with a rendezvous on draft mode that he or she’s created previously
+		// that are associated with a rendezvous on draft mode that he or she's created previously
 		int rendezvousId, questionId;
 		Question question;
 		Rendezvous rendezvous;
@@ -66,14 +66,14 @@ public class QuestionServiceTest extends AbstractTest {
 	/**
 	 * This test checks that authenticated users can delete questions of the rendezvouses they created saved as draft mode related to functional requirement
 	 * number 21.1: An actor who is authenticated as a user must be able to manage (add, edit, delete) the questions that are associated with a
-	 * rendezvous on draft mode that he or she’s created previously
+	 * rendezvous on draft mode that he or she's created previously
 	 * 
 	 * @author Juanmi
 	 */
 	@Test
 	public void testDeleteQuestionToCreatedDraftModeRendezvous() {
 		// Functional requirement number 21.1: An actor who is authenticated as a user must be able to manage (add, edit, delete) the questions
-		// that are associated with a rendezvous on draft mode that he or she’s created previously
+		// that are associated with a rendezvous on draft mode that he or she's created previously
 		int questionId;
 		Question question;
 

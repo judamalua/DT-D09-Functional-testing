@@ -26,6 +26,6 @@ public interface ManagerRepository extends JpaRepository<Manager, Integer> {
 	@Query("select m from Manager m  where m.services.size>(select avg(mn.services.size) from Manager mn))")
 	Collection<Manager> findBestProviderThanAverageManager();
 
-	@Query("select m from Manager m join m.services s where s.cancelled=true order by count(s) DESC")
-	Page<Manager> findMoreCancelledServicesManager(Pageable pageable);
+	@Query("select m from Manager m join m.services s where s.cancelled=true")
+	Collection<Manager> findMoreCancelledServicesManager();
 }

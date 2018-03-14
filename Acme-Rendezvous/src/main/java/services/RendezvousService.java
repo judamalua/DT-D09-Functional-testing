@@ -801,4 +801,20 @@ public class RendezvousService {
 		return result;
 	}
 
+	public String getAverageNumberCategoriesPerRendezvous() {
+		String result;
+
+		result = this.rendezvousRepository.getAverageNumberCategoriesPerRendezvous();
+
+		return result;
+	}
+
+	public String getInfoFromServicesRequestedPerRendezvous() {
+		String result;
+
+		result = this.rendezvousRepository.getInfoFromServicesRequestedPerRendezvous();
+
+		return result;
+	}
+
 }

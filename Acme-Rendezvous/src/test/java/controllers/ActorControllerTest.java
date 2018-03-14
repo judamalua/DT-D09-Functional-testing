@@ -79,6 +79,8 @@ public class ActorControllerTest extends AbstractTest {
 		this.mockMvc = MockMvcBuilders.standaloneSetup(this.controller).build();
 	}
 	/**
+	 * 
+	 * 
 	 * Test administrator can display his profile
 	 * 
 	 * @throws Exception
@@ -99,6 +101,8 @@ public class ActorControllerTest extends AbstractTest {
 	}
 
 	/**
+	 * 
+	 * 
 	 * Test no logged can�t display his profile
 	 * 
 	 * @throws Exception
@@ -117,6 +121,8 @@ public class ActorControllerTest extends AbstractTest {
 	}
 
 	/**
+	 * 5.1 An actor who is authenticated as a user must be able to:Do the same as an actor who is not authenticated, but register to the system.
+	 * 
 	 * Test users can display theirs profile
 	 * 
 	 * @throws Exception
@@ -137,6 +143,8 @@ public class ActorControllerTest extends AbstractTest {
 	}
 
 	/**
+	 * 
+	 * 
 	 * Test managers can display theirs profiles
 	 * 
 	 * @throws Exception
@@ -157,6 +165,9 @@ public class ActorControllerTest extends AbstractTest {
 	}
 
 	/**
+	 * 4.1 An actor who is not authenticated must be able to: Register to the system as a user.
+	 * 
+	 * 
 	 * Test not authenticated can register as user
 	 * 
 	 * @throws Exception
@@ -177,6 +188,9 @@ public class ActorControllerTest extends AbstractTest {
 	}
 
 	/**
+	 * 4.1 An actor who is not authenticated must be able to: Register to the system as a user.
+	 * 
+	 * 
 	 * Test not authenticated can�t register as user with fails
 	 * 
 	 * @throws Exception

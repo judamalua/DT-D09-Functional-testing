@@ -29,6 +29,7 @@
 <spring:message code="service.request" var="requestColumn" />
 <spring:message code="service.request.create" var="createRequest" />
 <spring:message code="service.request.list.title" var="titleListRequests" />
+<spring:message code = "master.page.price.format" var = "formatPrice" />
 
 <!-- Pagination -->
 <acme:pagination requestURI="${requestURI}?page=" pageNum="${pageNum}"
@@ -46,6 +47,7 @@
 	</display:column>
 	<display:column property="name" title="${titleName}" sortable="true" />
 	<display:column property="description" title="${titleDescription}" />
+	<display:column property="price" title="${titlePrice}" format="${formatPrice}" sortable="true" />
 	<display:column title="${titleCategories}" />
 		<display:column>
 			<acme:button url="category/list.do?serviceId=${service.id}"
