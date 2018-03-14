@@ -114,7 +114,6 @@ public class CommentService {
 	 * @author Antonio
 	 */
 	public Comment save(final Comment comment, final Rendezvous rendezvous) {
-
 		Assert.notNull(comment);
 
 		Comment result;
@@ -130,6 +129,7 @@ public class CommentService {
 		}
 		if (actor instanceof User) {
 			user = (User) actor;
+			Assert.isTrue(user.getCreatedRendezvouses().contains(rendezvous) || user.getRsvpRendezvouses().contains(rendezvous));//Check that user rcvps the rendezvous which want comment
 			user.getComments().add(result);
 			this.userService.save(user);
 		} else {
