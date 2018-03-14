@@ -162,46 +162,6 @@ public class CategoryServiceTest extends AbstractTest {
 	}
 
 	/**
-	 * This test checks that a user can´t create a category
-	 * 
-	 * @author Luis
-	 * 
-	 *         TODO THIS HAS GOT TO BE TESTED ON CONTROLLER TEST, DELETE THIS TEST WHEN CHECKED ON CONTROLLER TEST
-	 */
-	//	@Test(expected = IllegalArgumentException.class)
-	//	public void testUserCantCreateACategory() {
-	//		super.authenticate("User1");
-	//		Category category;
-	//
-	//		category = this.createStandardCategory();
-	//
-	//		this.UpdateDataBase(category);
-	//
-	//		super.unauthenticate();
-	//
-	//	}
-
-	/**
-	 * This test checks that a manager can´t create a category
-	 * 
-	 * @author Luis
-	 * 
-	 *         TODO THIS HAS GOT TO BE TESTED ON CONTROLLER TEST, DELETE THIS TEST WHEN CHECKED ON CONTROLLER TEST
-	 */
-	//	@Test(expected = IllegalArgumentException.class)
-	//	public void testManagerCantCreateACategory() {
-	//		super.authenticate("Manager1");
-	//		Category category;
-	//
-	//		category = this.createStandardCategory();
-	//
-	//		this.UpdateDataBase(category);
-	//
-	//		super.unauthenticate();
-	//
-	//	}
-
-	/**
 	 * This test checks that a no logged actor cannot create a category
 	 * 
 	 * @author Luis
