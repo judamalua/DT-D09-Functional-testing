@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.URL;
 
@@ -67,6 +68,7 @@ public class DomainService extends DomainEntity {
 		this.cancelled = cancelled;
 	}
 
+	@Range(min = 0)
 	@NotNull
 	public Double getPrice() {
 		return this.price;

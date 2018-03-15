@@ -101,8 +101,6 @@
 							code="master.page.userList" /></a></li>
 				<li><a class="fNiv" href="category/list.do"><spring:message
 							code="master.page.categoryList" /></a></li>
-				<li><a class="fNiv" href="service/list.do?anonymous=true"><spring:message
-							code="master.page.serviceList" /></a></li>
 		</ul>
 		</security:authorize>
 
@@ -158,7 +156,6 @@
 			</security:authorize>
 			<security:authorize access="hasRole('USER')">
 
-
 				<!-- Dropdown Structure -->
 				<ul id="dropdownUserProfile" class="dropdown-content">
 					<li><a href="actor/user/edit.do"><spring:message
@@ -177,8 +174,6 @@
 							property="principal.username" /><i class="material-icons right">arrow_drop_down</i></a></li>
 
 			</security:authorize>
-
-
 		</security:authorize>
 	</div>
 </nav>

@@ -392,7 +392,7 @@ public class RendezvousService {
 	public Rendezvous reconstructSimilar(final Rendezvous similar, final BindingResult binding) {
 
 		Rendezvous result;
-
+		this.actorService.checkUserLogin();
 		result = this.rendezvousRepository.findOne(similar.getId());
 
 		if (similar.getSimilars() == null)
