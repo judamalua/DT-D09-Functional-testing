@@ -149,12 +149,12 @@ public class CreditCardService {
 		random = new Random();
 		stringBuilder = new StringBuilder();
 		alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgzijklmnopqrstuvwxyz0123456789";
-		allCookieTokens = this.creditCardRepository.getAllCookieTokens();
 
 		for (int i = 0; i < 14; i++)
 			stringBuilder.append(alphabet.charAt(random.nextInt(alphabet.length())));
 
 		result = stringBuilder.toString();
+		allCookieTokens = this.creditCardRepository.getAllCookieTokens();
 
 		if (allCookieTokens.contains(result))
 			result = this.generateCookieToken();
@@ -171,10 +171,15 @@ public class CreditCardService {
 	 *         The credit card
 	 */
 	public CreditCard findByCookieToken(final String cookieToken) {
-		final CreditCard result = this.creditCardRepository.findByCookieToken(cookieToken);
+		CreditCard result;
+
+		result = this.creditCardRepository.findByCookieToken(cookieToken);
+
 		//Checks that the CreditCard hasn't expired
 		this.checkCreditCardExpired(result);
+
 		Assert.isTrue(result.getUser().getId() == this.actorService.findActorByPrincipal().getId());
+
 		return result;
 	}
 

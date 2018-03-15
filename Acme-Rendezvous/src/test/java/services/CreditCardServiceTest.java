@@ -28,6 +28,11 @@ public class CreditCardServiceTest extends AbstractTest {
 	 * This driver contains a number of valid and invalids Credit Cards, and with the help of the template
 	 * method, it tests whether they can be saver or not, depending on the errors (or not) of each
 	 * Credit Card of the Array of Arrays 'testingData[][]'.
+	 * Tests Functional Requirement 4.3: An actor who is authenticated as a user must be able to:
+	 * Request a service for one of the rendezvouses that he or she's created. He or she
+	 * must specify a VALID CREDIT CARD in every request for a service. Optionally, he or she
+	 * can provide some comments in the request.
+	 * 
 	 */
 	@Test
 	public void driver() {
@@ -179,5 +184,86 @@ public class CreditCardServiceTest extends AbstractTest {
 			caught = oops.getClass();
 		}
 		super.checkExceptions(expected, caught);
+	}
+
+	/**
+	 * This driver has an Array of Arrays called 'testingData' which contains a number of combinations
+	 * of usernames and expected exceptions, and from each tuple calls the templateUsersHaveAccessToCreditCard method
+	 * to test if the user can access to the information of a provided CreditCard.
+	 */
+	@Test
+	public void driverUsersHaveAccessToCreditCard() {
+		final Object testingData[][] = {
+			{
+				"user1", null
+			}, {
+				"user2", IllegalArgumentException.class
+			}, {
+				"user3", IllegalArgumentException.class
+			}, {
+				"user4", IllegalArgumentException.class
+			}, {
+				"user5", IllegalArgumentException.class
+			}, {
+				"user6", IllegalArgumentException.class
+			}, {
+				"user7", IllegalArgumentException.class
+			}, {
+				"user8", IllegalArgumentException.class
+			}, {
+				"manager1", java.lang.ClassCastException.class
+			}, {
+				"manager2", java.lang.ClassCastException.class
+			}, {
+				"manager3", java.lang.ClassCastException.class
+			}, {
+				"manager4", java.lang.ClassCastException.class
+			}, {
+				"manager5", java.lang.ClassCastException.class
+			}, {
+				"manager6", java.lang.ClassCastException.class
+			}, {
+				"manager7", java.lang.ClassCastException.class
+			}, {
+				"manager8", java.lang.ClassCastException.class
+			}, {
+				"admin", java.lang.ClassCastException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateUsersHaveAccessToCreditCard((String) testingData[i][0], (Class<?>) testingData[i][1]);
+	}
+
+	/**
+	 * This template logs the username into the system and tries to access to a CreditCard to obtain
+	 * its information. If the User doesn't have access to that CreditCard, then an exception is
+	 * expected to happen.
+	 * 
+	 * @param username
+	 *            , the principal.
+	 * @param expected
+	 *            , the exception expected to happen.
+	 */
+	protected void templateUsersHaveAccessToCreditCard(final String username, final Class<?> expected) {
+		CreditCard creditCard;
+		Integer creditCardId;
+		Class<?> caught;
+
+		caught = null;
+		creditCardId = super.getEntityId("CreditCard1");
+		creditCard = this.creditCardService.findOne(creditCardId);
+
+		try {
+			super.authenticate(username);
+
+			this.creditCardService.checkUserCreditCard(creditCard);
+
+			super.unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		super.checkExceptions(expected, caught);
+
 	}
 }
