@@ -4,6 +4,8 @@ package services;
 import java.util.Collection;
 import java.util.HashSet;
 
+import javax.validation.ConstraintViolationException;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,17 +92,16 @@ public class ServiceServiceTest extends AbstractTest {
 		Assert.notNull(services);
 	}
 
-	//TODO Make tests of editing and deleting, and the rest of functional requirements (Cancel them by an admin)
-
-	@SuppressWarnings("unchecked")
 	// Create service tests
+
 	/**
 	 * This driver checks several tests regarding functional requirement number 5.2: An actor who is registered as a manager must be able to Manage his or her
-	 * services, which includes listing them, creating them, updating them, and deleting them as long as they are not required by any rendezvouses. 
+	 * services, which includes listing them, creating them, updating them, and deleting them as long as they are not required by any rendezvouses.
 	 * Every test is explained inside
 	 * 
 	 * @author Juanmi
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void driverCreateServices() {
 		final Collection<Category> emptyCategoryList = new HashSet<Category>();
@@ -114,7 +115,11 @@ public class ServiceServiceTest extends AbstractTest {
 		twoCategoriesList.add(this.categoryService.findOne(super.getEntityId("Category2")));
 
 		final Object testingData[][] = {
+
 			{
+				// This test checks that authenticated managers can create services with price 0.0
+				"Manager1", "Name test", "Description test", pictureUrl, 0.0, twoCategoriesList, null
+			}, {
 				// This test checks that authenticated managers can create services with all parameters
 				"Manager1", "Name test", "Description test", pictureUrl, 15.5, twoCategoriesList, null
 			}, {
@@ -130,9 +135,6 @@ public class ServiceServiceTest extends AbstractTest {
 				// This test checks that authenticated managers cannot create services with an empty description
 				"Manager1", "Name test", "", "", 15.5, oneCategoryList, javax.validation.ConstraintViolationException.class
 			}, {
-				// This test checks that authenticated managers cannot create services with price 0.0
-				"Manager1", "Name test", "Description test", "", 0., oneCategoryList, javax.validation.ConstraintViolationException.class
-			}, {
 				// This test checks that authenticated managers cannot create services with an empty category list
 				"Manager1", "Name test", "Description test", pictureUrl, 15.5, emptyCategoryList, javax.validation.ConstraintViolationException.class
 			}, {
@@ -144,6 +146,9 @@ public class ServiceServiceTest extends AbstractTest {
 			}, {
 				// This test checks that unauthenticated users cannot create services
 				null, "Name test", "Description test", pictureUrl, 15.5, oneCategoryList, IllegalArgumentException.class
+			}, {
+				// This test checks that authenticated managers cannot create services with negative price
+				"Manager1", "Name test", "Description test", pictureUrl, -1.0, twoCategoriesList, ConstraintViolationException.class
 			}
 
 		};
@@ -151,6 +156,91 @@ public class ServiceServiceTest extends AbstractTest {
 		for (int i = 0; i < testingData.length; i++)
 			this.templateCreateServices((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Double) testingData[i][4], (Collection<Category>) testingData[i][5], (Class<?>) testingData[i][6]);
 	}
+	// Edit service tests
+
+	/**
+	 * This driver checks several tests regarding functional requirement number 5.2: An actor who is registered as a manager must be able to Manage his or her
+	 * services, which includes listing them, creating them, updating them, and deleting them as long as they are not required by any rendezvouses.
+	 * Every test is explained inside
+	 * 
+	 * @author Juanmi
+	 */
+	@Test
+	public void driverEditServices() {
+		final String pictureUrl = "https://cdns3.eltiempo.es/eltiempo/blog/noticias/2015/07/olas1.jpg";
+
+		final Object testingData[][] = {
+			{
+				// This test checks that authenticated managers can edit services with all parameters
+				"Manager1", "DomainService1", "Name test", "Description test", pictureUrl, 15.5, null
+			}, {
+				// This test checks that authenticated managers can edit services without picture url
+				"Manager1", "DomainService1", "Name test", "Description test", "", 15.5, null
+			}, {
+				// This test checks that authenticated managers can edit services with price 0.0
+				"Manager1", "DomainService1", "Name test", "Description test", "", 0.0, null
+			}, {
+				// This test checks that authenticated managers cannot edit services without name
+				"Manager1", "DomainService1", "", "Description test", "", 15.5, ConstraintViolationException.class
+			}, {
+				// This test checks that authenticated managers can edit services without description
+				"Manager1", "DomainService1", "Name test", "", "", 15.5, ConstraintViolationException.class
+			}, {
+				// This test checks that authenticated managers can edit services with negative price
+				"Manager1", "DomainService1", "Name test", "Description test", "", -1.0, ConstraintViolationException.class
+			}, {
+				// This test checks that authenticated managers cannot edit services they did not create
+				"Manager2", "DomainService1", "Name test", "Description test", "", 15.0, IllegalArgumentException.class
+			}, {
+				// This test checks that authenticated managers cannot edit services they did not create
+				null, "DomainService1", "Name test", "Description test", "", 15.0, IllegalArgumentException.class
+			}
+
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateEditServices((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (Double) testingData[i][5], (Class<?>) testingData[i][6]);
+	}
+
+	// Deleting tests
+
+	/**
+	 * This driver checks several tests regarding functional requirement number 5.2: An actor who is registered as a manager must be able to Manage his or her
+	 * services, which includes listing them, creating them, updating them, and deleting them as long as they are not required by any rendezvouses.
+	 * Every test is explained inside
+	 * 
+	 * @author Juanmi
+	 */
+	@Test
+	public void driverDeleteService() {
+		final Object testingData[][] = {
+			{
+				// This test checks that managers can delete a service without requests created by them
+				"Manager1", "DomainService3", null
+			}, {
+				// This test checks that managers cannot delete a service with requests
+				"Manager1", "DomainService1", IllegalArgumentException.class
+			}, {
+				// This test checks that managers cannot delete a service they did not create
+				"Manager2", "DomainService3", IllegalArgumentException.class
+			}, {
+				// This test checks that users cannot delete a service
+				"User1", "DomainService3", IllegalArgumentException.class
+			}, {
+				// This test checks that admins cannot delete a service
+				"Admin1", "DomainService3", IllegalArgumentException.class
+			}, {
+				// This test checks that unauthenticated users cannot delete a service
+				null, "DomainService3", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateDeleteService((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+	}
+
+	//XXX Cancel a service tests as an admin are implemented in controller test, since all the business logic is implemented in controllers
+
 	// Ancillary methods ---------------------------------------------------------------------------------------
 
 	protected void templateListServices(final String username, final Class<?> expected) {
@@ -220,4 +310,61 @@ public class ServiceServiceTest extends AbstractTest {
 		this.checkExceptions(expected, caught);
 	}
 
+	protected void templateEditServices(final String username, final String servicePopulateName, final String name, final String description, final String pictureUrl, final Double price, final Class<?> expected) {
+		Class<?> caught;
+		int serviceId;
+		DomainService service;
+
+		caught = null;
+
+		try {
+			super.authenticate(username);
+
+			serviceId = super.getEntityId(servicePopulateName);
+
+			service = this.serviceService.findOne(serviceId);
+
+			service.setName(name);
+			service.setDescription(description);
+			service.setPrice(price);
+			service.setPictureUrl(pictureUrl);
+			service.setCancelled(false);
+
+			this.serviceService.save(service);
+			this.serviceService.flush();
+
+			super.unauthenticate();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.checkExceptions(expected, caught);
+	}
+
+	protected void templateDeleteService(final String username, final String servicePopulateName, final Class<?> expected) {
+		Class<?> caught;
+		int serviceId;
+		DomainService service;
+
+		caught = null;
+
+		try {
+			super.authenticate(username);
+
+			serviceId = super.getEntityId(servicePopulateName);
+
+			service = this.serviceService.findOne(serviceId);
+
+			this.serviceService.delete(service);
+			this.serviceService.flush();
+
+			super.unauthenticate();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.checkExceptions(expected, caught);
+	}
 }
