@@ -117,7 +117,11 @@ public class ServiceServiceTest extends AbstractTest {
 		twoCategoriesList.add(this.categoryService.findOne(super.getEntityId("Category2")));
 
 		final Object testingData[][] = {
+
 			{
+				// This test checks that authenticated managers can create services with price 0.0
+				"Manager1", "Name test", "Description test", pictureUrl, 0.0, twoCategoriesList, null
+			}, {
 				// This test checks that authenticated managers can create services with all parameters
 				"Manager1", "Name test", "Description test", pictureUrl, 15.5, twoCategoriesList, null
 			}, {
@@ -133,9 +137,6 @@ public class ServiceServiceTest extends AbstractTest {
 				// This test checks that authenticated managers cannot create services with an empty description
 				"Manager1", "Name test", "", "", 15.5, oneCategoryList, javax.validation.ConstraintViolationException.class
 			}, {
-				// This test checks that authenticated managers cannot create services with price 0.0
-				"Manager1", "Name test", "Description test", "", 0., oneCategoryList, javax.validation.ConstraintViolationException.class
-			}, {
 				// This test checks that authenticated managers cannot create services with an empty category list
 				"Manager1", "Name test", "Description test", pictureUrl, 15.5, emptyCategoryList, javax.validation.ConstraintViolationException.class
 			}, {
@@ -147,6 +148,9 @@ public class ServiceServiceTest extends AbstractTest {
 			}, {
 				// This test checks that unauthenticated users cannot create services
 				null, "Name test", "Description test", pictureUrl, 15.5, oneCategoryList, IllegalArgumentException.class
+			}, {
+				// This test checks that authenticated managers cannot create services with negative price
+				"Manager1", "Name test", "Description test", pictureUrl, -1.0, twoCategoriesList, ConstraintViolationException.class
 			}
 
 		};
@@ -154,7 +158,6 @@ public class ServiceServiceTest extends AbstractTest {
 		for (int i = 0; i < testingData.length; i++)
 			this.templateCreateServices((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Double) testingData[i][4], (Collection<Category>) testingData[i][5], (Class<?>) testingData[i][6]);
 	}
-
 	// Edit service tests
 
 	/**
@@ -176,14 +179,23 @@ public class ServiceServiceTest extends AbstractTest {
 				// This test checks that authenticated managers can edit services without picture url
 				"Manager1", "DomainService1", "Name test", "Description test", "", 15.5, null
 			}, {
+				// This test checks that authenticated managers can edit services with price 0.0
+				"Manager1", "DomainService1", "Name test", "Description test", "", 0.0, null
+			}, {
 				// This test checks that authenticated managers cannot edit services without name
 				"Manager1", "DomainService1", "", "Description test", "", 15.5, ConstraintViolationException.class
 			}, {
 				// This test checks that authenticated managers can edit services without description
 				"Manager1", "DomainService1", "Name test", "", "", 15.5, ConstraintViolationException.class
 			}, {
-				// This test checks that authenticated managers can edit services without price
-				"Manager1", "DomainService1", "Name test", "Description test", "", 0., ConstraintViolationException.class
+				// This test checks that authenticated managers can edit services with negative price
+				"Manager1", "DomainService1", "Name test", "Description test", "", -1.0, ConstraintViolationException.class
+			}, {
+				// This test checks that authenticated managers cannot edit services they did not create
+				"Manager2", "DomainService1", "Name test", "Description test", "", 15.0, IllegalArgumentException.class
+			}, {
+				// This test checks that authenticated managers cannot edit services they did not create
+				null, "DomainService1", "Name test", "Description test", "", 15.0, IllegalArgumentException.class
 			}
 
 		};
