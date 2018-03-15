@@ -112,7 +112,7 @@ public class ActorUserControllerTest extends AbstractTest {
 		this.mockMvc
 			.perform(
 				MockMvcRequestBuilders.post("/actor/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "Fernando").param("surname", "Gutiérrez López").param("birthDate", "09/04/2000").param("email", "ferguti90@gmail.com")
-					.param("phoneNumber", "606587789").param("postalAddress", "Calle Picadero 9").param("usserAccount", user.getUserAccount().toString()).sessionAttr("actor", new User()).param("save", "")).andExpect(MockMvcResultMatchers.status().is(302))
+					.param("phoneNumber", "606587789").param("postalAddress", "Calle Picadero 9").flashAttr("actor", user).param("save", "")).andExpect(MockMvcResultMatchers.status().is(302))
 			.andExpect(MockMvcResultMatchers.view().name("redirect:/user/display.do?anonymous=false")).andExpect(MockMvcResultMatchers.redirectedUrl("redirect:/user/display.do?anonymous=false"));
 
 		super.unauthenticate();

@@ -396,42 +396,6 @@ public class ServiceManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test save Service with past moment in the system, regarding functional requirement 5.2
-	 * An actor who is registered as a manager must be able to Manage his or her services, which includes listing them, creating them, updating
-	 * them, and deleting them as long as they are not required by any rendezvouses.
-	 * 
-	 * Must return 200 code.
-	 * The Service is cancelled, then the system must return the past error code.
-	 * 
-	 * @throws Exception
-	 * @author MJ
-	 */
-	@Test
-	public void saveCancelledServiceNegative() throws Exception {
-		final MockHttpServletRequestBuilder request;
-		DomainService service;
-		int categoryId;
-		Category category;
-		Collection<Category> categories;
-		super.authenticate("manager1");
-
-		categories = new HashSet<>();
-		categoryId = super.getEntityId("Category1");
-		category = this.categoryService.findOne(categoryId);
-		categories.add(category);
-
-		service = new DomainService();
-		service.setCategories(categories);
-		request = MockMvcRequestBuilders.post("/service/manager/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "New Service").param("description", "New Description").param("moment", "09/04/2019 00:00").param("pictureUrl", "")
-			.param("cancelled", "true").param("price", "220").flashAttr("service", service).param("save", "");
-
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("service/edit")).andExpect(MockMvcResultMatchers.status().isOk())
-			.andExpect(MockMvcResultMatchers.forwardedUrl("service/edit")).andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.is("service.commit.error")));
-
-		super.unauthenticate();
-	}
-
-	/**
 	 * Test save blank parameters Service in the system, regarding functional requirement 5.2
 	 * An actor who is registered as a manager must be able to Manage his or her services, which includes listing them, creating them, updating
 	 * them, and deleting them as long as they are not required by any rendezvouses.

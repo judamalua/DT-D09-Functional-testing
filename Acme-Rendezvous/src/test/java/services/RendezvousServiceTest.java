@@ -45,7 +45,7 @@ public class RendezvousServiceTest extends AbstractTest {
 	 * Note that a user may edit his or her rendezvouses as long as they aren't saved them in final mode.
 	 * Once a rendezvous is saved in final mode, it cannot be edited or deleted by the creator
 	 * 
-	 * 5.3: An actor who is authenticated as a user must be able to update or delete the rendezvouses that he or she’s created. Deletion is virtual, that
+	 * 5.3: An actor who is authenticated as a user must be able to update or delete the rendezvouses that he or she's created. Deletion is virtual, that
 	 * is: the information is not removed from the database, but the rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed.
 	 * 
 	 * 5.4: An actor who is authenticated as a user must be able to RSVP a rendezvous or cancel it. When a user RSVPs a rendezvous, he or she is assumed to attend it.
@@ -107,7 +107,7 @@ public class RendezvousServiceTest extends AbstractTest {
 	 * Note that a user may edit his or her rendezvouses as long as they aren't saved them in final mode.
 	 * Once a rendezvous is saved in final mode, it cannot be edited or deleted by the creator
 	 * 
-	 * 5.3: An actor who is authenticated as a user must be able to update or delete the rendezvouses that he or she’s created. Deletion is virtual, that
+	 * 5.3: An actor who is authenticated as a user must be able to update or delete the rendezvouses that he or she's created. Deletion is virtual, that
 	 * is: the information is not removed from the database, but the rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed.
 	 * 
 	 * 5.4: An actor who is authenticated as a user must be able to RSVP a rendezvous or cancel it. When a user RSVPs a rendezvous, he or she is assumed to attend it.
@@ -147,7 +147,7 @@ public class RendezvousServiceTest extends AbstractTest {
 	 * Note that a user may edit his or her rendezvouses as long as they aren't saved them in final mode.
 	 * Once a rendezvous is saved in final mode, it cannot be edited or deleted by the creator
 	 * 
-	 * 5.3: An actor who is authenticated as a user must be able to update or delete the rendezvouses that he or she’s created. Deletion is virtual, that
+	 * 5.3: An actor who is authenticated as a user must be able to update or delete the rendezvouses that he or she's created. Deletion is virtual, that
 	 * is: the information is not removed from the database, but the rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed.
 	 * 
 	 * 5.4: An actor who is authenticated as a user must be able to RSVP a rendezvous or cancel it. When a user RSVPs a rendezvous, he or she is assumed to attend it.
@@ -196,7 +196,7 @@ public class RendezvousServiceTest extends AbstractTest {
 	 * Note that a user may edit his or her rendezvouses as long as they aren't saved them in final mode.
 	 * Once a rendezvous is saved in final mode, it cannot be edited or deleted by the creator
 	 * 
-	 * 5.3: An actor who is authenticated as a user must be able to update or delete the rendezvouses that he or she’s created. Deletion is virtual, that
+	 * 5.3: An actor who is authenticated as a user must be able to update or delete the rendezvouses that he or she's created. Deletion is virtual, that
 	 * is: the information is not removed from the database, but the rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed.
 	 * 
 	 * 5.4: An actor who is authenticated as a user must be able to RSVP a rendezvous or cancel it. When a user RSVPs a rendezvous, he or she is assumed to attend it.
