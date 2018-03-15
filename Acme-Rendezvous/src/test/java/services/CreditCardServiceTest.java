@@ -24,7 +24,11 @@ public class CreditCardServiceTest extends AbstractTest {
 
 
 	// Tests ------------------------------------------------------------------
-
+	/**
+	 * This driver contains a number of valid and invalids Credit Cards, and with the help of the template
+	 * method, it tests whether they can be saver or not, depending on the errors (or not) of each
+	 * Credit Card of the Array of Arrays 'testingData[][]'.
+	 */
 	@Test
 	public void driver() {
 
@@ -126,6 +130,28 @@ public class CreditCardServiceTest extends AbstractTest {
 			this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Integer) testingData[i][4], (Integer) testingData[i][5], (Integer) testingData[i][6], (Class<?>) testingData[i][7]);
 
 	}
+
+	/**
+	 * This template method receives the required params to create and save a new CreditCard, and
+	 * if an exception is thrown, it checks if it is expected. If not, the jUnit test fails.
+	 * 
+	 * @param username
+	 *            the username of the actor logged
+	 * @param holderName
+	 *            the holderName of the CreditCard
+	 * @param brandName
+	 *            the brandName of the CreditCard
+	 * @param number
+	 *            the number of the CreditCard
+	 * @param cvv
+	 *            the CVV of the CreditCard
+	 * @param expirationMonth
+	 *            the expirationMonth of the CreditCard
+	 * @param expirationYear
+	 *            the expirationYear of the CreditCard
+	 * @param expected
+	 *            the exception expected to be thrown
+	 */
 	protected void template(final String username, final String holderName, final String brandName, final String number, final int cvv, final int expirationMonth, final int expirationYear, final Class<?> expected) {
 		CreditCard creditCard;
 		Class<?> caught;
