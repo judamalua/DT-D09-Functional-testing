@@ -60,7 +60,7 @@
 	</display:column>
 
 
-	<display:column title="${titleListRequests}">
+	<display:column>
 		<security:authorize access="hasRole('MANAGER')">
 			<jstl:if test="${fn:length(service.requests) != 0}">
 				<acme:button url="request/manager/list.do?serviceId=${service.id}"
@@ -81,13 +81,6 @@
 	</display:column>
 
 	<display:column>
-		<security:authorize access="hasRole('USER')">
-			<acme:button url="request/user/edit.do?serviceId=${service.id}"
-				code="service.edit" />
-		</security:authorize>
-	</display:column>
-
-	<display:column>
 		<jstl:if test="${service.cancelled}">
 			<i class="material-icons">delete</i>
 			<spring:message code="service.cancelled" />
@@ -95,7 +88,7 @@
 	</display:column>
 
 	<security:authorize access="hasRole('USER')">
-		<display:column title="${requestColumn}">
+		<display:column>
 			<acme:button url="request/user/create.do?serviceId=${service.id}"
 				code="service.request.create" />
 		</display:column>
