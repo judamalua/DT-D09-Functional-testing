@@ -103,7 +103,7 @@ public class ActorControllerTest extends AbstractTest {
 	/**
 	 * 
 	 * 
-	 * Test no logged can´t display his profile
+	 * Test no logged canï¿½t display his profile
 	 * 
 	 * @throws Exception
 	 * @author Luis
@@ -179,7 +179,7 @@ public class ActorControllerTest extends AbstractTest {
 
 		this.mockMvc
 			.perform(
-				MockMvcRequestBuilders.post("/actor/register.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "Fernando").param("surname", "Gutiérrez López").param("birthDate", "09/04/2000").param("email", "ferguti90@gmail.com")
+				MockMvcRequestBuilders.post("/actor/register.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "Fernando").param("surname", "Gutiï¿½rrez Lï¿½pez").param("birthDate", "09/04/2000").param("email", "ferguti90@gmail.com")
 					.param("phoneNumber", "606587789").param("postalAddress", "Calle Picadero 9").param("userAccount.username", "fernanguti").param("userAccount.password", "fernanguti").param("confirmPassword", "fernanguti")
 					.sessionAttr("user", new User()).param("save", "")).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/welcome/index.do"))
 			.andExpect(MockMvcResultMatchers.redirectedUrl("/welcome/index.do?pagesize=5"));
@@ -191,7 +191,7 @@ public class ActorControllerTest extends AbstractTest {
 	 * 4.1 An actor who is not authenticated must be able to: Register to the system as a user.
 	 * 
 	 * 
-	 * Test not authenticated can´t register as user with fails
+	 * Test not authenticated canï¿½t register as user with fails
 	 * 
 	 * @throws Exception
 	 * @author Luis
@@ -201,7 +201,7 @@ public class ActorControllerTest extends AbstractTest {
 		super.authenticate(null);
 
 		this.mockMvc.perform(
-			MockMvcRequestBuilders.post("/actor/register.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "Fernando").param("surname", "Gutiérrez López").param("birthDate", "09/04/2020").param("email", "ferguti90@gmail.com")
+			MockMvcRequestBuilders.post("/actor/register.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "Fernando").param("surname", "Gutiï¿½rrez Lï¿½pez").param("birthDate", "09/04/2020").param("email", "ferguti90@gmail.com")
 				.param("phoneNumber", "606587789").param("postalAddress", "Calle Picadero 9").param("userAccount.username", "fernanguti").param("userAccount.password", "fernanguti").param("confirmPassword", "fernanguti").sessionAttr("user", new User())
 				.param("save", "")).andExpect(MockMvcResultMatchers.status().is(200));
 
@@ -219,7 +219,7 @@ public class ActorControllerTest extends AbstractTest {
 		super.authenticate(null);
 
 		this.mockMvc.perform(
-			MockMvcRequestBuilders.post("/actor/register.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "Fernando").param("surname", "Gutiérrez López").param("birthDate", "09/04/2020").param("email", "ferguti90@gmail.com")
+			MockMvcRequestBuilders.post("/actor/register.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "Fernando").param("surname", "Gutiï¿½rrez Lï¿½pez").param("birthDate", "09/04/2020").param("email", "ferguti90@gmail.com")
 				.param("phoneNumber", "606587789").param("postalAddress", "Calle Picadero 9").param("userAccount.username", "fernanguti").param("userAccount.password", "fernanguti").param("confirmPassword", "fernanguti").sessionAttr("user", new Manager())
 				.param("save", "")).andExpect(MockMvcResultMatchers.status().is(200));
 

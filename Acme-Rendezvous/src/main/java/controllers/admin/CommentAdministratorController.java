@@ -29,9 +29,12 @@ public class CommentAdministratorController extends AbstractController {
 	//Delete -----------------------------------------------------------
 
 	/**
-	 * This method allows an Administrator to delete a comment
+	 * This method allows an Administrator to delete a comment.
 	 * 
 	 * @param commentId
+	 *            , comment to be deleted.
+	 * @param rendezvousId
+	 *            , used to return to the detailed view of the rendezvous.
 	 * @return ModelAndView
 	 * @author Antonio
 	 */
