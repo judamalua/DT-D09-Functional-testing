@@ -20,6 +20,8 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 
 <!-- Variable declaration -->
 <spring:message code="service.pictureUrl" var="titlePicture" />
@@ -28,17 +30,19 @@
 <spring:message code="service.price" var="titlePrice" />
 <spring:message code="service.request" var="requestColumn" />
 <spring:message code="service.request.create" var="createRequest" />
-<spring:message code="service.request.list.title" var="titleListRequests" />
-<spring:message code = "master.page.price.format" var = "formatPrice" />
+<spring:message code="service.request.list.title"
+	var="titleListRequests" />
+<spring:message code="master.page.price.format" var="formatPrice" />
 
 <!-- Pagination -->
-<acme:pagination requestURI="${requestURI}?page=" pageNum="${pageNum}"
+<acme:pagination requestURI="${requestURI}page=" pageNum="${pageNum}"
 	page="${page}" />
 
 
 <!-- Display -->
 
-<display:table name="services" id="service" requestURI="${requestURI}?page=${page}">
+<display:table name="services" id="service"
+	requestURI="${requestURI}?page=${page}">
 
 	<display:column title="${titlePicture}">
 		<jstl:if test="${service.pictureUrl!=null}">
@@ -47,30 +51,35 @@
 	</display:column>
 	<display:column property="name" title="${titleName}" sortable="true" />
 	<display:column property="description" title="${titleDescription}" />
-	<display:column property="price" title="${titlePrice}" format="${formatPrice}" sortable="true" />
+	<display:column property="price" title="${titlePrice}"
+		format="${formatPrice}" sortable="true" />
 	<display:column title="${titleCategories}" />
-		<display:column>
-			<acme:button url="category/list.do?serviceId=${service.id}"
-				code="service.categories.see" />
+	<display:column>
+		<acme:button url="category/list.do?serviceId=${service.id}"
+			code="service.categories.see" />
 	</display:column>
-	
-	<security:authorize access="hasRole('MANAGER')">
-		<display:column title="${titleListRequests}">
+
+
+	<display:column title="${titleListRequests}">
+		<security:authorize access="hasRole('MANAGER')">
 			<jstl:if test="${fn:length(service.requests) != 0}">
 				<acme:button url="request/manager/list.do?serviceId=${service.id}"
-				code="service.request.list" />
-			</jstl:if>	
-		</display:column>
-	</security:authorize>
-	
-	<display:column>
-		<jstl:if
-			test="${!service.cancelled && managedServices[service_rowNum-1] }">
-			<acme:button url="service/manager/edit.do?serviceId=${service.id}"
-				code="service.edit" />
-		</jstl:if>
+					code="service.request.list" />
+			</jstl:if>
+		</security:authorize>
 	</display:column>
-	
+
+
+	<display:column>
+		<security:authorize access="hasRole('MANAGER')">
+			<jstl:if
+				test="${!service.cancelled && fn:length(service.requests)==0 && managedServices[service_rowNum-1] }">
+				<acme:button url="service/manager/edit.do?serviceId=${service.id}"
+					code="service.edit" />
+			</jstl:if>
+		</security:authorize>
+	</display:column>
+
 	<display:column>
 		<security:authorize access="hasRole('USER')">
 			<acme:button url="request/user/edit.do?serviceId=${service.id}"
@@ -91,8 +100,8 @@
 				code="service.request.create" />
 		</display:column>
 	</security:authorize>
-	
-	
+
+
 	<security:authorize access="hasRole('ADMIN')">
 		<jstl:if test="${!service.cancelled}">
 			<display:column>

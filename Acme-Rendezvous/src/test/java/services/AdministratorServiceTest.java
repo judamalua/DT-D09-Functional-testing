@@ -48,12 +48,9 @@ public class AdministratorServiceTest extends AbstractTest {
 			},
 
 		};
-		for (int i = 0; i < testingData.length; i++) {
-			System.out.println(i);
+		for (int i = 0; i < testingData.length; i++)
 			this.templateCreateAdmin((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Date) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6],
 				(String) testingData[i][7], (Class<?>) testingData[i][8]);
-
-		}
 	}
 
 	/**

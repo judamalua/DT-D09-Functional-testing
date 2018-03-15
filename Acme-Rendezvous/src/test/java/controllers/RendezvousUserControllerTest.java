@@ -108,7 +108,7 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	/**
 	 * Test edit view of Rendezvouses in the system, regarding functional requirement 5.3
 	 * An actor who is authenticated as a user must be able to Update or delete the
-	 * rendezvouses that he or she’s created. Deletion
+	 * rendezvouses that he or she's created. Deletion
 	 * is virtual, that is: the information is not removed from the database, but the
 	 * rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed.
 	 * 
@@ -136,7 +136,7 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	/**
 	 * Test the edit view of Rendezvouses in the system, regarding functional requirement 5.3
 	 * An actor who is authenticated as a user must be able to Update or delete the
-	 * rendezvouses that he or she’s created. Deletion
+	 * rendezvouses that he or she's created. Deletion
 	 * is virtual, that is: the information is not removed from the database, but the
 	 * rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed..
 	 * 
@@ -161,7 +161,7 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	/**
 	 * Test the edit view of Rendezvouses in the system, regarding functional requirement 5.3
 	 * An actor who is authenticated as a user must be able to Update or delete the
-	 * rendezvouses that he or she’s created. Deletion
+	 * rendezvouses that he or she's created. Deletion
 	 * is virtual, that is: the information is not removed from the database, but the
 	 * rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed.
 	 * 
@@ -186,7 +186,7 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	/**
 	 * Test the public list of Rendezvouses in the system, regarding functional requirement 5.3
 	 * An actor who is authenticated as a user must be able to Update or delete the
-	 * rendezvouses that he or she’s created. Deletion
+	 * rendezvouses that he or she's created. Deletion
 	 * is virtual, that is: the information is not removed from the database, but the
 	 * rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed.
 	 * 
@@ -212,7 +212,7 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	/**
 	 * Test create a Rendezvouses in the system,, regarding functional requirement 5.3
 	 * An actor who is authenticated as a user must be able to Update or delete the
-	 * rendezvouses that he or she’s created. Deletion
+	 * rendezvouses that he or she's created. Deletion
 	 * is virtual, that is: the information is not removed from the database, but the
 	 * rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed.
 	 * 
@@ -234,7 +234,7 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	/**
 	 * Test save correct Rendezvous in the system,, regarding functional requirement 5.3
 	 * An actor who is authenticated as a user must be able to Update or delete the
-	 * rendezvouses that he or she’s created. Deletion
+	 * rendezvouses that he or she's created. Deletion
 	 * is virtual, that is: the information is not removed from the database, but the
 	 * rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed.
 	 * 
@@ -261,7 +261,7 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	/**
 	 * Test save Rendezvous in the system, regarding functional requirement 5.3
 	 * An actor who is authenticated as a user must be able to Update or delete the
-	 * rendezvouses that he or she’s created. Deletion
+	 * rendezvouses that he or she's created. Deletion
 	 * is virtual, that is: the information is not removed from the database, but the
 	 * rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed.
 	 * 
@@ -285,7 +285,7 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	/**
 	 * Test save Rendezvous with past moment in the system, regarding functional requirement 5.3
 	 * An actor who is authenticated as a user must be able to Update or delete the
-	 * rendezvouses that he or she’s created. Deletion
+	 * rendezvouses that he or she's created. Deletion
 	 * is virtual, that is: the information is not removed from the database, but the
 	 * rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed..
 	 * 
@@ -312,7 +312,7 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	/**
 	 * Test save adult Rendezvous in the system, regarding functional requirement 5.3
 	 * An actor who is authenticated as a user must be able to Update or delete the
-	 * rendezvouses that he or she’s created. Deletion
+	 * rendezvouses that he or she's created. Deletion
 	 * is virtual, that is: the information is not removed from the database, but the
 	 * rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed..
 	 * 
@@ -339,7 +339,7 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	/**
 	 * Test save blank parameters Rendezvous in the system, regarding functional requirement 5.3
 	 * An actor who is authenticated as a user must be able to Update or delete the
-	 * rendezvouses that he or she’s created. Deletion
+	 * rendezvouses that he or she's created. Deletion
 	 * is virtual, that is: the information is not removed from the database, but the
 	 * rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed..
 	 * 
@@ -368,7 +368,7 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	/**
 	 * Test delete Rendezvous in the system, regarding functional requirement 5.3
 	 * An actor who is authenticated as a user must be able to Update or delete the
-	 * rendezvouses that he or she’s created. Deletion
+	 * rendezvouses that he or she's created. Deletion
 	 * is virtual, that is: the information is not removed from the database, but the
 	 * rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed..
 	 * 
@@ -395,7 +395,7 @@ public class RendezvousUserControllerTest extends AbstractTest {
 	/**
 	 * Test delete Rendezvouses in the system, regarding functional requirement 5.3
 	 * An actor who is authenticated as a user must be able to Update or delete the
-	 * rendezvouses that he or she’s created. Deletion
+	 * rendezvouses that he or she's created. Deletion
 	 * is virtual, that is: the information is not removed from the database, but the
 	 * rendezvous cannot be updated. Deleted rendezvouses are flagged as such when they are displayed..
 	 * 
