@@ -144,16 +144,19 @@ public class CreditCardService {
 		String alphabet, result;
 		Random random;
 		StringBuilder stringBuilder;
+		Collection<String> allCookieTokens;
 
 		random = new Random();
 		stringBuilder = new StringBuilder();
 		alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgzijklmnopqrstuvwxyz0123456789";
+		allCookieTokens = this.creditCardRepository.getAllCookieTokens();
 
 		for (int i = 0; i < 14; i++)
 			stringBuilder.append(alphabet.charAt(random.nextInt(alphabet.length())));
 
 		result = stringBuilder.toString();
-		if (this.creditCardRepository.getAllCookieTokens().contains(result))
+
+		if (allCookieTokens.contains(result))
 			result = this.generateCookieToken();
 
 		return result;

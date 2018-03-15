@@ -7,12 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.CreditCard;
-import domain.DomainService;
-import domain.Request;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -24,85 +21,17 @@ public class CreditCardServiceTest extends AbstractTest {
 	// The SUT ---------------------------------------------------------------
 	@Autowired
 	private CreditCardService	creditCardService;
-	@Autowired
-	private ServiceService		serviceService;
-	@Autowired
-	private RequestService		requestService;
 
 
 	// Tests ------------------------------------------------------------------
-	/**
-	 * This test checks that the CreditCard that authenticated users use to request a Service
-	 * for one of their created Rendezvouses is valid, as said in the Functional Requirement n. 4.3:
-	 * Request a service for one of the rendezvouses that he or she's created.
-	 * "He or she must specify a valid credit card" in every request for a service*.
-	 * Optionally, he or she can provide some comments in the request.
-	 * 
-	 * @author Antonio
-	 */
-	public void testValidCreditCard() {
-		int serviceId;
-		DomainService service;
-		Request request;
-		CreditCard creditCard, savedCreditCard;
-
-		super.authenticate("user1");
-		serviceId = super.getEntityId("DomainService6");
-		service = this.serviceService.findOne(serviceId);
-
-		request = this.requestService.createByService(serviceId);
-		creditCard = this.creditCardService.create();
-
-		creditCard.setHolderName("Valid Holder Name");//Valid Holder name
-		creditCard.setBrandName("Valid Brand Name"); //Valid Brand name
-		creditCard.setNumber("4485677312398507"); //Valid Credit Card number.
-		creditCard.setCvv(123); //Valid CVV
-		creditCard.setExpirationMonth(12); //Valid Expiration Month.
-		creditCard.setExpirationYear(20); // Valid Expiration Year.
-
-		savedCreditCard = this.creditCardService.save(creditCard);
-
-		this.creditCardService.flush();
-
-		Assert.notNull(this.creditCardService.findOne(savedCreditCard.getId()));
-
-		super.unauthenticate();
-	}
 
 	@Test
 	public void driver() {
 
-		final Object testingData[][] = {//Username, HolderName, BrandName, Number, CVV, ExpirationYear, ExpirationMonth, ExpectedException
+		final Object testingData[][] = {//Username, HolderName, BrandName, Number, CVV, ExpirationMonth, ExpirationYear, ExpectedException
 			{
-				//Checks that the Holder name must not be blank.
-				"user1", "", "Valid Brand Name", "4485677312398507", 123, 12, 20, javax.validation.ConstraintViolationException.class
-			}, {
 				//Positive test, an user can save a Valid CreditCard.
 				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 12, 20, null
-			}, {
-				//Checks that you must be logged as an User to save a CreditCard.
-				null, "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 12, 20, IllegalArgumentException.class
-			}, {
-				//Checks that you must be logged as an User to save a CreditCard.
-				"manager1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 12, 20, java.lang.ClassCastException.class
-			}, {
-				//Checks that you must be logged as an User to save a CreditCard.
-				"admin", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 12, 20, java.lang.ClassCastException.class
-			}, {
-				//Checks that the Brand name must not be blank.
-				"user1", "Valid Holder Name", "", "4485677312398507", 123, 12, 20, javax.validation.ConstraintViolationException.class
-			}, {
-				//Checks that the Number must not be blank.
-				"user1", "Valid Holder Name", "Valid Brand Name", "", 123, 12, 20, javax.validation.ConstraintViolationException.class
-			}, {
-				//Checks that the Number must be a valid Credit Card number.
-				"user1", "Valid Holder Name", "Valid Brand Name", "1234567891234567", 123, 12, 20, javax.validation.ConstraintViolationException.class
-			}, {
-				//Checks that the CVV is not outside the minimum range (100).
-				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 99, 12, 20, javax.validation.ConstraintViolationException.class
-			}, {
-				//Checks that the CVV is not outside the maximum range (999).
-				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 1000, 12, 20, javax.validation.ConstraintViolationException.class
 			}, {
 				//Checks that the CVV can be the lowest int in the range (100).
 				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 100, 12, 20, null
@@ -121,13 +50,80 @@ public class CreditCardServiceTest extends AbstractTest {
 			}, {
 				//Checks that the CVV can be the greatest int in the range (999).
 				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 999, 12, 20, null
+			}, {
+				//Checks that you must be logged as an User to save a CreditCard.
+				null, "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 12, 20, IllegalArgumentException.class
+			}, {
+				//Checks that the Expiration Month can be the lowest value in range (1).
+				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 1, 20, null
+			}, {
+				//Checks that the Expiration Month can be the lowest value in range +1 (1).
+				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 2, 20, null
+			}, {
+				//Checks that the Expiration Month can be the middle value in range  (6).
+				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 6, 20, null
+			}, {
+				//Checks that the Expiration Month can be the greatest value in range -1  (12).
+				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 11, 20, null
+			}, {
+				//Checks that the Expiration Month can be the greatest value in range   (12).
+				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 12, 20, null
+			}, {
+				//Checks that the Expiration Year can be the lowest value, acording to the actual year (18).
+				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 12, 18, null
+			}, {
+				//Checks that the Expiration Year can be the lowest value +1(00).
+				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 12, 19, null
+			}, {
+				//Checks that the Expiration Year can be the middle value in range (50).
+				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 12, 50, null
+			}, {
+				//Checks that the Expiration Year can be the greatest value -1 (99).
+				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 12, 98, null
+			}, {
+				//Checks that the Expiration Year can be the greatest value  (99).
+				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 12, 99, null
+			}, {
+				//Checks that you must be logged as an User to save a CreditCard.
+				"manager1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 12, 20, java.lang.ClassCastException.class
+			}, {
+				//Checks that you must be logged as an User to save a CreditCard.
+				"admin", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 12, 20, java.lang.ClassCastException.class
+			}, {
+				//Checks that the Holder name must not be blank.
+				"user1", "", "Valid Brand Name", "4485677312398507", 123, 12, 20, javax.validation.ConstraintViolationException.class
+			}, {
+				//Checks that the Brand name must not be blank.
+				"user1", "Valid Holder Name", "", "4485677312398507", 123, 12, 20, javax.validation.ConstraintViolationException.class
+			}, {
+				//Checks that the Number must not be blank.
+				"user1", "Valid Holder Name", "Valid Brand Name", "", 123, 12, 20, javax.validation.ConstraintViolationException.class
+			}, {
+				//Checks that the Number must be a valid Credit Card number.
+				"user1", "Valid Holder Name", "Valid Brand Name", "1234567891234567", 123, 12, 20, javax.validation.ConstraintViolationException.class
+			}, {
+				//Checks that the CVV is not outside the minimum range (100).
+				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 99, 12, 20, javax.validation.ConstraintViolationException.class
+			}, {
+				//Checks that the CVV is not outside the maximum range (999).
+				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 1000, 12, 20, javax.validation.ConstraintViolationException.class
+			}, {
+				//Checks that the Expiration Month is not outside the minimum range (1).
+				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 0, 20, javax.validation.ConstraintViolationException.class
+			}, {
+				//Checks that the Expiration Month is not outside the maximum range (12).
+				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 13, 20, javax.validation.ConstraintViolationException.class
+			}, {
+				//Checks that the Expiration Year is not outside the minimum range (0).
+				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 12, -1, javax.validation.ConstraintViolationException.class
+			}, {
+				//Checks that the Expiration Year is not outside the maximum range (99).
+				"user1", "Valid Holder Name", "Valid Brand Name", "4485677312398507", 123, 12, 100, javax.validation.ConstraintViolationException.class
 			}
 		};
 
-		for (int i = 0; i < testingData.length; i++) {
-			System.out.println("i = " + i + "\n");
+		for (int i = 0; i < testingData.length; i++)
 			this.template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Integer) testingData[i][4], (Integer) testingData[i][5], (Integer) testingData[i][6], (Class<?>) testingData[i][7]);
-		}
 
 	}
 	protected void template(final String username, final String holderName, final String brandName, final String number, final int cvv, final int expirationMonth, final int expirationYear, final Class<?> expected) {
@@ -138,7 +134,6 @@ public class CreditCardServiceTest extends AbstractTest {
 
 		try {
 			super.authenticate(username);
-			System.out.println("Holder Name procedente del Driver: " + holderName);
 
 			creditCard = this.creditCardService.create();
 
@@ -151,13 +146,10 @@ public class CreditCardServiceTest extends AbstractTest {
 
 			this.creditCardService.save(creditCard);
 
-			super.unauthenticate();
-
 			this.creditCardService.flush();
-		} catch (final Throwable oops) {
-			System.out.println("Excepcion en template: " + oops);
-			System.out.println("Excepcion esperada: " + expected);
 
+			super.unauthenticate();
+		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		super.checkExceptions(expected, caught);
