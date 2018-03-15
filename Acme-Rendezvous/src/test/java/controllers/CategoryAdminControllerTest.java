@@ -99,7 +99,7 @@ public class CategoryAdminControllerTest extends AbstractTest {
 		request = MockMvcRequestBuilders.get("/category/admin/create.do");
 
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("category/edit")).andExpect(MockMvcResultMatchers.forwardedUrl("category/edit"))
-			.andExpect(MockMvcResultMatchers.model().attribute("category", Matchers.hasProperty("id", Matchers.is(0)))).andExpect(MockMvcResultMatchers.model().attribute("categories", Matchers.hasSize(0)))
+			.andExpect(MockMvcResultMatchers.model().attribute("category", Matchers.hasProperty("id", Matchers.is(0)))).andExpect(MockMvcResultMatchers.model().attribute("categories", Matchers.hasSize(8)))
 			.andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.isEmptyOrNullString()));
 		super.unauthenticate();
 	}
