@@ -92,8 +92,6 @@ public class ServiceServiceTest extends AbstractTest {
 		Assert.notNull(services);
 	}
 
-	//TODO Make tests of editing and deleting, and the rest of functional requirements (Cancel them by an admin)
-
 	// Create service tests
 
 	/**
@@ -204,6 +202,45 @@ public class ServiceServiceTest extends AbstractTest {
 			this.templateEditServices((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (Double) testingData[i][5], (Class<?>) testingData[i][6]);
 	}
 
+	// Deleting tests
+
+	/**
+	 * This driver checks several tests regarding functional requirement number 5.2: An actor who is registered as a manager must be able to Manage his or her
+	 * services, which includes listing them, creating them, updating them, and deleting them as long as they are not required by any rendezvouses.
+	 * Every test is explained inside
+	 * 
+	 * @author Juanmi
+	 */
+	@Test
+	public void driverDeleteService() {
+		final Object testingData[][] = {
+			{
+				// This test checks that managers can delete a service without requests created by them
+				"Manager1", "DomainService3", null
+			}, {
+				// This test checks that managers cannot delete a service with requests
+				"Manager1", "DomainService1", IllegalArgumentException.class
+			}, {
+				// This test checks that managers cannot delete a service they did not create
+				"Manager2", "DomainService3", IllegalArgumentException.class
+			}, {
+				// This test checks that users cannot delete a service
+				"User1", "DomainService3", IllegalArgumentException.class
+			}, {
+				// This test checks that admins cannot delete a service
+				"Admin1", "DomainService3", IllegalArgumentException.class
+			}, {
+				// This test checks that unauthenticated users cannot delete a service
+				null, "DomainService3", IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateDeleteService((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+	}
+
+	//XXX Cancel a service tests as an admin are implemented in controller test, since all the business logic is implemented in controllers
+
 	// Ancillary methods ---------------------------------------------------------------------------------------
 
 	protected void templateListServices(final String username, final Class<?> expected) {
@@ -294,6 +331,32 @@ public class ServiceServiceTest extends AbstractTest {
 			service.setCancelled(false);
 
 			this.serviceService.save(service);
+			this.serviceService.flush();
+
+			super.unauthenticate();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.checkExceptions(expected, caught);
+	}
+
+	protected void templateDeleteService(final String username, final String servicePopulateName, final Class<?> expected) {
+		Class<?> caught;
+		int serviceId;
+		DomainService service;
+
+		caught = null;
+
+		try {
+			super.authenticate(username);
+
+			serviceId = super.getEntityId(servicePopulateName);
+
+			service = this.serviceService.findOne(serviceId);
+
+			this.serviceService.delete(service);
 			this.serviceService.flush();
 
 			super.unauthenticate();
