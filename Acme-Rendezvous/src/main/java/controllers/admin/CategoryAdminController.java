@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -93,20 +94,31 @@ public class CategoryAdminController extends AbstractController {
 	// Saving -------------------------------------------------------------------
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(Category category, final BindingResult binding) {
+	public ModelAndView save(@ModelAttribute("category") Category category, final BindingResult binding) {
 		ModelAndView result;
+		Category savedCategory = null;
+		Actor actor;
 
 		try {
+			savedCategory = category;
 			category = this.categoryService.reconstruct(category, binding);
-		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:/misc/403");
-			return result;
+		} catch (final Throwable oops) {//Not delete
 		}
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(category, "category.params.error");
+			result = this.createEditModelAndView(savedCategory, "category.params.error");
 		else
 			try {
+				Assert.isTrue(category.getServices().size() == 0);
+				actor = this.actorService.findActorByPrincipal();
+				Assert.isTrue(actor instanceof Administrator);
+
+				if (savedCategory.getId() != 0) {
+					savedCategory = this.categoryService.findOne(savedCategory.getId());
+					this.categoryService.delete(savedCategory);
+				}
+
 				this.categoryService.save(category);
+
 				result = new ModelAndView("redirect:/category/list.do");
 
 			} catch (final Throwable oops) {
@@ -123,14 +135,14 @@ public class CategoryAdminController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(Category category, final BindingResult binding) {
 		ModelAndView result;
+		Actor actor;
 
 		try {
-			category = this.categoryService.reconstruct(category, binding);
-		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:/misc/403");
-			return result;
-		}
-		try {
+			actor = this.actorService.findActorByPrincipal();
+			Assert.isTrue(actor instanceof Administrator);
+			category = this.categoryService.findOne(category.getId());
+			Assert.isTrue(category.getServices().size() == 0);
+
 			this.categoryService.delete(category);
 			result = new ModelAndView("redirect:/category/list.do");
 

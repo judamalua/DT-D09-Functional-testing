@@ -357,7 +357,7 @@ public class CategoryService {
 	 * @author MJ
 	 */
 	public Category reconstruct(final Category category, final BindingResult binding) {
-		Category result;
+		Category result, savedCategory;
 
 		if (category.getId() == 0) {
 
@@ -368,11 +368,12 @@ public class CategoryService {
 			result.setServices(services);
 
 		} else {
-			result = this.categoryRepository.findOne(category.getId());
-			result.setDescription(category.getName());
+			savedCategory = this.categoryRepository.findOne(category.getId());
+			result = this.create();
+			result.setName(category.getName());
 			result.setDescription(category.getDescription());
 			result.setFatherCategory(category.getFatherCategory());
-			result.setName(result.getName());
+			result.setServices(savedCategory.getServices());
 		}
 
 		this.validator.validate(result, binding);

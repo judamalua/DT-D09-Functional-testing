@@ -93,22 +93,22 @@ public class SimilarUserControllerTest extends AbstractTest {
 	/**
 	 * Test the edit view of Rendezvouses in the system
 	 * Must return 302 code.
-	 * The rendezvous is not final and must redirect to error page.
+	 * 
 	 * 
 	 * @throws Exception
 	 * @author MJ
 	 */
 	@Test
-	public void editNotFinalRendezvousPositive() throws Exception {
+	public void editFinalRendezvousPositive() throws Exception {
 		final MockHttpServletRequestBuilder request;
 		super.authenticate("user1");
 		final int rendezvousId = super.getEntityId("Rendezvous1");
 		request = MockMvcRequestBuilders.get("/similar/user/edit.do?rendezvousId=" + rendezvousId);
 
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("rendezvous/edit")).andExpect(MockMvcResultMatchers.forwardedUrl("rendezvous/edit"))
-			.andExpect(MockMvcResultMatchers.model().attribute("rendezvous", Matchers.allOf(Matchers.hasProperty("id", Matchers.is(rendezvousId)), Matchers.hasProperty("finalMode", Matchers.is(false)))))
+			.andExpect(MockMvcResultMatchers.model().attribute("rendezvous", Matchers.allOf(Matchers.hasProperty("id", Matchers.is(rendezvousId)), Matchers.hasProperty("finalMode", Matchers.is(true)))))
 			.andExpect(MockMvcResultMatchers.model().attribute("requestURI", Matchers.is("similar/user/edit.do"))).andExpect(MockMvcResultMatchers.model().attribute("adult", Matchers.is(true)))
-			.andExpect(MockMvcResultMatchers.model().attribute("rendezvouses", Matchers.hasSize(7))).andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.isEmptyOrNullString()));
+			.andExpect(MockMvcResultMatchers.model().attribute("rendezvouses", Matchers.hasSize(6))).andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.isEmptyOrNullString()));
 
 		super.unauthenticate();
 	}
@@ -158,7 +158,7 @@ public class SimilarUserControllerTest extends AbstractTest {
 		rendezvous.getSimilars().add(similar);
 
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/similar/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).flashAttr("rendezvous", rendezvous).param("save", "")).andExpect(MockMvcResultMatchers.status().is(302))
-			.andExpect(MockMvcResultMatchers.view().name("redirect:list.do")).andExpect(MockMvcResultMatchers.redirectedUrl("list.do?pagesize=5&userId=" + userId));
+			.andExpect(MockMvcResultMatchers.view().name("redirect:/rendezvous/user/list.do")).andExpect(MockMvcResultMatchers.redirectedUrl("/rendezvous/user/list.do?pagesize=5&userId=" + userId));
 
 		super.unauthenticate();
 	}
@@ -185,7 +185,7 @@ public class SimilarUserControllerTest extends AbstractTest {
 
 		rendezvous.getSimilars().add(similar);
 
-		request = MockMvcRequestBuilders.post("/rendezvous/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).flashAttr("rendezvous", rendezvous);
+		request = MockMvcRequestBuilders.post("/similar/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).flashAttr("rendezvous", rendezvous).param("save", "");
 
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.redirectedUrl("/misc/403?pagesize=5"));
 
@@ -216,7 +216,7 @@ public class SimilarUserControllerTest extends AbstractTest {
 
 		rendezvous.getSimilars().add(similar);
 
-		request = MockMvcRequestBuilders.post("/rendezvous/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).flashAttr("rendezvous", rendezvous);
+		request = MockMvcRequestBuilders.post("/similar/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).flashAttr("rendezvous", rendezvous).param("save", "");
 
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("rendezvous/edit")).andExpect(MockMvcResultMatchers.forwardedUrl("rendezvous/edit"))
 			.andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.is("rendezvous.adult.error")));
