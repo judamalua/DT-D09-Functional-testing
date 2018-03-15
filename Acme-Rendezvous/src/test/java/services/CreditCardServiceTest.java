@@ -1,12 +1,15 @@
 
 package services;
 
+import java.util.Collection;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.CreditCard;
@@ -33,6 +36,7 @@ public class CreditCardServiceTest extends AbstractTest {
 	 * must specify a VALID CREDIT CARD in every request for a service. Optionally, he or she
 	 * can provide some comments in the request.
 	 * 
+	 * @author Antonio
 	 */
 	@Test
 	public void driver() {
@@ -156,6 +160,8 @@ public class CreditCardServiceTest extends AbstractTest {
 	 *            the expirationYear of the CreditCard
 	 * @param expected
 	 *            the exception expected to be thrown
+	 * 
+	 * @author Antonio
 	 */
 	protected void template(final String username, final String holderName, final String brandName, final String number, final int cvv, final int expirationMonth, final int expirationYear, final Class<?> expected) {
 		CreditCard creditCard;
@@ -190,6 +196,8 @@ public class CreditCardServiceTest extends AbstractTest {
 	 * This driver has an Array of Arrays called 'testingData' which contains a number of combinations
 	 * of usernames and expected exceptions, and from each tuple calls the templateUsersHaveAccessToCreditCard method
 	 * to test if the user can access to the information of a provided CreditCard.
+	 * 
+	 * @author Antonio
 	 */
 	@Test
 	public void driverUsersHaveAccessToCreditCard() {
@@ -244,6 +252,7 @@ public class CreditCardServiceTest extends AbstractTest {
 	 *            , the principal.
 	 * @param expected
 	 *            , the exception expected to happen.
+	 * @author Antonio
 	 */
 	protected void templateUsersHaveAccessToCreditCard(final String username, final Class<?> expected) {
 		CreditCard creditCard;
@@ -265,5 +274,63 @@ public class CreditCardServiceTest extends AbstractTest {
 		}
 		super.checkExceptions(expected, caught);
 
+	}
+
+	/**
+	 * This test checks that when a CreditCard is created, findAll method
+	 * returns one more CreditCard than before the creation.
+	 * 
+	 * @author Antonio
+	 */
+	@Test
+	public void testFindAllCreatingCreditCard() {
+		CreditCard creditCard;
+		Collection<CreditCard> creditCardsBefore, creditCardsAfter;
+
+		super.authenticate("user2");
+
+		creditCardsBefore = this.creditCardService.findAll();
+		creditCard = this.creditCardService.create();
+
+		creditCard.setBrandName("Brand Name");
+		creditCard.setHolderName("Holder Name");
+		creditCard.setCvv(123);
+		creditCard.setNumber("4485677312398507");
+		creditCard.setExpirationMonth(12);
+		creditCard.setExpirationYear(60);
+
+		this.creditCardService.save(creditCard);
+
+		creditCardsAfter = this.creditCardService.findAll();
+
+		Assert.isTrue(creditCardsAfter.size() == creditCardsBefore.size() + 1);
+
+		super.unauthenticate();
+	}
+
+	/**
+	 * This method checks that the findByCookieToken method in the CreditCardService returns the
+	 * CreditCard whose cookieToken attribute is the given String.
+	 * 
+	 * @author Antonio
+	 */
+	@Test
+	public void testFindByCookieToken() {
+		CreditCard creditCardById, creditCardByToken;
+		Integer creditCardId;
+		String cookieToken;
+
+		super.authenticate("user1");
+
+		creditCardId = super.getEntityId("CreditCard1");
+		creditCardById = this.creditCardService.findOne(creditCardId);
+
+		cookieToken = creditCardById.getCookieToken();
+
+		creditCardByToken = this.creditCardService.findByCookieToken(cookieToken);
+
+		Assert.isTrue(creditCardById.equals(creditCardByToken));
+
+		super.unauthenticate();
 	}
 }
