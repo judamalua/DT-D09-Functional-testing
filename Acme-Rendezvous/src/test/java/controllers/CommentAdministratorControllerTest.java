@@ -75,7 +75,9 @@ public class CommentAdministratorControllerTest extends AbstractTest {
 
 	/**
 	 * Test the delete comment function for an Administrator. The comment is linked to a Rendezvous. When deleted,
-	 * the system must return to the detailed rendezvous view.
+	 * the system must return to the detailed rendezvous view. Functional requirement 6.1:
+	 * An actor who is authenticated as an administrator must be able to:
+	 * - Remove a comment that he or she thinks is inappropriate
 	 * 
 	 * @throws Throwable
 	 * @author Antonio
@@ -109,7 +111,7 @@ public class CommentAdministratorControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test the delete comment function for an Administrator. The comment is linked to a Rendezvous. When deleted,
+	 * Test the delete comment function, logged as an User. The comment is linked to a Rendezvous. When deleted,
 	 * the system must return to the detailed rendezvous view.
 	 * 
 	 * @throws Throwable
