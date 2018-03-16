@@ -34,7 +34,7 @@ import domain.Comment;
 })
 @WebAppConfiguration
 @Transactional
-public class CommentControllerTest extends AbstractTest {
+public class CommentUserControllerTest extends AbstractTest {
 
 	private MockMvc					mockMvc;
 
