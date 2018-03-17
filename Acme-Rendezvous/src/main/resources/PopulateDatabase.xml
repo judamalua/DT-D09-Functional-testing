@@ -1385,6 +1385,7 @@
 		<property name="vat" value="ES1234-ABC" />
 		<property name="services">
 			<list>
+				<ref bean="DomainService7" />
 			</list>
 		</property>
 		<property name="name" value="Manager 2" />
