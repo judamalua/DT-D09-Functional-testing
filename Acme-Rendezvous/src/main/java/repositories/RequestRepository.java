@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import domain.Rendezvous;
 import domain.Request;
 import domain.User;
 
@@ -18,4 +19,7 @@ public interface RequestRepository extends JpaRepository<Request, Integer> {
 
 	@Query("select r from Request r where r.creditCard.id = ?1")
 	Collection<Request> getAllRequestFromCreditCard(int creditCardId);
+
+	@Query("select r from Rendezvous r join r.requests req where req.id=?1")
+	Rendezvous findRendezvousByRequestId(int requestId);
 }

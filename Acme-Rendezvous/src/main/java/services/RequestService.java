@@ -42,6 +42,9 @@ public class RequestService {
 	@Autowired
 	private UserService			userService;
 
+	@Autowired
+	private ManagerService		managerService;
+
 
 	// Simple CRUD methods --------------------------------------------------
 	/**
@@ -266,5 +269,16 @@ public class RequestService {
 		result = this.requestRepository.getAllRequestFromCreditCard(creditCardId);
 
 		return result;
+	}
+
+	public void flush() {
+		this.requestRepository.flush();
+	}
+
+	public Rendezvous findRendezvousByRequestId(final int requestId) {
+		final DomainService service = this.requestRepository.findOne(requestId).getService();
+		//Tests that the actor accessing this rendezvous is the manager of the service
+		Assert.isTrue(this.managerService.findManagerByService(service).getId() == this.actorService.findActorByPrincipal().getId());
+		return this.requestRepository.findRendezvousByRequestId(requestId);
 	}
 }
