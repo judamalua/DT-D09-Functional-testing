@@ -267,4 +267,8 @@ public class RequestService {
 
 		return result;
 	}
+
+	public void flush() {
+		this.requestRepository.flush();
+	}
 }

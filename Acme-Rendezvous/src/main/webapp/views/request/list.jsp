@@ -20,6 +20,14 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+<script type="text/javascript" src="scripts/card.js"></script>
+
+<script>
+function flipCard(creditCardId){
+	document.getElementsByClassName("creditCard"+creditCardId)[0].classList.toggle('jp-card-flipped');
+}
+</script>
+
 <!-- Variable declaration -->
 <spring:message code="request.service" var="titleService" />
 <spring:message code="request.service.picture" var="titleServicePicture" />
@@ -39,17 +47,9 @@
 		<jstl:out value="${row.service.name}"/>
 	</display:column>
 	
-	<security:authorize access="hasRole('USER')">
 		<display:column title="${titleCreditCard}">
-			<a href="creditcard/user/detailed.do?creditCardId=${row.creditCard.id}"><jstl:out value="${row.creditCard.number}"/></a>
+			<acme:showCard creditCard="${row.creditCard}"/>
 		</display:column>
-	</security:authorize>
-	
-	<security:authorize access="hasRole('MANAGER')">
-		<display:column title="${titleCreditCard}">
-			<a href="creditcard/manager/detailed.do?creditCardId=${row.creditCard.id}"><jstl:out value="${row.creditCard.number}"/></a>
-		</display:column>
-	</security:authorize>
 	
 	<display:column property="moment" title="${titleMoment}" format="${formatMoment}" sortable="true"/>
 	
