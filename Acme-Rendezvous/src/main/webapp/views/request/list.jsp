@@ -20,9 +20,17 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+<script type="text/javascript" src="scripts/card.js"></script>
+
+<script>
+function flipCard(creditCardId){
+	document.getElementsByClassName("creditCard"+creditCardId)[0].classList.toggle('jp-card-flipped');
+}
+</script>
+
 <!-- Variable declaration -->
 <spring:message code="request.service" var="titleService" />
-<spring:message code="request.service.picture" var="titleServicePicture" />
+<spring:message code="request.rendezvous" var="titleRendezvous" />
 <spring:message code="request.creditCard" var="titleCreditCard" />
 <spring:message code="request.moment" var="titleMoment" />
 <spring:message code="master.page.moment.format" var="formatMoment" />
@@ -31,27 +39,28 @@
 
 <display:table name="requests" id="row" requestURI="${requestURI}">
 	
-	<display:column title="${titleServicePicture}" >
-		<img src="${row.service.pictureUrl}" height="250" width="250"/>
+	<display:column title="${titleRendezvous}" >
+		<div class="requestId" hidden=true>${row.id}</div>
+		<div class="request${row.id}"></div>
 	</display:column>
 	
 	<display:column title="${titleService}" >
 		<jstl:out value="${row.service.name}"/>
 	</display:column>
 	
-	<security:authorize access="hasRole('USER')">
 		<display:column title="${titleCreditCard}">
-			<a href="creditcard/user/detailed.do?creditCardId=${row.creditCard.id}"><jstl:out value="${row.creditCard.number}"/></a>
+			<acme:showCard creditCard="${row.creditCard}"/>
 		</display:column>
-	</security:authorize>
-	
-	<security:authorize access="hasRole('MANAGER')">
-		<display:column title="${titleCreditCard}">
-			<a href="creditcard/manager/detailed.do?creditCardId=${row.creditCard.id}"><jstl:out value="${row.creditCard.number}"/></a>
-		</display:column>
-	</security:authorize>
 	
 	<display:column property="moment" title="${titleMoment}" format="${formatMoment}" sortable="true"/>
 	
 	<display:column property="comment" title="${titleComment}" />
 </display:table>
+
+<script src="scripts/requestRendezvousAjax.js"></script>
+<script>
+window.onload = function() {
+	getRendezvouses();
+	checkCookie();
+};
+</script>

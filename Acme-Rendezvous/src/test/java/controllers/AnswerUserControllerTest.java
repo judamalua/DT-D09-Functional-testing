@@ -57,10 +57,6 @@ public class AnswerUserControllerTest extends AbstractTest {
 	@Autowired
 	private QuestionService			questionService;
 
-	@Mock
-	@Autowired
-	private AnswerService			answerService;
-
 
 	//Supporting services -----------------------
 
@@ -195,9 +191,9 @@ public class AnswerUserControllerTest extends AbstractTest {
 		super.authenticate("User2");
 
 		// Checking that answers are stored in the database
-		Assert.notNull(this.answerService.findOne(super.getEntityId("Answer1")));
-		Assert.notNull(this.answerService.findOne(super.getEntityId("Answer2")));
-		Assert.notNull(this.answerService.findOne(super.getEntityId("Answer3")));
+		Assert.notNull(this.service.findOne(super.getEntityId("Answer1")));
+		Assert.notNull(this.service.findOne(super.getEntityId("Answer2")));
+		Assert.notNull(this.service.findOne(super.getEntityId("Answer3")));
 
 		request = MockMvcRequestBuilders.get("/answer/user/delete.do?rendezvousId=" + rendezvousId);
 
@@ -205,9 +201,9 @@ public class AnswerUserControllerTest extends AbstractTest {
 			.andExpect(MockMvcResultMatchers.redirectedUrl("/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvousId + "&anonymous=false"));
 
 		// Checking that answers were properly deleted
-		Assert.isNull(this.answerService.findOne(super.getEntityId("Answer1")));
-		Assert.isNull(this.answerService.findOne(super.getEntityId("Answer2")));
-		Assert.isNull(this.answerService.findOne(super.getEntityId("Answer3")));
+		Assert.isNull(this.service.findOne(super.getEntityId("Answer1")));
+		Assert.isNull(this.service.findOne(super.getEntityId("Answer2")));
+		Assert.isNull(this.service.findOne(super.getEntityId("Answer3")));
 
 		super.unauthenticate();
 	}

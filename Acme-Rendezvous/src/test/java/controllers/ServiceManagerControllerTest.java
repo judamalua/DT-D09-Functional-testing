@@ -128,7 +128,7 @@ public class ServiceManagerControllerTest extends AbstractTest {
 		request = MockMvcRequestBuilders.get("/service/manager/list.do");
 
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("service/list")).andExpect(MockMvcResultMatchers.forwardedUrl("service/list"))
-			.andExpect(MockMvcResultMatchers.model().attribute("services", Matchers.hasSize(5))).andExpect(MockMvcResultMatchers.model().attribute("requestURI", Matchers.is("service/manager/list.do")))
+			.andExpect(MockMvcResultMatchers.model().attribute("services", Matchers.hasSize(5))).andExpect(MockMvcResultMatchers.model().attribute("requestURI", Matchers.is("service/manager/list.do?")))
 			.andExpect(MockMvcResultMatchers.model().attribute("page", Matchers.is(0))).andExpect(MockMvcResultMatchers.model().attribute("pageNum", Matchers.is(2)))
 			.andExpect(MockMvcResultMatchers.model().attribute("managedServices", Matchers.hasSize(5))).andExpect(MockMvcResultMatchers.model().attribute("managedServices", Matchers.not(Matchers.contains(false))));
 

@@ -141,19 +141,25 @@ public class CreditCardService {
 	 *         The random token
 	 */
 	private String generateCookieToken() {
-		String res = "";
+		String alphabet, result;
 		Random random;
-		random = new Random();
+		StringBuilder stringBuilder;
+		Collection<String> allCookieTokens;
 
-		final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgzijklmnopqrstuvwxyz0123456789";
+		random = new Random();
+		stringBuilder = new StringBuilder();
+		alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgzijklmnopqrstuvwxyz0123456789";
 
 		for (int i = 0; i < 14; i++)
-			res += alphabet.charAt(random.nextInt(alphabet.length()));
+			stringBuilder.append(alphabet.charAt(random.nextInt(alphabet.length())));
 
-		if (this.creditCardRepository.getAllCookieTokens().contains(res.toString()))
-			return this.generateCookieToken();
-		else
-			return res;
+		result = stringBuilder.toString();
+		allCookieTokens = this.creditCardRepository.getAllCookieTokens();
+
+		if (allCookieTokens.contains(result))
+			result = this.generateCookieToken();
+
+		return result;
 	}
 	/**
 	 * Finds a credit card by its token. If the user is not the owner of the credit card the search will fail.
@@ -165,10 +171,15 @@ public class CreditCardService {
 	 *         The credit card
 	 */
 	public CreditCard findByCookieToken(final String cookieToken) {
-		final CreditCard result = this.creditCardRepository.findByCookieToken(cookieToken);
+		CreditCard result;
+
+		result = this.creditCardRepository.findByCookieToken(cookieToken);
+
 		//Checks that the CreditCard hasn't expired
 		this.checkCreditCardExpired(result);
+
 		Assert.isTrue(result.getUser().getId() == this.actorService.findActorByPrincipal().getId());
+
 		return result;
 	}
 
@@ -234,5 +245,15 @@ public class CreditCardService {
 		if (ccYear == actualYear)
 			Assert.isTrue(ccMonth > actualMonth, "CreditCard expiration Date error");
 
+	}
+
+	/**
+	 * This method flushes the repository, this forces the cache to be saved to the database, which then forces the test data to be validated. This is only used
+	 * in tests
+	 * 
+	 * @author Antonio
+	 */
+	public void flush() {
+		this.creditCardRepository.flush();
 	}
 }

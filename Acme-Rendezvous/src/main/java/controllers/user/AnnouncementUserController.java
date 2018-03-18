@@ -161,7 +161,7 @@ public class AnnouncementUserController extends AbstractController {
 	 * Gets the form to create a new Announcement associated to the Rendezvous with id rendezvousId
 	 * 
 	 * @param rendezvousId
-	 * @return a ModelAndView object with a form to create a new Announcement assocated to
+	 * @return a ModelAndView object with a form to create a new Announcement associated to
 	 *         the Rendezvous with id rendezvousId
 	 * @author MJ
 	 */
