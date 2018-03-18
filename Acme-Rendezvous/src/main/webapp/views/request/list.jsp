@@ -30,7 +30,7 @@ function flipCard(creditCardId){
 
 <!-- Variable declaration -->
 <spring:message code="request.service" var="titleService" />
-<spring:message code="request.service.picture" var="titleServicePicture" />
+<spring:message code="request.rendezvous" var="titleRendezvous" />
 <spring:message code="request.creditCard" var="titleCreditCard" />
 <spring:message code="request.moment" var="titleMoment" />
 <spring:message code="master.page.moment.format" var="formatMoment" />
@@ -39,8 +39,9 @@ function flipCard(creditCardId){
 
 <display:table name="requests" id="row" requestURI="${requestURI}">
 	
-	<display:column title="${titleServicePicture}" >
-		<img src="${row.service.pictureUrl}" height="250" width="250"/>
+	<display:column title="${titleRendezvous}" >
+		<div class="requestId" hidden=true>${row.id}</div>
+		<div class="request${row.id}"></div>
 	</display:column>
 	
 	<display:column title="${titleService}" >
@@ -55,3 +56,11 @@ function flipCard(creditCardId){
 	
 	<display:column property="comment" title="${titleComment}" />
 </display:table>
+
+<script src="scripts/requestRendezvousAjax.js"></script>
+<script>
+window.onload = function() {
+	getRendezvouses();
+	checkCookie();
+};
+</script>

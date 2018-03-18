@@ -8,11 +8,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.RequestService;
 import services.ServiceService;
 import controllers.AbstractController;
 import domain.DomainService;
+import domain.Rendezvous;
 import domain.Request;
 
 @Controller
@@ -22,6 +25,8 @@ public class RequestManagerController extends AbstractController {
 	// Services ---------------------------------------------------------------
 	@Autowired
 	private ServiceService	serviceService;
+	@Autowired
+	private RequestService	requestService;
 
 
 	// Constructor ---------------------------------------------------------------
@@ -60,4 +65,15 @@ public class RequestManagerController extends AbstractController {
 
 	}
 
+	@RequestMapping(value = "/getRendezvous", method = RequestMethod.GET)
+	public @ResponseBody
+	String getRendezvousByRequest(@RequestParam final int requestId) {
+		String response = "null";
+		try {
+			final Rendezvous rendezvous = this.requestService.findRendezvousByRequestId(requestId);
+			response = rendezvous.getId() + "," + rendezvous.getName();
+		} catch (final Throwable e) {
+		}
+		return response;
+	}
 }

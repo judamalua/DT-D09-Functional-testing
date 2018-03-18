@@ -101,6 +101,8 @@
 		<security:intercept-url pattern="/request/user/edit.do" access="hasRole('USER')" requires-channel="https" />
 		<security:intercept-url pattern="/request/user/ajaxCard.do" access="hasRole('USER')" requires-channel="https" />
 		<security:intercept-url pattern="/request/manager/list.do" access="hasRole('MANAGER')" requires-channel="https" />
+		<security:intercept-url pattern="/request/manager/getRendezvous.do" access="hasRole('MANAGER')" requires-channel="https" />
+		
 		
 		<security:intercept-url pattern="/service/list.do" access="isAuthenticated()" requires-channel="https" />
 		<security:intercept-url pattern="/service/manager/**" access="hasRole('MANAGER')" requires-channel="https" />
