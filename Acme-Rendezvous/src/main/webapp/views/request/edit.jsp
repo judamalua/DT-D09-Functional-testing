@@ -41,6 +41,7 @@
 	<spring:message code="request.rendezvous.select" />
 	
 	<jstl:if test="${fn:length(rendezvouses) != 0}">
+	<div>
 		<div class="input-field col s3">
 			<select id="rendezvous" name="rendezvous">
   				<jstl:forEach var="i" items="${rendezvouses}">
@@ -48,6 +49,7 @@
   				</jstl:forEach>
 			</select> 
 		</div>
+	</div>
 	</jstl:if>
 	
 	<jstl:if test="${fn:length(rendezvouses) == 0}">
