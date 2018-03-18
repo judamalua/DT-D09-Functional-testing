@@ -27,90 +27,90 @@
 	<!-- Access control -->
 
 	<security:http auto-config="true" use-expressions="true">
-		<security:intercept-url pattern="/" access="permitAll" requires-channel="https" /> 
+		<security:intercept-url pattern="/" access="permitAll"/> 
 
-		<security:intercept-url pattern="/favicon.ico" access="permitAll" requires-channel="https" /> 
-		<security:intercept-url pattern="/images/**" access="permitAll" requires-channel="https" /> 
-		<security:intercept-url pattern="/scripts/**" access="permitAll" requires-channel="https" /> 
-		<security:intercept-url pattern="/styles/**" access="permitAll" requires-channel="https" /> 
+		<security:intercept-url pattern="/favicon.ico" access="permitAll"/> 
+		<security:intercept-url pattern="/images/**" access="permitAll"/> 
+		<security:intercept-url pattern="/scripts/**" access="permitAll"/> 
+		<security:intercept-url pattern="/styles/**" access="permitAll"/> 
 		
- 		<security:intercept-url pattern="/cookie/policy.do" access="permitAll" requires-channel="https" />
- 		<security:intercept-url pattern="/cookie/ajax/es.do" access="permitAll" requires-channel="https" /> 
-		<security:intercept-url pattern="/cookie/ajax/en.do" access="permitAll" requires-channel="https" />
+ 		<security:intercept-url pattern="/cookie/policy.do" access="permitAll"/>
+ 		<security:intercept-url pattern="/cookie/ajax/es.do" access="permitAll"/> 
+		<security:intercept-url pattern="/cookie/ajax/en.do" access="permitAll"/>
 
-		<security:intercept-url pattern="/views/misc/index.jsp" access="permitAll" requires-channel="https"/>
+		<security:intercept-url pattern="/views/misc/index.jsp" access="permitAll"/>
 
-		<security:intercept-url pattern="/security/login.do" access="permitAll" requires-channel="https" /> 
-		<security:intercept-url pattern="/security/loginFailure.do" access="permitAll" requires-channel="https" /> 
+		<security:intercept-url pattern="/security/login.do" access="permitAll"/> 
+		<security:intercept-url pattern="/security/loginFailure.do" access="permitAll"/> 
 
-		<security:intercept-url pattern="/welcome/index.do" access="permitAll" requires-channel="https" /> 
+		<security:intercept-url pattern="/welcome/index.do" access="permitAll"/> 
 
 		
-		<security:intercept-url pattern="/rendezvous/list.do" access="permitAll" requires-channel="https" /> 
-		<security:intercept-url pattern="/rendezvous/detailed-rendezvous.do" access="permitAll" requires-channel="https" /> 
-		<security:intercept-url pattern="/user/list.do" access="permitAll" requires-channel="https" /> 
-		<security:intercept-url pattern="/user/display.do" access="permitAll" requires-channel="https" /> 
-		<security:intercept-url pattern="/answer/list.do" access="permitAll" requires-channel="https" /> 
-		<security:intercept-url pattern="/actor/display.do" access="isAuthenticated()" requires-channel="https"  />
-		<security:intercept-url pattern="actor/user/register.do" access="permitAll" requires-channel="https" /> 
-		<security:intercept-url pattern="/rendezvous/user/**" access="hasRole('USER')" requires-channel="https" /> 
-		<security:intercept-url pattern="/similar/user/**" access="hasRole('USER')" requires-channel="https" /> 
+		<security:intercept-url pattern="/rendezvous/list.do" access="permitAll"/> 
+		<security:intercept-url pattern="/rendezvous/detailed-rendezvous.do" access="permitAll"/> 
+		<security:intercept-url pattern="/user/list.do" access="permitAll"/> 
+		<security:intercept-url pattern="/user/display.do" access="permitAll"/> 
+		<security:intercept-url pattern="/answer/list.do" access="permitAll"/> 
+		<security:intercept-url pattern="/actor/display.do" access="isAuthenticated()" />
+		<security:intercept-url pattern="actor/user/register.do" access="permitAll"/> 
+		<security:intercept-url pattern="/rendezvous/user/**" access="hasRole('USER')"/> 
+		<security:intercept-url pattern="/similar/user/**" access="hasRole('USER')"/> 
 		
-		<security:intercept-url pattern="/actor/user/edit.do" access="hasRole('USER')" requires-channel="https" /> 
-		<security:intercept-url pattern="/actor/admin/edit.do" access="hasRole('ADMIN')" requires-channel="https" /> 
-		<security:intercept-url pattern="/actor/register.do" access="isAnonymous()" requires-channel="https" /> 
-		<security:intercept-url pattern="/actor/admin/register.do" access="hasRole('ADMIN')" requires-channel="https" /> 
-		<security:intercept-url pattern="actor/user/edit.do" access="hasRole('USER')" requires-channel="https" />
-		<security:intercept-url pattern="actor/admin/register.do" access="hasRole('ADMIN')" requires-channel="https"  />
-		<security:intercept-url pattern="actor/admin/edit.do" access="hasRole('ADMIN')" requires-channel="https"  />
+		<security:intercept-url pattern="/actor/user/edit.do" access="hasRole('USER')"/> 
+		<security:intercept-url pattern="/actor/admin/edit.do" access="hasRole('ADMIN')"/> 
+		<security:intercept-url pattern="/actor/register.do" access="isAnonymous()"/> 
+		<security:intercept-url pattern="/actor/admin/register.do" access="hasRole('ADMIN')"/> 
+		<security:intercept-url pattern="actor/user/edit.do" access="hasRole('USER')"/>
+		<security:intercept-url pattern="actor/admin/register.do" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="actor/admin/edit.do" access="hasRole('ADMIN')" />
 		
-		<security:intercept-url pattern="/comment/user/create.do" access="hasRole('USER')" requires-channel="https" /> 
-		<security:intercept-url pattern="/comment/user/edit.do" access="hasRole('USER')" requires-channel="https" /> 
-		<security:intercept-url pattern="/comment/user/reply.do" access="hasRole('USER')" requires-channel="https" /> 
-		<security:intercept-url pattern="/comment/admin/delete.do" access="hasRole('ADMIN')" requires-channel="https" />
+		<security:intercept-url pattern="/comment/user/create.do" access="hasRole('USER')"/> 
+		<security:intercept-url pattern="/comment/user/edit.do" access="hasRole('USER')"/> 
+		<security:intercept-url pattern="/comment/user/reply.do" access="hasRole('USER')"/> 
+		<security:intercept-url pattern="/comment/admin/delete.do" access="hasRole('ADMIN')"/>
 
-		<security:intercept-url pattern="/comment/listFromRendezvous.do" access="permitAll" requires-channel="https" />
-		<security:intercept-url pattern="/comment/listFromComment.do" access="permitAll" requires-channel="https" />
+		<security:intercept-url pattern="/comment/listFromRendezvous.do" access="permitAll"/>
+		<security:intercept-url pattern="/comment/listFromComment.do" access="permitAll"/>
 		
-		<security:intercept-url pattern="/announcement/admin/delete.do" access="hasRole('ADMIN')" requires-channel="https" /> 
-		<security:intercept-url pattern="/announcement/user/create.do" access="hasRole('USER')" requires-channel="https" /> 
-		<security:intercept-url pattern="/announcement/user/list.do" access="hasRole('USER')" requires-channel="https" />
-		<security:intercept-url pattern="/announcement/user/list-created.do" access="hasRole('USER')" requires-channel="https" />
-		<security:intercept-url pattern="/announcement/user/edit.do" access="hasRole('USER')" requires-channel="https" /> 
-		<security:intercept-url pattern="/announcement/user/delete.do" access="hasRole('USER')" requires-channel="https" /> 
+		<security:intercept-url pattern="/announcement/admin/delete.do" access="hasRole('ADMIN')"/> 
+		<security:intercept-url pattern="/announcement/user/create.do" access="hasRole('USER')"/> 
+		<security:intercept-url pattern="/announcement/user/list.do" access="hasRole('USER')"/>
+		<security:intercept-url pattern="/announcement/user/list-created.do" access="hasRole('USER')"/>
+		<security:intercept-url pattern="/announcement/user/edit.do" access="hasRole('USER')"/> 
+		<security:intercept-url pattern="/announcement/user/delete.do" access="hasRole('USER')"/> 
 	
 		
-		<security:intercept-url pattern="/answer/user/edit.do" access="hasRole('USER')" requires-channel="https"/>
-		<security:intercept-url pattern="/answer/user/delete.do" access="hasRole('USER')" requires-channel="https"/> 
+		<security:intercept-url pattern="/answer/user/edit.do" access="hasRole('USER')">
+		<security:intercept-url pattern="/answer/user/delete.do" access="hasRole('USER')"> 
 		
-		<security:intercept-url pattern="/question/user/**" access="hasRole('USER')" requires-channel="https"/>
+		<security:intercept-url pattern="/question/user/**" access="hasRole('USER')">
 		
-		<security:intercept-url pattern="/rendezvous/admin/**" access="hasRole('ADMIN')" requires-channel="https"/>
+		<security:intercept-url pattern="/rendezvous/admin/**" access="hasRole('ADMIN')">
 		
-		<security:intercept-url pattern="/dashboard/admin/**" access="hasRole('ADMIN')" requires-channel="https"/>
+		<security:intercept-url pattern="/dashboard/admin/**" access="hasRole('ADMIN')">
 		
-		<security:intercept-url pattern="/configuration/admin/**" access="hasRole('ADMIN')" requires-channel="https"/>
+		<security:intercept-url pattern="/configuration/admin/**" access="hasRole('ADMIN')">
 		
-		<security:intercept-url pattern="/law/termsAndConditions.do" access="permitAll" requires-channel="https" />
+		<security:intercept-url pattern="/law/termsAndConditions.do" access="permitAll"/>
 		
-		<security:intercept-url pattern="/request/user/create.do" access="hasRole('USER')" requires-channel="https" />
-		<security:intercept-url pattern="/request/user/edit.do" access="hasRole('USER')" requires-channel="https" />
-		<security:intercept-url pattern="/request/user/list.do" access="hasRole('USER')" requires-channel="https" />
-		<security:intercept-url pattern="/request/user/ajaxCard.do" access="hasRole('USER')" requires-channel="https" />
-		<security:intercept-url pattern="/request/manager/list.do" access="hasRole('MANAGER')" requires-channel="https" />
+		<security:intercept-url pattern="/request/user/create.do" access="hasRole('USER')"/>
+		<security:intercept-url pattern="/request/user/edit.do" access="hasRole('USER')"/>
+		<security:intercept-url pattern="/request/user/list.do" access="hasRole('USER')"/>
+		<security:intercept-url pattern="/request/user/ajaxCard.do" access="hasRole('USER')"/>
+		<security:intercept-url pattern="/request/manager/list.do" access="hasRole('MANAGER')"/>
 		
-		<security:intercept-url pattern="/service/list.do" access="permitAll" requires-channel="https" />
-		<security:intercept-url pattern="/service/manager/**" access="hasRole('MANAGER')" requires-channel="https" />
-		<security:intercept-url pattern="/service/admin/**" access="hasRole('ADMIN')" requires-channel="https" />
+		<security:intercept-url pattern="/service/list.do" access="permitAll"/>
+		<security:intercept-url pattern="/service/manager/**" access="hasRole('MANAGER')"/>
+		<security:intercept-url pattern="/service/admin/**" access="hasRole('ADMIN')"/>
 		
-		<security:intercept-url pattern="/category/list.do" access="permitAll" requires-channel="https" />
-		<security:intercept-url pattern="/category/admin/**" access="hasRole('ADMIN')" requires-channel="https" />
+		<security:intercept-url pattern="/category/list.do" access="permitAll"/>
+		<security:intercept-url pattern="/category/admin/**" access="hasRole('ADMIN')"/>
 		
-		<security:intercept-url pattern="/actor/register-manager.do" access="permitAll" requires-channel="https" />	
-		<security:intercept-url pattern="/actor/manager/edit.do" access="hasRole('MANAGER')" requires-channel="https" />
+		<security:intercept-url pattern="/actor/register-manager.do" access="permitAll"/>	
+		<security:intercept-url pattern="/actor/manager/edit.do" access="hasRole('MANAGER')"/>
 		
-		<security:intercept-url pattern="/creditcard/manager/detailed.do" access="hasRole('MANAGER')" requires-channel="https" />
-		<security:intercept-url pattern="/creditcard/user/detailed.do" access="hasRole('USER')" requires-channel="https" />
+		<security:intercept-url pattern="/creditcard/manager/detailed.do" access="hasRole('MANAGER')"/>
+		<security:intercept-url pattern="/creditcard/user/detailed.do" access="hasRole('USER')"/>
 		
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
