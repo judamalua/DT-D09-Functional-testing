@@ -127,7 +127,7 @@ public class RequestUserController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView saveRequest(@Valid final Request request, final BindingResult binding, @ModelAttribute("rendezvous") final int rendezvousId) {
 		ModelAndView result;
-
+		this.creditCardService.validatorCreditCard(request.getCreditCard(), binding);
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(request);
 		else

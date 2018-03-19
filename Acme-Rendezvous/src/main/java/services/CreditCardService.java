@@ -12,6 +12,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.CreditCardRepository;
 import domain.CreditCard;
@@ -40,6 +42,9 @@ public class CreditCardService {
 
 	@Autowired
 	private UserService				userService;
+
+	@Autowired
+	private Validator				validator;
 
 
 	// Simple CRUD methods --------------------------------------------------
@@ -245,6 +250,10 @@ public class CreditCardService {
 		if (ccYear == actualYear)
 			Assert.isTrue(ccMonth > actualMonth, "CreditCard expiration Date error");
 
+	}
+
+	public void validatorCreditCard(final CreditCard creditCard, final BindingResult binding) {
+		this.validator.validate(creditCard, binding);
 	}
 
 	/**
