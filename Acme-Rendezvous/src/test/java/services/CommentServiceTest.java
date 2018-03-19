@@ -29,9 +29,6 @@ public class CommentServiceTest extends AbstractTest {
 	private ActorService		actorService;
 
 	@Autowired
-	private UserService			userService;
-
-	@Autowired
 	private RendezvousService	rendezvousService;
 
 

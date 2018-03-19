@@ -189,6 +189,23 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="DomainService7" class="domain.DomainService">
+		<property name="name" value="Alquila un castillo hinchable CANCELADO" />
+		<property name="description" value="Genial para fiestas con niños y adultos" />
+		<property name="pictureUrl"
+			value="https://www.castilloshinchablessaltofeliz.com/imagenes/productos/castillo-hinchable-nikita-con-doble-tobogan-interiores-y-obstaculos-en-pvc-20m2-1.jpg" />
+		<property name="cancelled" value="true" />
+		<property name="price" value="380.0" />
+		<property name="requests">
+			<list>
+			</list>
+		</property>
+		<property name="categories">
+			<list>
+				<ref bean="Category1" />
+			</list>
+		</property>
+	</bean>
 
 
 	<!-- %%%%%% security.UserAccount %%%%%% -->
@@ -585,6 +602,16 @@
 		<property name="cvv" value="168" />
 		<property name="cookieToken" value="4QVuKonOpCTz7m" />
 		<property name="user" ref="User1" />
+	</bean>
+	<bean id="CreditCard2" class="domain.CreditCard">
+		<property name="holderName" value="Paco" />
+		<property name="brandName" value="Visa" />
+		<property name="number" value="4916457295063868" />
+		<property name="expirationMonth" value="12" />
+		<property name="expirationYear" value="20" />
+		<property name="cvv" value="168" />
+		<property name="cookieToken" value="4QVwKonOpCTz7m" />
+		<property name="user" ref="User2" />
 	</bean>
 
 
@@ -1255,6 +1282,7 @@
 				<ref bean="DomainService3" />
 				<ref bean="DomainService4" />
 				<ref bean="DomainService6" />
+				<ref bean="DomainService7" />
 			</list>
 		</property>
 	</bean>
@@ -1357,6 +1385,7 @@
 		<property name="vat" value="ES1234-ABC" />
 		<property name="services">
 			<list>
+				<ref bean="DomainService7" />
 			</list>
 		</property>
 		<property name="name" value="Manager 2" />

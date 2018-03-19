@@ -175,7 +175,7 @@ public class QuestionService {
 		Rendezvous rendezvous;
 		User user;
 		Collection<Answer> answers;
-
+		this.actorService.checkUserLogin();
 		if (question.getId() == 0) {
 			answers = new HashSet<Answer>();
 
