@@ -103,7 +103,7 @@ public class ActorControllerTest extends AbstractTest {
 	/**
 	 * 
 	 * 
-	 * Test no logged can�t display his profile
+	 * Test no logged can't display his profile
 	 * 
 	 * @throws Exception
 	 * @author Luis
@@ -191,7 +191,7 @@ public class ActorControllerTest extends AbstractTest {
 	 * 4.1 An actor who is not authenticated must be able to: Register to the system as a user.
 	 * 
 	 * 
-	 * Test not authenticated can�t register as user with fails
+	 * Test not authenticated can't register as user with fails
 	 * 
 	 * @throws Exception
 	 * @author Luis

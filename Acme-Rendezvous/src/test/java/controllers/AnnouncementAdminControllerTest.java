@@ -101,7 +101,7 @@ public class AnnouncementAdminControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * This driver test several negative use cases regarding functional requirement 7.1. An actor who is authenticated as a administrator must be able to
+	 * This driver test several negative use cases regarding functional requirement 17.1. An actor who is authenticated as a administrator must be able to
 	 * remove an announcement that he or she thinks is inappropriate. Every test is explained inside and must return 302 code.
 	 * 
 	 * @throws Exception

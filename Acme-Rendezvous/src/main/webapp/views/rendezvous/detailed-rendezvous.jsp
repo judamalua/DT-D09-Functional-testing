@@ -206,8 +206,8 @@
 		
 		<br />
 		
-		<acme:button url="request/user/list.do?rendezvousId=${rendezvous.id}" code="rendezvous.request.list"/>
-	</jstl:if>	
+<%-- 		<acme:button url="request/user/list.do?rendezvousId=${rendezvous.id}" code="rendezvous.request.list"/>
+ --%>	</jstl:if>	
 </security:authorize>
 
 <display:table name="${requests}" id="row" requestURI="rendezvous/detailed-rendezvous.do"

@@ -131,7 +131,7 @@ public class ActorAdminController extends AbstractController {
 	/**
 	 * 
 	 * 
-	 * That method update the profile of a user.
+	 * That method update the profile of a administrator.
 	 * 
 	 * @param save
 	 * @return ModelandView

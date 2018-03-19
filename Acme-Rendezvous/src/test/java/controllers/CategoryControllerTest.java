@@ -21,8 +21,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import services.ConfigurationService;
 import services.CategoryService;
+import services.ConfigurationService;
 import utilities.AbstractTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -37,12 +37,12 @@ public class CategoryControllerTest extends AbstractTest {
 
 	@InjectMocks
 	@Autowired
-	private CategoryController	controller;
+	private CategoryController		controller;
 
 	//Service under test ------------------------
 	@Mock
 	@Autowired
-	private CategoryService		service;
+	private CategoryService			service;
 
 	@Mock
 	@Autowired
@@ -68,7 +68,6 @@ public class CategoryControllerTest extends AbstractTest {
 	 * @throws Exception
 	 * @author Alejandro
 	 */
-	@SuppressWarnings("unchecked")
 	@Test
 	public void listCategoryPositive() throws Exception {
 		final MockHttpServletRequestBuilder request;
@@ -76,34 +75,25 @@ public class CategoryControllerTest extends AbstractTest {
 		request = MockMvcRequestBuilders.get("/category/list.do");
 
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("category/list")).andExpect(MockMvcResultMatchers.forwardedUrl("category/list"))
-			.andExpect(MockMvcResultMatchers.model().attribute("categories", Matchers.hasSize(4)))
-			.andExpect(MockMvcResultMatchers.model().attribute("requestURI", Matchers.is("category/list.do?")))
-			.andExpect(MockMvcResultMatchers.model().attribute("page", Matchers.is(0)))
-			.andExpect(MockMvcResultMatchers.model().attribute("pageNum", Matchers.is(1)));
+			.andExpect(MockMvcResultMatchers.model().attribute("categories", Matchers.hasSize(4))).andExpect(MockMvcResultMatchers.model().attribute("requestURI", Matchers.is("category/list.do?")))
+			.andExpect(MockMvcResultMatchers.model().attribute("page", Matchers.is(0))).andExpect(MockMvcResultMatchers.model().attribute("pageNum", Matchers.is(1)));
 	}
-	
-	
+
 	/**
 	 * Test the public list of subcategories from a Category in the system. Must return 200 code.
 	 * 
 	 * @throws Exception
 	 * @author Alejandro
 	 */
-	@SuppressWarnings("unchecked")
 	@Test
 	public void listSubCategoryPositive() throws Exception {
 		final MockHttpServletRequestBuilder request;
 
-		request = MockMvcRequestBuilders.get("/category/list.do?categoryId="  + super.getEntityId("Category1"));
+		request = MockMvcRequestBuilders.get("/category/list.do?categoryId=" + super.getEntityId("Category1"));
 
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("category/list")).andExpect(MockMvcResultMatchers.forwardedUrl("category/list"))
-			.andExpect(MockMvcResultMatchers.model().attribute("categories", Matchers.hasSize(2)))
-			.andExpect(MockMvcResultMatchers.model().attribute("requestURI", Matchers.containsString("category/list.do?categoryId=")))
-			.andExpect(MockMvcResultMatchers.model().attribute("page", Matchers.is(0)))
-			.andExpect(MockMvcResultMatchers.model().attribute("pageNum", Matchers.is(1)));
+			.andExpect(MockMvcResultMatchers.model().attribute("categories", Matchers.hasSize(2))).andExpect(MockMvcResultMatchers.model().attribute("requestURI", Matchers.containsString("category/list.do?categoryId=")))
+			.andExpect(MockMvcResultMatchers.model().attribute("page", Matchers.is(0))).andExpect(MockMvcResultMatchers.model().attribute("pageNum", Matchers.is(1)));
 	}
-	
-
-	
 
 }
