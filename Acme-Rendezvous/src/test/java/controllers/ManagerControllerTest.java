@@ -77,7 +77,7 @@ public class ManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * An actor who is authenticated as a user must be able to: Edit and Update his profile
+	 * 3.1 An actor who is not authenticated must be able to:Register to the system as a manager
 	 * 
 	 * Manager can Register in the system
 	 * 
@@ -114,6 +114,27 @@ public class ManagerControllerTest extends AbstractTest {
 					.param("phoneNumber", "606587789").param("vat", "ES12E223EE").param("postalAddress", "Calle Picadero 9").param("userAccount.username", "luisguti").param("userAccount.password", "luisguti").param("confirmPassword", "luisguti")
 					.sessionAttr("manager", new Manager()).param("save", "")).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/welcome/index.do"))
 			.andExpect(MockMvcResultMatchers.redirectedUrl("/welcome/index.do?pagesize=5"));
+
+		super.unauthenticate();
+	}
+
+	/**
+	 * 3.1 An actor who is not authenticated must be able to:Register to the system as a manager
+	 * 
+	 * 
+	 * Test not authenticated can´t register as manager with errors
+	 * 
+	 * @throws Exception
+	 * @author Luis
+	 */
+	@Test
+	public void testNoAuthenticatedCantRegisterAsManegerWithErrors() throws Exception {
+		super.authenticate(null);
+
+		this.mockMvc.perform(
+			MockMvcRequestBuilders.post("/actor/register-manager.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "Luis").param("surname", "Gutiérrez López").param("birthDate", "09/04/2000").param("email", "ferguti90@gmail.com")
+				.param("phoneNumber", "606587789").param("vat", "3EE").param("postalAddress", "Calle Picadero 9").param("userAccount.username", "luisguti").param("userAccount.password", "guti").param("confirmPassword", "luisguti")
+				.sessionAttr("manager", new Manager()).param("save", "")).andExpect(MockMvcResultMatchers.status().isOk());
 
 		super.unauthenticate();
 	}
