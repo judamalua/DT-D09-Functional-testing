@@ -572,7 +572,7 @@
  <!-- %%%%%%  domain.Slider %%%%%% --> 
 <bean id="Slider1" class="domain.Slider"> 
 <property name="title_en" value="Welcome to Adventure Meetups!" /> 
-<property name="title_es" value="¡Bienvenid@ a Quedadas de Aventuras!" /> 
+<property name="title_es" value="¡Bienvenid@ a Adventure Meetups!" /> 
 <property name="text_en" value="Your place to organise your adventure meetups!" /> 
 <property name="text_es" value="Tu sitio para organizar quedadas de aventura" /> 
 <property name="pictureUrl" value="https://tinyurl.com/adventure-meetup" /> 

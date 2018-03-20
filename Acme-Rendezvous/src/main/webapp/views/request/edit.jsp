@@ -38,7 +38,7 @@
 	<form:hidden path="version"/>
 	<form:hidden path="moment"/>
 	<form:hidden path="service"/>
-	<acme:textarea code="request.comment" path="comment"/>
+	<acme:textarea code="request.comment" path="comment" required = "true"/>
 	
 	
 	<jstl:if test="${fn:length(rendezvouses) != 0}">
@@ -48,7 +48,7 @@
   					<option value="${i.id}"><jstl:out value="${i.name}"/></option>
   				</jstl:forEach>
 			</select>
-			<label for = "rendezvous"><spring:message code="request.rendezvous.select" /></label> 
+			<label for = "rendezvous"><spring:message code="request.rendezvous.select" />*</label> 
 		</div>
 	</jstl:if>
 	
