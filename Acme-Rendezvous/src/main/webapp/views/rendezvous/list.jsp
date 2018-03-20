@@ -52,7 +52,7 @@
 
 	<display:column>
 		<jstl:if
-			test="${requestURI==\"rendezvous/user/list.do\" and rendezvous.moment>=currentDate}">
+			test="${requestURI==\"rendezvous/user/list.do?\" and rendezvous.moment>=currentDate}">
 			<jstl:if
 				test="${!rendezvous.finalMode and !rendezvous.deleted and rendezvous.moment>currentDate}">
 				<acme:button

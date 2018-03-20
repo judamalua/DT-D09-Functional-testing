@@ -49,7 +49,6 @@ public class RendezvousAdminController {
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/misc/403");
 		}
-
 		return result;
 
 	}

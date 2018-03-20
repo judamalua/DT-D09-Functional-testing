@@ -76,7 +76,7 @@ public class RendezvousControllerTest extends AbstractTest {
 		request = MockMvcRequestBuilders.get("/rendezvous/list.do?anonymous=true");
 
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("rendezvous/list")).andExpect(MockMvcResultMatchers.forwardedUrl("rendezvous/list"))
-			.andExpect(MockMvcResultMatchers.model().attribute("rendezvouses", Matchers.hasSize(5))).andExpect(MockMvcResultMatchers.model().attribute("requestURI", Matchers.is("rendezvous/list.do")))
+			.andExpect(MockMvcResultMatchers.model().attribute("rendezvouses", Matchers.hasSize(5))).andExpect(MockMvcResultMatchers.model().attribute("requestURI", Matchers.is("rendezvous/list.do?")))
 			.andExpect(MockMvcResultMatchers.model().attribute("page", Matchers.is(0))).andExpect(MockMvcResultMatchers.model().attribute("pageNum", Matchers.is(1))).andExpect(MockMvcResultMatchers.model().attribute("anonymous", Matchers.is(true)))
 			.andExpect(MockMvcResultMatchers.model().attribute("rendezvouses", Matchers.hasItems(Matchers.allOf(Matchers.hasProperty("adultOnly", Matchers.is(false))))));
 	}
@@ -97,7 +97,7 @@ public class RendezvousControllerTest extends AbstractTest {
 		request = MockMvcRequestBuilders.get("/rendezvous/list.do?anonymous=false");
 
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("rendezvous/list")).andExpect(MockMvcResultMatchers.forwardedUrl("rendezvous/list"))
-			.andExpect(MockMvcResultMatchers.model().attribute("rendezvouses", Matchers.hasSize(5))).andExpect(MockMvcResultMatchers.model().attribute("requestURI", Matchers.is("rendezvous/list.do")))
+			.andExpect(MockMvcResultMatchers.model().attribute("rendezvouses", Matchers.hasSize(5))).andExpect(MockMvcResultMatchers.model().attribute("requestURI", Matchers.is("rendezvous/list.do?")))
 			.andExpect(MockMvcResultMatchers.model().attribute("page", Matchers.is(0))).andExpect(MockMvcResultMatchers.model().attribute("pageNum", Matchers.is(2))).andExpect(MockMvcResultMatchers.model().attribute("anonymous", Matchers.is(false)))
 			.andExpect(MockMvcResultMatchers.model().attribute("rendezvouses", Matchers.hasItems(Matchers.anyOf(Matchers.hasProperty("adultOnly", Matchers.is(false)), Matchers.hasProperty("adultOnly", Matchers.is(true))))));
 
@@ -119,7 +119,7 @@ public class RendezvousControllerTest extends AbstractTest {
 		request = MockMvcRequestBuilders.get("/rendezvous/list.do?anonymous=false");
 
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("rendezvous/list")).andExpect(MockMvcResultMatchers.forwardedUrl("rendezvous/list"))
-			.andExpect(MockMvcResultMatchers.model().attribute("rendezvouses", Matchers.hasSize(5))).andExpect(MockMvcResultMatchers.model().attribute("requestURI", Matchers.is("rendezvous/list.do")))
+			.andExpect(MockMvcResultMatchers.model().attribute("rendezvouses", Matchers.hasSize(5))).andExpect(MockMvcResultMatchers.model().attribute("requestURI", Matchers.is("rendezvous/list.do?")))
 			.andExpect(MockMvcResultMatchers.model().attribute("page", Matchers.is(0))).andExpect(MockMvcResultMatchers.model().attribute("pageNum", Matchers.is(1))).andExpect(MockMvcResultMatchers.model().attribute("anonymous", Matchers.is(false)))
 			.andExpect(MockMvcResultMatchers.model().attribute("rendezvouses", Matchers.hasItems(Matchers.allOf(Matchers.hasProperty("adultOnly", Matchers.is(false))))));
 		super.unauthenticate();
