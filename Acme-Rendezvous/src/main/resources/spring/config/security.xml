@@ -114,6 +114,11 @@
 		<security:intercept-url pattern="/actor/register-manager.do" access="permitAll" requires-channel="https" />	
 		<security:intercept-url pattern="/actor/manager/edit.do" access="hasRole('MANAGER')" requires-channel="https" />
 		
+		<security:intercept-url pattern="/slider/admin/create.do" access="hasRole('ADMIN')" requires-channel="https"/>
+		<security:intercept-url pattern="/slider/admin/list.do" access="hasRole('ADMIN')" requires-channel="https"/>
+		<security:intercept-url pattern="/slider/admin/edit.do" access="hasRole('ADMIN')" requires-channel="https"/>
+		
+		
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
 		<security:form-login 

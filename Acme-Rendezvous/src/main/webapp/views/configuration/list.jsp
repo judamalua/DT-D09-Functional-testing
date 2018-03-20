@@ -25,5 +25,6 @@
 	<strong><spring:message code="configuration.pagesize" /></strong>
 	<jstl:out value="${configuration.pageSize}" />
 </p>
-
+<acme:button url="slider/admin/list.do" code="configuration.slider"/>
+<br/>
 <acme:button url="configuration/admin/edit.do" code="configuration.edit"/>
