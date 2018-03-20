@@ -38,6 +38,8 @@
 		<value>/views/category/tiles.xml</value>
 		<value>/views/request/tiles.xml</value>
 		<value>/views/manager/tiles.xml</value>
+		<value>/views/slider/tiles.xml</value>
+
 	</util:list>
 
 </beans>

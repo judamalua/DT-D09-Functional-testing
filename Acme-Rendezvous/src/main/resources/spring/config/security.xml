@@ -36,7 +36,9 @@
 		<security:intercept-url pattern="/favicon.ico" access="permitAll" requires-channel="https" /> 
 		<security:intercept-url pattern="/images/**" access="permitAll" requires-channel="https" /> 
 		<security:intercept-url pattern="/scripts/**" access="permitAll" requires-channel="https" /> 
-		<security:intercept-url pattern="/styles/**" access="permitAll" requires-channel="https" /> 
+		<security:intercept-url pattern="/styles/**" access="permitAll" requires-channel="https" />
+		
+		 <security:intercept-url pattern="/configuration/getBusinessName.do" access="permitAll" requires-channel="https" /> 
 		
  		<security:intercept-url pattern="/cookie/policy.do" access="permitAll" requires-channel="https" />
  		<security:intercept-url pattern="/cookie/ajax/es.do" access="permitAll" requires-channel="https" /> 
@@ -113,6 +115,11 @@
 		
 		<security:intercept-url pattern="/actor/register-manager.do" access="permitAll" requires-channel="https" />	
 		<security:intercept-url pattern="/actor/manager/edit.do" access="hasRole('MANAGER')" requires-channel="https" />
+		
+		<security:intercept-url pattern="/slider/admin/create.do" access="hasRole('ADMIN')" requires-channel="https"/>
+		<security:intercept-url pattern="/slider/admin/list.do" access="hasRole('ADMIN')" requires-channel="https"/>
+		<security:intercept-url pattern="/slider/admin/edit.do" access="hasRole('ADMIN')" requires-channel="https"/>
+		
 		
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 

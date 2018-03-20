@@ -106,6 +106,7 @@
 <script type="text/javascript">
 window.onload = function() {
 	checkCreditCard();
+	getBusinessName();
 	checkCookie();
 };
 </script> 
