@@ -235,7 +235,7 @@ public class RequestUserControllerTest extends AbstractTest {
 	 * @throws Exception
 	 * @author Alejandro
 	 */
-	//@Test
+	@Test
 	public void saveRequestPositive() throws Exception {
 		int rendezvousId;
 
@@ -267,7 +267,7 @@ public class RequestUserControllerTest extends AbstractTest {
 		final MockHttpServletRequestBuilder request;
 		int rendezvousId;
 
-		rendezvousId = super.getEntityId("Rendezvous8");
+		rendezvousId = super.getEntityId("Rendezvous4");
 
 		request = MockMvcRequestBuilders.post("/request/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("rendezvous", "" + rendezvousId).param("comment", "New request").param("moment", "01/01/1990 00:00").param("service", "" +super.getEntityId("DomainService1"))
 				.param("creditCard", "" + super.getEntityId("CreditCard1")).sessionAttr("request", new Request()).param("save", "");
@@ -288,13 +288,20 @@ public class RequestUserControllerTest extends AbstractTest {
 	 */
 	@Test
 	public void saveRequestNegative() throws Exception {
-		int rendezvousId;
+		Integer rendezvousId;
+		Integer serviceId;
 
 		rendezvousId = super.getEntityId("Rendezvous4");
+		serviceId = super.getEntityId("DomainService1");
 		super.authenticate("user1");
 
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/request/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("rendezvous", "" + rendezvousId).param("comment", "New request").param("moment", "01/01/1990 00:00").param("service", "" +super.getEntityId("DomainService1"))
-			.param("creditCard", "" ).sessionAttr("request", new Request()).param("save", ""))
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/request/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("moment", "01/01/1990 00:00")
+				.param("service", serviceId.toString())
+				.param("comment", "New request")
+				.param("rendezvous", rendezvousId.toString())
+			.param("creditCard", "")
+			.sessionAttr("request", new Request()).param("save", ""))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("request/edit")).andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.is("request.params.error")));
 
 		super.unauthenticate();
