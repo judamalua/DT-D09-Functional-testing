@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +17,6 @@ import services.ActorService;
 import services.CreditCardService;
 import services.RendezvousService;
 import services.RequestService;
-import services.UserService;
 import controllers.AbstractController;
 import domain.CreditCard;
 import domain.Rendezvous;
@@ -38,9 +36,6 @@ public class RequestUserController extends AbstractController {
 
 	@Autowired
 	private ActorService		actorService;
-
-	@Autowired
-	private UserService			userService;
 
 	@Autowired
 	private CreditCardService	creditCardService;
@@ -136,9 +131,6 @@ public class RequestUserController extends AbstractController {
 			result = this.createEditModelAndView(request);
 		else
 			try {
-				this.checkRendezvousBelongsToPrincipal(rendezvousId);
-				this.creditCardService.checkCreditCardBelongsToPrincipal(request.getCreditCard());
-
 				this.requestService.saveNewRequest(request, rendezvousId);
 
 				result = new ModelAndView("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvousId + "&anonymous=false");
@@ -196,23 +188,6 @@ public class RequestUserController extends AbstractController {
 		result.addObject("rendezvouses", myRendezvouses);
 
 		return result;
-	}
-
-	/**
-	 * This method checks that the user connected to the system (the principal) is the owner of
-	 * the rendezvous from he wants to make the request. This method is only called by
-	 * the create and edit request controllers, so it is already in a try/catch block.
-	 * 
-	 * @param rendezvousId
-	 * @author Antonio
-	 */
-	private void checkRendezvousBelongsToPrincipal(final int rendezvousId) {
-		User userPrincipal, rendezvousOwner;
-
-		userPrincipal = (User) this.actorService.findActorByPrincipal();
-		rendezvousOwner = this.userService.getCreatorUser(rendezvousId);
-
-		Assert.isTrue(userPrincipal.equals(rendezvousOwner));
 	}
 
 }

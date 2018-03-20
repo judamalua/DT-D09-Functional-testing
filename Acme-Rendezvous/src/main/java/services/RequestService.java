@@ -151,12 +151,13 @@ public class RequestService {
 		now = new Date(System.currentTimeMillis() - 10);
 		rendezvous = this.rendezvousService.findOne(rendezvousId);
 
-		//Checks that the User connected is the owner of the Rendezvous
+		// Checks that the User connected is the owner of the Rendezvous
 		this.checkRendezvousBelongsToPrincipal(rendezvousId);
 
-		//Checks that there isn't already a request between the same Service and Rendezvous.
+		// Checks that there isn't already a request between the same Service and Rendezvous.
 		this.checkServiceNotAlreadyRequestedByRendezvous(request.getService(), rendezvous);
 
+		// Checks that the credit card that is being used belongs to the principal
 		this.creditCardService.checkCreditCardBelongsToPrincipal(creditCard);
 
 		creditCard = this.creditCardService.save(creditCard);
