@@ -254,7 +254,7 @@ public class CreditCardService {
 	 * 
 	 * @param creditCard
 	 */
-	private void checkCreditCardBelongsToPrincipal(final CreditCard creditCard) {
+	public void checkCreditCardBelongsToPrincipal(final CreditCard creditCard) {
 		User principal;
 
 		principal = (User) this.actorService.findActorByPrincipal();

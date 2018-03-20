@@ -62,10 +62,8 @@ public class RequestServiceTest extends AbstractTest {
 				"User1", "DomainService7", "Rendezvous6", "coment", "CreditCard1", IllegalArgumentException.class
 			}
 		};
-		for (int i = 0; i < testingData.length; i++) {
+		for (int i = 0; i < testingData.length; i++)
 			this.templateCreate((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (Class<?>) testingData[i][5]);
-			System.out.println(i);
-		}
 	}
 	// Ancillary methods ------------------------------------------------------
 	protected void templateCreate(final String username, final String servicePopulate, final String rendezvousPopulate, final String comment, final String creditCardPopulate, final Class<?> expected) {

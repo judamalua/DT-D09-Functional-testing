@@ -157,6 +157,8 @@ public class RequestService {
 		//Checks that there isn't already a request between the same Service and Rendezvous.
 		this.checkServiceNotAlreadyRequestedByRendezvous(request.getService(), rendezvous);
 
+		this.creditCardService.checkCreditCardBelongsToPrincipal(creditCard);
+
 		creditCard = this.creditCardService.save(creditCard);
 
 		request.setMoment(now);

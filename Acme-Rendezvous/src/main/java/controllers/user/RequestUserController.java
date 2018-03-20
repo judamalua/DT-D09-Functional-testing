@@ -137,7 +137,7 @@ public class RequestUserController extends AbstractController {
 		else
 			try {
 				this.checkRendezvousBelongsToPrincipal(rendezvousId);
-				this.checkCreditCardBelongsToPrincipal(request.getCreditCard());
+				this.creditCardService.checkCreditCardBelongsToPrincipal(request.getCreditCard());
 
 				this.requestService.saveNewRequest(request, rendezvousId);
 
@@ -215,18 +215,4 @@ public class RequestUserController extends AbstractController {
 		Assert.isTrue(userPrincipal.equals(rendezvousOwner));
 	}
 
-	/**
-	 * This method checks that the CreditCard assigned to a Rendezvous belongs to the
-	 * User connected as the principal, and it is not a CreditCard from another User.
-	 * 
-	 * @param creditCard
-	 */
-	private void checkCreditCardBelongsToPrincipal(final CreditCard creditCard) {
-		User principal;
-
-		principal = (User) this.actorService.findActorByPrincipal();
-
-		Assert.isTrue(principal.equals(creditCard.getUser()));
-
-	}
 }
