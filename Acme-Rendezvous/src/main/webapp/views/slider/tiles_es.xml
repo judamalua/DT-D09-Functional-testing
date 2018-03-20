@@ -18,7 +18,7 @@
 
 	<definition name="slider/list" extends="master.page">	
 		<put-attribute name="title" value="Lista de diapositivas" />
-		<put-attribute name="body" value="/views/slide/list.jsp" />
+		<put-attribute name="body" value="/views/slider/list.jsp" />
 	</definition>
 	
 	<definition name="slider/edit" extends="master.page">	
