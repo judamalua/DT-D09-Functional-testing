@@ -23,8 +23,8 @@
 
 <nav>
 	<div class="nav-wrapper">
-		<a class="brand-logo" href="#">&#160;&#160;Acme&#160;<img
-			width="24" src="images/people.png" />&#160;Rendezvous
+		<a class="brand-logo" href="#">&#160;&#160;&#160;<img
+			width="24" src="images/people.png" />&#160;
 		</a>
 
 
