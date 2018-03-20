@@ -36,9 +36,9 @@
 <form:form id="form" action="request/user/edit.do" modelAttribute="request">
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
-	<form:hidden path="moment"/>
 	<form:hidden path="service"/>
-	<acme:textarea code="request.comment" path="comment" required = "true"/>
+	
+	<acme:textarea code="request.comment" path="comment"/>
 	
 	
 	<jstl:if test="${fn:length(rendezvouses) != 0}">

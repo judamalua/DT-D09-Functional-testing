@@ -3,8 +3,6 @@ package controllers.user;
 
 import java.util.Collection;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -125,13 +123,22 @@ public class RequestUserController extends AbstractController {
 	 * @author Antonio
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView saveRequest(@Valid final Request request, final BindingResult binding, @ModelAttribute("rendezvous") final int rendezvousId) {
+	public ModelAndView saveRequest(Request request, final BindingResult binding, @ModelAttribute("rendezvous") final int rendezvousId) {
 		ModelAndView result;
+
+		try {
+			request = this.requestService.reconstruct(request, binding);
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/misc/403");
+		}
+
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(request);
 		else
 			try {
 				this.checkRendezvousBelongsToPrincipal(rendezvousId);
+				this.creditCardService.checkCreditCardBelongsToPrincipal(request.getCreditCard());
+
 				this.requestService.saveNewRequest(request, rendezvousId);
 
 				result = new ModelAndView("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvousId + "&anonymous=false");
@@ -143,6 +150,7 @@ public class RequestUserController extends AbstractController {
 			}
 		return result;
 	}
+
 	//AJAX Credit Card---------------------------------------
 	/**
 	 * This method receives a cookie token and sends a string with the last four numbers of a credit card and the credit card number, if something fails returns a null string.
@@ -206,4 +214,5 @@ public class RequestUserController extends AbstractController {
 
 		Assert.isTrue(userPrincipal.equals(rendezvousOwner));
 	}
+
 }
