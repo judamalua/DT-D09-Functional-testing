@@ -216,16 +216,3 @@
 	</jstl:if>
 </security:authorize>
 <br />
-
-<!-- Link to request a service -->
-<security:authorize access="hasRole('USER')">
-	<jstl:if test="${userHasCreatedRendezvous and rendezvous.moment > currentDate}">
-		<acme:button url="service/list.do?anonymous=false" code="rendezvous.request.create"/>
-		
-		<br />
-		
-<%-- 		<acme:button url="request/user/list.do?rendezvousId=${rendezvous.id}" code="rendezvous.request.list"/>
- --%>	</jstl:if>	
-</security:authorize>
-
-
