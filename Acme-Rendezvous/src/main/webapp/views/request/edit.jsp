@@ -31,6 +31,8 @@
 	
 <p><em><spring:message code = "form.required.params"/></em></p>
 
+<div class = "row">
+
 <form:form id="form" action="request/user/edit.do" modelAttribute="request">
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
@@ -38,18 +40,16 @@
 	<form:hidden path="service"/>
 	<acme:textarea code="request.comment" path="comment"/>
 	
-	<spring:message code="request.rendezvous.select" />
 	
 	<jstl:if test="${fn:length(rendezvouses) != 0}">
-	<div>
 		<div class="input-field col s3">
 			<select id="rendezvous" name="rendezvous">
   				<jstl:forEach var="i" items="${rendezvouses}">
   					<option value="${i.id}"><jstl:out value="${i.name}"/></option>
   				</jstl:forEach>
-			</select> 
+			</select>
+			<label for = "rendezvous"><spring:message code="request.rendezvous.select" /></label> 
 		</div>
-	</div>
 	</jstl:if>
 	
 	<jstl:if test="${fn:length(rendezvouses) == 0}">
@@ -59,9 +59,12 @@
 	</jstl:if>
 	
 	
+	<div class = "cleared-div">
+	</div>
 	
-	
+	<div class = "cleared-div">
 	<h4><jstl:out value="${creditCardInfo}"/></h4>
+	</div>
 	
 	<div class="cookieCard"></div>
 	<p class="creditCardCookieTokenNew" hidden="true"></p>
@@ -102,6 +105,8 @@
 	<acme:cancel url="service/list.do?anonymous=false" code="request.cancel"/>
 	
 </form:form>
+
+</div>
 <script src="scripts/creditCardAjax.js"></script>
 <script type="text/javascript">
 window.onload = function() {
