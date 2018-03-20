@@ -22,6 +22,11 @@
 </p>
 
 <p>
+<strong><spring:message code="configuration.businessName" /></strong>:
+&#160;&#160;<jstl:out value="${configuration.businessNameFirst}" />&#160;<img width="24" src="favicon.ico" />&#160;<jstl:out value="${configuration.businessNameLast}" />
+</p>
+
+<p>
 	<strong><spring:message code="configuration.pagesize" /></strong>
 	<jstl:out value="${configuration.pageSize}" />
 </p>

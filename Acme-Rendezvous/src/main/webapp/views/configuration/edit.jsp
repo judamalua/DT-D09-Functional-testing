@@ -35,6 +35,22 @@
 	
 	<acme:textbox code="configuration.pagesize" path="pageSize"/>
 	
+	
+    <div class="row">
+    <div class="col s6">
+      <div class="row">
+        <div class="input-field col s3">
+          <form:input id="businessNameFirst" type="text" path="businessNameFirst"/>
+          <label for="businessNameFirst"><spring:message code="configuration.businessName" /></label>
+        </div>
+        <div class="input-field col s3">
+          <i class="material-icons prefix">people</i>
+          <form:input id="businessNameLast" type="text" path="businessNameLast"/>
+        </div>
+      </div>
+    </div>
+  </div>
+	
 	<acme:submit name="save" code="configuration.save"/>
 
 	<acme:cancel url="configuration/admin/list.do" code="configuration.cancel"/>

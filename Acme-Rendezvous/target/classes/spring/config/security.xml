@@ -36,7 +36,9 @@
 		<security:intercept-url pattern="/favicon.ico" access="permitAll" requires-channel="https" /> 
 		<security:intercept-url pattern="/images/**" access="permitAll" requires-channel="https" /> 
 		<security:intercept-url pattern="/scripts/**" access="permitAll" requires-channel="https" /> 
-		<security:intercept-url pattern="/styles/**" access="permitAll" requires-channel="https" /> 
+		<security:intercept-url pattern="/styles/**" access="permitAll" requires-channel="https" />
+		
+		 <security:intercept-url pattern="/configuration/getBusinessName.do" access="permitAll" requires-channel="https" /> 
 		
  		<security:intercept-url pattern="/cookie/policy.do" access="permitAll" requires-channel="https" />
  		<security:intercept-url pattern="/cookie/ajax/es.do" access="permitAll" requires-channel="https" /> 
