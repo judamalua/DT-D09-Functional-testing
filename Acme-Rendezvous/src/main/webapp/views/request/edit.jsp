@@ -34,8 +34,8 @@
 <form:form id="form" action="request/user/edit.do" modelAttribute="request">
 	<form:hidden path="id"/>
 	<form:hidden path="version"/>
-	<form:hidden path="moment"/>
 	<form:hidden path="service"/>
+	
 	<acme:textarea code="request.comment" path="comment"/>
 	
 	<spring:message code="request.rendezvous.select" />
