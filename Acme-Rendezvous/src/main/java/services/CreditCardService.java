@@ -113,6 +113,7 @@ public class CreditCardService {
 
 		//Checks that the CreditCard hasn't expired
 		this.checkCreditCardExpired(creditCard);
+
 		creditCard.setUser((User) this.actorService.findActorByPrincipal());
 		result = this.creditCardRepository.save(creditCard);
 
@@ -247,6 +248,20 @@ public class CreditCardService {
 
 	}
 
+	/**
+	 * This method checks that the CreditCard assigned to a Rendezvous belongs to the
+	 * User connected as the principal, and it is not a CreditCard from another User.
+	 * 
+	 * @param creditCard
+	 */
+	private void checkCreditCardBelongsToPrincipal(final CreditCard creditCard) {
+		User principal;
+
+		principal = (User) this.actorService.findActorByPrincipal();
+
+		Assert.isTrue(principal.equals(creditCard.getUser()));
+
+	}
 	/**
 	 * This method flushes the repository, this forces the cache to be saved to the database, which then forces the test data to be validated. This is only used
 	 * in tests
