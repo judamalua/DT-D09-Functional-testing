@@ -30,7 +30,7 @@
 	pattern="yyyy-MM-dd HH:mm" />
 
 <!-- Pagination -->
-<acme:pagination requestURI="${requestURI}?anonymous=${anonymous}&page="
+<acme:pagination requestURI="${requestURI}anonymous=${anonymous}&page="
 	pageNum="${pageNum}" page="${page}" />
 
 
