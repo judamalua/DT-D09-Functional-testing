@@ -41,17 +41,21 @@
 		<acme:textbox code="slider.pictureUrl" path="pictureUrl" />
 		
 		
-		<label for = "align"><spring:message code="slider.align" /></label>
-		<form:select path="align" id="align">
-			<form:option value="left"><spring:message code="slider.align.left"/></form:option>
-			<form:option value="center"><spring:message code="slider.align.center"/></form:option>
-			<form:option value="right"><spring:message code="slider.align.right"/></form:option>
-		</form:select>
-		<form:errors path="align" cssClass="error" />
-		
+		<div>
+			<div class="input-field col s3">
+				
+				<form:select path="align" id="align">
+					<form:option value="left"><spring:message code="slider.align.left"/></form:option>
+					<form:option value="center"><spring:message code="slider.align.center"/></form:option>
+					<form:option value="right"><spring:message code="slider.align.right"/></form:option>
+				</form:select>
+				<label for = "align"><spring:message code="slider.align" /></label>
+				<form:errors path="align" cssClass="error" />
+			</div>
+		</div>
 		<div class="cleared-div">
 			<acme:submit name="save" code="slider.save" />
-			<jstl:if test="${service.id!=0 and !service.cancelled}">
+			<jstl:if test="${slider.id!=0}">
 				<acme:delete clickCode="slider.confirm.delete" name="delete"
 					code="slider.delete" />
 			</jstl:if>

@@ -65,6 +65,13 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 
 	@Query("select r from Rendezvous r join r.requests req where req.service.id = ?1 ")
 	Collection<Rendezvous> getRendezvousesRequestedByService(int serviceId);
+
+	@Query("select r from Rendezvous r join r.requests rq join rq.service.categories c where r.deleted=false and r.finalMode=true and c.id=?1 group by r")
+	Page<Rendezvous> findFinalRendezvousesByCategory(int categoryId, Pageable pageable);
+
+	@Query("select r from Rendezvous r join r.requests rq join rq.service.categories c where r.deleted=false and r.finalMode=true and r.adultOnly=false and c.id=?1 group by r")
+	Page<Rendezvous> findFinalNotAdultRendezvousesByCategory(int categoryId, Pageable pageable);
+
 	// Dashboard queries.
 
 	/**

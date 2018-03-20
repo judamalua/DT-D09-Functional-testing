@@ -178,6 +178,24 @@
 </jstl:if>
 <br />
 
+<!-- Requests -->
+<h4>
+	<spring:message code="rendezvous.request.list" />
+</h4>
+<display:table name="${requests}" id="row" requestURI="rendezvous/detailed-rendezvous.do"
+	pagesize="${pagesize}">
+	
+	<display:column title="${titleServicePictureRequest}" >
+		<img src="${row.service.pictureUrl}" height="250" width="250"/>
+	</display:column>
+	
+	<display:column title="${titleServiceRequest}" >
+		<jstl:out value="${row.service.name}"/>
+	</display:column>
+	
+	<display:column property="comment" title="${titleCommentRequest}" />
+</display:table>
+
 <!-- Link to attendants -->
 <jstl:if test="${rendezvous.finalMode and !rendezvous.deleted}">
 	<acme:button url="answer/list.do?rendezvousId=${rendezvous.id}" code="rendezvous.answer.list"/>
@@ -198,28 +216,3 @@
 	</jstl:if>
 </security:authorize>
 <br />
-
-<!-- Link to request a service -->
-<security:authorize access="hasRole('USER')">
-	<jstl:if test="${userHasCreatedRendezvous and rendezvous.moment > currentDate}">
-		<acme:button url="service/list.do?anonymous=false" code="rendezvous.request.create"/>
-		
-		<br />
-		
-<%-- 		<acme:button url="request/user/list.do?rendezvousId=${rendezvous.id}" code="rendezvous.request.list"/>
- --%>	</jstl:if>	
-</security:authorize>
-
-<display:table name="${requests}" id="row" requestURI="rendezvous/detailed-rendezvous.do"
-	pagesize="${pagesize}">
-	
-	<display:column title="${titleServicePictureRequest}" >
-		<img src="${row.service.pictureUrl}" height="250" width="250"/>
-	</display:column>
-	
-	<display:column title="${titleServiceRequest}" >
-		<jstl:out value="${row.service.name}"/>
-	</display:column>
-	
-	<display:column property="comment" title="${titleCommentRequest}" />
-</display:table>

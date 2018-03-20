@@ -13,6 +13,8 @@ package controllers.manager;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -151,6 +153,8 @@ public class ServiceManagerController extends AbstractController {
 
 	// Saving -------------------------------------------------------------------
 
+	//Added transactional for the save and delete methods
+	@Transactional
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@ModelAttribute("service") DomainService service, final BindingResult binding) {
 		ModelAndView result;

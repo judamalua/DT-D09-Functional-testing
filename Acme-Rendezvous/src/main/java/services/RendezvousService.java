@@ -817,4 +817,20 @@ public class RendezvousService {
 		return result;
 	}
 
+	public Page<Rendezvous> findFinalRendezvousesByCategory(final int categoryId, final Pageable pageable) {
+		Page<Rendezvous> result;
+
+		result = this.rendezvousRepository.findFinalRendezvousesByCategory(categoryId, pageable);
+
+		return result;
+	}
+
+	public Page<Rendezvous> findFinalNotAdultRendezvousesByCategory(final int categoryId, final Pageable pageable) {
+		Page<Rendezvous> result;
+
+		result = this.rendezvousRepository.findFinalNotAdultRendezvousesByCategory(categoryId, pageable);
+
+		return result;
+	}
+
 }

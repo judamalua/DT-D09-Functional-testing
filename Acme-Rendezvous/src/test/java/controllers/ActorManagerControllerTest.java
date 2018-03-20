@@ -80,9 +80,9 @@ public class ActorManagerControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * An actor who is authenticated as a manager must be able to: Edit and Update his profile
+	 * An actor who is authenticated must be able to: Edit and Update his profile.
 	 * 
-	 * Edit the profile of a manager
+	 * Manager can edit his profiles
 	 * 
 	 * @throws Exception
 	 * @author Luis
@@ -100,16 +100,17 @@ public class ActorManagerControllerTest extends AbstractTest {
 
 		super.unauthenticate();
 	}
+
 	/**
+	 * An actor who is authenticated must be able to: Edit and Update his profile.
 	 * 
-	 * 
-	 * Managers Can Edit His Profiles
+	 * Managers can update his profiles
 	 * 
 	 * @throws Exception
 	 * @author Luis
 	 */
 	@Test
-	public void testManagerCanEditHisProfile() throws Exception {
+	public void testManagerCanUpdateHisProfile() throws Exception {
 		ManagerForm form;
 		super.authenticate("Manager1");
 		final Manager manager = (Manager) this.actorservice.findActorByPrincipal();
@@ -120,6 +121,28 @@ public class ActorManagerControllerTest extends AbstractTest {
 				MockMvcRequestBuilders.post("/actor/manager/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "Fernando").param("surname", "Gutiérrez López").param("birthDate", "09/04/2000").param("email", "ferguti90@gmail.com")
 					.param("phoneNumber", "606587789").param("postalAddress", "Calle Picadero 9").param("vat", "ES14147878").flashAttr("actor", form).param("save", "")).andExpect(MockMvcResultMatchers.status().is(302))
 			.andExpect(MockMvcResultMatchers.view().name("redirect:/actor/display.do")).andExpect(MockMvcResultMatchers.redirectedUrl("/actor/display.do?pagesize=5"));
+
+		super.unauthenticate();
+	}
+
+	/**
+	 * An actor who is authenticated must be able to: Edit and Update his profile.
+	 * 
+	 * Managers can´t update his profiles with errors
+	 * 
+	 * @throws Exception
+	 * @author Luis
+	 */
+	@Test
+	public void testManagerCantUpdateHisProfileWithErrors() throws Exception {
+		ManagerForm form;
+		super.authenticate("Manager1");
+		final Manager manager = (Manager) this.actorservice.findActorByPrincipal();
+		form = this.managerservice.deconstruct(manager);
+
+		this.mockMvc.perform(
+			MockMvcRequestBuilders.post("/actor/manager/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "Fernando").param("surname", "Gutiérrez López").param("birthDate", "09/04/2000").param("email", "ferguti90@gmail.com")
+				.param("phoneNumber", "606587789").param("postalAddress", "Calle Picadero 9").param("vat", "ES17878").flashAttr("actor", form).param("save", "")).andExpect(MockMvcResultMatchers.status().isOk());
 
 		super.unauthenticate();
 	}

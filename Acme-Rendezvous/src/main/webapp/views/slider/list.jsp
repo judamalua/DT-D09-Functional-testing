@@ -48,6 +48,9 @@
 	</display:column>
 </display:table>
 
-<!-- Creating a new service -->
-
+<!-- Creating a new slide -->
+	
 	<acme:button url="slider/admin/create.do" code="slider.create" />
+	
+	
+	<br/><acme:button url="configuration/admin/list.do" code="slider.return" />

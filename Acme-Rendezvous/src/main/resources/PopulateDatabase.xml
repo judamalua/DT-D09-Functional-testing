@@ -571,11 +571,11 @@
 
  <!-- %%%%%%  domain.Slider %%%%%% --> 
 <bean id="Slider1" class="domain.Slider"> 
-<property name="title_en" value="Welcome to Acme Rendezvous!" /> 
-<property name="title_es" value="¡Bienvenid@ a Acme Rendezvous!" /> 
-<property name="text_en" value="The perfect web site to set up your rendezvouses" /> 
-<property name="text_es" value="El sitio web perfecto para organizar tus encuentros" /> 
-<property name="pictureUrl" value="https://i.imgur.com/hDeoavR.jpg" /> 
+<property name="title_en" value="Welcome to Adventure Meetups!" /> 
+<property name="title_es" value="¡Bienvenid@ a Adventure Meetups!" /> 
+<property name="text_en" value="Your place to organise your adventure meetups!" /> 
+<property name="text_es" value="Tu sitio para organizar quedadas de aventura" /> 
+<property name="pictureUrl" value="https://tinyurl.com/adventure-meetup" /> 
 <property name="align" value="left" /> 
 </bean>
 <bean id="Slider2" class="domain.Slider"> 
