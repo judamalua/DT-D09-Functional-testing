@@ -9,6 +9,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.RequestRepository;
 import domain.CreditCard;
@@ -44,6 +46,9 @@ public class RequestService {
 
 	@Autowired
 	private ManagerService		managerService;
+
+	@Autowired
+	private Validator			validator;
 
 
 	// Simple CRUD methods --------------------------------------------------
@@ -289,5 +294,36 @@ public class RequestService {
 		//Tests that the actor accessing this rendezvous is the manager of the service
 		Assert.isTrue(this.managerService.findManagerByService(service).getId() == this.actorService.findActorByPrincipal().getId());
 		return this.requestRepository.findRendezvousByRequestId(requestId);
+	}
+
+	public Request reconstruct(final Request request, final BindingResult binding) {
+		Request result;
+		User user;
+		Date moment;
+		CreditCard creditCard;
+
+		moment = new Date(System.currentTimeMillis() - 10);
+		creditCard = request.getCreditCard();
+
+		if (request.getId() == 0) {
+			request.setMoment(moment);
+
+			if (creditCard.getId() == 0) {
+				user = (User) this.actorService.findActorByPrincipal();
+				creditCard.setUser(user);
+
+				request.setCreditCard(creditCard);
+			} else {
+				creditCard = this.creditCardService.findOne(creditCard.getId());
+
+				request.setCreditCard(creditCard);
+			}
+
+			result = request;
+		} else
+			result = this.requestRepository.findOne(request.getId());
+
+		this.validator.validate(result, binding);
+		return result;
 	}
 }
