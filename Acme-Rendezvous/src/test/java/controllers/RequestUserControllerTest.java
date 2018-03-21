@@ -28,8 +28,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import services.ConfigurationService;
 import services.RequestService;
 import services.RendezvousService;
+import services.ServiceService;
 import utilities.AbstractTest;
 import controllers.user.RequestUserController;
+import domain.DomainService;
 import domain.Request;
 import domain.Rendezvous;
 
@@ -51,6 +53,9 @@ public class RequestUserControllerTest extends AbstractTest {
 	@Mock
 	@Autowired
 	private RequestService			service;
+	
+	@Autowired
+	private ServiceService			serviceService;
 
 	@Autowired
 	private RendezvousService		rendezvousService;
@@ -232,11 +237,24 @@ public class RequestUserControllerTest extends AbstractTest {
 	public void saveRequestPositive() throws Exception {
 		int rendezvousId;
 
+		Integer idService = super.getEntityId("DomainService1");
+		DomainService dmService = serviceService.findOne(idService);
 		rendezvousId = super.getEntityId("Rendezvous4");
 		super.authenticate("user1");
 
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/request/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("rendezvous", "" + rendezvousId).param("comment", "New request").param("moment", "01/01/1990 00:00").param("service", "" +super.getEntityId("DomainService1"))
-			.param("creditCard", "" + super.getEntityId("CreditCard1")).sessionAttr("request", new Request()).param("save", ""))
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/request/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("rendezvous", "" + rendezvousId)
+				.param("comment", "New request")
+				.param("moment", "01/01/1990 00:00")
+				.flashAttr("service",dmService)
+			.param("creditCard.holderName", "Test1" )
+			.param("creditCard.brandName", "Test1" )
+			.param("creditCard.number", "4929175934737503" )
+			.param("creditCard.expirationMonth", "10" )
+			.param("creditCard.expirationYear", "90" )
+			.param("creditCard.cvv", "333" )
+			.param("creditCard.cookieToken" , "TEST")
+			.sessionAttr("request", new Request()).param("save", ""))
 			.andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:list.do?rendezvousId=" + rendezvousId))
 			.andExpect(MockMvcResultMatchers.redirectedUrl("list.do?rendezvousId=" + rendezvousId + "&pagesize=5"));
 
