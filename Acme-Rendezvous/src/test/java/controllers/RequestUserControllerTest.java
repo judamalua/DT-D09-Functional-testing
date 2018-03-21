@@ -1,8 +1,6 @@
 
 package controllers;
 
-import java.util.Date;
-
 import javax.transaction.Transactional;
 
 import org.hamcrest.Matchers;
@@ -27,13 +25,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import services.ConfigurationService;
 import services.RequestService;
-import services.RendezvousService;
 import services.ServiceService;
 import utilities.AbstractTest;
 import controllers.user.RequestUserController;
 import domain.DomainService;
 import domain.Request;
-import domain.Rendezvous;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -53,12 +49,9 @@ public class RequestUserControllerTest extends AbstractTest {
 	@Mock
 	@Autowired
 	private RequestService			service;
-	
-	@Autowired
-	private ServiceService			serviceService;
 
 	@Autowired
-	private RendezvousService		rendezvousService;
+	private ServiceService			serviceService;
 
 	@Mock
 	@Autowired
@@ -99,22 +92,20 @@ public class RequestUserControllerTest extends AbstractTest {
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andDo(MockMvcResultHandlers.print()).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403"))
 			.andExpect(MockMvcResultMatchers.redirectedUrl("/misc/403?pagesize=5"));
 	}
-	
+
 	//@Test
-		public void listAllRequestNotLoggedNegative() throws Exception {
-			MockHttpServletRequestBuilder request;
+	public void listAllRequestNotLoggedNegative() throws Exception {
+		MockHttpServletRequestBuilder request;
 
+		request = MockMvcRequestBuilders.get("/request/user/list.do");
 
-			request = MockMvcRequestBuilders.get("/request/user/list.do");
-
-			this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andDo(MockMvcResultHandlers.print()).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403"))
-				.andExpect(MockMvcResultMatchers.redirectedUrl("/misc/403?pagesize=5"));
-		}
-
+		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andDo(MockMvcResultHandlers.print()).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403"))
+			.andExpect(MockMvcResultMatchers.redirectedUrl("/misc/403?pagesize=5"));
+	}
 
 	/**
-	* Test list of Requests for user.
-	* 
+	 * Test list of Requests for user.
+	 * 
 	 * Must return 302 code and redirect to error page.
 	 * 
 	 * @throws Exception
@@ -153,16 +144,15 @@ public class RequestUserControllerTest extends AbstractTest {
 		request = MockMvcRequestBuilders.get("/request/user/list.do?rendezvousId=" + rendezvousId);
 
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("request/list")).andExpect(MockMvcResultMatchers.forwardedUrl("request/list"))
-		.andExpect(MockMvcResultMatchers.model().attribute("requests", Matchers.hasSize(2)));
+			.andExpect(MockMvcResultMatchers.model().attribute("requests", Matchers.hasSize(2)));
 
 		super.unauthenticate();
 	}
-	
+
 	@Test
 	public void listAllRequestsUserLogedPositive() throws Exception {
 		final MockHttpServletRequestBuilder request;
 		super.authenticate("user1");
-
 
 		request = MockMvcRequestBuilders.get("/request/user/list.do");
 
@@ -174,7 +164,7 @@ public class RequestUserControllerTest extends AbstractTest {
 
 	/**
 	 * Requirement 4.3 An actor who is authenticated as a user must be able to:
-	 * Request a service for one of the rendezvouses that he or she’s created. He or she must specify a valid credit card in every request for a service. Optionally, he or she can provide some comments in the request.
+	 * Request a service for one of the rendezvouses that he or she's created. He or she must specify a valid credit card in every request for a service. Optionally, he or she can provide some comments in the request.
 	 * 
 	 * Must return 200 code.
 	 * 
@@ -193,17 +183,15 @@ public class RequestUserControllerTest extends AbstractTest {
 
 		request = MockMvcRequestBuilders.get("/request/user/create.do?serviceId=" + serviceId);
 
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("request/edit"))
-			.andExpect(MockMvcResultMatchers.forwardedUrl("request/edit"))
-			.andExpect(MockMvcResultMatchers.model().attribute("request", Matchers.allOf(Matchers.hasProperty("id", Matchers.is(0)))))
-			.andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.isEmptyOrNullString()));
+		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("request/edit")).andExpect(MockMvcResultMatchers.forwardedUrl("request/edit"))
+			.andExpect(MockMvcResultMatchers.model().attribute("request", Matchers.allOf(Matchers.hasProperty("id", Matchers.is(0))))).andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.isEmptyOrNullString()));
 
 		super.unauthenticate();
 	}
 
 	/**
 	 * Requirement 4.3 An actor who is authenticated as a user must be able to:
-	 * Request a service for one of the rendezvouses that he or she’s created. He or she must specify a valid credit card in every request for a service. Optionally, he or she can provide some comments in the request.
+	 * Request a service for one of the rendezvouses that he or she's created. He or she must specify a valid credit card in every request for a service. Optionally, he or she can provide some comments in the request.
 	 * 
 	 * 
 	 * 
@@ -216,17 +204,17 @@ public class RequestUserControllerTest extends AbstractTest {
 	@Test
 	public void createRequestNotLoggedNegative() throws Exception {
 		final MockHttpServletRequestBuilder request;
-		int rendezvousId;
+		int serviceId;
 
-		rendezvousId = super.getEntityId("Rendezvous2");
-		request = MockMvcRequestBuilders.get("/request/user/create.do?rendezvousId=" + rendezvousId);
+		serviceId = super.getEntityId("DomainService4");
+		request = MockMvcRequestBuilders.get("/request/user/create.do?serviceId=" + serviceId);
 
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.redirectedUrl("/misc/403?pagesize=5&rendezvousId=" + rendezvousId));
+		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.redirectedUrl("/misc/403?pagesize=5"));
 	}
 
 	/**
 	 * Requirement 4.3 An actor who is authenticated as a user must be able to:
-	 * Request a service for one of the rendezvouses that he or she’s created. He or she must specify a valid credit card in every request for a service. Optionally, he or she can provide some comments in the request.
+	 * Request a service for one of the rendezvouses that he or she's created. He or she must specify a valid credit card in every request for a service. Optionally, he or she can provide some comments in the request.
 	 * 
 	 * Must return 302 code.
 	 * 
@@ -236,34 +224,27 @@ public class RequestUserControllerTest extends AbstractTest {
 	@Test
 	public void saveRequestPositive() throws Exception {
 		int rendezvousId;
+		Request request;
 
-		Integer idService = super.getEntityId("DomainService1");
-		DomainService dmService = serviceService.findOne(idService);
+		final Integer idService = super.getEntityId("DomainService3");
+		final DomainService dmService = this.serviceService.findOne(idService);
 		rendezvousId = super.getEntityId("Rendezvous4");
 		super.authenticate("user1");
-
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/request/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED)
-				.param("rendezvous", "" + rendezvousId)
-				.param("comment", "New request")
-				.param("moment", "01/01/1990 00:00")
-				.flashAttr("service",dmService)
-			.param("creditCard.holderName", "Test1" )
-			.param("creditCard.brandName", "Test1" )
-			.param("creditCard.number", "4929175934737503" )
-			.param("creditCard.expirationMonth", "10" )
-			.param("creditCard.expirationYear", "90" )
-			.param("creditCard.cvv", "333" )
-			.param("creditCard.cookieToken" , "TEST")
-			.sessionAttr("request", new Request()).param("save", ""))
-			.andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:list.do?rendezvousId=" + rendezvousId))
-			.andExpect(MockMvcResultMatchers.redirectedUrl("list.do?rendezvousId=" + rendezvousId + "&pagesize=5"));
+		request = new Request();
+		request.setService(dmService);
+		this.mockMvc
+			.perform(
+				MockMvcRequestBuilders.post("/request/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("rendezvousId", "" + rendezvousId).param("comment", "New request").param("moment", "01/01/1990 00:00")
+					.param("creditCard.holderName", "Test1").param("creditCard.brandName", "Test1").param("creditCard.number", "4929175934737503").param("creditCard.expirationMonth", "10").param("creditCard.expirationYear", "90")
+					.param("creditCard.cvv", "333").param("creditCard.cookieToken", "TEST").flashAttr("request", request).param("save", "")).andExpect(MockMvcResultMatchers.status().is(302))
+			.andExpect(MockMvcResultMatchers.view().name("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvousId + "&anonymous=false"))
+			.andExpect(MockMvcResultMatchers.redirectedUrl("/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvousId + "&anonymous=false&pagesize=5"));
 
 		super.unauthenticate();
 	}
-
 	/**
 	 * Requirement 4.3 An actor who is authenticated as a user must be able to:
-	 * Request a service for one of the rendezvouses that he or she’s created. He or she must specify a valid credit card in every request for a service. Optionally, he or she can provide some comments in the request.
+	 * Request a service for one of the rendezvouses that he or she's created. He or she must specify a valid credit card in every request for a service. Optionally, he or she can provide some comments in the request.
 	 * 
 	 * 
 	 * 
@@ -277,18 +258,24 @@ public class RequestUserControllerTest extends AbstractTest {
 	public void saveRequestNotLoggedNegative() throws Exception {
 		final MockHttpServletRequestBuilder request;
 		int rendezvousId;
+		Request domainRequest;
 
+		final Integer idService = super.getEntityId("DomainService3");
+		final DomainService dmService = this.serviceService.findOne(idService);
+		domainRequest = new Request();
+		domainRequest.setService(dmService);
 		rendezvousId = super.getEntityId("Rendezvous4");
 
-		request = MockMvcRequestBuilders.post("/request/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("rendezvous", "" + rendezvousId).param("comment", "New request").param("moment", "01/01/1990 00:00").param("service", "" +super.getEntityId("DomainService1"))
-				.param("creditCard", "" + super.getEntityId("CreditCard1")).sessionAttr("request", new Request()).param("save", "");
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.redirectedUrl("/misc/403?pagesize=5"));
+		request = MockMvcRequestBuilders.post("/request/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("rendezvousId", "" + rendezvousId).param("comment", "New request").param("moment", "01/01/1990 00:00")
+			.param("creditCard.holderName", "Test1").param("creditCard.brandName", "Test1").param("creditCard.number", "4929175934737503").param("creditCard.expirationMonth", "10").param("creditCard.expirationYear", "90").param("creditCard.cvv", "333")
+			.param("creditCard.cookieToken", "TEST").flashAttr("request", domainRequest).param("save", "");
 
+		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:/misc/403")).andExpect(MockMvcResultMatchers.redirectedUrl("/misc/403?pagesize=5"));
 	}
 
 	/**
 	 * Requirement 4.3 An actor who is authenticated as a user must be able to:
-	 * Request a service for one of the rendezvouses that he or she’s created. He or she must specify a valid credit card in every request for a service. Optionally, he or she can provide some comments in the request.
+	 * Request a service for one of the rendezvouses that he or she's created. He or she must specify a valid credit card in every request for a service. Optionally, he or she can provide some comments in the request.
 	 * 
 	 * Must return 200 code.
 	 * 
@@ -299,22 +286,23 @@ public class RequestUserControllerTest extends AbstractTest {
 	public void saveRequestNegative() throws Exception {
 		Integer rendezvousId;
 		Integer serviceId;
+		Request request;
+		DomainService dmService;
 
 		rendezvousId = super.getEntityId("Rendezvous4");
-		serviceId = super.getEntityId("DomainService1");
+		serviceId = super.getEntityId("DomainService3");
 		super.authenticate("user1");
+		dmService = this.serviceService.findOne(serviceId);
 
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/request/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED)
-				.param("moment", "01/01/1990 00:00")
-				.param("service", serviceId.toString())
-				.param("comment", "New request")
-				.param("rendezvous", rendezvousId.toString())
-			.param("creditCard", "")
-			.sessionAttr("request", new Request()).param("save", ""))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("request/edit")).andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.is("request.params.error")));
+		request = new Request();
+		request.setService(dmService);
+		this.mockMvc
+			.perform(
+				MockMvcRequestBuilders.post("/request/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("moment", "01/01/1990 00:00").param("comment", "New request").param("rendezvousId", rendezvousId.toString())
+					.param("creditCard", "").flashAttr("request", request).param("save", "")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("request/edit"))
+			.andExpect(MockMvcResultMatchers.model().attribute("message", Matchers.is("request.params.error")));
 
 		super.unauthenticate();
 	}
 
-	
 }

@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -117,8 +118,10 @@ public class RequestUserController extends AbstractController {
 	 * @param rendezvousId
 	 * @author Antonio
 	 */
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView saveRequest(Request request, final BindingResult binding, @ModelAttribute("rendezvous") final int rendezvousId) {
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = {
+		"save", "rendezvousId"
+	})
+	public ModelAndView saveRequest(@ModelAttribute("request") Request request, final BindingResult binding, @RequestParam("rendezvousId") final Integer rendezvousId) {
 		ModelAndView result;
 
 		try {
@@ -128,9 +131,10 @@ public class RequestUserController extends AbstractController {
 		}
 
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(request);
+			result = this.createEditModelAndView(request, "request.params.error");
 		else
 			try {
+				Assert.isTrue(!this.rendezvousService.findServicesByRendezvous(rendezvousId).contains(request.getService()));
 				this.requestService.saveNewRequest(request, rendezvousId);
 
 				result = new ModelAndView("redirect:/rendezvous/detailed-rendezvous.do?rendezvousId=" + rendezvousId + "&anonymous=false");

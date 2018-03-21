@@ -833,4 +833,12 @@ public class RendezvousService {
 		return result;
 	}
 
+	public Collection<Rendezvous> findServicesByRendezvous(final int rendezvousId) {
+		Collection<Rendezvous> result;
+
+		result = this.rendezvousRepository.findServicesByRendezvous(rendezvousId);
+
+		return result;
+	}
+
 }
