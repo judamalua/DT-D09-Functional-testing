@@ -74,7 +74,7 @@ public class RendezvousUserController extends AbstractController {
 			rendezvouses = this.rendezvousService.findCreatedRendezvouses(user, pageable);
 
 			result.addObject("rendezvouses", rendezvouses.getContent());
-			result.addObject("requestURI", "rendezvous/user/list.do");
+			result.addObject("requestURI", "rendezvous/user/list.do?");
 			result.addObject("pageNum", rendezvouses.getTotalPages());
 			result.addObject("page", page);
 			result.addObject("anonymous", false);

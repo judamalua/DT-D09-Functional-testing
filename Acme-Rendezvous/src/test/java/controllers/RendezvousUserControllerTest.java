@@ -98,7 +98,7 @@ public class RendezvousUserControllerTest extends AbstractTest {
 		request = MockMvcRequestBuilders.get("/rendezvous/user/list.do");
 
 		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("rendezvous/list")).andExpect(MockMvcResultMatchers.forwardedUrl("rendezvous/list"))
-			.andExpect(MockMvcResultMatchers.model().attribute("rendezvouses", Matchers.hasSize(5))).andExpect(MockMvcResultMatchers.model().attribute("requestURI", Matchers.is("rendezvous/user/list.do")))
+			.andExpect(MockMvcResultMatchers.model().attribute("rendezvouses", Matchers.hasSize(5))).andExpect(MockMvcResultMatchers.model().attribute("requestURI", Matchers.is("rendezvous/user/list.do?")))
 			.andExpect(MockMvcResultMatchers.model().attribute("page", Matchers.is(0))).andExpect(MockMvcResultMatchers.model().attribute("pageNum", Matchers.is(2))).andExpect(MockMvcResultMatchers.model().attribute("anonymous", Matchers.is(false)))
 			.andExpect(MockMvcResultMatchers.model().attribute("rendezvouses", Matchers.hasItems(Matchers.anyOf(Matchers.hasProperty("adultOnly", Matchers.is(false)), Matchers.hasProperty("adultOnly", Matchers.is(true))))));
 
@@ -251,9 +251,12 @@ public class RendezvousUserControllerTest extends AbstractTest {
 
 		this.mockMvc
 			.perform(
-				MockMvcRequestBuilders.post("/rendezvous/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "New Rendezvous").param("description", "New Description").param("moment", "09/04/2019 00:00").param("pictureUrl", "")
-					.param("gpsCoordinates", "123.12,123.12").param("finalMode", "false").param("adultOnly", "false").sessionAttr("rendezvous", new Rendezvous()).param("save", "")).andExpect(MockMvcResultMatchers.status().is(302))
-			.andExpect(MockMvcResultMatchers.view().name("redirect:list.do")).andExpect(MockMvcResultMatchers.redirectedUrl("list.do?pagesize=5&userId=" + userId));
+				MockMvcRequestBuilders.post("/rendezvous/user/edit.do")
+
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "New Rendezvous").param("description", "New Description").param("moment", "09/04/2019 00:00").param("pictureUrl", "").param("gpsCoordinates", "123.12,123.12")
+					.param("finalMode", "false").param("adultOnly", "false").sessionAttr("rendezvous", new Rendezvous()).param("save", ""))
+
+			.andExpect(MockMvcResultMatchers.status().is(302)).andExpect(MockMvcResultMatchers.view().name("redirect:list.do")).andExpect(MockMvcResultMatchers.redirectedUrl("list.do?pagesize=5&userId=" + userId));
 
 		super.unauthenticate();
 	}

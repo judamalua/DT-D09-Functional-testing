@@ -80,7 +80,7 @@ public class ActorUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * An actor who is authenticated as a user must be able to: Edit and Update his profile
+	 * An actor who is authenticated must be able to: Edit and Update his profile
 	 * 
 	 * List the users in the system
 	 * 
@@ -101,7 +101,7 @@ public class ActorUserControllerTest extends AbstractTest {
 		super.unauthenticate();
 	}
 	/**
-	 * 
+	 * An actor who is authenticated must be able to: Edit and Update his profile
 	 * 
 	 * Users Can Edit His Profiles
 	 * 
@@ -120,6 +120,28 @@ public class ActorUserControllerTest extends AbstractTest {
 				MockMvcRequestBuilders.post("/actor/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "Fernando").param("surname", "Gutiérrez López").param("birthDate", "09/04/2000").param("email", "ferguti90@gmail.com")
 					.param("phoneNumber", "606587789").param("postalAddress", "Calle Picadero 9").flashAttr("actor", form).param("save", "")).andExpect(MockMvcResultMatchers.status().is(302))
 			.andExpect(MockMvcResultMatchers.view().name("redirect:/user/display.do?anonymous=false")).andExpect(MockMvcResultMatchers.redirectedUrl("/user/display.do?anonymous=false&pagesize=5"));
+
+		super.unauthenticate();
+	}
+
+	/**
+	 * An actor who is authenticated must be able to: Edit and Update his profile
+	 * 
+	 * Users can´t update his profiles with errors
+	 * 
+	 * @throws Exception
+	 * @author Luis
+	 */
+	@Test
+	public void testUsersCantUpdateHisProfilesWithErrors() throws Exception {
+		UserAdminForm form;
+		super.authenticate("User1");
+		final User user = (User) this.actorservice.findActorByPrincipal();
+		form = this.actorservice.deconstruct(user);
+
+		this.mockMvc.perform(
+			MockMvcRequestBuilders.post("/actor/user/edit.do").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("name", "Fernando").param("surname", "Gutiérrez López").param("birthDate", "09/04/3000").param("email", "ferguti90")
+				.param("phoneNumber", "606587789").param("postalAddress", "Calle Picadero 9").flashAttr("actor", form).param("save", "")).andExpect(MockMvcResultMatchers.status().isOk());
 
 		super.unauthenticate();
 	}

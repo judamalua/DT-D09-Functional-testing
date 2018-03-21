@@ -60,7 +60,7 @@ public class RendezvousController extends AbstractController {
 	// Listing  ---------------------------------------------------------------    
 
 	@RequestMapping("/list")
-	public ModelAndView list(@RequestParam(defaultValue = "0") final int page, @RequestParam final boolean anonymous) {
+	public ModelAndView list(@RequestParam(defaultValue = "0") final int page, @RequestParam(required = false) final Integer categoryId, @RequestParam final boolean anonymous) {
 
 		ModelAndView result;
 		Page<Rendezvous> rendezvouses;
@@ -78,17 +78,25 @@ public class RendezvousController extends AbstractController {
 			 */
 			if (!anonymous) {//Checks if there is the user is listing logged
 				actor = this.actorService.findActorByPrincipal();
-				if (this.actorService.checkUserIsAdult(actor))//If he has 18 or more he list all Final Rendezvouses
+				if (this.actorService.checkUserIsAdult(actor) && categoryId == null)//If he has 18 or more he list all Final Rendezvouses
 					rendezvouses = this.rendezvousService.findFinalRendezvouses(pageable);
+				else if (this.actorService.checkUserIsAdult(actor) && categoryId != null)
+					rendezvouses = this.rendezvousService.findFinalRendezvousesByCategory(categoryId, pageable);
+				else if (!this.actorService.checkUserIsAdult(actor) && categoryId != null)
+					rendezvouses = this.rendezvousService.findFinalNotAdultRendezvousesByCategory(categoryId, pageable);
 				else
-					// If he has less than 18 then he only list the final Rendezvouses without adult content
 					rendezvouses = this.rendezvousService.findFinalWithoutAdultRendezvouses(pageable);
-			} else
+			} else if (categoryId != null)
+				rendezvouses = this.rendezvousService.findFinalNotAdultRendezvousesByCategory(categoryId, pageable);
+			else
 				//If no one is logged then list all final Rendezvouses
 				rendezvouses = this.rendezvousService.findFinalWithoutAdultRendezvouses(pageable);
 
 			result.addObject("rendezvouses", rendezvouses.getContent());
-			result.addObject("requestURI", "rendezvous/list.do");
+			if (categoryId == null)
+				result.addObject("requestURI", "rendezvous/list.do?");
+			else
+				result.addObject("requestURI", "rendezvous/list.do?categoryId=" + categoryId + "&");
 			result.addObject("page", page);
 			result.addObject("pageNum", rendezvouses.getTotalPages());
 			result.addObject("anonymous", anonymous);

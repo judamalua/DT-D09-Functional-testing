@@ -62,5 +62,6 @@ function flipCard(creditCardId){
 window.onload = function() {
 	getRendezvouses();
 	checkCookie();
+	getBusinessName();
 };
 </script>
