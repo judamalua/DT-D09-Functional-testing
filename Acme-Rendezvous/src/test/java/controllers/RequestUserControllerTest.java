@@ -73,10 +73,9 @@ public class RequestUserControllerTest extends AbstractTest {
 		Mockito.validateMockitoUsage();
 		this.mockMvc = MockMvcBuilders.standaloneSetup(this.controller).build();
 	}
+
 	/**
-	 * Test list of Requests of an request, regarding functional requirement 21.1, an actor who
-	 * is authenticated as a user must be able to Manage the requests that are associated
-	 * with a request that he or she’s created previously.
+	 * Test list of Requests for user.
 	 * 
 	 * Must return 302 code and redirect to error page.
 	 * 
@@ -107,11 +106,10 @@ public class RequestUserControllerTest extends AbstractTest {
 				.andExpect(MockMvcResultMatchers.redirectedUrl("/misc/403?pagesize=5"));
 		}
 
+
 	/**
-	 * Test list of Requests of an request, regarding functional requirement 21.1, an actor who
-	 * is authenticated as a user must be able to Manage the requests that are associated
-	 * with a request that he or she’s created previously.
-	 * 
+	* Test list of Requests for user.
+	* 
 	 * Must return 302 code and redirect to error page.
 	 * 
 	 * @throws Exception
@@ -132,11 +130,9 @@ public class RequestUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test list of Requests of an request, regarding functional requirement 21.1, an actor who
-	 * is authenticated as a user must be able to Manage the requests that are associated
-	 * with a request that he or she’s created previously.
+	 * Test list of Requests for user.
 	 * 
-	 * The list must contains 5 elements corresponding to the first page.
+	 * The list must contains 2 elements corresponding to the first page.
 	 * 
 	 * @throws Exception
 	 * @author Alejandro
@@ -172,12 +168,10 @@ public class RequestUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test create of Requests of an request, regarding functional requirement 21.1, an actor who
-	 * is authenticated as a user must be able to Manage the requests that are associated
-	 * with a request that he or she’s created previously.
+	 * Requirement 4.3 An actor who is authenticated as a user must be able to:
+	 * Request a service for one of the rendezvouses that he or she’s created. He or she must specify a valid credit card in every request for a service. Optionally, he or she can provide some comments in the request.
 	 * 
 	 * Must return 200 code.
-	 * The user is owner of the request in final mode and can be displayed.
 	 * 
 	 * @throws Exception
 	 * @author Alejandro
@@ -203,9 +197,9 @@ public class RequestUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test create of Requests of an request, regarding functional requirement 21.1, an actor who
-	 * is authenticated as a user must be able to Manage the requests that are associated
-	 * with a request that he or she’s created previously.
+	 * Requirement 4.3 An actor who is authenticated as a user must be able to:
+	 * Request a service for one of the rendezvouses that he or she’s created. He or she must specify a valid credit card in every request for a service. Optionally, he or she can provide some comments in the request.
+	 * 
 	 * 
 	 * 
 	 * Must return 302 code.
@@ -226,9 +220,8 @@ public class RequestUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test save of Requests of an request, regarding functional requirement 21.1, an actor who
-	 * is authenticated as a user must be able to Manage the requests that are associated
-	 * with a request that he or she’s created previously.
+	 * Requirement 4.3 An actor who is authenticated as a user must be able to:
+	 * Request a service for one of the rendezvouses that he or she’s created. He or she must specify a valid credit card in every request for a service. Optionally, he or she can provide some comments in the request.
 	 * 
 	 * Must return 302 code.
 	 * 
@@ -251,9 +244,9 @@ public class RequestUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test save of Requests of an request, regarding functional requirement 21.1, an actor who
-	 * is authenticated as a user must be able to Manage the requests that are associated
-	 * with a request that he or she’s created previously.
+	 * Requirement 4.3 An actor who is authenticated as a user must be able to:
+	 * Request a service for one of the rendezvouses that he or she’s created. He or she must specify a valid credit card in every request for a service. Optionally, he or she can provide some comments in the request.
+	 * 
 	 * 
 	 * 
 	 * Must return 200 code.
@@ -276,12 +269,10 @@ public class RequestUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test save of Requests of an request, regarding functional requirement 21.1, an actor who
-	 * is authenticated as a user must be able to Manage the requests that are associated
-	 * with a request that he or she’s created previously.
+	 * Requirement 4.3 An actor who is authenticated as a user must be able to:
+	 * Request a service for one of the rendezvouses that he or she’s created. He or she must specify a valid credit card in every request for a service. Optionally, he or she can provide some comments in the request.
 	 * 
 	 * Must return 200 code.
-	 * The moment must be in future, then the system must return the past error code.
 	 * 
 	 * @throws Exception
 	 * @author Alejandro

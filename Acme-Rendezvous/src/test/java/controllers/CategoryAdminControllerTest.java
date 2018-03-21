@@ -66,6 +66,9 @@ public class CategoryAdminControllerTest extends AbstractTest {
 		this.mockMvc = MockMvcBuilders.standaloneSetup(this.controller).build();
 	}
 	/**
+	 * Requirement 11.1: An actor who is authenticated as an administrator must be able to:
+ 	 * Manage the categories of services, which includes listing, creating, updating, delet-ing, and re-organising them in the category hierarchies.
+	 *
 	 * Test edit view of Category in the system. Must return 200 code.
 	 * The logged admin get the view of a Category.
 	 * 
@@ -87,6 +90,9 @@ public class CategoryAdminControllerTest extends AbstractTest {
 	}
 
 	/**
+	 * Requirement 11.1: An actor who is authenticated as an administrator must be able to:
+ 	 * Manage the categories of services, which includes listing, creating, updating, delet-ing, and re-organising them in the category hierarchies.
+	 * 
 	 * Test the creation of Category in the system. Must return 200 code.
 	 * 
 	 * @throws Exception
@@ -105,6 +111,9 @@ public class CategoryAdminControllerTest extends AbstractTest {
 	}
 
 	/**
+	 * Requirement 11.1: An actor who is authenticated as an administrator must be able to:
+ 	 * Manage the categories of services, which includes listing, creating, updating, delet-ing, and re-organising them in the category hierarchies.
+	 *
 	 * Test create a Category in the system. Must return 302 code.
 	 * There is user logged and must not be displayed.
 	 * 
@@ -122,6 +131,9 @@ public class CategoryAdminControllerTest extends AbstractTest {
 	}
 
 	/**
+	 * Requirement 11.1: An actor who is authenticated as an administrator must be able to:
+ 	 * Manage the categories of services, which includes listing, creating, updating, delet-ing, and re-organising them in the category hierarchies.
+	 *
 	 * Test create a Category in the system. Must return 302 code.
 	 * There is user logged and must not be displayed.
 	 * 
@@ -139,6 +151,9 @@ public class CategoryAdminControllerTest extends AbstractTest {
 	}
 
 	/**
+	 * Requirement 11.1: An actor who is authenticated as an administrator must be able to:
+ 	 * Manage the categories of services, which includes listing, creating, updating, delet-ing, and re-organising them in the category hierarchies.
+	 *
 	 * Test create a Category in the system. Must return 302 code.
 	 * There is anyone logged and must not be displayed.
 	 * 
@@ -155,6 +170,9 @@ public class CategoryAdminControllerTest extends AbstractTest {
 	}
 
 	/**
+	 * Requirement 11.1: An actor who is authenticated as an administrator must be able to:
+ 	 * Manage the categories of services, which includes listing, creating, updating, delet-ing, and re-organising them in the category hierarchies.
+	 *
 	 * Test save a Category in the system. Must return 302 code (redirection to list).
 	 * 
 	 * @throws Exception
@@ -172,6 +190,9 @@ public class CategoryAdminControllerTest extends AbstractTest {
 	}
 
 	/**
+	 * Requirement 11.1: An actor who is authenticated as an administrator must be able to:
+ 	 * Manage the categories of services, which includes listing, creating, updating, delet-ing, and re-organising them in the category hierarchies.
+	 *
 	 * Test delete a Category in the system. Must return 200 code.
 	 * 
 	 * @throws Exception

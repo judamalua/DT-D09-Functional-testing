@@ -32,7 +32,8 @@ public class AnnouncementServiceTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 	/**
 	 * This driver checks that announcement can be added and findAll return the new value also.
-	 * 
+	 * Requirement 15.1 An actor who is not authenticated must be able to:
+	 *  List the announcements that are associated with each rendezvous.
 	 * 
 	 * @author Alejandro
 	 */
@@ -44,6 +45,12 @@ public class AnnouncementServiceTest extends AbstractTest {
 		Assert.isTrue(this.announcementService.findAll().size() - prevSize == 1);
 	}
 
+	/**
+	 * This driver checks several tests regarding functional requirement number 21.1: An actor who is authenticated as a user must be able to manage
+	 * (add, edit, delete) the announcements that are associated with a rendezvous on draft mode that he or she has created previously, tests are explained inside
+	 * 
+	 * @author Alejandro
+	 */
 	@Test
 	public void driverDeleteAnnouncement() {
 
@@ -73,16 +80,14 @@ public class AnnouncementServiceTest extends AbstractTest {
 			this.templateDelete((String) testingData[i][0], super.getEntityId((String) testingData[i][1]), (Class<?>) testingData[i][2]);
 	}
 	/**
-	 * This driver checks several tests regarding functional requirement number 21.1: An actor who is authenticated as a user must be able to manage
-	 * (add, edit, delete) the announcements that are associated with a rendezvous on draft mode that he or she has created previously, tests are explained inside
-	 * 
-	 * @author Alejandro
+	 * 	Functional requirement number 16.3: An actor who is authenticated as a user must be able to: Create an announcement regarding
+	 *  one of the rendezvouses that he or she's created previously. * 
+	 *  @author Alejandro
 	 */
 	@Test
 	public void driverCreateAnnouncement() {
 		final Date currentDate = new Date(System.currentTimeMillis() - 1); // Current date 
-		// Functional requirement number 16.3: An actor who is authenticated as a user must be able to: Create an announcement regarding
-		// one of the rendezvouses that he or she's created previously.
+
 		final Object testingData[][] = {
 			{
 				// This test checks that authenticated users cannot create announcement to a rendezvous already finished.
