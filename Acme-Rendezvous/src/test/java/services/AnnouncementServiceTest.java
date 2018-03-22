@@ -33,7 +33,7 @@ public class AnnouncementServiceTest extends AbstractTest {
 	/**
 	 * This driver checks that announcement can be added and findAll return the new value also.
 	 * Requirement 15.1 An actor who is not authenticated must be able to:
-	 *  List the announcements that are associated with each rendezvous.
+	 * List the announcements that are associated with each rendezvous.
 	 * 
 	 * @author Alejandro
 	 */
@@ -54,7 +54,6 @@ public class AnnouncementServiceTest extends AbstractTest {
 	@Test
 	public void driverDeleteAnnouncement() {
 
-		//TODO: Preguntar sobre la modificacion de announcement create/delete
 		final Object testingData[][] = {
 			{
 				null, "Announcement1", IllegalArgumentException.class
@@ -80,9 +79,10 @@ public class AnnouncementServiceTest extends AbstractTest {
 			this.templateDelete((String) testingData[i][0], super.getEntityId((String) testingData[i][1]), (Class<?>) testingData[i][2]);
 	}
 	/**
-	 * 	Functional requirement number 16.3: An actor who is authenticated as a user must be able to: Create an announcement regarding
-	 *  one of the rendezvouses that he or she's created previously. * 
-	 *  @author Alejandro
+	 * Functional requirement number 16.3: An actor who is authenticated as a user must be able to: Create an announcement regarding
+	 * one of the rendezvouses that he or she's created previously. *
+	 * 
+	 * @author Alejandro
 	 */
 	@Test
 	public void driverCreateAnnouncement() {

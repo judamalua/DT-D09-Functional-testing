@@ -30,10 +30,14 @@ public class AdministratorServiceTest extends AbstractTest {
 
 	// Tests ------------------------------------------------------------------
 
+	/**
+	 * This test checks that authenticated admins can create other admins
+	 * 
+	 * @author Alejandro
+	 */
 	@Test
 	public void driverCreateAdmin() {
 
-		//TODO: Preguntar sobre la modificacion de announcement create/delete
 		final Object testingData[][] = {
 			{
 				"Admin1", "AdminUser", "TestName", "TestSurname Test", new Date(System.currentTimeMillis() - 1), "testEmail@gmail.com", "655555555", "Test Address", null
@@ -53,13 +57,7 @@ public class AdministratorServiceTest extends AbstractTest {
 				(String) testingData[i][7], (Class<?>) testingData[i][8]);
 	}
 
-	/**
-	 * This test checks that authenticated admins can create other admins
-	 * 
-	 * @author Alejandro
-	 */
-
-	public void templateCreateAdmin(final String login, final String userAdmin, final String name, final String surname, final Date birthDate, final String email, final String phoneNumber, final String address, final Class<?> expected) {
+	protected void templateCreateAdmin(final String login, final String userAdmin, final String name, final String surname, final Date birthDate, final String email, final String phoneNumber, final String address, final Class<?> expected) {
 		Class<?> caught;
 		caught = null;
 
