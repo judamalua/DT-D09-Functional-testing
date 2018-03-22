@@ -121,9 +121,10 @@ public class RendezvousUserController extends AbstractController {
 			return result;
 		}
 		//rendezvous.getSimilars().remove(null);
-		if (binding.hasErrors())
+		if (binding.hasErrors()) {
+			rendezvous.setFinalMode(false);
 			result = this.createEditModelAndView(rendezvous, "rendezvous.params.error");
-		else
+		} else
 			try {
 				rendezvous.setFinalMode(!rendezvous.getFinalMode());
 				user = (User) this.actorService.findActorByPrincipal();
@@ -207,7 +208,6 @@ public class RendezvousUserController extends AbstractController {
 		similars.remove(rendezvous);
 		//Se le pasa el parametro adult que indicara si el usuario es mayor a 18 años
 		user = (User) this.actorService.findActorByPrincipal();
-
 		result.addObject("message", messageCode);
 		result.addObject("rendezvouses", similars);
 		result.addObject("rendezvous", rendezvous);

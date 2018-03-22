@@ -36,7 +36,7 @@
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 
-	<jstl:if test="${rendezvous.finalMode == null or !rendezvous.finalMode}">
+	<jstl:if test="${rendezvous.finalMode == null or !rendezvous.finalMode }">
 		<acme:textbox code="rendezvous.name" path="name" required="true" />
 		<acme:textarea code="rendezvous.description" path="description"
 			required="true" />
