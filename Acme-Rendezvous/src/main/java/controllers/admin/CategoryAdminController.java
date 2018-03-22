@@ -12,6 +12,8 @@ package controllers.admin;
 
 import java.util.Collection;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -93,6 +95,8 @@ public class CategoryAdminController extends AbstractController {
 
 	// Saving -------------------------------------------------------------------
 
+	//Added transactional for the save and delete method
+	@Transactional
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@ModelAttribute("category") Category category, final BindingResult binding) {
 		ModelAndView result;

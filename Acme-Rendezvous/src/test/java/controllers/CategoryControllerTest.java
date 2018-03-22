@@ -63,6 +63,9 @@ public class CategoryControllerTest extends AbstractTest {
 		this.mockMvc = MockMvcBuilders.standaloneSetup(this.controller).build();
 	}
 	/**
+	 * Requirement 10.1: An actor who is not authenticated must be able to:
+	 *  List the rendezvouses in the system grouped by category.
+	 *
 	 * Test the public list of Categories in the system. Must return 200 code.
 	 * 
 	 * @throws Exception
@@ -80,6 +83,9 @@ public class CategoryControllerTest extends AbstractTest {
 	}
 
 	/**
+	 * Requirement 10.1: An actor who is not authenticated must be able to:
+	 *  List the rendezvouses in the system grouped by category.
+	 *
 	 * Test the public list of subcategories from a Category in the system. Must return 200 code.
 	 * 
 	 * @throws Exception

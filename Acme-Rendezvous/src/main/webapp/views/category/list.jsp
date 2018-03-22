@@ -18,8 +18,13 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
+
+<jstl:set var="anonymous" value="false" />
+<security:authorize access="isAnonymous()">
+	<jstl:set var="anonymous" value="true" />
+</security:authorize>
 
 <!-- Variable declaration -->
 <spring:message code="category.name" var="titleName" />
@@ -27,10 +32,11 @@
 <spring:message code="category.fatherCategory" var="titleFather" />
 
 <jstl:if test="${categoryId!=null}">
-	<acme:button url="category/list.do?categoryId=${categoryId}" code="category.upperCategory"/>
+	<acme:button url="category/list.do?categoryId=${categoryId}"
+		code="category.upperCategory" />
 </jstl:if>
 <jstl:if test="${categoryId==null}">
-	<acme:button url="category/list.do" code="category.upperCategory"/>
+	<acme:button url="category/list.do" code="category.upperCategory" />
 </jstl:if>
 
 <!-- Pagination -->
@@ -48,6 +54,12 @@
 	<display:column>
 		<acme:button url="category/list.do?categoryId=${category.id}"
 			code="category.subCategories" />
+	</display:column>
+
+	<display:column>
+		<acme:button
+			url="rendezvous/list.do?categoryId=${category.id}&anonymous=${anonymous}"
+			code="category.rendezvouses" />
 	</display:column>
 
 	<display:column>

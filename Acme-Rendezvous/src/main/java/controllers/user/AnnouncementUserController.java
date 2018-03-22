@@ -47,7 +47,7 @@ public class AnnouncementUserController extends AbstractController {
 	 * List the announcements of RSVP Rendezvouses
 	 * 
 	 * @return a ModelAndView object with all the announcements of the RSVP Rendezvouses
-	 * @author MJ
+	 * @author Alejandro
 	 */
 	@RequestMapping(value = "/list")
 	public ModelAndView list() {
@@ -88,7 +88,7 @@ public class AnnouncementUserController extends AbstractController {
 	 * List the announcements of created Rendezvouses
 	 * 
 	 * @return a ModelAndView object with all the announcements of the created Rendezvouses
-	 * @author MJ
+	 * @author Alejandro
 	 */
 	@RequestMapping(value = "/list-created")
 	public ModelAndView listcreated() {
@@ -125,7 +125,7 @@ public class AnnouncementUserController extends AbstractController {
 	 * 
 	 * @param announcementId
 	 * @return a ModelAndView object with the form of an Announcement
-	 * @author MJ
+	 * @author Alejandro
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int announcementId) {
@@ -142,7 +142,6 @@ public class AnnouncementUserController extends AbstractController {
 			Assert.isTrue(rendezvous.getMoment().after(new Date()));
 
 			//Check the user rsvp that rendezvous.
-			//TODO: Make a global method for all classes for this purpose
 			user = (User) this.actorService.findActorByPrincipal();
 			this.rendezvousService.getRendezvousByAnnouncement(announcementId).getUsers().contains(user);
 
@@ -163,7 +162,7 @@ public class AnnouncementUserController extends AbstractController {
 	 * @param rendezvousId
 	 * @return a ModelAndView object with a form to create a new Announcement associated to
 	 *         the Rendezvous with id rendezvousId
-	 * @author MJ
+	 * @author Alejandro
 	 */
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam final int rendezvousId) {

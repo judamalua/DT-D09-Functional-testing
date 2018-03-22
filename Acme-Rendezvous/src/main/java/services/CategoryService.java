@@ -371,6 +371,7 @@ public class CategoryService {
 			savedCategory = this.categoryRepository.findOne(category.getId());
 			result = this.create();
 			result.setName(category.getName());
+			result.setVersion(savedCategory.getVersion() + 1);//Preguntar
 			result.setDescription(category.getDescription());
 			result.setFatherCategory(category.getFatherCategory());
 			result.setServices(savedCategory.getServices());

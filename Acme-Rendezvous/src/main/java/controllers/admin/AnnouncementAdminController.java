@@ -37,7 +37,7 @@ public class AnnouncementAdminController extends AbstractController {
 	 * 
 	 * @param announcementId
 	 * @return a ModelAndView with error if any or to the detailedView of the rendezvous
-	 * @author MJ
+	 * @author Alejandro
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public ModelAndView delete(@RequestParam("announcementId") final int announcementId) {
