@@ -339,7 +339,6 @@ public class RendezvousService {
 			comments = new HashSet<Comment>();
 			users = new HashSet<User>();
 			requests = new HashSet<Request>();
-			//			rendezvouses = new HashSet<Rendezvous>();
 			user = (User) this.actorService.findActorByPrincipal();
 			users.add(user);
 			result = rendezvous;

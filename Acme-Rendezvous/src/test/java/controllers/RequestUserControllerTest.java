@@ -126,43 +126,6 @@ public class RequestUserControllerTest extends AbstractTest {
 	}
 
 	/**
-	 * Test list of Requests for user.
-	 * 
-	 * The list must contains 2 elements corresponding to the first page.
-	 * 
-	 * @throws Exception
-	 * @author Alejandro
-	 */
-	@Test
-	public void listRequestsUserLogedPositive() throws Exception {
-		final MockHttpServletRequestBuilder request;
-		int rendezvousId;
-		super.authenticate("user1");
-
-		rendezvousId = super.getEntityId("Rendezvous4");
-
-		request = MockMvcRequestBuilders.get("/request/user/list.do?rendezvousId=" + rendezvousId);
-
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("request/list")).andExpect(MockMvcResultMatchers.forwardedUrl("request/list"))
-			.andExpect(MockMvcResultMatchers.model().attribute("requests", Matchers.hasSize(2)));
-
-		super.unauthenticate();
-	}
-
-	@Test
-	public void listAllRequestsUserLogedPositive() throws Exception {
-		final MockHttpServletRequestBuilder request;
-		super.authenticate("user1");
-
-		request = MockMvcRequestBuilders.get("/request/user/list.do");
-
-		this.mockMvc.perform(request).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("request/list")).andExpect(MockMvcResultMatchers.forwardedUrl("request/list"))
-			.andExpect(MockMvcResultMatchers.model().attribute("requests", Matchers.hasSize(2)));
-
-		super.unauthenticate();
-	}
-
-	/**
 	 * Requirement 4.3 An actor who is authenticated as a user must be able to:
 	 * Request a service for one of the rendezvouses that he or she's created. He or she must specify a valid credit card in every request for a service. Optionally, he or she can provide some comments in the request.
 	 * 

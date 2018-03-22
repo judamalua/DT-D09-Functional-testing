@@ -47,43 +47,6 @@ public class RequestUserController extends AbstractController {
 		super();
 	}
 
-	//List-------------------------------------------------------------------
-	/**
-	 * This method can receive the ID of a Rendezvous. If it does, returns a ModelAndView listing all the Requests
-	 * of that Rendezvous. If it doesn't, returns a ModelAndView listing all the Requests made by the Principal.
-	 * 
-	 * @return ModelAndView
-	 * @param rendezvousId
-	 * @author Antonio
-	 */
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView listRequests(@RequestParam(required = false) final Integer rendezvousId) {
-		ModelAndView result;
-		Collection<Request> requests;
-		Rendezvous rendezvous;
-		String requestURI;
-
-		try {
-			if (rendezvousId == null) {
-				requests = this.requestService.getAllRequestFromUserPrincipal();
-				requestURI = "request/user/list.do";
-			} else {
-				rendezvous = this.rendezvousService.findOne(rendezvousId);
-				requests = rendezvous.getRequests();
-				requestURI = "request/user/list.do?rendezvousId=" + rendezvousId;
-			}
-
-			result = new ModelAndView("request/list");
-			result.addObject("requests", requests);
-			result.addObject("requestURI", requestURI);
-		} catch (final Throwable oops) {
-			result = new ModelAndView("redirect:/misc/403");
-		}
-
-		return result;
-
-	}
-
 	//Create-------------------------------------------------------------------
 	/**
 	 * This method receives the ID of a rendezvous, and tries to create a new empty Request for
