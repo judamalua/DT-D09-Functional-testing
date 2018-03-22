@@ -343,6 +343,7 @@ public class RendezvousService {
 			user = (User) this.actorService.findActorByPrincipal();
 			users.add(user);
 			result = rendezvous;
+			result.setFinalMode(!result.getFinalMode());
 
 			if (similars == null)
 				similars = new HashSet<Rendezvous>();

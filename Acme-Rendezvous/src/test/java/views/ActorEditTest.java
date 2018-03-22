@@ -30,8 +30,8 @@ public class ActorEditTest {
 
 	@Before
 	public void setup() {
-		//System.setProperty("webdriver.chrome.driver", "C:\\Users\\corchu\\Desktop\\chromedriver.exe");
-		final File pathToBinary = new File("C:\\Documents and Settings\\Student\\Local Settings\\Application Data\\Mozilla Firefox\\firefox.exe");
+		final File pathToBinary = new File("C:\\Documents and Settings\\Student" +
+				"\\Local Settings\\Application Data\\Mozilla Firefox\\firefox.exe");
 		final FirefoxBinary ffBinary = new FirefoxBinary(pathToBinary);
 		final FirefoxProfile firefoxProfile = new FirefoxProfile();
 		this.browser = new FirefoxDriver(ffBinary, firefoxProfile);
