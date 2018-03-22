@@ -31,6 +31,9 @@ public class CategoryServiceTest extends AbstractTest {
 
 	//******************************************Positive Methods*******************************************************************
 	/**
+	 * 11.1. An actor who is authenticated as an administrator must be able to:Manage the categories of services, which includes listing, creating, updating, deleting,
+	 * and re-organising them in the category hierarchies.
+	 * 
 	 * This test checks that a administrator can create a category
 	 * 
 	 * @author Luis
@@ -49,6 +52,9 @@ public class CategoryServiceTest extends AbstractTest {
 	}
 
 	/**
+	 * 11.1. An actor who is authenticated as an administrator must be able to:Manage the categories of services, which includes listing, creating, updating, deleting,
+	 * and re-organising them in the category hierarchies.
+	 * 
 	 * This test checks that a administrator can list categories
 	 * 
 	 * @author Luis
@@ -63,6 +69,9 @@ public class CategoryServiceTest extends AbstractTest {
 
 	}
 	/**
+	 * 11.1. An actor who is authenticated as an administrator must be able to:Manage the categories of services, which includes listing, creating, updating, deleting,
+	 * and re-organising them in the category hierarchies.
+	 * 
 	 * This test checks that a administrator can update categories
 	 * 
 	 * @author Luis
@@ -84,6 +93,9 @@ public class CategoryServiceTest extends AbstractTest {
 	}
 
 	/**
+	 * 11.1. An actor who is authenticated as an administrator must be able to:Manage the categories of services, which includes listing, creating, updating, deleting,
+	 * and re-organising them in the category hierarchies.
+	 * 
 	 * This test checks that a administrator can delete a category
 	 * 
 	 * @author Luis
@@ -105,6 +117,9 @@ public class CategoryServiceTest extends AbstractTest {
 
 	}
 	/**
+	 * 11.1. An actor who is authenticated as an administrator must be able to:Manage the categories of services, which includes listing, creating, updating, deleting,
+	 * and re-organising them in the category hierarchies.
+	 * 
 	 * Categories are organised in hierarchies
 	 * 
 	 * @author Luis
@@ -142,6 +157,9 @@ public class CategoryServiceTest extends AbstractTest {
 	//******************************************Negative Methods*******************************************************************
 
 	/**
+	 * 11.1. An actor who is authenticated as an administrator must be able to:Manage the categories of services, which includes listing, creating, updating, deleting,
+	 * and re-organising them in the category hierarchies.
+	 * 
 	 * This test checks that a administrator cannot create a category with invalid parameters
 	 * 
 	 * @author Luis
@@ -162,6 +180,9 @@ public class CategoryServiceTest extends AbstractTest {
 	}
 
 	/**
+	 * 11.1. An actor who is authenticated as an administrator must be able to:Manage the categories of services, which includes listing, creating, updating, deleting,
+	 * and re-organising them in the category hierarchies.
+	 * 
 	 * This test checks that a no logged actor cannot create a category
 	 * 
 	 * @author Luis
@@ -180,6 +201,9 @@ public class CategoryServiceTest extends AbstractTest {
 	}
 
 	/**
+	 * 
+	 * 
+	 * 
 	 * This method creates a category with correct attributes
 	 * 
 	 * @author Luis
