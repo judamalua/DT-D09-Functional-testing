@@ -54,7 +54,7 @@ function checkCreditCard() {
 				}
 			}
 		};
-		xhttp.open("GET", "/Acme-Rendezvous/request/user/ajaxCard.do?cookieToken=" + cardCookie, true);
+		xhttp.open("GET", "/request/user/ajaxCard.do?cookieToken=" + cardCookie, true);
 		xhttp.send();
 	}
 };

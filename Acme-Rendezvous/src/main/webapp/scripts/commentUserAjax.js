@@ -5,7 +5,7 @@ function getCommentUserName(commentId) {
 			document.getElementById("commentUser" + commentId + "name").innerHTML = this.responseText;
 		}
 	};
-	xhttp.open("GET", "/Acme-Rendezvous/comment/ajax/name.do?commentId=" + commentId, true);
+	xhttp.open("GET", "/comment/ajax/name.do?commentId=" + commentId, true);
 	xhttp.send();
 }
 function getCommentUserSurname(commentId) {
@@ -15,7 +15,7 @@ function getCommentUserSurname(commentId) {
 			document.getElementById("commentUser" + commentId + "surname").innerHTML = this.responseText;
 		}
 	};
-	xhttp.open("GET", "/Acme-Rendezvous/comment/ajax/surname.do?commentId=" + commentId, true);
+	xhttp.open("GET", "/comment/ajax/surname.do?commentId=" + commentId, true);
 	xhttp.send();
 }
 function getCommentUserId(commentId) {
@@ -25,7 +25,7 @@ function getCommentUserId(commentId) {
 			document.getElementById("commentUser" + commentId + "id").href = "user/display.do?actorId=" + commentId;
 		}
 	};
-	xhttp.open("GET", "/Acme-Rendezvous/comment/ajax/id.do?commentId=" + commentId, true);
+	xhttp.open("GET", "/comment/ajax/id.do?commentId=" + commentId, true);
 	xhttp.send();
 }
 function getCommentUser(commentId) {
