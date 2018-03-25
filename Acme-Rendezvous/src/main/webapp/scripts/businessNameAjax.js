@@ -9,6 +9,6 @@ function getBusinessName() {
 
 		}
 	};
-	xhttp.open("GET", "/configuration/getBusinessName.do", true);
+	xhttp.open("GET", "/Acme-Rendezvous/configuration/getBusinessName.do", true);
 	xhttp.send();
 }

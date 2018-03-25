@@ -23,18 +23,18 @@ function showCookieMessage() {
 			if (language == "es") {
 				document.getElementsByClassName("cookies")[0].innerHTML = '<div class="row"><div class="col s12 m6"><div class="card red darken-4"><div class="card-content white-text"><span class="card-title">Sobre las cookies</span><p>'
 						+ this.responseText
-						+ '</p></div><div class="card-action"><a href="/cookie/policy.do">Política de cookies</a><a href="javascript:void(0);" onClick="acceptCookies();">Aceptar las cookies </a></div></div></div></div>';
+						+ '</p></div><div class="card-action"><a href="/Acme-Rendezvous/cookie/policy.do">Política de cookies</a><a href="javascript:void(0);" onClick="acceptCookies();">Aceptar las cookies </a></div></div></div></div>';
 			} else {
 				document.getElementsByClassName("cookies")[0].innerHTML = '<div class="row"><div class="col s12 m6"><div class="card red darken-4"><div class="card-content white-text"><span class="card-title">About cookies</span><p>'
 						+ this.responseText
-						+ '</p></div><div class="card-action"><a href="/cookie/policy.do">Cookie policy</a><a href="javascript:void(0);" onClick="acceptCookies();">Accept cookies </a></div></div></div></div>';
+						+ '</p></div><div class="card-action"><a href="/Acme-Rendezvous/cookie/policy.do">Cookie policy</a><a href="javascript:void(0);" onClick="acceptCookies();">Accept cookies </a></div></div></div></div>';
 			}
 		}
 	};
 	if (language == "es") {
-		xhttp.open("GET", "/cookie/ajax/es.do", true);
+		xhttp.open("GET", "/Acme-Rendezvous/cookie/ajax/es.do", true);
 	} else {
-		xhttp.open("GET", "/cookie/ajax/en.do", true);
+		xhttp.open("GET", "/Acme-Rendezvous/cookie/ajax/en.do", true);
 	}
 	xhttp.send();
 
